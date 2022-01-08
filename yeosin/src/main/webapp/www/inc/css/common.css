@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+@import url("font.css");
+
+*{--font-title:SBAggroM; /*어그로체*/}
+
+.contentBox{width:1000px; margin:0 auto;}
+
+.pc{display:block;}
+.mo{display:none;}
+
+@media (max-width:768px){
+.contentBox{width:90%; /*padding:0 2.5%; box-sizing:border-box;*/ margin:0 auto;}
+
+	.pc{display:none;}
+	.mo{display:block;}
+}

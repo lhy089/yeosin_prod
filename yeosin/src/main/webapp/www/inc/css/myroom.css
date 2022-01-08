@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* CSS Document */
+
+*{--font-title:SBAggroM; /*어그로체*/}
+/* h1{ font-weight: 400; font-family:sandoll-gothicneo2, sans-serif;}
+h2{ font-weight: 200; font-family:sandoll-gothicneo3, sans-serif;}
+p{font-family:'NanumSquare'; font-size:32px;} */
+
+/* myroom 공통 */
+.myroom{padding:40px 0 150px; box-sizing:border-box;}
+.myroom h1{width:100%; border-bottom:3px solid #0074dd; box-sizing:border-box; font-family:var(--font-title); font-size:25px; line-height:48px; color:#0074dd; margin-bottom:45px;}
+
+/* pwd */
+.pwd .pwdBox{width:100%; padding:70px 0; box-sizing:border-box; background:#edf5fd; text-align:center;}
+.pwd .pwdBox input{width:460px; height:50px; margin:0 auto 30px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; text-indent:12px; border:1px solid #c7c6c6; box-sizing:border-box;}
+.pwd .pwdBox a{width:460px; height:50px; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; line-height:50px; text-align:center; background:#0074dd; color:#fff; margin:0 auto;}
+
+@media (max-width:768px){
+
+}

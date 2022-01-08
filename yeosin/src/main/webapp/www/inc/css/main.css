@@ -1,0 +1,75 @@
+@charset "utf-8";
+/* CSS Document */
+
+*{--font-title:SBAggroM; /*어그로체*/}
+/* h1{ font-weight: 400; font-family:sandoll-gothicneo2, sans-serif;}
+h2{ font-weight: 200; font-family:sandoll-gothicneo3, sans-serif;}
+p{font-family:'NanumSquare'; font-size:32px;} */
+
+/* main */
+.main{padding-bottom:150px; box-sizing:border-box;}
+.main .cont01{padding-top:54px;}
+.main .cont01 .schedule{width:100%; padding:103px 0 75px; box-sizing:border-box; background:url('../img/main/scheduleBox.png') no-repeat center top / cover; margin-bottom:60px;}
+.main .cont01 .schedule h2{text-indent:60px; line-height:54px; font-size:28px; color:#fff; font-family:var(--font-title);}
+.main .cont01 .schedule ul{margin-top:16px; padding:0 70px 0 35px; box-sizing:border-box; font-size:23px; color:#3f3f3f;}
+.main .cont01 .schedule li{margin-top:9px; height:60px; line-height:60px; font-family:var(--font-title);}
+.main .cont01 .schedule li span{font-family:var(--font-title); font-weight:200;}
+
+.main .cont02 .quickMenu{overflow:hidden; margin-bottom:50px;}
+.main .cont02 .quickMenu li{width:302px; height:200px; margin-bottom:30px; margin-right:47px; float:left; text-align:center;}
+.main .cont02 .quickMenu li:nth-child(3n){margin-right:0;}
+.main .cont02 .quickMenu li a{width:100%; height:100%; display:inline-block; font-family:var(--font-title); font-size:27px; line-height:42px; color:#0074dd; border:3px solid #7cd1e8; border-radius:19px; padding-top:122px; box-sizing:border-box; background:url('../img/main/icon_tabList.png') no-repeat; transition:0.3s ease-out;}
+.main .cont02 .quickMenu li a:hover{background-image:url('../img/main/icon_tabList_on.png'); background-color:#7cd1e8; color:#fff;}
+.main .cont02 .quickMenu li.report a{background-position:left top;}
+.main .cont02 .quickMenu li.guide a{background-position:center top;}
+.main .cont02 .quickMenu li.library a{background-position:right top;}
+.main .cont02 .quickMenu li.apply a{background-position:left bottom;}
+.main .cont02 .quickMenu li.info a{background-position:center bottom;}
+.main .cont02 .quickMenu li.question a{background-position:right bottom;}
+
+.main .cont03 .contentBox{overflow:hidden;}
+.main .cont03 h2{height:50px; border-bottom:3px solid #0074dd; box-sizing:border-box; font-size:25px; font-family:var(--font-title); line-height:47px; color:#0074dd;}
+.main .cont03 .notice{width:65%; float:left;}
+.main .cont03 .notice ul{margin-top:12px;}
+.main .cont03 .notice li{height:54px; border-bottom:1px solid #e5e4e4; box-sizing:border-box; line-height:54px;}
+.main .cont03 .notice li a{width:555px; font-family:sandoll-gothicneo3, sans-serif; font-size:22px; color:#58585b; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; float:left; letter-spacing:-0.5px;}
+.main .cont03 .notice li a::before{content:''; width:10px; height:10px; display:inline-block; border-radius:50%; background:#7fb9ee; margin-right:10px; vertical-align:middle;}
+.main .cont03 .notice li a:hover{color:#0074dd; text-decoration:underline;}
+.main .cont03 .notice li .date{width:95px; font-family:NotoSansKR; font-size:17px; font-weight:200; color:#58585b; float:right; text-align:right;}
+.main .cont03 .notice li.point a{color:#ad1818;}
+
+.main .cont03 .crm{width:30%; float:right;}
+.main .cont03 .crm ul{margin-top:23px; padding-bottom:17px; border-bottom:2px solid #f0f0f0; margin-bottom:20px;}
+.main .cont03 .crm li{height:33px; line-height:33px; font-size:22px; color:#58585b; letter-spacing:-0.5px; font-weight:600; font-family:sandoll-gothicneo3, sans-serif; font-weight:bold;}
+.main .cont03 .crm li::before{content:''; width:10px; height:10px; display:inline-block; border-radius:50%; background:#7fb9ee; margin-right:10px;}
+.main .cont03 .crm li span{font-weight:400; font-family:sandoll-gothicneo3, sans-serif;}
+.main .cont03 .crm h3{width:90px; height:32px; background:#8e8c8a; color:#fff; border-radius:13px; line-height:34px; font-family:var(--font-title); font-size:18px; text-align:center; margin-bottom:14px;}
+.main .cont03 .crm p{font-family:sandoll-gothicneo2, sans-serif; font-size:18px; line-height:22px; margin-bottom:5px; color:#58585b;}
+.main .cont03 .crm p em{font-weight:600; margin-right:10px; border-right:2px solid #78b5ed; box-sizing:border-box; vertical-align:middle; font-style:normal;}
+.main .cont03 .crm p.red{color:#ad1818; font-weight:600;}
+
+@media (max-width:768px){
+  .main{padding-bottom:13.5vw;}
+  .main .cont01{padding-top:4.86vw;}
+  .main .cont01 .schedule{padding:9.27vw 0 6.75vw; margin-bottom:5.4vw;}
+  .main .cont01 .schedule h2{text-indent:5.4vw; line-height:4.86vw; font-size:2.52vw;}
+  .main .cont01 .schedule ul{margin-top:1.44vw; padding:0 6.3vw 0 3.15vw; font-size:2.07vw;}
+  .main .cont01 .schedule li{margin-top:.81vw; height:5.4vw; line-height:5.4vw;}
+
+  .main .cont02 .quickMenu{margin-bottom:4.5vw;}
+  .main .cont02 .quickMenu li{width:27.18vw; height:18vw; margin-bottom:2.7vw; margin-right:4.23vw;}
+  .main .cont02 .quickMenu li a{font-size:2.43vw; line-height:3.78vw; border:.27vw solid #7cd1e8; border-radius:1.71vw; padding-top:10.98vw; background-size:90vw;}
+
+  .main .cont03 h2{height:4.5vw; border-bottom:.27vw solid #0074dd; font-size:2.25vw; line-height:4.23vw;}
+  .main .cont03 .notice ul{margin-top:1.08vw;}
+  .main .cont03 .notice li{height:4.86vw; border-bottom:.09vw solid #e5e4e4; line-height:4.86vw;}
+  .main .cont03 .notice li a{width:49.95vw; font-size:1.98vw;}
+  .main .cont03 .notice li a::before{width:.9vw; height:.9vw; margin-right:.9vw;}
+  .main .cont03 .notice li .date{width:8.55vw; font-size:1.53vw;}
+  .main .cont03 .crm ul{margin-top:2.07vw; padding-bottom:1.53vw; border-bottom:.18vw solid #f0f0f0; margin-bottom:1.8vw;}
+  .main .cont03 .crm li{height:2.97vw; line-height:2.97vw; font-size:1.98vw;}
+  .main .cont03 .crm li::before{width:.9vw; height:.9vw; margin-right:.9vw;}
+  .main .cont03 .crm h3{width:8.1vw; height:2.88vw; border-radius:1.17vw; line-height:3.06vw; font-size:1.62vw; margin-bottom:1.26vw;}
+  .main .cont03 .crm p{font-size:1.62vw; line-height:1.98vw; margin-bottom:.45vw;}
+  .main .cont03 .crm p em{margin-right:.9vw; border-right:.18vw solid #78b5ed;}
+}
