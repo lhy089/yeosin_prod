@@ -27,7 +27,7 @@
 <body>
 
 <!--?php include_once "../common/header.php";?-->
-
+<%@ include file="/www/common/header.jsp"%>
 <div class="apply second">
   <div class="contentBox">
     <h1>원서접수</h1>
@@ -117,7 +117,7 @@
     </section>
   </div>
 </div>
-
+<%@ include file="/www/common/footer.jsp"%>
 <!--?php include_once "../common/footer.php";?-->
 
 </body>

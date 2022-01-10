@@ -29,63 +29,55 @@
 
 <!--?php include_once "../common/header.php";?-->
 <%@ include file="/www/common/header.jsp"%>
-<div class="apply third">
+<div class="apply accept_view">
   <div class="contentBox">
-    <h1>원서접수</h1>
-    <div class="schedule">
-      2021 대출성 상품 판매대리 &middot; 중개업자 등록 자격인증 평가<br/>
-      <span><strong>시험일</strong>2021-06-07</span><span><strong>인터넷접수</strong>2021-06-08 오전 10:00~2021-07-23</span>
+    <h1>수험표 출력</h1>
+    <div class="announcement">
+      이메일 및 연락처 정보 변경은 회원정보수정에서 수정 가능합니다.
     </div>
-    <section>
-      <h2>개인정보</h2>
-      <table>
-        <colgroup>
-          <col width="20.5%">
-          <col width="*">
-        </colgroup>
-        <tr>
-          <th>성명</th>
-          <td>홍길동</td>
-        </tr>
-        <tr>
-          <th>생년월일</th>
-          <td>2020년 01월 01일</td>
-        </tr>
-        <tr>
-          <th>휴대전화</th>
-          <td>010-0000-0000</td>
-        </tr>
-        <tr>
-          <th>이메일</th>
-          <td></td>
-        </tr>
-      </table>
-      <a href="../myroom/change.html" class="btn_change">개인정보 변경</a>
-
-      <h2>교육수료정보</h2>
-      <table>
-        <colgroup>
-          <col width="20.5%">
-          <col width="*">
-        </colgroup>
-        <tr>
-          <th>교육과정</th>
-          <td>
-            <select id="" name="">
-              <option value="">선택</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <th>교육수료증번호</th>
-          <td>
-            <input type="text" name="" value="">
-            <span>※ 필수입력항목</span>
-          </td>
-        </tr>
-      </table>
-      <a href="#" class="btn_apply">작성완료</a>
-    </section>
+    <table>
+      <colgroup>
+        <col width="15.5%">
+        <col width="*">
+      </colgroup>
+      <tr>
+        <th>시험명</th>
+        <td>응시 시험명 출력</td>
+      </tr>
+      <tr>
+        <th>성명</th>
+        <td></td>
+      </tr>
+      <tr>
+        <th>연락처</th>
+        <td></td>
+      </tr>
+      <tr>
+        <th>이메일</th>
+        <td></td>
+      </tr>
+      <tr>
+        <th>수료번호</th>
+        <td></td>
+      </tr>
+      <tr>
+        <th>수험번호</th>
+        <td></td>
+      </tr>
+      <tr>
+        <th>시험장명</th>
+        <td>연희초등학교 (선택 시험장 출력)</td>
+      </tr>
+      <tr>
+        <th>시험일</th>
+        <td>21. 12. 24 (시험일 출력)</td>
+      </tr>
+      <tr>
+        <th>결제금액</th>
+        <td>19,000원 (관리자 설정 금액 출력)</td>
+      </tr>
+    </table>
+    <a href="#" class="btn_apply">수험표 출력</a>
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>
@@ -93,3 +85,4 @@
 
 </body>
 </html>
+

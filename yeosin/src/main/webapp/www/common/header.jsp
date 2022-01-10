@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js"></script>
@@ -36,8 +37,8 @@
 <div class="gnb pc">
   <div class="contentBox">
     <ul class="depth1">
-      <li><a href="#">원서접수</a></li>
-      <li><a href="#">응시현황</a></li>
+      <li><a href="/apply">원서접수</a></li>
+      <li><a href="/accept">응시현황</a></li>
       <li><a href="#">평가안내</a></li>
       <li><a href="#">알림마당</a></li>
       <li><a href="#">회원정보수정</a></li>
@@ -46,13 +47,13 @@
   <div class="depth2">
     <div class="contentBox">
       <ul>
-        <li><a href="#">원서접수 신청</a></li>
-        <li><a href="#">원서접수 확인 및 취소</a></li>
-        <li><a href="#">수험표 출력</a></li>
-        <li><a href="#">환불 안내</a></li>
+        <li><a href="/apply">원서접수 신청</a></li>
+        <li><a href="/accept">원서접수 확인 및 취소</a></li>
+        <li><a href="/ticket">수험표 출력</a></li>
+        <li><a href="/refund">환불 안내</a></li>
       </ul>
       <ul>
-        <li><a href="#">원서접수 현황</a></li>
+        <li><a href="/accept">원서접수 현황</a></li>
         <li><a href="#">응시결과</a></li>
         <li><a href="#">자격인증서발급</a></li>
       </ul>

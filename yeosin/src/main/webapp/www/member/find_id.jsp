@@ -28,13 +28,13 @@
 <body>
 
 <!--?php include_once "../common/header.php";?-->
-
+<%@ include file="/www/common/header.jsp"%>
 <div class="member find">
   <div class="contentBox">
     <h1>아아디 / 비밀번호 확인</h1>
     <div class="tabBox">
-      <a href="find_id.html" class="active">아이디 확인</a>
-      <a href="find_pwd.html">비밀번호 확인/변경</a>
+      <a href="find_id.jsp" class="active">아이디 확인</a>
+      <a href="find_pwd.jsp">비밀번호 확인/변경</a>
     </div>
     <div class="choice">
       <h2>아이디 찾는 방법을 선택해 주세요</h2>
@@ -202,7 +202,7 @@
   </div>
 </div>
 <!-- //팝업 -->
-
+<%@ include file="/www/common/footer.jsp"%>
 <!--?php include_once "../common/footer.php";?-->
 <%@ include file="/www/common/header.jsp"%>
 <script>

@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 <head lang="ko">
@@ -22,29 +21,49 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="../inc/css/member.css">
+  <link rel="stylesheet" href="../inc/css/apply.css">
 </head>
 
 <body>
 
 <!--?php include_once "../common/header.php";?-->
-<%@ include file="/www/common/header.jsp"%>
-<div class="member find">
+
+<div class="apply accept">
   <div class="contentBox">
-    <h1>아아디 / 비밀번호 확인</h1>
-    <div class="tabBox">
-      <a href="#" class="active">아이디 확인</a>
-      <a href="#">비밀번호 확인/변경</a>
+    <h1>원서접수 확인 및 취소</h1>
+    <div class="announcement">
+      접수를 취소할 경우 환불 규정을 꼭 확인해야 합니다.
     </div>
-    <div class="enter">
-      <h2>찾으려는 아이디를 선택해주세요</h2>
-      <label class="idType"><input type="radio" name="idType" value="" checked="checked"><span>개인 회원</span></label>
-      <label class="idType"><input type="radio" name="idType" value=""><span>회원 아이디</span></label>
+    <table>
+      <colgroup>
+        <col width="*">
+        <col width="19.5%">
+        <col width="15%">
+        <col width="15%">
+        <col width="15%">
+      </colgroup>
+      <tr>
+        <th>시험명</th>
+        <th>접수기간</th>
+        <th>시험일</th>
+        <th>시험지역</th>
+        <th>바로가기</th>
+      </tr>
+      <tr>
+        <td>시험명표기</td>
+        <td>2021-12-17~12-24</td>
+        <td>2021-12-31</td>
+        <td>전국개지역</td>
+        <td><a href="receipt_view.html" class="btn_apply">자세히 보기</a></td>
+      </tr>
+    </table>
+    <p class="pageCnt">전체 0건, 1/0 페이지</p>
+    <div class="pageWrap">
+      <!-- 페이징 -->
     </div>
-    <a href="#" class="btn_apply">다음</a>
   </div>
 </div>
-<%@ include file="/www/common/footer.jsp"%>
+
 <!--?php include_once "../common/footer.php";?-->
 
 </body>

@@ -21,53 +21,58 @@
   <meta property="og:image" content="/www/inc/img/openGraph.jpg">
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
-
-  <link rel="stylesheet" href="../inc/css/apply.css">
+  
+  <link rel="stylesheet" href="../inc/css/myroom.css">
 </head>
 
 <body>
 
 <!--?php include_once "../common/header.php";?-->
 <%@ include file="/www/common/header.jsp"%>
-<div class="apply list">
+<div class="myroom withdrawal">
   <div class="contentBox">
-    <h1>원서접수</h1>
-    <div class="announcement">
-      인터넷접수 첫날의 접수 시작 시간은 10:00 부터입니다.
-    </div>
-    <c:choose>
-	<c:when test='${result}'>
+    <h1>회원탈퇴</h1>
+    <h2><srrong class="red">회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해 주세요.</strong></h2>
+    <p class="notice">사용하고 계신 아이디는 탈퇴할 경우 재사용 및 복구가 불가능합니다.</p>
+    <p class="userID">회원탈퇴 ID : <span>아이디</span></p>
+    <p class="notice">회원탈퇴 후 삭제되는 정보(삭제된 데이터는 복구 되지 않습니다.)</p>
     <table>
       <colgroup>
-        <col width="34.7%">
+        <col width="35%">
         <col width="*">
       </colgroup>
       <tr>
-        <th>시험명</th>
-        <td>시험명표기</td>
+        <th>회원정보</th>
+        <td>메일, 연락처등 개인정보 삭제</td>
       </tr>
       <tr>
-        <th>접수기간</th>
-        <td>제20XX-X회차</td>
-      </tr>
-      <tr>
-        <th>시험일</th>
-        <td>관리자 등록</td>
-      </tr>
-      <tr>
-        <th>시험지역</th>
-        <td>관리자 등록</td>
-      </tr>
-      <tr>
-        <th>원서접수</th>
-        <td><a href="#" class="btn_apply">접수하기</a></td>
+        <th>KPC자격 강사정보</th>
+        <td>강사정보 및 KPC자격 마일리지 삭제</td>
       </tr>
     </table>
-    </c:when>
-    <c:otherwise>
-    	표시할 데이터가 없습니다.
-    </c:otherwise>
-    </c:choose>
+
+    <p class="notice">회원탈퇴 후에도 남아 있는 정보</p>
+    <table>
+      <colgroup>
+        <col width="35%">
+        <col width="*">
+      </colgroup>
+      <tr>
+        <th>성적 정보 및 KPC자격 자격정보</th>
+        <td>취득한 KPC자격정보(성명, 자격명, 자격등록정보등)</td>
+      </tr>
+      <tr>
+        <th>결제정보</th>
+        <td>원서접수, 자격증신청등의 결제 관련 정보(일정기간 후 폐기 처리)</td>
+      </tr>
+    </table>
+
+    <div class="announcement">
+      <p>탈퇴 후에는 아이디 로 다시 가입할 수 없으며 아이디와 데이터는 복구할 수 없습니다.</p>
+      <label><input type="checkbox" id="" name="agreeChk"/> 안내 사항을 모두 확인하였으며, 이에 동의합니다.</label>
+    </div>
+
+    <a href="#" class="btn_apply">탈퇴하기</a>
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>
@@ -75,3 +80,4 @@
 
 </body>
 </html>
+

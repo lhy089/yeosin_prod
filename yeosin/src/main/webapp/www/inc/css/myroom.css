@@ -2,19 +2,67 @@
 /* CSS Document */
 
 *{--font-title:SBAggroM; /*어그로체*/}
-/* h1{ font-weight: 400; font-family:sandoll-gothicneo2, sans-serif;}
-h2{ font-weight: 200; font-family:sandoll-gothicneo3, sans-serif;}
-p{font-family:'NanumSquare'; font-size:32px;} */
 
 /* myroom 공통 */
 .myroom{padding:40px 0 150px; box-sizing:border-box;}
 .myroom h1{width:100%; border-bottom:3px solid #0074dd; box-sizing:border-box; font-family:var(--font-title); font-size:25px; line-height:48px; color:#0074dd; margin-bottom:45px;}
+.myroom .announcement{width:100%; border:1px solid #c7c6c6; border-radius:10px; box-sizing:border-box; background:#f8f8f8; padding:18px 20px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; line-height:1.4; letter-spacing:-1px; margin-bottom:45px;}
+.myroom .announcement em{color:#0074dd; font-style:normal; display:block; margin-bottom:10px;}
+.myroom .announcement ul li{font-size:22px; line-height:40px; color:#000;}
+.myroom .announcement ul li::before{content:''; width:7px; height:7px; margin-right:6px; display:inline-block; border-radius:50%; vertical-align:middle; background:#0074dd;}
+.myroom h2{height:24px; font-family:sandoll-gothicneo3, sans-serif; color:#000; font-weight:bold; font-size:24px; line-height:24px; margin-bottom:40px;}
+.myroom h2::before{content:''; width:7px; height:100%; display:inline-block; margin-right:8px; background:linear-gradient(#6a7bc3, #00c9ee 26%, #82d103 55%, #ff970a 81%, #ffe200); vertical-align:middle; letter-spacing:-1px;}
+.myroom .btn_apply{width:200px; height:50px; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; background:#0074dd; color:#fff; line-height:50px; text-align:center; margin:0 auto; transition:0.6s;}
+.myroom .btn_apply:hover{opacity:0.8;}
+.myroom .red{color:#ff334c;}
 
+/* 회원정보수정 */
+.myroom.change{}
+.myroom.change table{width:100%; border-top:3px solid #0074dd; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; margin-bottom:70px;}
+.myroom.change table th,.myroom.change table td{padding:28px 0; border-bottom:1px solid #c7c6c6; box-sizing:border-box; letter-spacing:-0.5px;}
+.myroom.change table th{text-align:left; font-size:23px; color:#0074dd; font-weight:600;}
+.myroom.change table td{font-size:23px; color:#000;}
+.myroom.change table td p{font-size:20px; color:#58585b; line-height:2; margin-bottom:25px;}
+.myroom.change table td p strong{color:#ff334c;}
+.myroom.change table td select{width:206px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:9px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; letter-spacing:-0.5px; text-indent:12px;}
+.myroom.change table td input{height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:9px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; letter-spacing:-0.5px; text-indent:12px;}
+.myroom.change table td input[type="tel"]{width:206px;}
+.myroom.change table td input[type="email"]{width:794px;}
+.myroom.change table td input[type="text"]{width:639px;}
+.myroom.change table td input[type="checkbox"]{width:20px; height:20px;}
+.myroom.change table td label{font-size:23px; color:#58585b; letter-spacing:-0.5px;}
+
+/* 회원탈퇴 */
+.myroom.withdrawal{}
+.myroom.withdrawal .notice{height:34px; line-height:34px; padding-left:42px; box-sizing:border-box; background:url('../img/myroom/icon_notice.png') no-repeat left center / contain; font-family:sandoll-gothicneo3, sans-serif; font-size:22px; margin-bottom:22px; letter-spacing:-1px; color:#000;}
+.myroom.withdrawal .userID{font-family:sandoll-gothicneo3, sans-serif; font-size:22px; margin-top:27px; line-height:48px; color:#000; letter-spacing:-1px;}
+.myroom.withdrawal .userID span{color:#ff334c;}
+.myroom.withdrawal table{width:100%; border-top:1px solid #c7c6c6; box-sizing:border-box; margin-bottom:60px;}
+.myroom.withdrawal table th,.myroom.withdrawal table td{padding:20px 0; border-bottom:1px solid #c7c6c6; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; letter-spacing:-0.5px;}
+.myroom.withdrawal table th{background:#f8f8f8; border-right:1px solid #c7c6c6;}
+.myroom.withdrawal table td{padding-left:18px;}
+.myroom.withdrawal .announcement p{color:#0074dd; margin-bottom:15px;}
+.myroom.withdrawal .announcement input[type="checkbox"]{width:27px; height:27px;}
 /* pwd */
 .pwd .pwdBox{width:100%; padding:70px 0; box-sizing:border-box; background:#edf5fd; text-align:center;}
 .pwd .pwdBox input{width:460px; height:50px; margin:0 auto 30px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; text-indent:12px; border:1px solid #c7c6c6; box-sizing:border-box;}
 .pwd .pwdBox a{width:460px; height:50px; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; line-height:50px; text-align:center; background:#0074dd; color:#fff; margin:0 auto;}
 
 @media (max-width:768px){
+  /* myroom 공통 */
+  .myroom{padding:3.6vw 0 13.5vw;}
+  .myroom h1{border-bottom:0.27vw solid #0074dd; font-size:2.25vw; line-height:4.32vw; margin-bottom:4.05vw;}
 
+  .myroom .announcement{border-radius:0.9vw; padding:1.62vw 1.8vw; font-size:2.07vw; margin-bottom:4.05vw;}
+  .myroom .announcement em{margin-bottom:0.9vw;}
+  .myroom .announcement ul li{font-size:1.98vw; line-height:3.6vw;}
+  .myroom .announcement ul li::before{width:0.63vw; height:0.63vw; margin-right:0.54vw;}
+  .myroom h2{height:2.16vw; font-size:2.16vw; line-height:2.16vw; margin-bottom:3.6vw;}
+  .myroom h2::before{width:0.63vw; margin-right:0.72vw;}
+  .myroom .btn_apply{width:18vw; height:4.5vw; font-size:2.07vw; line-height:4.5vw;}
+
+  /* pwd */
+  .pwd .pwdBox{padding:6.3vw 0;}
+  .pwd .pwdBox input{width:41.4vw; height:4.5vw; margin:0 auto 2.7vw; font-size:2.07vw; text-indent:1.08vw;}
+  .pwd .pwdBox a{width:41.4vw; height:4.5vw; font-size:2.07vw; line-height:4.5vw;}
 }

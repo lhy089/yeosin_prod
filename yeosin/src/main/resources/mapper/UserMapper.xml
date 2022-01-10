@@ -17,7 +17,7 @@
 		<result column="BIRTHDAY" property="birthDay" jdbcType="VARCHAR" />
 		<result column="VALIDSTATE" property="validState" jdbcType="VARCHAR" />
 	</resultMap>
-	<select id="getLoginUser" parameterType="com.yeosin.member.UserDto" resultType="Boolean">
+	<select id="getLoginUser" parameterType="com.yeosin.member.UserDto" resultType="String">
       SELECT 
 			(
 				CASE

@@ -22,26 +22,20 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="../inc/css/member.css">
+  <link rel="stylesheet" href="../inc/css/myroom.css">
 </head>
 
 <body>
 
 <!--?php include_once "../common/header.php";?-->
 <%@ include file="/www/common/header.jsp"%>
-<div class="member find">
+<div class="myroom pwd">
   <div class="contentBox">
-    <h1>아아디 / 비밀번호 확인</h1>
-    <div class="tabBox">
-      <a href="#" class="active">아이디 확인</a>
-      <a href="#">비밀번호 확인/변경</a>
+    <h1>비밀번호 확인</h1>
+    <div class="pwdBox">
+      <input type="password" placeholder="">
+      <a href="#">확인</a>
     </div>
-    <div class="enter">
-      <h2>찾으려는 아이디를 선택해주세요</h2>
-      <label class="idType"><input type="radio" name="idType" value="" checked="checked"><span>개인 회원</span></label>
-      <label class="idType"><input type="radio" name="idType" value=""><span>회원 아이디</span></label>
-    </div>
-    <a href="#" class="btn_apply">다음</a>
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>
@@ -49,3 +43,4 @@
 
 </body>
 </html>
+
