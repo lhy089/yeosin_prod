@@ -4,6 +4,8 @@
 <head lang="ko">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
   <meta charset="utf-8">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <title>대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
   <meta name="description" content="여신금융협회">
   <meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
@@ -23,6 +25,7 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="../inc/css/member.css">
+   <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/login.js?t=1"></script>
 </head>
 
 <body>
@@ -35,7 +38,7 @@
     <div class="loginBox">
       <p><label for="id">아이디</label><input type="text" id="id" placeholder="아이디 입력"></p>
       <p><label for="pwd">비밀번호</label><input type="password" id="pwd" placeholder="비밀번호 입력"></p>
-      <a href="#">로그인</a>
+      <a id="btn_doLogin" onclick="return false;">로그인</a>
     </div>
     <ul class="membership">
       <li><a href="#">회원가입</a></li>

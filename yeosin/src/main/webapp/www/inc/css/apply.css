@@ -1,0 +1,108 @@
+@charset "utf-8";
+/* CSS Document */
+
+*{--font-title:SBAggroM; /*어그로체*/}
+/* h1{ font-weight: 400; font-family:sandoll-gothicneo2, sans-serif;}
+h2{ font-weight: 200; font-family:sandoll-gothicneo3, sans-serif;}
+p{font-family:'NanumSquare'; font-size:32px;} */
+
+/* apply 공통 */
+.apply{padding:40px 0 150px; box-sizing:border-box;}
+.apply h1{width:100%; border-bottom:3px solid #0074dd; box-sizing:border-box; font-family:var(--font-title); font-size:25px; line-height:48px; color:#0074dd; margin-bottom:45px;}
+.apply .announcement{width:100%; border:1px solid #c7c6c6; border-radius:10px; box-sizing:border-box; background:#f8f8f8; padding:18px 20px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; line-height:1; color:#0074dd; letter-spacing:-1px; margin-bottom:45px;}
+.apply h2{height:24px; font-family:sandoll-gothicneo3, sans-serif; color:#000; font-weight:bold; font-size:24px; line-height:24px; margin-bottom:40px;}
+.apply h2::before{content:''; width:7px; height:100%; display:inline-block; margin-right:8px; background:linear-gradient(#6a7bc3, #00c9ee 26%, #82d103 55%, #ff970a 81%, #ffe200); vertical-align:middle; letter-spacing:-1px;}
+.apply .btn_apply{width:200px; height:50px; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; background:#0074dd; color:#fff; line-height:50px; text-align:center; margin:0 auto; transition:0.6s;}
+.apply .btn_apply:hover{opacity:0.8;}
+
+/* apply 리스트 */
+.apply.list table{width:100%; border-top:2px solid #58585b; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif;}
+.apply.list table th,.apply.list table td{border-bottom:1px solid #c7c6c6; box-sizing:border-box;}
+.apply.list table th{color:#58585b; font-size:23px; padding:21px 0; border-right:2px solid #e1e1e1; box-sizing:border-box; letter-spacing:-0.5px; background:#f8f8f8;}
+.apply.list table td{color:#000; font-size:22px; line-height:35px; text-align:left; letter-spacing:-1px; padding:15px 0 15px 18px; box-sizing:border-box;}
+.apply.list table td .btn_apply{display:inline-block; background:#0074dd; color:#fff; font-size:21px; padding:0 7px; border-radius:5px; box-sizing:border-box;}
+.apply.list table td .btn_apply:hover{opacity:0.8;}
+
+/* 1단계 회원정보 확인 */
+.apply.first{}
+.apply.first table{width:100%; border-top:3px solid #0074dd; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; margin-bottom:70px;}
+.apply.first table th,.apply.first table td{padding:28px 0; border-bottom:1px solid #c7c6c6; box-sizing:border-box;}
+.apply.first table th{text-align:left; font-size:23px; color:#0074dd; font-weight:600; letter-spacing:-0.5px;}
+.apply.first table td{font-size:23px; color:#000;}
+.apply.first table td p{font-size:20px; color:#58585b; line-height:2; margin-bottom:25px;}
+.apply.first table td p.mb0{margin-bottom:0;}
+.apply.first table td p strong{color:#ff334c;}
+.apply.first table td select{width:206px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:9px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; letter-spacing:-0.5px; text-indent:12px;}
+.apply.first table td input{height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:9px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; letter-spacing:-0.5px; text-indent:12px;}
+.apply.first table td input[type="tel"]{width:206px;}
+.apply.first table td input[type="email"]{width:794px;}
+.apply.first table td input[type="text"]{width:639px;}
+.apply.first table td input[type="checkbox"]{width:20px; height:20px;}
+.apply.first table td label{font-size:23px; color:#58585b; letter-spacing:-0.5px;}
+
+/* 2단계 고시장 선택 */
+.apply.second{}
+.apply.second .area{width:100%; border:1px solid #c7c6c6; padding:30px 0; box-sizing:border-box; text-align:center; margin-bottom:60px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; font-weight:bold;}
+.apply.second .area select{width:300px; height:50px; line-height:50px; padding:0 15px; border:1px solid #c7c6c6; box-sizing:border-box; background:#f8f8f8; border-radius:5px; margin-right:10px; font-size:23px; color:#58585b; font-weight:bold; letter-spacing:-0.5px;}
+.apply.second .area .btn_search{width:109px; height:50px; line-height:50px; display:inline-block; border:1px solid #c7c6c6; box-sizing:border-box; background:#f8f8f8; border-radius:5px; vertical-align:middle; color:#58585b; letter-spacing:-0.5px;}
+.apply.second table{width:100%; border-top:2px solid #58585b; box-sizing:border-box; margin-bottom:70px;}
+.apply.second table th,.apply.second table td{font-family:sandoll-gothicneo3, sans-serif; border-bottom:1px solid #c7c6c6; border-right:1px solid #c7c6c6; box-sizing:border-box;}
+.apply.second table th:last-child,.apply.second table td:last-child{border-right:0;}
+.apply.second table th{font-size:23px; padding:20px 0; box-sizing:border-box; color:#58585b; background:#f8f8f8;}
+.apply.second table td{font-size:22px; padding:20px 0; text-align:center; color:#000;}
+.apply.second table td input[type="checkbox"]{width:27px; height:27px;}
+
+/* 3단계 접수확인 및 결제선택 */
+.apply.third{}
+.apply.third table{width:100%; border-top:3px solid #0074dd; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; margin-bottom:70px;}
+.apply.third table th,.apply.third table td{padding:28px 0; border-bottom:1px solid #c7c6c6; box-sizing:border-box;}
+.apply.third table th{text-align:left; font-size:23px; color:#0074dd; font-weight:600; letter-spacing:-0.5px; border-right:1px solid #c7c6c6;}
+.apply.third table td{font-size:23px; color:#000; padding-left:22px;}
+.apply.third table td input{height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:9px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; letter-spacing:-0.5px; text-indent:12px;}
+.apply.third table td input[type="tel"]{width:206px;}
+.apply.third table td input[type="email"]{width:794px;}
+.apply.third table td input[type="text"]{width:639px;}
+.apply.third table td input[type="radio"]{width:20px; height:20px;}
+.apply.third table td label{font-size:23px; color:#58585b; letter-spacing:-0.5px;}
+
+
+@media (max-width:768px){
+  /* apply 공통 */
+  .apply{padding:3.6vw 0 13.5vw;}
+  .apply h1{border-bottom:0.27vw solid #0074dd; font-size:2.25vw; line-height:4.32vw; margin-bottom:4.05vw;}
+  .apply .announcement{border-radius:0.9vw; padding:1.62vw 1.8vw; font-size:2.07vw; margin-bottom:4.05vw;}
+  .apply h2{height:2.16vw; font-size:2.16vw; line-height:2.16vw; margin-bottom:3.6vw;}
+  .apply h2::before{width:0.63vw; margin-right:0.72vw;}
+  .apply .btn_apply{width:18vw; height:4.5vw; font-size:2.07vw; line-height:4.5vw;}
+
+  /* apply 리스트 */
+  .apply.list table{border-top:0.18vw solid #58585b;}
+  .apply.list table th{font-size:2.07vw; padding:1.89vw 0; border-right:0.18vw solid #e1e1e1;}
+  .apply.list table td{font-size:1.98vw; line-height:3.15vw; padding:1.35vw 0 1.35vw 1.62vw;}
+  .apply.list table td .btn_apply{font-size:1.89vw; padding:0 0.63vw; border-radius:0.45vw;}
+
+
+  /* 1단계 회원정보 확인 */
+  .apply.first table{border-top:0.27vw solid #0074dd;}
+  .apply.first table th,.apply.first table td{padding:2.52vw 0;}
+  .apply.first table th{font-size:2.07vw;}
+  .apply.first table td{font-size:2.07vw;}
+  .apply.first table td p{font-size:1.8vw; margin-bottom:2.25vw;}
+  .apply.first table td select{width:18.54vw; height:4.5vw; margin-right:0.81vw; font-size:2.07vw; text-indent:1.08vw;}
+  .apply.first table td input{height:4.5vw; margin-right:0.81vw; font-size:2.07vw; text-indent:1.08vw;}
+  .apply.first table td input[type="tel"]{width:18.54vw;}
+  .apply.first table td input[type="email"]{width:71.46vw;}
+  .apply.first table td input[type="text"]{width:57.51vw;}
+  .apply.first table td input[type="checkbox"]{width:1.8vw; height:1.8vw;}
+  .apply.first table td label{font-size:2.07vw;}
+  .apply.first .btn_apply{margin-top:6.3vw;}
+
+  /* 2단계 고시장 선택 */
+  .apply.second .area{padding:2.7vw 0; margin-bottom:5.4vw; font-size:2.07vw;}
+  .apply.second .area select{width:27vw; height:4.5vw; line-height:4.5vw; padding:0 1.35vw; border-radius:0.45vw; margin-right:0.9vw; font-size:2.07vw;}
+  .apply.second .area .btn_search{width:9.81vw; height:4.5vw; line-height:4.5vw; border-radius:0.45vw;}
+  .apply.second table{border-top:0.18vw solid #58585b; margin-bottom:6.3vw;}
+  .apply.second table th{font-size:2.07vw; padding:1.8vw 0;}
+  .apply.second table td{font-size:2.07vw; padding:1.8vw 0;}
+  .apply.second table td input[type="checkbox"]{width:2.43vw; height:2.43vw;}
+}

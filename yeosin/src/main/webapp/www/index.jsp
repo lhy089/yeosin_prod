@@ -25,7 +25,7 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 	
-  <link rel="stylesheet" href="inc/css/main.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/www/inc/css/main.css">
 </head>
 
 <body>

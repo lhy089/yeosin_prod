@@ -21,11 +21,11 @@
 <!--header-->
 <header class="pc">
   <div class="contentBox">
-    <a href="#" class="home"><img src="/www/inc/img/common/logo.png" alt="여신금융협회"></a>
+    <a href="/www/index.jsp" class="home"><img src="/www/inc/img/common/logo.png" alt="여신금융협회"></a>
     <!-- 로그인전 노출 버튼// -->
     <div class="btnWrap">
-      <a href="javascript:void(0)" id="btn_login">로그인</a>
-      <a href="javascript:void(0)" id="btn_simpleJoin">간편가입</a>
+      <a href="/www/member/login.jsp" id="btn_login">로그인</a>
+      <a href="/www/member/join.jsp">간편가입</a>
     </div>
     <!-- //로그인전 노출 버튼 -->
     <h1>대출성 상품 판매대리 &middot; 중개업자 등록 자격인증 평가</h1>
