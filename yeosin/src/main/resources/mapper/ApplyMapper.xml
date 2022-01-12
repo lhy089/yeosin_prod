@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeosin.apply.ApplyDao" >
+	<resultMap id="ApplyResultMap" type="com.yeosin.apply.ApplyDto" >
+		<id column="reception_num" property="reception_num" jdbcType="VARCHAR" />
+		<result column="member_idx" property="member_idx" jdbcType="INTEGER" />
+		<result column="exam_idx" property="exam_idx" jdbcType="INTEGER" />
+		<result column="reception_date" property="reception_date" jdbcType="TIMESTAMP" />
+		<result column="education_certificate_num" property="education_certificate_num" jdbcType="VARCHAR" />
+		<result column="education_process" property="education_process" jdbcType="VARCHAR" />
+		<result column="student_code" property="student_code" jdbcType="VARCHAR" />
+		<result column="progress" property="progress" jdbcType="VARCHAR" />
+		<result column="membership_id" property="membership_id" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="GetApplyList" parameterType="com.yeosin.apply.ApplyDao" resultType="String">
+		SELECT 
+				reception_num
+			,	member_idx 
+			,	exam_idx 
+			,	reception_date 
+			,	education_certificate_num 
+			,	education_process 
+			,	student_code 
+			,	progress 
+			,	membership_id 
+		FROM 	reception
+		WHERE 	1 = 1;
+   </select>
+</mapper>

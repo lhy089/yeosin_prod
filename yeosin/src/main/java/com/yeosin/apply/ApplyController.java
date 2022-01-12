@@ -18,38 +18,26 @@ public class ApplyController {
 	
 	@RequestMapping(value="/apply", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView apply(HttpSession session, HttpServletResponse response) throws Exception {
-		response.setCharacterEncoding("UTF-8");
-		ModelAndView mav = new ModelAndView();
-		String sessionid= (String)session.getAttribute("loginId");
-		
+	public ModelAndView apply(HttpSession session, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");	
+		ModelAndView mav = new ModelAndView();		
+//		String sessionid = (String)session.getAttribute("loginId");	
 //		List<ApplyDto> result = new ArrayList<>();
-		//to-do : 표시할 내용 가져오기
-		String result = null;
-		if(result != null) {
-			mav.addObject("result", result);
-		}else {
-			mav.addObject("result", false);
-		};
+//		mav.addObject("exam_name", "자격증 시험");
 		mav.setViewName("redirect:/www/apply/apply.jsp");
 		return mav;
 	}
 	
 	@RequestMapping(value="/accept", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView accept(HttpSession session, HttpServletResponse response) throws Exception {
-		response.setCharacterEncoding("UTF-8");
-		ModelAndView mav = new ModelAndView();
-		String sessionid= (String)session.getAttribute("loginId");
-		
+	public ModelAndView accept(HttpSession session, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");		
+		ModelAndView mav = new ModelAndView();		
+//		String sessionid = (String)session.getAttribute("loginId");	
 //		List<ApplyDto> result = new ArrayList<>();
-		//to-do : 표시할 내용 가져오기
-		String result = null;
-		if(result != null) {
-			mav.addObject("result", result);
-		}else {
-			mav.addObject("result", "");
-		};
+//		mav.addObject("exam_name", "자격증 시험");
 		mav.setViewName("redirect:/www/apply/accept.jsp");
 		return mav;
 	}
