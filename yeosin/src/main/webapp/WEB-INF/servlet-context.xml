@@ -23,7 +23,7 @@
 	</beans:bean>
 	
 	<resources mapping="/www/inc/css/**" location="/www/inc/css/" />
-	<resources mapping="/www/inc//js/**" location="/www/inc/js/" />
+	<resources mapping="/www/inc/js/**" location="/www/inc/js/" />
 	<resources mapping="/www/inc/fonts/**" location="/www/inc/fonts/" />
 	<resources mapping="/www/inc/img/**" location="/www/inc/img/" />
 	
