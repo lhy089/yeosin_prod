@@ -17,7 +17,7 @@
 		<result column="BIRTHDAY" property="birthDay" jdbcType="VARCHAR" />
 		<result column="VALIDSTATE" property="validState" jdbcType="VARCHAR" />
 	</resultMap>
-	<select id="getLoginUser" parameterType="com.yeosin.member.UserDto" resultType="String">
+	<select id="getLoginUser" parameterType="String" resultType="String">
       SELECT 
 			(
 				CASE
@@ -26,12 +26,15 @@
 							1
 						FROM YS_USER USER
 						WHERE USER.USERID = #{userId, jdbcType=VARCHAR}
-						AND USER.PASSWORD = #{password, jdbcType=VARCHAR}
 						)
 					THEN 'Y'
 					ELSE 'N'
 				END
 			) as EXISTS_YN
 		FROM DUAL
+   </select>
+   
+   <select id="getLoginUserInfo" parameterType="com.yeosin.member.UserDto" resultType="com.yeosin.member.UserDto">
+      SELECT userId, userName FROM YS_USER where userId = #{userId, jdbcType=VARCHAR} and PASSWORD = #{password, jdbcType=VARCHAR}
    </select>
 </mapper>

@@ -1,9 +1,22 @@
 $(document).ready(function(){
    
     console.log("index.js");
-   $('#btn_doLogin').click(function(){  debugger;
+   $('#btn_doLogin').click(function(){
        doLogin();
    });
+   
+   $("#id").on("keyup",function(key){
+       if(key.keyCode==13) {
+    	   doLogin();
+       }
+   });
+   
+   $("#pwd").on("keyup",function(key){
+       if(key.keyCode==13) {
+    	   doLogin();
+       }
+   });
+
     
 });
 
@@ -34,7 +47,10 @@ function doLogin() {
             if(data) {
          	   $(location).attr("href", "/www/index.jsp");
             }else {
-            	// to-do : fail
+            	$('#id').val("");
+        		$('#pwd').val("");
+        		$('#id').focus();
+            	alert("회원 정보가 존재하지 않거나 일치하지 않습니다.")
             }
         }
       });

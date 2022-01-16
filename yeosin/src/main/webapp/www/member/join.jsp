@@ -4,6 +4,8 @@
 <head lang="ko">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
   <meta charset="utf-8">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <title>대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
   <meta name="description" content="여신금융협회">
   <meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
@@ -23,6 +25,7 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="../inc/css/member.css">
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=1"></script>
 </head>
 
 <body>
@@ -36,7 +39,7 @@
       <!-- (1단계)인트로// -->
       <section class="intro">
         개인회원가입
-        <a href="#" class="btn_next">만14세이상</a>
+        <a class="btn_next" id="btn_doJoinProvision" onclick="return false;">만14세이상</a>
       </section>
       <!-- //(1단계)인트로 -->
 
@@ -63,8 +66,8 @@
         </div>
         <div class="btnWrap">
           <a href="#none" class="btn_all">회원가입 약관에 모두 동의합니다</a>
-          <a href="#" class="btn_cancel">취소</a>
-          <a href="#" class="btn_join">회원가입</a>
+          <a href="/www/index.jsp" class="btn_cancel">취소</a>
+          <a class="btn_join" id="btn_doJoinCertification" onclick="return false;">회원가입</a>
         </div>
         <p class="announcement">
           2006년 9월 24일부터 개정된 ‘주민등록법’에 의해 타인의 주민등록번호를 도용하여 웹사이트에 가입하는 등의 주민등록 번호에<br/>
@@ -134,27 +137,27 @@
           <tr>
             <th class="essential">이름</th>
             <td>
-              <input type="text" name="" value="">
+              <input type="text" name="" value="" id="userName">
             </td>
           </tr>
           <tr>
             <th class="essential">아이디</th>
             <td>
-              <input type="text" name="" value=""><a href="#">중복확인</a>
+              <input type="text" name="" value="" id="userId"><a href="#" id="btn_chkIdDupl">중복확인</a>
               <p>6~20자의 영문 소문자, 숫자만 가능. 영문소문자 시작.</p>
             </td>
           </tr>
           <tr>
             <th class="essential">비밀번호</th>
             <td>
-              <input type="password" name="" value="">
+              <input type="password" name="" value="" id="userPwd">
               <p>6~20자의 영문 대소문자와 숫자, 특수문자를 사용할 수 있으며, 최소 2종류이상을 조합해야 합니다.</br>허용 특수문자 { } [ ] ( ) / | ? ! . * ~ ‘ ^ - _ + # $ % =</p>
             </td>
           </tr>
           <tr>
             <th class="essential">비밀번호 확인</th>
             <td>
-              <input type="password" name="" value="">
+              <input type="password" name="" value="" id="userPwd2">
             </td>
           </tr>
         </table>
@@ -200,7 +203,7 @@
           </tr>
         </table>
 
-        <a href="#" class="btn_apply">가입하기</a>
+        <a href="#" class="btn_apply" id="btn_doJoinFinish">가입하기</a>
       </section>
       <!-- //(4단계)기입 -->
 

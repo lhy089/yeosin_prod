@@ -13,7 +13,11 @@ public class UserDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	public Boolean getLoginUser(UserDto user) {
-		return "Y".equals(this.sqlSession.selectOne(namespace + "getLoginUser", user));
+	public String getLoginUser(String userId) {
+		return this.sqlSession.selectOne(namespace + "getLoginUser", userId);
+	}
+	
+	public UserDto getLoginUserInfo(UserDto user) {
+		return this.sqlSession.selectOne(namespace + "getLoginUserInfo", user);
 	}
 }

@@ -16,6 +16,7 @@
     async: true
   },
   h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+  var loginUserInfo = "${loginUserInfo.userId}";
 })(document);
 </script>
 
@@ -24,10 +25,22 @@
   <div class="contentBox">
     <a href="/www/index.jsp" class="home"><img src="/www/inc/img/common/logo.png" alt="여신금융협회"></a>
     <!-- 로그인전 노출 버튼// -->
+<!-- 로그인세션 사용 -->
+<!-- 세션관련은 모든 페이지 일괄 적용되도록 추가예정-->
+    <c:choose>
+    <c:when test="${loginUserInfo.userId != null}">
+    <div class="btnWrap">
+    	<a href="/logout" id="btn_logout">로그아웃</a>
+    	</div>
+    </c:when>
+    <c:otherwise>
     <div class="btnWrap">
       <a href="/www/member/login.jsp" id="btn_login">로그인</a>
-      <a href="/www/member/join.jsp">간편가입</a>
-    </div>
+      <a href="/join">간편가입</a>
+      </div>
+    </c:otherwise>
+    </c:choose>
+    
     <!-- //로그인전 노출 버튼 -->
     <h1>대출성 상품 판매대리 &middot; 중개업자 등록 자격인증 평가</h1>
   </div>

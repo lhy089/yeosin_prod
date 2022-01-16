@@ -25,7 +25,12 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="../inc/css/member.css">
-   <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/login.js?t=1"></script>
+   <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/login.js?t=3"></script>
+   <script>
+   if(${loginUserInfo.userId != null}) {
+	      $(location).attr("href", "/www/index.jsp");
+	   }
+   </script>
 </head>
 
 <body>

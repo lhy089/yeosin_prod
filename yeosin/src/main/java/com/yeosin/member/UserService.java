@@ -9,7 +9,11 @@ public class UserService {
 	@Autowired	
 	private UserDao userDao;
 	
-	public Boolean getLoginUser(UserDto user) {
-		return userDao.getLoginUser(user);
+	public String getLoginUser(String userId) {
+		return userDao.getLoginUser(userId);
+	}
+	
+	public UserDto getLoginUserInfo(UserDto user) {
+		return userDao.getLoginUserInfo(user);
 	}
 }
