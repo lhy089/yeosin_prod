@@ -28,64 +28,61 @@
 
 <!--?php include_once "../common/header.php";?-->
 
-<div class="apply third">
+<div class="apply fifth">
   <div class="contentBox">
     <h1>원서접수</h1>
-    <div class="schedule">
-      2021 대출성 상품 판매대리 &middot; 중개업자 등록 자격인증 평가<br/>
-      <span><strong>시험일</strong>2021-06-07</span><span><strong>인터넷접수</strong>2021-06-08 오전 10:00~2021-07-23</span>
+    <div class="announcement">
+      인터넷접수 첫날의 접수 시작 시간은 10:00 부터입니다.
     </div>
+    <h2>3단계 접수확인 및 결제선택</h2>
     <section>
-      <h2>개인정보</h2>
       <table>
         <colgroup>
-          <col width="20.5%">
+          <col width="15.5%">
           <col width="*">
         </colgroup>
         <tr>
+          <th>시험명</th>
+          <td>응시 시험명 출력</td>
+        </tr>
+        <tr>
           <th>성명</th>
-          <td>홍길동</td>
+          <td></td>
         </tr>
         <tr>
-          <th>생년월일</th>
-          <td>2020년 01월 01일</td>
-        </tr>
-        <tr>
-          <th>휴대전화</th>
-          <td>010-0000-0000</td>
+          <th>연락처</th>
+          <td></td>
         </tr>
         <tr>
           <th>이메일</th>
           <td></td>
         </tr>
-      </table>
-      <a href="../myroom/change.html" class="btn_change">개인정보 변경</a>
-
-      <h2>교육수료정보</h2>
-      <table>
-        <colgroup>
-          <col width="20.5%">
-          <col width="*">
-        </colgroup>
         <tr>
-          <th>교육과정</th>
-          <td>
-            <select id="" name="">
-              <option value="">선택</option>
-              <option value="">대출•기타 대출성 상품</option>
-              <option value="">리스 •할부 상품</option>
-            </select>
-          </td>
+          <th>수료번호</th>
+          <td></td>
         </tr>
         <tr>
-          <th>교육수료증번호</th>
+          <th>시험장명</th>
+          <td>연희초등학교 (선택 시험장 출력)</td>
+        </tr>
+        <tr>
+          <th>시험일</th>
+          <td>21. 12. 24 (시험일 출력)</td>
+        </tr>
+        <tr>
+          <th>결제금액</th>
+          <td>19,000원 (관리자 설정 금액 출력)</td>
+        </tr>
+        <tr>
+          <th>결제방법선택</th>
           <td>
-            <input type="text" name="" value="">
-            <span>※ 필수입력항목</span>
+            <label class="pay"><input type="radio" name="pay" value=""><span>가상계좌</span></label>
+            <label class="pay"><input type="radio" name="pay" value=""><span>실시간 계좌이체</span></label>
+            <label class="pay"><input type="radio" name="pay" value=""><span>신용카드</span></label>
           </td>
         </tr>
       </table>
-      <a href="#" class="btn_apply">작성완료</a>
+      <a href="#" class="btn_apply">결제하기</a>
     </section>
   </div>
 </div>

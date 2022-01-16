@@ -66,7 +66,11 @@
     </div>
      </c:when>
     <c:otherwise>
-    	표시할 데이터가 없습니다.
+    	<table class="none">
+      <tr>
+        <td>진행중인 수험표발급이 없습니다.</td>
+      </tr>
+    </table>
     </c:otherwise>
     </c:choose>
   </div>

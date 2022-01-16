@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 <head lang="ko">
@@ -27,55 +28,24 @@
 <body>
 
 <!--?php include_once "../common/header.php";?-->
-
-<div class="apply accept">
+<%@ include file="/www/common/header.jsp"%>
+<div class="apply sixth">
   <div class="contentBox">
-    <h1>수험표 출력</h1>
+    <h1>원서접수</h1>
     <div class="announcement">
-      시험응시자는 수험표를 출력하여 시험장에 방문해야 합니다.
+      인터넷접수 첫날의 접수 시작 시간은 10:00 부터입니다.
     </div>
-
-    <!-- 수험표 없을 때// -->
-    <table class="none">
-      <tr>
-        <td>진행중인 수험표발급이 없습니다.</td>
-      </tr>
-    </table>
-    <!-- //수험표 없을 때 -->
-
-    <!-- 수험표 있을 때// -->
-    <table>
-      <colgroup>
-        <col width="*">
-        <col width="19.5%">
-        <col width="15%">
-        <col width="15%">
-        <col width="15%">
-      </colgroup>
-      <tr>
-        <th>시험명</th>
-        <th>접수기간</th>
-        <th>시험일</th>
-        <th>시험지역</th>
-        <th>바로가기</th>
-      </tr>
-      <tr>
-        <td>시험명표기</td>
-        <td>2021-12-17~12-24</td>
-        <td>2021-12-31</td>
-        <td>전국개지역</td>
-        <td><a href="ticket_view.html" class="btn_apply">자세히 보기</a></td>
-      </tr>
-    </table>
-    <p class="pageCnt">전체 0건, 1/0 페이지</p>
-    <div class="pageWrap">
-      <!-- 페이징 -->
+    <h2>4단계 접수완료</h2>
+    <div class="doneBox">
+      수험번호: 10150001
+      <p>접수가 정상적으로 완료되었습니다.</p>
+      <a href="#" class="btn_apply">수험표 출력</a>
     </div>
-    <!-- //수험표 있을 때 -->
   </div>
 </div>
-
+<%@ include file="/www/common/footer.jsp"%>
 <!--?php include_once "../common/footer.php";?-->
 
 </body>
 </html>
+

@@ -21,73 +21,47 @@
   <meta property="og:image" content="/www/inc/img/openGraph.jpg">
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
-
-  <link rel="stylesheet" href="../inc/css/apply.css">
+  
+  <link rel="stylesheet" href="../inc/css/state.css">
 </head>
 
 <body>
 
 <!--?php include_once "../common/header.php";?-->
 <%@ include file="/www/common/header.jsp"%>
-<div class="apply third">
+<div class="state certificate">
   <div class="contentBox">
-    <h1>원서접수</h1>
-    <div class="schedule">
-      2021 대출성 상품 판매대리 &middot; 중개업자 등록 자격인증 평가<br/>
-      <span><strong>시험일</strong>2021-06-07</span><span><strong>인터넷접수</strong>2021-06-08 오전 10:00~2021-07-23</span>
-    </div>
-    <section>
-      <h2>개인정보</h2>
+    <h1>자격인증서발급</h1>
+    <div class="document">
+      <p class="docNum">제2101100002호</p>
+      <h3><p>자격인증서</p></h3>
       <table>
         <colgroup>
-          <col width="20.5%">
-          <col width="*">
+          <col width="12%">
+          <col width="">
         </colgroup>
         <tr>
           <th>성명</th>
           <td>홍길동</td>
         </tr>
         <tr>
-          <th>생년월일</th>
-          <td>2020년 01월 01일</td>
+          <th>자격구분</th>
+          <td>대출성 상품 판매대리 · 중개업자 등록 자격인증 평가(대출 · 기타 대출성 상품)</td>
         </tr>
         <tr>
-          <th>휴대전화</th>
-          <td>010-0000-0000</td>
-        </tr>
-        <tr>
-          <th>이메일</th>
-          <td></td>
+          <th>인증일</th>
+          <td>2021-06-24</td>
         </tr>
       </table>
-      <a href="../myroom/change.html" class="btn_change">개인정보 변경</a>
-
-      <h2>교육수료정보</h2>
-      <table>
-        <colgroup>
-          <col width="20.5%">
-          <col width="*">
-        </colgroup>
-        <tr>
-          <th>교육과정</th>
-          <td>
-            <select id="" name="">
-              <option value="">선택</option>
-              <option value="">대출•기타 대출성 상품</option>
-              <option value="">리스 •할부 상품</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <th>교육수료증번호</th>
-          <td>
-            <input type="text" name="" value="">
-            <span>※ 필수입력항목</span>
-          </td>
-        </tr>
-      </table>
-      <a href="#" class="btn_apply">작성완료</a>
-    </section>
+      <p class="evidence">
+        위 사람은 금융소비자 보호에 관한 법률 및 같은 법 시행렬,<br/>
+        감독규정에 따라 실시한 대출성 상품 판매대리 · 중개업자 자격인증<br/>
+        평가에 합격하였으므로 이 증서를 드립니다.
+      </p>
+      <p class="date">2021년 06월 23일</p>
+      <p class="institution">한국여신전문금융업협회장</p>
+    </div>
+    <a href="#" class="btn_apply">출력하기</a>
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>
@@ -95,3 +69,5 @@
 
 </body>
 </html>
+
+

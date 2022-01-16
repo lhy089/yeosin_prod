@@ -81,8 +81,7 @@ p{font-family:'NanumSquare'; font-size:32px;} */
 .apply.fourth .areaInfo{width:100%; border-top:3px solid #0074dd; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:0; padding:15px 0 15px;}
 .apply.fourth .areaInfo p{font-size:23px; color:#58585b; text-align:center; display:inline-block;}
 .apply.fourth .areaInfo h4{width:15%;}
-.apply.fourth .areaInfo .location{width:30%;}
-.apply.fourth .areaInfo .serch{width:55%;}
+.apply.fourth .areaInfo .location select{width:415px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:16px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; letter-spacing:-0.5px; text-indent:12px;}
 .apply.fourth .areaInfo .btn_serch{width:110px; height:50px; line-height:50px; border:1px solid #c7c6c6; border-radius:5px; box-sizing:border-box; background:#f8f8f8; display:inline-block; color:#58585b; transition:0.6s;}
 .apply.fourth .areaInfo .btn_serch:hover{background:#c7c6c6;}
 .apply.fourth .objInfo{width:100%; border-top:1px solid #c7c6c6; box-sizing:border-box; font-size:0; padding:25px 0 30px;}
@@ -125,6 +124,23 @@ p{font-family:'NanumSquare'; font-size:32px;} */
 
 /* 취소완료 */
 .apply.cancel .completion{width:100%; border:1px solid #c7c6c6; padding:60px 0 57px; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:26px; color:#58585b; letter-spacing:-0.5px; text-align:center; font-weight:bold;}
+
+/* 수험표 */
+.ticket{width:1000px; border:1px solid #707070; padding:17px 30px 30px; box-sizing:border-box; margin:0 auto;}
+.ticket h1{width:100%; font-family:var(--font-title); font-size:25px; line-height:47px; border-bottom:3px solid #58585b; padding-right:25px; margin-bottom:30px; box-sizing:border-box; color:#000; overflow:hidden;}
+.ticket h1 span{float:right; font-size:20px;}
+.ticket table{width:100%; border-top:2px solid #58585b; box-sizing:border-box; margin-bottom:25px;}
+.ticket table th,.ticket table td{font-family:sandoll-gothicneo3, sans-serif; font-size:16px; line-height:38px; border-bottom:1px solid #cdcccc; box-sizing:border-box;}
+.ticket table th{background:#f8f8f8; border-right:1px solid #cdcccc;}
+.ticket table td{padding-left:16px;}
+.ticket h2{height:20px; border-left:7px solid #58585b; padding-left:15px; margin-bottom:15px; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:20px; line-height:20px; color:#000; letter-spacing:-0.5px;}
+.ticket h2 p{float:right; max-width:100%; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; letter-spacing:-0.5px;}
+.ticket .content{border:1px solid #c7c6c6; box-sizing:border-box; margin-bottom:25px;}
+.ticket .content ul{padding:12px; box-sizing:border-box;}
+.ticket .content ul li{clear:both; line-height:23px; margin-bottom:3px;}
+.ticket .content ul li p{display:table-cell; vertical-align:middle; font-family:sandoll-gothicneo3, sans-serif; font-size:17px; color:#000;}
+.ticket .content ul li span{width:18px; height:18px; line-height:20px; margin-top:5px; display:table-cell; border-radius:50%; background:#58585b; font-family:sandoll-gothicneo3, sans-serif; font-size:13px; margin-right:4px; color:#fff; text-align:center; float:left;}
+.ticket .content .mapImg{max-width:100%; max-height:348px;}
 
 
 @media (max-width:768px){
