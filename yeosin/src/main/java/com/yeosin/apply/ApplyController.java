@@ -2,7 +2,9 @@ package com.yeosin.apply;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -10,35 +12,51 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ApplyController {
 	
+	@Autowired
+	private ApplyService applyService;
+	
+	// 원서접수
 	@RequestMapping(value="/apply", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView apply(HttpSession session, HttpServletResponse response) throws Exception 
 	{
-		response.setCharacterEncoding("UTF-8");	
-		ModelAndView mav = new ModelAndView();		
-//		String sessionid = (String)session.getAttribute("loginId");	
-//		List<ApplyDto> result = new ArrayList<>();
-//		mav.addObject("exam_name", "자격증 시험");
-		mav.setViewName("redirect:/www/apply/apply.jsp");
+		response.setCharacterEncoding("UTF-8");
+		
+		String loginId = (String)session.getAttribute("loginId");
+		
+		ModelAndView mav = new ModelAndView();
+		
+//		List<ApplyDto> applyList = new ArrayList<>();
+//		applyList = applyService.getApplyList(loginId);
+//		
+//		mav.addObject("applyList", applyList);
+		mav.setViewName("apply/apply");
 		return mav;
 	}
 	
+	// 원서확인 및 취소
 	@RequestMapping(value="/accept", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView accept(HttpSession session, HttpServletResponse response) throws Exception 
+	public ModelAndView accept(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		response.setCharacterEncoding("UTF-8");		
-		ModelAndView mav = new ModelAndView();		
-//		String sessionid = (String)session.getAttribute("loginId");	
-//		List<ApplyDto> result = new ArrayList<>();
-//		mav.addObject("exam_name", "자격증 시험");
-		mav.setViewName("redirect:/www/apply/accept.jsp");
+		response.setCharacterEncoding("UTF-8");
+		
+		String loginId = (String)session.getAttribute("loginId");
+		
+		ModelAndView mav = new ModelAndView();
+		
+		List<ApplyDto> applyList = new ArrayList<>();
+		applyList = applyService.getApplyList(loginId);
+		
+		mav.addObject("applyList", applyList);
+		mav.setViewName("apply/accept");
 		return mav;
 	}
 	

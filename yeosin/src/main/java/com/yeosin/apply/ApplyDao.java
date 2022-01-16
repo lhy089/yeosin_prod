@@ -13,8 +13,7 @@ public class ApplyDao {
 	private SqlSessionTemplate sqlSession;
 	private String nameSpace = "com.yeosin.apply.ApplyDao.";
 	
-	public List<ApplyDto> getApplyList() throws Exception
-	{
-		return sqlSession.selectList(nameSpace + "GetApplyList");
+	public List<ApplyDto> getApplyList(String userId) throws Exception {
+		return sqlSession.selectList(nameSpace + "GetApplyList", userId);
 	}
 }

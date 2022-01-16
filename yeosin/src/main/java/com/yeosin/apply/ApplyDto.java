@@ -1,13 +1,12 @@
 package com.yeosin.apply;
 
-import java.util.Date;
 
 public class ApplyDto {
 	
 	private String reception_num;
-	private int member_idx; 
-	private int exam_idx;
-	private Date reception_date; 
+	private String member_idx; 
+	private String exam_idx;
+	private String reception_String; 
 	private String education_certificate_num;
 	private String education_process;
 	private String student_code; 
@@ -20,23 +19,23 @@ public class ApplyDto {
 	public void setReception_num(String reception_num) {
 		this.reception_num = reception_num;
 	}
-	public int getMember_idx() {
+	public String getMember_idx() {
 		return member_idx;
 	}
-	public void setMember_idx(int member_idx) {
+	public void setMember_idx(String member_idx) {
 		this.member_idx = member_idx;
 	}
-	public int getExam_idx() {
+	public String getExam_idx() {
 		return exam_idx;
 	}
-	public void setExam_idx(int exam_idx) {
+	public void setExam_idx(String exam_idx) {
 		this.exam_idx = exam_idx;
 	}
-	public Date getReception_date() {
-		return reception_date;
+	public String getReception_String() {
+		return reception_String;
 	}
-	public void setReception_date(Date reception_date) {
-		this.reception_date = reception_date;
+	public void setReception_String(String reception_String) {
+		this.reception_String = reception_String;
 	}
 	public String getEducation_certificate_num() {
 		return education_certificate_num;

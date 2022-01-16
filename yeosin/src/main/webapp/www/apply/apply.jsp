@@ -22,7 +22,7 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="../inc/css/apply.css">
+  <link rel="stylesheet" href="/www/inc/css/apply.css">
 </head>
 
 <body>
@@ -44,7 +44,7 @@
       </colgroup>
       <tr>
         <th>시험명</th>
-        <td>시험명표기</td>
+        <td>${exam_name}</td>
       </tr>
       <tr>
         <th>접수기간</th>
