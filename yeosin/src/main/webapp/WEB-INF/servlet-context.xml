@@ -18,9 +18,16 @@
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/www/" />
+		<beans:property name="prefix" value="/www/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+	
+	<resources mapping="/www/inc/css/**" location="/www/inc/css/" />
+	<resources mapping="/www/inc//js/**" location="/www/inc/js/" />
+	<resources mapping="/www/inc/fonts/**" location="/www/inc/fonts/" />
+	<resources mapping="/www/inc/img/**" location="/www/inc/img/" />
+	
+	<resources mapping="/js/**" location="/js/" />
 	
 	<context:component-scan base-package="com.yeosin" />
 	

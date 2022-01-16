@@ -3,6 +3,8 @@
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js"></script>
+  
+ <c:set var="root" value="${pageContext.request.contextPath}"/>
 <link href="/www/inc/css/reset.css" rel="stylesheet" type="text/css" media="screen">
 <link href="/www/inc/css/common.css" rel="stylesheet" type="text/css" media="screen">
 <link href="/www/inc/css/header_footer.css" rel="stylesheet" type="text/css" media="screen">
