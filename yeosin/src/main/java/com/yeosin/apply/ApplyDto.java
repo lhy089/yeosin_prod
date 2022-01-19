@@ -1,71 +1,96 @@
 package com.yeosin.apply;
 
+import java.util.Date;
 
+/*
+ *	접수 테이블 DTO 
+ */
 public class ApplyDto {
+		
+	private String receiptId; // 접수번호
+	private String userId; // 회원 ID
+	private String examId; // 시험코드
+	private Date receiptDate; // 접수일시
+	private String isCancel; // 취소여부
+	private String paymentMethod; // 결제수단
+	private String cardName; // 카드이름
+	private String bankName; // 은행이름
+	private Date paymentDate; // 결제날짜
+	private Double examFee; // 응시료
+	private Double saleRate; // 할인률
+	private Double fees; // 수수료
 	
-	private String reception_num;
-	private String member_idx; 
-	private String exam_idx;
-	private String reception_String; 
-	private String education_certificate_num;
-	private String education_process;
-	private String student_code; 
-	private String progress; 
-	private String membership_id;
-	
-	public String getReception_num() {
-		return reception_num;
+	public String getReceiptId() {
+		return receiptId;
 	}
-	public void setReception_num(String reception_num) {
-		this.reception_num = reception_num;
+	public void setReceiptId(String receiptId) {
+		this.receiptId = receiptId;
 	}
-	public String getMember_idx() {
-		return member_idx;
+	public String getUserId() {
+		return userId;
 	}
-	public void setMember_idx(String member_idx) {
-		this.member_idx = member_idx;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public String getExam_idx() {
-		return exam_idx;
+	public String getExamId() {
+		return examId;
 	}
-	public void setExam_idx(String exam_idx) {
-		this.exam_idx = exam_idx;
+	public void setExamId(String examId) {
+		this.examId = examId;
 	}
-	public String getReception_String() {
-		return reception_String;
+	public Date getReceiptDate() {
+		return receiptDate;
 	}
-	public void setReception_String(String reception_String) {
-		this.reception_String = reception_String;
+	public void setReceiptDate(Date receiptDate) {
+		this.receiptDate = receiptDate;
 	}
-	public String getEducation_certificate_num() {
-		return education_certificate_num;
+	public String getIsCancel() {
+		return isCancel;
 	}
-	public void setEducation_certificate_num(String education_certificate_num) {
-		this.education_certificate_num = education_certificate_num;
+	public void setIsCancel(String isCancel) {
+		this.isCancel = isCancel;
 	}
-	public String getEducation_process() {
-		return education_process;
+	public String getPaymentMethod() {
+		return paymentMethod;
 	}
-	public void setEducation_process(String education_process) {
-		this.education_process = education_process;
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
-	public String getStudent_code() {
-		return student_code;
+	public String getCardName() {
+		return cardName;
 	}
-	public void setStudent_code(String student_code) {
-		this.student_code = student_code;
+	public void setCardName(String cardName) {
+		this.cardName = cardName;
 	}
-	public String getProgress() {
-		return progress;
+	public String getBankName() {
+		return bankName;
 	}
-	public void setProgress(String progress) {
-		this.progress = progress;
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
 	}
-	public String getMembership_id() {
-		return membership_id;
+	public Date getPaymentDate() {
+		return paymentDate;
 	}
-	public void setMembership_id(String membership_id) {
-		this.membership_id = membership_id;
-	} 
+	public void setPaymentDate(Date paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+	public Double getExamFee() {
+		return examFee;
+	}
+	public void setExamFee(Double examFee) {
+		this.examFee = examFee;
+	}
+	public Double getSaleRate() {
+		return saleRate;
+	}
+	public void setSaleRate(Double saleRate) {
+		this.saleRate = saleRate;
+	}
+	public Double getFees() {
+		return fees;
+	}
+	public void setFees(Double fees) {
+		this.fees = fees;
+	}
 	
 }

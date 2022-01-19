@@ -4,16 +4,19 @@
 <mapper namespace="com.yeosin.apply.ApplyDao" >
 	<select id="GetApplyList" parameterType="String" resultType="com.yeosin.apply.ApplyDto">
 		SELECT 	
-				reception_num 
-			,	member_idx 
-			,	exam_idx 
-			,	reception_date 
-			,	education_certificate_num  
-			,	education_process 
-			,	student_code  
-			,	progress  
-			,	membership_id 
-		FROM 	reception 
+				RECEIPTID 
+			,	USERID 
+			,	EXAMID 
+			,	RECEIPTDATE 
+			,	ISCANCEL 
+			,	PAYMENTMETHOD 
+			,	CARDNAME 
+			,	BANKNAME 
+			,	PAYMENTDATE 
+			,	EXAMFEE 
+			,	SALERATE 
+			,	FEES 
+		FROM 	YS_RECEIPT
 		WHERE 	1 = 1;
    </select>
 </mapper>

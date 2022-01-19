@@ -52,7 +52,7 @@
       </tr>
       <c:forEach var="apply" items="${applyList}">
       	<tr>
-			<td>${apply.education_process}</td>
+			<td>${apply.examId}</td>
 	        <td>2021-12-17~12-25</td>
 	        <td>2021-12-31</td>
 	        <td>전국개지역</td>
