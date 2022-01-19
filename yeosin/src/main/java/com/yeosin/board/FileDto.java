@@ -2,12 +2,12 @@ package com.yeosin.board;
 
 public class FileDto {
 	
-	private String fileId;			//ÆÄÀÏ ID	(PK)
-	private String realFileName;	//½ÇÁ¦ ÆÄÀÏ¸í
-	private String localFileName;	//·ÎÄÃ ÆÄÀÏ¸í
-	private double fileSize;		//ÆÄÀÏ Å©±â
-	private String fileURL;			//ÆÄÀÏ URL
-	private String boardId;			//°Ô½Ã±Û ID (°Ô½ÃÆÇ Å×ÀÌºí)
+	private String fileId;			//íŒŒì¼ ID	(PK)
+	private String realFileName;	//ì‹¤ì œ íŒŒì¼ëª…
+	private String localFileName;	//ë¡œì»¬ íŒŒì¼ëª…
+	private double fileSize;		//íŒŒì¼ í¬ê¸°
+	private String fileURL;			//íŒŒì¼ URL
+	private String boardId;			//ê²Œì‹œê¸€ ID (ê²Œì‹œíŒ í…Œì´ë¸”)
 	
 	public String getFileId() {
 		return fileId;

@@ -4,14 +4,14 @@ import java.util.Date;
 
 public class BoardDto {
 	
-	private String boardId;		//°Ô½Ã±Û ID (PK)
-	private String boardType;	//°Ô½ÃÆÇ Å¸ÀÔ	
-	private int boardSequence;	//°Ô½Ã±Û ¹øÈ£
-	private String title;		//Á¦¸ñ
-	private String contents;	//³»¿ë
-	private int hitCnt;			//Á¶È¸¼ö	
-	private String userId;		//È¸¿ø ID	(È¸¿øÅ×ÀÌºí)
-	private Date writeTime;		//ÀÛ¼º½Ã°£
+	private String boardId;		//ê²Œì‹œê¸€ ID (PK)
+	private String boardType;	//ê²Œì‹œíŒ íƒ€ì…	
+	private int boardSequence;	//ê²Œì‹œê¸€ ë²ˆí˜¸
+	private String title;		//ì œëª©
+	private String contents;	//ë‚´ìš©
+	private int hitCnt;			//ì¡°íšŒìˆ˜	
+	private String userId;		//íšŒì› ID	(íšŒì›í…Œì´ë¸”)
+	private Date writeTime;		//ì‘ì„±ì‹œê°„
 	
 	
 	public String getBoardId() {
