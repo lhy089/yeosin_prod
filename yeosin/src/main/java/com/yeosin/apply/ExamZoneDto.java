@@ -2,16 +2,16 @@ package com.yeosin.apply;
 
 public class ExamZoneDto {
 	
-	private String examZoneId;		//°í»çÀå(PK)
-	private String localCenterId;	//Áö¿ª¼¾ÅÍ (Áö¿ª¼¾ÅÍ Å×ÀÌºí)
-	private String local;			//Áö¿ª
-	private String localDetail;		//±¸
-	private String examZoneName;	//°í»çÀå¸í
-	private int examRoomCnt;		//½ÃÇè±³½Ç ¼ö
-	private int examRoomUserCnt;	//±³½Ç´ç ÀÎ¿ø ¼ö
-	private int examTotalUserCnt;	//ÀüÃ¼ ÀÎ¿ø ¼ö
-	private String examZoneMap;		//¾àµµ
-	private String description;		//ºñ°í
+	private String examZoneId;		//ê³ ì‚¬ì¥(PK)
+	private String localCenterId;	//ì§€ì—­ì„¼í„° (ì§€ì—­ì„¼í„° í…Œì´ë¸”)
+	private String local;			//ì§€ì—­
+	private String localDetail;		//êµ¬
+	private String examZoneName;	//ê³ ì‚¬ì¥ëª…
+	private int examRoomCnt;		//ì‹œí—˜êµì‹¤ ìˆ˜
+	private int examRoomUserCnt;	//êµì‹¤ë‹¹ ì¸ì› ìˆ˜
+	private int examTotalUserCnt;	//ì „ì²´ ì¸ì› ìˆ˜
+	private String examZoneMap;		//ì•½ë„
+	private String description;		//ë¹„ê³ 
 	
 	public String getExamZoneId() {
 		return examZoneId;

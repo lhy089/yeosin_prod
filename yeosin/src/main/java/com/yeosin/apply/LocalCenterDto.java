@@ -2,8 +2,8 @@ package com.yeosin.apply;
 
 public class LocalCenterDto {
 	
-	private String localCenterId;		//Áö¿ª¼¾ÅÍ ID(PK)
-	private String localCenterName;		//Áö¿ª¼¾ÅÍ¸í
+	private String localCenterId;		//ì§€ì—­ì„¼í„° ID(PK)
+	private String localCenterName;		//ì§€ì—­ì„¼í„°ëª…
 	
 	public String getLocalCenterId() {
 		return localCenterId;
