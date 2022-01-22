@@ -22,7 +22,7 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="../inc/css/guide.css">
+  <link rel="stylesheet" href="/www/inc/css/guide.css">
 </head>
 
 <body>
@@ -40,62 +40,16 @@
       <a href="#" class="btn_serch">검색</a>
     </div>
     <ul class="dataList">
-      <li>
-        <a href="#">정원 조기마감 시 다음 회차 평가 접수</a>
-        <div>
-          <p class="num">No.100</p>
-          <p class="viewCount">조회수 : 569</p>
-          <p></p>
-        </div>
-      </li>
-      <li>
-        <a href="#">2021년 평가 추가 시행 안내 (제5, 6회)</a>
-        <div>
-          <p class="num">No.99</p>
-          <p class="viewCount">조회수 : 728</p>
-          <p class="document"></p>
-        </div>
-      </li>
-      <li>
-        <a href="#">시험 당일 신분증 관련 안내 (모바일 신분증, 사진 불가)</a>
-        <div>
-          <p class="num">No.94</p>
-          <p class="viewCount">조회수 : 306</p>
-          <p class="document"></p>
-        </div>
-      </li>
-      <li>
-        <a href="#">합격 여부 조회 및 자격인증서 출력 안내</a>
-        <div>
-          <p class="num">No.92</p>
-          <p class="viewCount">조회수 : 879</p>
-          <p></p>
-        </div>
-      </li>
-      <li>
-        <a href="#">★교육수료번호 입력 안내 (필독)</a>
-        <div>
-          <p class="num">No.85</p>
-          <p class="viewCount">조회수 : 480</p>
-          <p></p>
-        </div>
-      </li>
-      <li>
-        <a href="#">「코로나바이러스감염증-19」관련 응시 안내</a>
-        <div>
-          <p class="num">No.84</p>
-          <p class="viewCount">조회수 : 429</p>
-          <p class="document"></p>
-        </div>
-      </li>
-      <li>
-        <a href="#">2021년 대출성 상품 판매대리 중개업자 등록 자격인증 평가 시행계획 공고</a>
-        <div>
-          <p class="num">No.83</p>
-          <p class="viewCount">조회수 : 969</p>
-          <p class="document"></p>
-        </div>
-      </li>
+      <c:forEach var="library" items="${libraryList}">	
+      	<li>
+        	<a href="/library_view?boardType=${library.boardType}&boardSequence=${library.boardSequence}">${library.title}</a>
+        	<div>
+          		<p class="num">No.${library.boardSequence}</p>
+         	 	<p class="viewCount">조회수 : ${library.hitCnt}</p>
+         	 	<p class="document"></p>
+       		</div>
+      	</li>
+      </c:forEach>
     </ul>
 
     <p class="pageCnt">전체 7건, 1/1 페이지</p>

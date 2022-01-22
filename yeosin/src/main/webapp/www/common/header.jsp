@@ -73,13 +73,13 @@
         <li><a href="#">자격인증서발급</a></li>
       </ul>
       <ul>
-        <li><a href="#">평가 소개</a></li>
-        <li><a href="#">응시 안내</a></li>
-        <li><a href="#">시험자료실</a></li>
+        <li><a href="/examGuide">평가 소개</a></li>
+        <li><a href="/registerGuide">응시 안내</a></li>
+        <li><a href="/library?boardType=3">시험자료실</a></li>
       </ul>
       <ul>
-        <li><a href="/notice">공지사항</a></li>
-        <li><a href="/question">자주하는 질문</a></li>
+        <li><a href="/notice?boardType=1">공지사항</a></li>
+        <li><a href="/question?boardType=2">자주하는 질문</a></li>
       </ul>
       <ul>
         <li></li>

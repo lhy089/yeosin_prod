@@ -5,7 +5,7 @@ import java.util.Date;
 public class BoardDto {
 	
 	private String boardId;		//게시글 ID (PK)
-	private String boardType;	//게시판 타입	
+	private String boardType;	//게시판 타입	// 1 : 공지사항 , 2: 자주하는질문 , 3 : 시험자료실
 	private int boardSequence;	//게시글 번호
 	private String title;		//제목
 	private String contents;	//내용

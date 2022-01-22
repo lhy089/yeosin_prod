@@ -2,6 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yeosin.board.BoardDao" >
-	
-
+ <select id="GetBoardList" parameterType="String" resultType="com.yeosin.board.BoardDto">
+		SELECT 	
+				BOARDID
+			,	BOARDTYPE 
+			,	BOARDSEQUENCE 
+			,	TITLE 
+			,	CONTENTS 
+			,	HITCNT 
+			,	USERID 
+			,	WRITETIME 
+		FROM 	YS_BOARD
+		WHERE 	BOARDTYPE = #{BoardType} 
+		ORDER BY BOARDSEQUENCE
+   </select>
+   
+   <select id="GetBoardInfo" parameterType="com.yeosin.board.BoardDto" resultType="com.yeosin.board.BoardDto">
+		SELECT 	
+				BOARDID
+			,	BOARDTYPE 
+			,	BOARDSEQUENCE 
+			,	TITLE 
+			,	CONTENTS 
+			,	HITCNT 
+			,	USERID 
+			,	WRITETIME 
+		FROM 	YS_BOARD
+		WHERE 	BOARDTYPE = #{boardType} 
+			AND BOARDSEQUENCE = #{boardSequence}
+   </select>
+   
+   
+    <update id="UpdateHitCnt" parameterType="com.yeosin.board.BoardDto">
+		UPDATE YS_BOARD SET HITCNT = HITCNT + 1 WHERE BOARDTYPE = #{boardType} AND BOARDSEQUENCE = #{boardSequence}
+	</update>
+   
 </mapper>

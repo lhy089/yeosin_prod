@@ -1,5 +1,7 @@
 package com.yeosin.board;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -9,15 +11,20 @@ public class BoardDao {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	private String namespace = "com.yeosin.board.BoardDao.";
+	private String nameSpace = "com.yeosin.board.BoardDao.";
 
-	public BoardDto viewBoard(BoardDto board) {
-		return this.sqlSession.selectOne(namespace + "viewBoard", board);
+
+	public List<BoardDto> getBoardList(String getBoardType){
+		return this.sqlSession.selectList(nameSpace + "GetBoardList", getBoardType);
 	}
 	
+
+	public BoardDto getBoardInfo(BoardDto boardDto) {
+		return this.sqlSession.selectOne(nameSpace + "GetBoardInfo", boardDto);
+	}
 	
-	/*public List<ApplyDto> getApplyList(String userId) throws Exception {
-		return sqlSession.selectList(nameSpace + "GetApplyList", userId);
-	}*/
+	public void updateHitCnt(BoardDto boardDto) {
+		this.sqlSession.update(nameSpace + "UpdateHitCnt", boardDto);
+	}
 	
 }
