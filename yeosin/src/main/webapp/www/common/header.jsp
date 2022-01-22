@@ -78,8 +78,8 @@
         <li><a href="#">시험자료실</a></li>
       </ul>
       <ul>
-        <li><a href="#">공지사항</a></li>
-        <li><a href="#">자주하는 질문</a></li>
+        <li><a href="/notice">공지사항</a></li>
+        <li><a href="/question">자주하는 질문</a></li>
       </ul>
       <ul>
         <li></li>

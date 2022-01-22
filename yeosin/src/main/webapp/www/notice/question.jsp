@@ -1,0 +1,121 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<!DOCTYPE html>
+<html>
+<head lang="ko">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <meta charset="utf-8">
+  <title>대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
+  <meta name="description" content="여신금융협회">
+  <meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
+  <meta name="viewport" content="user-scalable=no,
+   initial-scale=1.0,
+   maximum-scale=1.0,
+   minimum-scale=1.0,
+   width=device-width,
+   height=device-height">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="여신금융협회"/>
+  <!-- <meta property="og:url" content="사이트url"> -->
+  <meta property="og:title" content="대출성 상품 판매대리•중개업자 등록 자격인증 평가">
+  <meta property="og:description" content="대출성 상품 판매대리•중개업자 등록 자격인증 평가">
+  <meta property="og:image" content="/www/inc/img/openGraph.jpg">
+  <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
+  <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
+
+  <link rel="stylesheet" href="/www/inc/css/notice.css">
+</head>
+
+<body>
+
+<!--?php include_once "../common/header.php";?-->
+<%@ include file="/www/common/header.jsp"%>
+<div class="notice question">
+  <div class="contentBox">
+    <h1>자주하는 질문</h1>
+    <div class="announcement">
+      자주하는 질문을 검색할 수 있습니다.
+    </div>
+    <div class="searchBox">
+      <select id="" name="">
+        <option value="">전체</option>
+      </select>
+      <select id="" name="">
+        <option value="">조건검색</option>
+      </select>
+      <input type="text" name="" value="">
+      <a href="#" class="btn_serch">검색</a>
+    </div>
+    <div class="questionList">
+      <dl>
+        <dt>볼펜이나 연필 사용 가능한가요?</dt>
+        <dd>
+          불가합니다.<br/>
+          답안 작성은 검정색 컴퓨터용 사인펜으로만 가능하오니 반드시 지참 부탁드립니다.<br/>
+          답안 수정은 수정테이프로 가능합니다. (수정액, 수정스티커 등 불가)<br/>
+          다른 필기구로 답안을 작성하여 채점에 불이익이 생기는 경우, 책임은 응시자 본인에게 있습니다.
+        </dd>
+      </dl>
+      <dl>
+        <dt>원서접수 후 고사장 변경이 가능한가요?</dt>
+        <dd><!-- 내용 들어갈 자리 --></dd>
+      </dl>
+      <dl>
+        <dt>교육수료증번호를 입력해도 원서접수가 불가한 경우는 어떻게 하나요?</dt>
+        <dd><!-- 내용 들어갈 자리 --></dd>
+      </dl>
+      <dl>
+        <dt>시험 중에 본인이 작성한 답안을 메모할 수 있나요?</dt>
+        <dd><!-- 내용 들어갈 자리 --></dd>
+      </dl>
+      <dl>
+        <dt>시험이 끝나고 본인 문제지를 가지고 나올 수 있나요?</dt>
+        <dd><!-- 내용 들어갈 자리 --></dd>
+      </dl>
+      <dl>
+        <dt>합격 여부는 어떻게 확인하나요? 전화나 문자로 알려주실 수 있나요?</dt>
+        <dd><!-- 내용 들어갈 자리 --></dd>
+      </dl>
+      <dl>
+        <dt>석차를 알 수 있나요?</dt>
+        <dd><!-- 내용 들어갈 자리 --></dd>
+      </dl>
+      <dl>
+        <dt>시험 당일 신분증이 꼭 필요한가요?</dt>
+        <dd><!-- 내용 들어갈 자리 --></dd>
+      </dl>
+      <dl>
+        <dt>수험표 출력이 안 되는데, 어떻게 해야 하나요?</dt>
+        <dd><!-- 내용 들어갈 자리 --></dd>
+      </dl>
+      <dl>
+        <dt>홈페이지에서 수험표 출력을 하려는데 접수이력이 없다고 나옵니다. 어떻게 된 건가요?</dt>
+        <dd><!-- 내용 들어갈 자리 --></dd>
+      </dl>
+    </div>
+    <p class="pageCnt">전체 7건, 1/1 페이지</p>
+    <div class="pageWrap">
+      <!-- 페이징 -->
+    </div>
+  </div>
+</div>
+<%@ include file="/www/common/footer.jsp"%>
+<!--?php include_once "../common/footer.php";?-->
+
+<script>
+$(function(){
+  /* 자주하는 질문 여닫기 */
+  $('.questionList dt').click(function(){
+    if ($(this).attr('class') == 'open') {
+      $(this).removeClass('open');
+      $(this).next('dd').slideUp('fast');
+    } else {  //아코디언 슬라이드
+      $('.questionList dt').removeClass('open');
+      $(this).addClass('open');
+      $('.questionList dd').slideUp('fast');
+      $(this).next('dd').slideDown('fast');
+    }
+  });
+});
+</script>
+</body>
+</html>
