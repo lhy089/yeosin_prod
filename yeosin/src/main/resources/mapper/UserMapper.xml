@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yeosin.user.UserDao" >
-	
+	<resultMap id="UserResultMap" type="com.yeosin.user.UserDto" >
+		<id column="USERID" property="userId" jdbcType="VARCHAR" />
+		<result column="USERNAME" property="password" jdbcType="VARCHAR" />
+		<result column="PASSWORD" property="userName" jdbcType="CHAR" />
+		<result column="ISPRIVACY" property="grade" jdbcType="VARCHAR" />
+		<result column="ENGUSERNAMEFIRST" property="gender" jdbcType="TIMESTAMP" />
+		<result column="ENGUSERNAMELAST" property="joinDate" jdbcType="VARCHAR" />
+		<result column="TELNUMBER" property="lastConnectDate" jdbcType="VARCHAR" />
+		<result column="PHONENUMBER" property="birthDate" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="callNumber" jdbcType="VARCHAR" />
+		<result column="DESCRIPTION" property="phoneNumber" jdbcType="VARCHAR" />
+		<result column="CREATETIME" property="emailAddress" jdbcType="VARCHAR" />
+		<result column="TESTNUMBER" property="isReceiveEmail" jdbcType="VARCHAR" />
+		<result column="BIRTHDAY" property="isReceiveSms" jdbcType="VARCHAR" />
+		<association property="eduCompletionDto" javaType="com.yeosin.user.EduCompletionDto">
+			<id column="CERTID" property="certId" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
 	<select id="getLoginUser" parameterType="String" resultType="String">
       SELECT 
 			(
@@ -31,8 +48,10 @@
 		FROM 
 			YS_USER 
 		WHERE 
-			USERID = #{userId} 
-			AND PASSWORD = #{password}
+			USERID = #{userId}
+			<if test="password !=null">
+				AND PASSWORD = #{password}
+			</if>
    </select>
    
    <insert id="insertUserInfo" parameterType="com.yeosin.user.UserDto">
@@ -43,4 +62,41 @@
 			(#{userId}, #{password}, #{userName}, #{grade}, #{gender}, now(), #{lastConnectDate}, 
 			#{birthDate}, #{callNumber}, #{phoneNumber}, #{emailAddress}, #{isReceiveEmail}, #{isReceiveSms})
 	</insert>
+	
+	<select id="getLoginUserInfo1" parameterType="com.yeosin.user.UserDto" resultMap="UserResultMap">
+		SELECT 
+      		  A.USERID
+			, A.USERNAME
+			, A.CALLNUMBER
+			, A.PHONENUMBER
+			, A.EMAILADDRESS
+			, A.ISRECEIVEEMAIL
+			, A.ISRECEIVESMS
+			, B.CERTID
+		FROM 
+			YS_USER A, YS_EDUCOMPLETION B
+			WHERE  
+			A.USERID = B.USERID AND
+			
+			A.USERID =  #{userId}
+   </select>
+   
+   <update id="updateUserInfo" parameterType="com.yeosin.user.UserDto">
+		UPDATE YS_USER
+		<set>
+			<if test="password !=null and password != ''">
+			PASSWORD = #{password},
+			</if>
+			<if test="gender != null and password != ''">
+			GENDER = #{gender},
+			</if>
+			CALLNUMBER = #{callNumber},
+			PHONENUMBER = #{phoneNumber},
+			EMAILADDRESS = #{emailAddress},
+			ISRECEIVEEMAIL = #{isReceiveEmail},
+			ISRECEIVESMS = #{isReceiveSms},
+			MODIFYDATE = now()
+		</set>
+		WHERE USERID = #{userId}
+	</update>
 </mapper>

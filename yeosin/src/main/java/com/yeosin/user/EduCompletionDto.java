@@ -2,15 +2,15 @@ package com.yeosin.user;
 
 public class EduCompletionDto {
 	
-	private String cretid;
+	private String certId;
 	private String userId;
 	private String subject;
 	
-	public String getCretid() {
-		return cretid;
+	public String getCertId() {
+		return certId;
 	}
-	public void setCretid(String cretid) {
-		this.cretid = cretid;
+	public void setCertId(String certId) {
+		this.certId = certId;
 	}
 	
 	public String getUserId() {
@@ -26,4 +26,6 @@ public class EduCompletionDto {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
+	
+	
 }

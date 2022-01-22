@@ -14,10 +14,10 @@ $(document).ready(function(){
     $('#btn_change').click(function(){ debugger;
         console.log("btn_change clicked");
         if($('#btn_logout').length > 0) {
-        	location.href="/change";
+        	location.href="/pwd";
         }
         else {
-        	location.href="member/login.jsp";
+        	location.href="/www/member/login.jsp";
         }
         
     });

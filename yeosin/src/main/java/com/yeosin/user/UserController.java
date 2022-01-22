@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.yeosin.util.EncryptUtils;
 
 @Controller
 public class UserController {
@@ -27,6 +28,7 @@ public class UserController {
 	public void login(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
 		Boolean result = false;
 		response.setCharacterEncoding("UTF-8");
+		user.setPassword(EncryptUtils.getSha256(user.getPassword()));
 		// 사용자 정보 조회
 		UserDto userInfo = userService.getLoginUserInfo(user);
 		
@@ -105,11 +107,42 @@ public class UserController {
 	public void doJoin(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
 		List<Object> userResult = new ArrayList<>();
 		response.setCharacterEncoding("UTF-8");
+		user.setPassword(EncryptUtils.getSha256(user.getPassword()));
 		// 사용자 정보 조회
 		int cnt = userService.insertUserInfo(user);
 		if(cnt > 0) userResult.add(userService.getLoginUserInfo(user));
 
 		new Gson().toJson(userResult,response.getWriter());
+	}
+	
+	@RequestMapping(value="/pwd", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView pwd(HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+		String sessionid= (String)session.getAttribute("loginId");
+	
+		mav.addObject("result", "");
+		mav.setViewName("myroom/pwd");
+		return mav;
+	}
+	
+	// 
+	@RequestMapping(value="/doCheckPwd", method=RequestMethod.POST)
+	@ResponseBody
+	public void doCheckPwd(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
+		boolean result = false;
+		response.setCharacterEncoding("UTF-8");
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		userInfo.setPassword(EncryptUtils.getSha256(user.getPassword()));
+
+		userInfo = userService.getLoginUserInfo(userInfo);
+		if(userInfo != null ) {
+			result = true;
+		}
+		response.getWriter().print(result);
+		response.getWriter().flush();
+		response.getWriter().close();
 	}
 	
 	// 회원정보 수정
@@ -118,15 +151,28 @@ public class UserController {
 	public ModelAndView change(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
-		String sessionid= (String)session.getAttribute("loginId");
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		
-		UserDto userInfo = new UserDto();
-		userInfo.setUserId(sessionid);
 		userInfo = userService.getLoginUserInfo(userInfo);
 	
 		mav.addObject("userInfo", userInfo);
 		mav.setViewName("myroom/change");
 		return mav;
 	}
+	
+	// 회원정보 수정
+		@RequestMapping(value="/doChange", method=RequestMethod.POST)
+		@ResponseBody
+		public void doChange(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
+			response.setCharacterEncoding("UTF-8");
+			if(user.getPassword()!=null && !"".equals(user.getPassword())) user.setPassword(EncryptUtils.getSha256(user.getPassword()));
+			// 사용자 정보 조회
+			int cnt = userService.updateUserInfo(user);
+//			if(cnt > 0) userResult.add(userService.getLoginUserInfo(user));
+			response.getWriter().print(cnt);
+			response.getWriter().flush();
+			response.getWriter().close();
+//			new Gson().toJson(userResult,response.getWriter());
+		}
 
 }

@@ -21,7 +21,15 @@ public class UserDao {
 		return this.sqlSession.selectOne(namespace + "getLoginUserInfo", user);
 	}
 	
+	public UserDto getLoginUserInfo1(UserDto user) {
+		return this.sqlSession.selectOne(namespace + "getLoginUserInfo1", user);
+	}
+	
 	public int insertUserInfo(UserDto user) {
 		return this.sqlSession.insert(namespace + "insertUserInfo", user);
+	}
+	
+	public int updateUserInfo(UserDto user) {
+		return this.sqlSession.insert(namespace + "updateUserInfo", user);
 	}
 }

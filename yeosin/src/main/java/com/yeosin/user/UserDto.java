@@ -20,6 +20,9 @@ public class UserDto {
 	private String emailAddress; // 이메일
 	private String isReceiveEmail; // 이메일 수신여부
 	private String isReceiveSms; // 문자 수신 여부
+	private String modifyDate; // 수정일
+	
+	private EduCompletionDto eduCompletionDto;
 	
 	public String getUserId() {
 		return userId;
@@ -98,6 +101,18 @@ public class UserDto {
 	}
 	public void setIsReceiveSms(String isReceiveSms) {
 		this.isReceiveSms = isReceiveSms;
+	}
+	public String getModifyDate() {
+		return modifyDate;
+	}
+	public void setModifyDate(String modifyDate) {
+		this.modifyDate = modifyDate;
+	}
+	public EduCompletionDto getEduCompletionDto() {
+		return eduCompletionDto;
+	}
+	public void setEduCompletionDto(EduCompletionDto eduCompletionDto) {
+		this.eduCompletionDto = eduCompletionDto;
 	}
 	
 }

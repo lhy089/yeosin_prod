@@ -17,7 +17,15 @@ public class UserService {
 		return userDao.getLoginUserInfo(user);
 	}
 	
+	public UserDto getLoginUserInfo1(UserDto user) {
+		return userDao.getLoginUserInfo1(user);
+	}
+	
 	public int insertUserInfo(UserDto user) {
 		return userDao.insertUserInfo(user);
+	}
+	
+	public int updateUserInfo(UserDto user) {
+		return userDao.updateUserInfo(user);
 	}
 }

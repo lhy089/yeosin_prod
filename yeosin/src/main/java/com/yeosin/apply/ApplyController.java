@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.yeosin.prod.UserDto;
+import com.yeosin.user.UserDto;
 
 @Controller
 public class ApplyController {
