@@ -52,10 +52,10 @@
       </tr>
       <c:forEach var="apply" items="${applyList}">
       	<tr>
-			<td>${apply.examId}</td>
-	        <td>2021-12-17~12-25</td>
-	        <td>2021-12-31</td>
-	        <td>전국개지역</td>
+			<td>${apply.examDto.examName}</td>
+	        <td>${apply.examDto.receiptstartDate} ~ ${apply.examDto.receiptEndDate}</td>
+	        <td>${apply.examDto.examDate}</td>
+	        <td>${apply.examDto.examLocal}</td>
 	        <td><a href="/accept_view" class="btn_apply">자세히 보기</a></td>
       	</tr>
       </c:forEach>

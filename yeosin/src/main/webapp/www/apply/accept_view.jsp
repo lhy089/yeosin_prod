@@ -22,7 +22,7 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="../inc/css/apply.css">
+  <link rel="stylesheet" href="/www/inc/css/apply.css">
 </head>
 
 <body>
@@ -42,7 +42,7 @@
       </colgroup>
       <tr>
         <th>시험명</th>
-        <td>응시 시험명 출력</td>
+        <td>응시한 시험명 출력</td>
       </tr>
       <tr>
         <th>시험회차</th>

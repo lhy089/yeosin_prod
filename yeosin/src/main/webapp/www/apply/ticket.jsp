@@ -22,7 +22,7 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="../inc/css/apply.css">
+  <link rel="stylesheet" href="/www/inc/css/apply.css">
 </head>
 
 <body>
@@ -35,8 +35,6 @@
     <div class="announcement">
       시험응시자는 수험표를 출력하여 시험장에 방문해야 합니다.
     </div>
-    <c:choose>
-	<c:when test='${result ne "noData"}'>
     <table>
       <colgroup>
         <col width="*">
@@ -52,27 +50,20 @@
         <th>시험지역</th>
         <th>바로가기</th>
       </tr>
-      <tr>
-        <td>시험명표기</td>
-        <td>2021-12-17~12-24</td>
-        <td>2021-12-31</td>
-        <td>전국개지역</td>
-        <td><a href="/ticket_view" class="btn_apply">자세히 보기</a></td>
-      </tr>
+      <c:forEach var="apply" items="${applyList}">
+      	<tr>
+			<td>${apply.examDto.examName}</td>
+	        <td>${apply.examDto.receiptstartDate} ~ ${apply.examDto.receiptEndDate}</td>
+	        <td>${apply.examDto.examDate}</td>
+	        <td>${apply.examDto.examLocal}</td>
+	        <td><a href="/ticket_view" class="btn_apply">자세히 보기</a></td>
+      	</tr>
+      </c:forEach>
     </table>
     <p class="pageCnt">전체 0건, 1/0 페이지</p>
     <div class="pageWrap">
       <!-- 페이징 -->
     </div>
-     </c:when>
-    <c:otherwise>
-    	<table class="none">
-      <tr>
-        <td>진행중인 수험표발급이 없습니다.</td>
-      </tr>
-    </table>
-    </c:otherwise>
-    </c:choose>
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>

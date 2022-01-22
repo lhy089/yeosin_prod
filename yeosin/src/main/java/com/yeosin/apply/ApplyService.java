@@ -6,9 +6,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yeosin.user.UserDao;
-import com.yeosin.user.UserDto;
-
 @Service
 public class ApplyService {
 	
@@ -19,4 +16,7 @@ public class ApplyService {
 		return applyDao.getApplyList(userId);
 	}
 	
+	public List<ApplyDto> getDetailApplyList(Map<String, Object> map) throws Exception {
+		return applyDao.getDetailApplyList(map);
+	}
 }

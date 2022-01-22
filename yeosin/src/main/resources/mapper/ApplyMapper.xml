@@ -2,21 +2,77 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yeosin.apply.ApplyDao" >
-	<select id="GetApplyList" parameterType="String" resultType="com.yeosin.apply.ApplyDto">
+   
+	<!-- 로그인 유저의 원서접수 리스트 조회 -->
+	<resultMap id="ApplyListResultMap" type="com.yeosin.apply.ApplyDto">
+		<result column="RECEIPTID" property="receiptId" />
+		<result column="USERID" property="userId" />
+		<result column="EXAMID" property="examId" />
+ 		<association property="examDto" javaType="com.yeosin.apply.ExamDto">
+			<result column="EXAMNAME" property="examName" />
+			<result column="RECEIPTSTARTDATE" property="receiptstartDate" />
+			<result column="RECEIPTENDDATE" property="receiptEndDate" />
+			<result column="EXAMDATE" property="examDate" />
+			<result column="EXAMLOCAL" property="examLocal" />
+		</association>
+	</resultMap>
+	<select id="GetApplyList" parameterType="String" resultMap="ApplyListResultMap">
 		SELECT 	
-				RECEIPTID 
-			,	USERID 
-			,	EXAMID 
-			,	RECEIPTDATE 
-			,	ISCANCEL 
-			,	PAYMENTMETHOD 
-			,	CARDNAME 
-			,	BANKNAME 
-			,	PAYMENTDATE 
-			,	EXAMFEE 
-			,	SALERATE 
-			,	FEES 
-		FROM 	YS_RECEIPT
-		WHERE 	1 = 1;
+				R.RECEIPTID 				-- 접수 ID
+			,	R.USERID 					-- 유저 ID
+			,	R.EXAMID					-- 시험 ID
+			,	E.EXAMNAME 					-- 시험명
+			,	DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d %h:%i:%s') 	AS RECEIPTSTARTDATE -- 접수시작일
+			,	DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d %h:%i:%s') 		AS RECEIPTENDDATE 	-- 접수마감일
+			,	E.EXAMDATE 					-- 시험일
+			,	E.EXAMLOCAL 				-- 시험지역
+		FROM 	YS_RECEIPT					R 	
+		INNER JOIN YS_EXAM 					E	ON 	E.EXAMID = R.EXAMID 	
+		WHERE 	1 = 1
+		AND 	R.USERID = #{userId, jdbcType=VARCHAR};
    </select>
+   
+   	<!-- 로그인 유저의 접수별 상세현황 조회 -->
+	<resultMap id="DetailApplyListResultMap" type="com.yeosin.apply.ApplyDto">
+		<result column="RECEIPTDATE" property="receiptDate" />
+		<result column="PAYMENTMETHOD" property="paymentMethod" />
+ 		<association property="examDto" javaType="com.yeosin.apply.ExamDto">
+			<result column="EXAMID" property="examId" />
+			<result column="EXAMNAME" property="examName" />
+			<result column="EXAMDEGREE" property="examDegree" />
+			<result column="SUBJECTID" property="subjectId" />
+			<result column="EXAMDATE" property="examDate" />
+		</association>
+		<association property="userDto" javaType="com.yeosin.user.UserDto">
+			<result column="USERID" property="userId" />
+			<result column="USERNAME" property="userName" />
+			<result column="EMAILADDRESS" property="emailAddress" />
+		 </association>
+		 <association property="subjectDto" javaType="com.yeosin.apply.SubjectDto">
+			<result column="SUBJECTNAME" property="subjectName" />
+		</association>
+	</resultMap>
+	<select id="GetDetailApplyList" parameterType="map" resultMap="DetailApplyListResultMap">
+		SELECT 	
+				E.EXAMID 			-- 시험 ID 
+			,	E.EXAMNAME 			-- 시험명
+			,	E.EXAMDEGREE 		-- 시험차수
+			,	U.USERID 			-- 유저 ID
+			,	U.USERNAME 			-- 유저명 
+			,	U.PHONENUMBER 		-- 연락처
+			,	U.EMAILADDRESS 		-- 이메일
+			,	E.SUBJECTID 		-- 종목 ID
+			,	S.SUBJECTNAME 		-- 종목명(자격종별)
+			,	R.RECEIPTDATE 		-- 접수일
+			,	E.EXAMDATE 			-- 시험일
+			,	R.PAYMENTMETHOD 	-- 결제정보
+		FROM 	YS_RECEIPT			R 
+		INNER JOIN YS_EXAM  		E 	ON	E.EXAMID = R.EXAMID 
+		INNER JOIN YS_USER  		U 	ON 	U.USERID = R.USERID 
+		INNER JOIN YS_SUBJECT  	 	S 	ON 	S.SUBJECTID = E.SUBJECTID 
+		WHERE 	1 = 1
+		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
+		AND 	R.RECEIPTID = #{receiptId, jdbcType=VARCHAR};
+   </select>
+   
 </mapper>

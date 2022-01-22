@@ -1,6 +1,9 @@
 package com.yeosin.apply;
 
 import java.util.Date;
+import java.util.List;
+
+import com.yeosin.user.UserDto;
 
 /*
  *	접수 테이블 DTO 
@@ -20,6 +23,10 @@ public class ApplyDto {
 	private Double saleRate; // 할인률
 	private Double fees; // 수수료
 	
+	private ExamDto examDto; // 시험 DTO
+	private UserDto userDto; // 유저 DTO
+	private SubjectDto subjectDto; // 종목 DTO
+		
 	public String getReceiptId() {
 		return receiptId;
 	}
@@ -92,5 +99,22 @@ public class ApplyDto {
 	public void setFees(Double fees) {
 		this.fees = fees;
 	}
-	
+	public ExamDto getExamDto() {
+		return examDto;
+	}
+	public void setExamDto(ExamDto examDto) {
+		this.examDto = examDto;
+	}
+	public UserDto getUserDto() {
+		return userDto;
+	}
+	public void setUserDto(UserDto userDto) {
+		this.userDto = userDto;
+	}
+	public SubjectDto getSubjectDto() {
+		return subjectDto;
+	}
+	public void setSubjectDto(SubjectDto subjectDto) {
+		this.subjectDto = subjectDto;
+	}
 }
