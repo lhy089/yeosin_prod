@@ -97,7 +97,7 @@
 
 <script>
 $(function(){
-  /* 유의사항 너버링 */
+  /* 유의사항 넘버링 */
   $('.content ul li').each(function(){
     var liNum = $(this).index()+1;
     $(this).prepend('<span>'+ liNum +'</span>');
