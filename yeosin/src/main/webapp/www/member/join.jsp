@@ -24,8 +24,8 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="../inc/css/member.css">
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=1"></script>
+  <link rel="stylesheet" href="www/inc/css/member.css">
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=2"></script>
 </head>
 
 <body>
@@ -171,34 +171,32 @@
           <tr>
             <th>연락처</th>
             <td>
-              <select id="" name="">
+              <select id="callNumber" name="">
                 <option value="02">02 서울</option>
                 <option value="031">031 경기</option>
               </select>
-              <input type="tel" maxlength="4" name="" value="">
-              <input type="tel" maxlength="4" name="" value="">
-              <p>수신동의 하시면 안내 및 수험 정보를 받으실 수 있습니다.</br>수신동의와 별도로 비밀번호 찾기에 사용되므로 <strong>반드시 입력</strong> 바랍니다.</p>
-              <label><input type="checkbox" id="" name="agreeChk"/> 수신 동의합니다</label>
+              <input type="tel" maxlength="4" id="callNumber2" value="">
+              <input type="tel" maxlength="4" id="callNumber3" value="">
             </td>
           </tr>
           <tr>
             <th>휴대전화</th>
             <td>
-              <select id="" name="">
+              <select id="phoneNumber" name="">
                 <option value="010">010</option>
               </select>
-              <input type="tel" maxlength="4" name="" value="">
-              <input type="tel" maxlength="4" name="" value="">
+              <input type="tel" maxlength="4" id="phoneNumber2" value="">
+              <input type="tel" maxlength="4" id="phoneNumber3" value="">
               <p>수신동의 하시면 안내 및 수험 정보를 받으실 수 있습니다.</br>수신동의와 별도로 비밀번호 찾기에 사용되므로 <strong>반드시 입력</strong> 바랍니다.</p>
-              <label><input type="checkbox" id="" name="agreeChk"/> 수신 동의합니다</label>
+              <label><input type="checkbox" id="isReceiveSms" name="agreeChk"/> 수신 동의합니다</label>
             </td>
           </tr>
           <tr>
             <th>이메일</th>
             <td>
-              <input type="email" name="" value="">
+              <input type="email" id="emailAddress" value="">
               <p>수신동의 하시면 안내 및 수험 정보를 받으실 수 있습니다.</br>수신동의와 별도로 비밀번호 찾기에 사용되므로 <strong>반드시 입력</strong> 바랍니다.</p>
-              <label><input type="checkbox" id="" name="agreeChk"/> 수신 동의합니다</label>
+              <label><input type="checkbox" id="isReceiveEmail" name="agreeChk"/> 수신 동의합니다</label>
             </td>
           </tr>
         </table>
@@ -224,28 +222,26 @@
           </colgroup>
           <tr>
             <th>이름</th>
-            <td>아무개</td>
+            <td id="userInfo_name"></td>
           </tr>
           <tr>
             <th>아이디</th>
-            <td>abc123</td>
+            <td id="userInfo_id"></td>
           </tr>
           <tr>
             <th>연락처</th>
-            <td>02-</td>
+            <td id="userInfo_callNumber"></td>
           </tr>
           <tr>
             <th>휴대폰번호</th>
-            <td>
-              수신 동의합니다 <input type="checkbox" id="" name="agreeChk" onclick="return false" checked/><!--동의 했을 때 'checked' 포함-->
-              010-0000-0000
+            <td id="userInfo_phoneNumber">
+              수신 동의합니다 <input type="checkbox" id="userInfo_isReceiveSms" name="agreeChk" onclick="return false"/><!--동의 했을 때 'checked' 포함-->
             </td>
           </tr>
           <tr>
             <th>이메일</th>
-            <td>
-              수신 동의합니다 <input type="checkbox" id="" name="agreeChk" onclick="return false"/>
-              abc123@test.com
+            <td id="userInfo_emailAddress">
+              수신 동의합니다 <input type="checkbox" id="userInfo_isReceiveEmail" name="agreeChk" onclick="return false"/>
             </td>
           </tr>
         </table>

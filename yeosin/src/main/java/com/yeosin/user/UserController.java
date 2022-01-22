@@ -1,5 +1,8 @@
 package com.yeosin.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -9,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
 
 @Controller
 public class UserController {
@@ -93,26 +98,35 @@ public class UserController {
 		response.getWriter().flush();
 		response.getWriter().close();
 	}
-	
+
 	// 회원가입 처리
-		@RequestMapping(value="/doJoin", method=RequestMethod.POST)
-		@ResponseBody
-		public void doJoin(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
-			Boolean result = false;
-			response.setCharacterEncoding("UTF-8");
-			// 사용자 정보 조회
-			int cnt = userService.insertUserInfo(user);
-			
-//			if(userInfo != null) {
-//				// 세션추가
-//				session.setAttribute("loginUserInfo",userInfo);
-//				result = true;
-//			}else {
-//					
-//			}
-			response.getWriter().print(result);
-			response.getWriter().flush();
-			response.getWriter().close();
-		}
+	@RequestMapping(value="/doJoin", method=RequestMethod.POST)
+	@ResponseBody
+	public void doJoin(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
+		List<Object> userResult = new ArrayList<>();
+		response.setCharacterEncoding("UTF-8");
+		// 사용자 정보 조회
+		int cnt = userService.insertUserInfo(user);
+		if(cnt > 0) userResult.add(userService.getLoginUserInfo(user));
+
+		new Gson().toJson(userResult,response.getWriter());
+	}
+	
+	// 회원정보 수정
+	@RequestMapping(value="/change", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView change(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+		String sessionid= (String)session.getAttribute("loginId");
 		
+		UserDto userInfo = new UserDto();
+		userInfo.setUserId(sessionid);
+		userInfo = userService.getLoginUserInfo(userInfo);
+	
+		mav.addObject("userInfo", userInfo);
+		mav.setViewName("myroom/change");
+		return mav;
+	}
+
 }

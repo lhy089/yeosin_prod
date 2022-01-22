@@ -23,8 +23,12 @@ $(document).ready(function(){
    });
    
    $('#btn_doJoinFinish').click(function(){
-		if(!isValid()) return false;
+	   doJoin();
    });
+   
+//   $('#userId').blur(function(){ 
+//		if(!isValidChkId()) return false;
+//  });
    
    $('#btn_chkIdDupl').click(function(){ 
 		if(!isDuplication()) return false;
@@ -34,49 +38,153 @@ $(document).ready(function(){
 
 var isCheckId = 0;
 
+
+function doJoin() {
+	if(!isValid()) return false;
+	var callNumber = "";
+	var phoneNumber = "";
+	if($("#callNumber2").val() && $("#callNumber3").val()) {
+		callNumber = $("#callNumber option:selected").val()+"-"+$("#callNumber2").val()+"-"+$("#callNumber3").val();
+	}
+	if($("#phoneNumber2").val() && $("#phoneNumber3").val()) {
+		phoneNumber = $("#phoneNumber option:selected").val()+"-"+$("#phoneNumber2").val()+"-"+$("#phoneNumber3").val();
+	}
+	var joinData = {
+			userName : $('#userName').val(), 
+			userId:$('#userId').val(),
+			password:$('#userPwd').val(),
+			callNumber:callNumber,
+			phoneNumber:phoneNumber,
+			emailAddress:$('#emailAddress').val(),
+			isReceiveSms:$("#isReceiveSms").is(":checked") ? "Y" : "N",
+			isReceiveEmail:$("#isReceiveEmail").is(":checked") ? "Y" : "N"
+			};
+	$.ajax({
+        type: "POST",
+        url: "/doJoin",
+        data: joinData,
+        sendDataType : 'string',
+        success: function(data) {
+            if(data != null) {
+            	var userInfo = JSON.parse(data)[0];
+            	alert("회원가입이 완료 되었습니다.")
+            	
+            	$("#userInfo_name").text(userInfo.userName);
+   	   			$("#userInfo_id").text(userInfo.userId);
+   	   			$("#userInfo_callNumber").text(userInfo.callNumber);
+   	   			$("#userInfo_phoneNumber").text(userInfo.phoneNumber);
+   	   			$("#userInfo_emailAddress").text(userInfo.emailAddress);
+   	   			if(userInfo.isReceiveSms=="Y") $("#userInfo_isReceiveSms").prop("checked","checked");
+   	   			if(userInfo.isReceiveEmail=="Y") $("#userInfo_isReceiveEmail").prop("checked","checked");
+            	
+            	$("#userInfo_name").val("");
+            	$(".intro").hide();
+   	   			$(".provision").hide();
+   	   			$(".certification").hide();
+   	   			$(".entry").hide();
+   	   			$(".finish").show();
+   	   			
+            }else {
+            	$('#id').val("");
+        		$('#pwd').val("");
+        		$('#id').focus();
+            	alert("회원 정보가 존재하지 않거나 일치하지 않습니다.")
+            }
+        }
+      });
+}
+
 function isValid() {
-	if ($('#userName').val() == '') {
+	var userName = $('#userName').val();
+	var userId = $('#userId').val();
+	var userPwd = $('#userPwd').val();
+	var userPwd2 = $('#userPwd2').val();
+	console.log("B");
+	if (userName == '') {
 		alert("이름 입력하세요.");
 		$('#userName').focus();
 		return false;
 	}
 	
-	var userId = $('#userId').val();
 	if (userId == '') {
 		alert("아이디를 입력하세요.");
 		$('#userId').focus();
 		return false;
 	}
 	
-	if ($('#userPwd').val() == '') {
+	if (userPwd == '') {
 		alert("비밀번호를 입력하세요.");
 		$('#userPwd').focus();
 		return false;
 	}
 	
-	if ($('#userPwd2').val() == '') {
+	if (userPwd2 == '') {
 		alert("비밀번호를 입력하세요.");
 		$('#userPwd2').focus();
 		return false;
 	}
 	
+	var nameReg = /^[가-힣a-zA-Z]+$/;
+	if (!nameReg.test(userName)) {
+		 alert("사용할 수 없는 이름 입니다.");
+		$('#userName').val("");
+		$('#userName').focus();
+		return false;
+	}
+	
 	var idReg = /^[a-z]+[a-z0-9]{5,19}$/g;
 	if (!idReg.test(userId)) {
-		 alert("아이디는 영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다.");
+		 alert("사용할 수 없는 아이디 입니다.");
 		$('#userId').val("");
 		$('#userId').focus();
 		return false;
 	}
 	
+//	6~20자의 영문 대소문자와 숫자, 특수문자를 사용할 수 있으며, 최소 2종류이상을 조합해야 합니다.
+//	허용 특수문자 { } [ ] ( ) / | ? ! . * ~ ‘ ^ - _ + # $ % =
+	
+//	var pwdReg1 = /^(?=.*[a-zA-Z])(?=.*[0-9]).{5,19}$/; //영문,숫자
+//	var pwdReg2 = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{5,19}$/; //영문,특수문자
+//	var pwdReg3 = /^(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{5,19}$/; //특수문자, 숫자
+//	
+//	var pwdReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{8,16}$;
+	
+	var pwdReg = /^[a-z]+[a-z0-9]{5,19}$/g;
+	if (!pwdReg.test(userPwd)) {
+		 alert("사용할 수 없는 비밀번호 입니다.");
+		$('#userPwd').val("");
+		$('#userPwd2').val("");
+		$('#userPwd').focus();
+		return false;
+	}
+	
+	if (userPwd != userPwd2) {
+		 alert("비밀번호가 일치하지 않습니다.");
+		$('#userPwd').val("");
+		$('#userPwd2').val("");
+		$('#userPwd').focus();
+		return false;
+	}
+
 	if(isCheckId == 0) {
 		alert("아이디 중복체크가 필요합니다.");
+		return false;
 	}
+	
+	return true;
 	
 	//비밀번호 정규식
 }
 
 function isDuplication() {
 	var userId = $("#userId").val();
+	var idReg = /^[a-z]+[a-z0-9]{5,19}$/g;
+	if (!idReg.test(userId)) {
+		 alert("사용할 수 없는 아이디 입니다.");
+		$('#userId').val("");
+		$('#userId').focus();
+		return false;
+	}
 	
 	$.ajax({
         url: "/dupleId",

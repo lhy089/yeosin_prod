@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js?t=2"></script>
   
  <c:set var="root" value="${pageContext.request.contextPath}"/>
 <link href="/www/inc/css/reset.css" rel="stylesheet" type="text/css" media="screen">
@@ -56,7 +56,7 @@
       <li><a href="/accept">응시현황</a></li>
       <li><a href="#">평가안내</a></li>
       <li><a href="#">알림마당</a></li>
-      <li><a href="#">회원정보수정</a></li>
+      <li><a onclick="return false;" id="btn_change">회원정보수정</a></li>
     </ul>
   </div>
   <div class="depth2">

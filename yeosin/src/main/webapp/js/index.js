@@ -10,6 +10,17 @@ $(document).ready(function(){
        console.log("btn_simpleJoin clicked");
        location.href="member/join.jsp";
    });
+    
+    $('#btn_change').click(function(){ debugger;
+        console.log("btn_change clicked");
+        if($('#btn_logout').length > 0) {
+        	location.href="/change";
+        }
+        else {
+        	location.href="member/login.jsp";
+        }
+        
+    });
    
 
      
