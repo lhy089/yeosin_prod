@@ -1,0 +1,77 @@
+@charset "utf-8";
+/* CSS Document */
+
+*{--font-title:SBAggroM; /*어그로체*/}
+/* h1{ font-weight: 400; font-family:sandoll-gothicneo2, sans-serif;}
+h2{ font-weight: 200; font-family:sandoll-gothicneo3, sans-serif;}
+p{font-family:'NanumSquare'; font-size:32px;} */
+
+/* notice 공통 */
+.notice{padding:40px 0 150px; box-sizing:border-box;}
+.notice h1{width:100%; border-bottom:3px solid #0074dd; box-sizing:border-box; font-family:var(--font-title); font-size:25px; line-height:48px; color:#0074dd; /*margin-bottom:45px;*/}
+.notice .announcement{width:100%; border:1px solid #c7c6c6; border-radius:10px; box-sizing:border-box; background:#f8f8f8; padding:18px 20px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; line-height:1.4; color:#0074dd; letter-spacing:-1px; margin:32px 0 40px;}
+.notice .schedule{width:100%; border:1px solid #c7c6c6; border-radius:10px; box-sizing:border-box; background:#f8f8f8 url('../img/apply/element_apply.png') no-repeat left 12px center / 71px; padding:18px 20px 18px 100px; font-family:sandoll-gothicneo3, sans-serif; font-size:25px; line-height:1.4; color:#000; letter-spacing:-1px; margin-bottom:60px;}
+.notice h2{height:24px; font-family:sandoll-gothicneo3, sans-serif; color:#000; font-weight:bold; font-size:24px; line-height:24px; margin-bottom:40px;}
+.notice h2::before{content:''; width:7px; height:100%; display:inline-block; margin-right:8px; background:linear-gradient(#6a7bc3, #00c9ee 26%, #82d103 55%, #ff970a 81%, #ffe200); vertical-align:middle; letter-spacing:-1px;}
+.notice .btn_apply{width:200px; height:50px; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; background:#0074dd; color:#fff; line-height:50px; text-align:center; margin:0 auto; transition:0.6s;}
+.notice .btn_apply:hover{opacity:0.8;}
+.notice .red{color:#ff334c;}
+.notice .pageCnt{font-family:sandoll-gothicneo3, sans-serif; font-size:17px; letter-spacing:-0.7px; color:#58585b; text-align:right;}
+.notice .pageWrap{}
+
+/* notice */
+.notice.library h1{margin-bottom:32px;}
+.notice.library .searchBox{width:100%; border:1px solid #c7c6c6; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:0; padding:30px 0 30px; font-size:0; color:#58585b; text-align:center; margin-bottom:60px;}
+.notice.library .searchBox *{font-size:23px;}
+.notice.library .searchBox select{width:220px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:10px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; letter-spacing:-0.5px; text-indent:12px; border-radius:5px; background:#f8f8f8 url('../img/common/icon_select.png') no-repeat right 14px center / 16px; -webkit-appearance:none; -moz-appearance:none; appearance:none;}
+.notice.library .searchBox input[type="text"]{width:543px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:10px; font-family:sandoll-gothicneo3, sans-serif;}
+.notice.library .searchBox .btn_serch{width:110px; height:50px; line-height:50px; border:1px solid #c7c6c6; border-radius:5px; box-sizing:border-box; background:#f8f8f8; display:inline-block; color:#58585b; transition:0.6s; vertical-align:middle;}
+.notice.library .searchBox .btn_serch:hover{background:#c7c6c6;}
+.notice.library .dataList{border-top:2px solid #58585b; box-sizing:border-box; margin-bottom:30px;}
+.notice.library .dataList li{padding:18px 0 16px; border-bottom:1px solid #c7c6c6; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif;}
+.notice.library .dataList li a{font-size:23px; margin-bottom:12px; color:#000; width:100%; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical;}
+.notice.library .dataList li a:hover{text-decoration:underline;}
+.notice.library .dataList li div{font-size:0;}
+.notice.library .dataList li div p{border-right:1px solid #707070; box-sizing:border-box; display:inline-block; padding-right:9px; margin-left:9px; font-size:18px; vertical-align:middle;}
+.notice.library .dataList li div p:first-of-type{margin-left:0;}
+.notice.library .dataList li div p:last-of-type{border-right:none;}
+.notice.library .dataList li .num{}
+.notice.library .dataList li .viewCount{}
+.notice.library .dataList li .document{width:14px; height:18px; display:inline-block; background:url('../img/guide/icon_note.png') no-repeat center / contain;}
+
+/* notice_view */
+.notice.notice_view h1{margin-bottom:32px;}
+.notice.notice_view .btnWrap{font-size:0;}
+.notice.notice_view .btnWrap.bottomBtn{text-align:right;}
+.notice.notice_view .btnWrap .btn{width:109px; height:45px; line-height:45px; display:inline-block; border:1px solid #c7c6c6; border-radius:5px; box-sizing:border-box; background:#f8f8f8; color:#58585b; box-sizing:border-box; text-align:center; font-size:23px; font-family:sandoll-gothicneo3, sans-serif; margin-right:10px; transition:0.6s;}
+.notice.notice_view .btnWrap .btn:hover{background:#c7c6c6;}
+.notice.notice_view .btnWrap .btn:last-of-type{margin-right:0;}
+.notice.notice_view .content{border-top:2px solid #58585b; box-sizing:border-box; margin-top:20px;}
+.notice.notice_view .content .info{font-family:sandoll-gothicneo3, sans-serif; padding:32px 0 20px; box-sizing:border-box; border-bottom:1px solid #c7c6c6;}
+.notice.notice_view .content .info h3{font-size:27px; letter-spacing:-1px; line-height:1.37; margin-bottom:16px;}
+.notice.notice_view .content .info div{font-size:0;}
+.notice.notice_view .content .info div p{border-right:1px solid #707070; box-sizing:border-box; display:inline-block; padding-right:9px; margin-left:9px; font-size:18px; vertical-align:middle; color:#000; letter-spacing:-0.5px;}
+.notice.notice_view .content .info div p:first-of-type{margin-left:0;}
+.notice.notice_view .content .info div p:last-of-type{border-right:none;}
+.notice.notice_view .content .info div .document{width:14px; height:18px; display:inline-block; background:url('../img/guide/icon_note.png') no-repeat center / contain;}
+.notice.notice_view .content .text{font-family:sandoll-gothicneo3, sans-serif; font-size:22px; color:#000; line-height:1.64; letter-spacing:-1px; padding:20px 0 70px; box-sizing:border-box;}
+
+/* question */
+.notice.question{}
+.notice.question .searchBox{width:100%; border:1px solid #c7c6c6; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:0; padding:30px 0 30px; font-size:0; color:#58585b; text-align:center; margin-bottom:60px;}
+.notice.question .searchBox *{font-size:23px;}
+.notice.question .searchBox select{width:220px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:10px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; letter-spacing:-0.5px; text-indent:12px; border-radius:5px; background:#f8f8f8 url('../img/common/icon_select.png') no-repeat right 14px center / 16px; -webkit-appearance:none; -moz-appearance:none; appearance:none;}
+.notice.question .searchBox input[type="text"]{width:327px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:10px; font-family:sandoll-gothicneo3, sans-serif;}
+.notice.question .searchBox .btn_serch{width:110px; height:50px; line-height:50px; border:1px solid #c7c6c6; border-radius:5px; box-sizing:border-box; background:#f8f8f8; display:inline-block; color:#58585b; transition:0.6s; vertical-align:middle;}
+.notice.question .searchBox .btn_serch:hover{background:#c7c6c6;}
+.notice.question .questionList{border-top:2px solid #58585b; box-sizing:border-box; margin-bottom:30px;}
+.notice.question .questionList dl{}
+.notice.question .questionList dt,.notice.question .questionList dd{padding:13px 0; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; color:#000; letter-spacing:-1px; border-bottom:1px solid #c7c6c6;}
+.notice.question .questionList dt{padding-left:50px; padding-right:40px; background:url('../img/common/element_Q.png') no-repeat left 13px / 35px; cursor:pointer; line-height:35px; font-size:23px; position:relative;}
+.notice.question .questionList dt::after{content:''; width:17px; height:12px; display:inline-block; background:url('../img/common/element_toggle.png') no-repeat right top / 17px; position:absolute; top:50%; right:12px; transform:translateY(-50%); -webkit-transform:translateY(-50%);}
+.notice.question .questionList dt.open::after{background-position:right bottom;}
+.notice.question .questionList dd{font-size:22px; padding:40px 15px 40px 48px; line-height:1.5; background:#f8f8f8; display:none;}
+
+@media (max-width:768px){
+
+}
