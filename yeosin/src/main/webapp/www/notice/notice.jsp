@@ -33,11 +33,13 @@
   <div class="contentBox">
     <h1>공지사항</h1>
     <div class="searchBox">
-      <select id="" name="">
-        <option value="">조건검색</option>
+      <select id="searchType" name="searchType">
+        <option value="S">제목</option>
+        <option value="C">내용</option>
+        <option value="A">제목+내용</option>
       </select>
-      <input type="text" name="" value="">
-      <a href="#" class="btn_serch">검색</a>
+      <input type="text" id="searchWord">
+      <a href="#" id="btn_search" class="btn_serch">검색</a>
     </div>
     <ul class="dataList">
       <c:forEach var="notice" items="${noticeList}">	

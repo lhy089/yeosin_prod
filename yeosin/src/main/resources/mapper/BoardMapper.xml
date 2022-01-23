@@ -53,4 +53,28 @@
 		LIMIT 5
    </select>
    
+   <select id="getBoardListBySearch" parameterType="com.yeosin.board.BoardDto" resultType="com.yeosin.board.BoardDto">
+		SELECT 	
+				BOARDID
+			,	BOARDTYPE 
+			,	BOARDSEQUENCE 
+			,	TITLE 
+			,	CONTENTS 
+			,	HITCNT 
+			,	USERID 
+			,	WRITETIME 
+		FROM 	YS_BOARD
+		WHERE 	BOARDTYPE = #{boardType}
+		<if test='searchType=="S"'>
+			AND TITLE LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		<if test='searchType=="C"'>
+			AND CONTENTS LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		<if test='searchType=="A"'>
+			AND (TITLE LIKE CONCAT('%',#{searchWord},'%') OR CONTENTS LIKE CONCAT('%',#{searchWord},'%'))
+		</if>
+		ORDER BY BOARDSEQUENCE
+   </select>
+   
 </mapper>

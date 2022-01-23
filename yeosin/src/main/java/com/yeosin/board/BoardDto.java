@@ -13,6 +13,9 @@ public class BoardDto {
 	private String userId;		//회원 ID	(회원테이블)
 	private String writeTime;		//작성시간
 	
+	private String searchWord;
+	private String searchType;
+	
 	
 	public String getBoardId() {
 		return boardId;
@@ -62,4 +65,17 @@ public class BoardDto {
 	public void setWriteTime(String writeTime) {
 		this.writeTime = writeTime;
 	}
+	public String getSearchWord() {
+		return searchWord;
+	}
+	public void setSearchWord(String searchWord) {
+		this.searchWord = searchWord;
+	}
+	public String getSearchType() {
+		return searchType;
+	}
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+	
 }
