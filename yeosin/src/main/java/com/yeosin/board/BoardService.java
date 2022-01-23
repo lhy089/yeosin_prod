@@ -33,5 +33,9 @@ public class BoardService {
 		boardDao.updateHitCnt(boardDto);
 		return boardDao.getBoardInfo(boardDto);
 	}
+	
+	public List<BoardDto> getNoticeListForMain() throws Exception{
+		return boardDao.getNoticeListForMain();
+	}
 
 }

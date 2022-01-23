@@ -1,7 +1,5 @@
 package com.yeosin.apply;
 
-import java.util.Date;
-
 /*
  *	시험 테이블 DTO 
  */
@@ -14,18 +12,17 @@ public class ExamDto {
 	private String examType; // 시험구분
 	private String isApproval; // 승인상태
 	private int examDegree; // 시험회차
-	private Date examDate; // 시험일
+	private String examDate; // 시험일
 	private String examLocal; // 시험지역
 	private String examArea; // 시험영역
-	private Date receiptstartDate; // 접수 시작일
-	private Date receiptEndDate; // 접수 마감일
-	private Date allRefundExitDate; // 100% 환불 종료일
-	private String isPracticaleExam; // 실기시험여부
-	private Date certPrintStartDate; // 수험표 출력기간(시작)
-	private Date certPrintEndDate; // 수혐표 출력기간(끝)
-	private Date gradeStartDate; // 성적 공고기간(시작)
-	private Date gradeEndDate; // 성적 공고기간(끝)
-	
+	private String receiptStartDate; // 접수 시작일
+	private String receiptEndDate; // 접수 마감일
+	private String allRefundExitDate; // 100% 환불 종료일
+	private String isPracticalExam; // 실기시험여부
+	private String certPrintStartDate; // 수험표 출력기간(시작)
+	private String certPrintEndDate; // 수혐표 출력기간(끝)
+	private String gradeStartDate; // 성적 공고기간(시작)
+	private String gradeEndDate; // 성적 공고기간(끝)
 	public String getExamId() {
 		return examId;
 	}
@@ -68,10 +65,10 @@ public class ExamDto {
 	public void setExamDegree(int examDegree) {
 		this.examDegree = examDegree;
 	}
-	public Date getExamDate() {
+	public String getExamDate() {
 		return examDate;
 	}
-	public void setExamDate(Date examDate) {
+	public void setExamDate(String examDate) {
 		this.examDate = examDate;
 	}
 	public String getExamLocal() {
@@ -86,52 +83,52 @@ public class ExamDto {
 	public void setExamArea(String examArea) {
 		this.examArea = examArea;
 	}
-	public Date getReceiptstartDate() {
-		return receiptstartDate;
+	public String getReceiptStartDate() {
+		return receiptStartDate;
 	}
-	public void setReceiptstartDate(Date receiptstartDate) {
-		this.receiptstartDate = receiptstartDate;
+	public void setReceiptStartDate(String receiptStartDate) {
+		this.receiptStartDate = receiptStartDate;
 	}
-	public Date getReceiptEndDate() {
+	public String getReceiptEndDate() {
 		return receiptEndDate;
 	}
-	public void setReceiptEndDate(Date receiptEndDate) {
+	public void setReceiptEndDate(String receiptEndDate) {
 		this.receiptEndDate = receiptEndDate;
 	}
-	public Date getAllRefundExitDate() {
+	public String getAllRefundExitDate() {
 		return allRefundExitDate;
 	}
-	public void setAllRefundExitDate(Date allRefundExitDate) {
+	public void setAllRefundExitDate(String allRefundExitDate) {
 		this.allRefundExitDate = allRefundExitDate;
 	}
-	public String getIsPracticaleExam() {
-		return isPracticaleExam;
+	public String getIsPracticalExam() {
+		return isPracticalExam;
 	}
-	public void setIsPracticaleExam(String isPracticaleExam) {
-		this.isPracticaleExam = isPracticaleExam;
+	public void setIsPracticalExam(String isPracticalExam) {
+		this.isPracticalExam = isPracticalExam;
 	}
-	public Date getCertPrintStartDate() {
+	public String getCertPrintStartDate() {
 		return certPrintStartDate;
 	}
-	public void setCertPrintStartDate(Date certPrintStartDate) {
+	public void setCertPrintStartDate(String certPrintStartDate) {
 		this.certPrintStartDate = certPrintStartDate;
 	}
-	public Date getCertPrintEndDate() {
+	public String getCertPrintEndDate() {
 		return certPrintEndDate;
 	}
-	public void setCertPrintEndDate(Date certPrintEndDate) {
+	public void setCertPrintEndDate(String certPrintEndDate) {
 		this.certPrintEndDate = certPrintEndDate;
 	}
-	public Date getGradeStartDate() {
+	public String getGradeStartDate() {
 		return gradeStartDate;
 	}
-	public void setGradeStartDate(Date gradeStartDate) {
+	public void setGradeStartDate(String gradeStartDate) {
 		this.gradeStartDate = gradeStartDate;
 	}
-	public Date getGradeEndDate() {
+	public String getGradeEndDate() {
 		return gradeEndDate;
 	}
-	public void setGradeEndDate(Date gradeEndDate) {
+	public void setGradeEndDate(String gradeEndDate) {
 		this.gradeEndDate = gradeEndDate;
 	}
 

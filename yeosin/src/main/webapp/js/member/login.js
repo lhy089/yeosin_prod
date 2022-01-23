@@ -45,7 +45,7 @@ function doLogin() {
 		dataType : 'json',
         success: function(data) {
             if(data) {
-         	   $(location).attr("href", "/www/index.jsp");
+         	   $(location).attr("href", "/www/main.jsp");
             }else {
             	$('#id').val("");
         		$('#pwd').val("");

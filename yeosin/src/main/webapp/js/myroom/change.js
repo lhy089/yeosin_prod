@@ -1,9 +1,34 @@
 $(document).ready(function(){
 	
     console.log("index.js");
-   $('.btn_apply').click(function(){  debugger;
+   $('.btn_apply').click(function(){
    		doModifyUser();
-       
+   });
+   
+   $('#emailAddress').blur(function(){
+   		if(!$(this).val()) {
+   			$("#isReceiveEmail").prop("checked",false);
+   			$("#isReceiveEmail").prop("disabled",true);
+   		}else {
+   			$("#isReceiveEmail").prop("disabled",false);
+   		}
+   });
+   
+   $('#phoneNumber2').blur(function(){
+		if(!$(this).val() || !$('#phoneNumber3').val()) {
+			$("#isReceiveSms").prop("checked",false);
+			$("#isReceiveSms").prop("disabled",true);
+		}else {
+			$("#isReceiveSms").prop("disabled",false);
+		}
+   });
+   $('#phoneNumber3').blur(function(){
+	if(!$(this).val() || !$('#phoneNumber2').val()) {
+		$("#isReceiveSms").prop("checked",false);
+		$("#isReceiveSms").prop("disabled",true);
+	}else {
+		$("#isReceiveSms").prop("disabled",false);
+	}
    });
 });
 
@@ -37,6 +62,9 @@ function doModifyUser() {
         success: function(data) {
         	if(data > 0){
         		alert("회원정보를 수정 했습니다.");
+        		location.href="/www/main.jsp";
+        	}else {
+        		
         	}
         }
       });

@@ -35,6 +35,8 @@
     <div class="announcement">
       시험응시자는 수험표를 출력하여 시험장에 방문해야 합니다.
     </div>
+    <c:choose>
+    <c:when test='${applyListCnt>0}'>
     <table>
       <colgroup>
         <col width="*">
@@ -53,13 +55,19 @@
       <c:forEach var="apply" items="${applyList}">
       	<tr>
 			<td>${apply.examDto.examName}</td>
-	        <td>${apply.examDto.receiptstartDate} ~ ${apply.examDto.receiptEndDate}</td>
+	        <td>${apply.examDto.receiptStartDate} ~ ${apply.examDto.receiptEndDate}</td>
 	        <td>${apply.examDto.examDate}</td>
 	        <td>${apply.examDto.examLocal}</td>
 	        <td><a href="/ticket_view" class="btn_apply">자세히 보기</a></td>
       	</tr>
       </c:forEach>
     </table>
+    </c:when>
+    <c:otherwise>
+    	표시할 데이터가 없습니다.
+    </c:otherwise>
+    </c:choose>
+    
     <p class="pageCnt">전체 0건, 1/0 페이지</p>
     <div class="pageWrap">
       <!-- 페이징 -->

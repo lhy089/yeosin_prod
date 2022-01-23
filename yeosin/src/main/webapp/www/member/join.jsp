@@ -25,7 +25,7 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="www/inc/css/member.css">
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=2"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=1"></script>
 </head>
 
 <body>
@@ -66,7 +66,7 @@
         </div>
         <div class="btnWrap">
           <a href="#none" class="btn_all">회원가입 약관에 모두 동의합니다</a>
-          <a href="/www/index.jsp" class="btn_cancel">취소</a>
+          <a href="/www/main.jsp" class="btn_cancel">취소</a>
           <a class="btn_join" id="btn_doJoinCertification" onclick="return false;">회원가입</a>
         </div>
         <p class="announcement">
@@ -235,13 +235,13 @@
           <tr>
             <th>휴대폰번호</th>
             <td id="userInfo_phoneNumber">
-              수신 동의합니다 <input type="checkbox" id="userInfo_isReceiveSms" name="agreeChk" onclick="return false"/><!--동의 했을 때 'checked' 포함-->
+              수신 동의합니다 <input type="checkbox" id="userInfo_isReceiveSms" name="agreeChk" onclick="return false" disabled="disabled"/><!--동의 했을 때 'checked' 포함-->
             </td>
           </tr>
           <tr>
             <th>이메일</th>
             <td id="userInfo_emailAddress">
-              수신 동의합니다 <input type="checkbox" id="userInfo_isReceiveEmail" name="agreeChk" onclick="return false"/>
+              수신 동의합니다 <input type="checkbox" id="userInfo_isReceiveEmail" name="agreeChk" onclick="return false" disabled="disabled"/>
             </td>
           </tr>
         </table>

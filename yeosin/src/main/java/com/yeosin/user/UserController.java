@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.yeosin.apply.ApplyService;
+import com.yeosin.apply.ExamDto;
+import com.yeosin.board.BoardDto;
+import com.yeosin.board.BoardService;
 import com.yeosin.util.EncryptUtils;
 
 @Controller
@@ -21,6 +25,27 @@ public class UserController {
 	
 	@Autowired	
 	private UserService userService;
+	
+	@Autowired	
+	private ApplyService applyService;
+	
+	@Autowired	
+	private BoardService boardService;
+	
+	@RequestMapping(value="/index", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView index(HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+
+		ExamDto examInfo = applyService.getExamInfoForMain();
+		List<BoardDto> noticeList = boardService.getNoticeListForMain();
+
+		mav.addObject("examInfo", examInfo);
+		mav.addObject("noticeList", noticeList);
+		mav.setViewName("/index");
+		return mav;
+	}
 	
 	// 로그인 처리
 	@RequestMapping(value="/login", method=RequestMethod.POST)

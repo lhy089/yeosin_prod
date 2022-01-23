@@ -23,4 +23,8 @@ public class ApplyDao {
 	public List<ApplyDto> getDetailApplyList(Map<String, Object> map) throws Exception {
 		return sqlSession.selectList(nameSpace + "GetDetailApplyList", map);
 	}
+	
+	public ApplyDto getDetailApplyInfo(Map<String, Object> map) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getDetailApplyInfo", map);
+	}
 }

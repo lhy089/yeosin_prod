@@ -2,6 +2,67 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yeosin.apply.ExamDao" >
+	<select id="getExamInfoForMain" resultType="com.yeosin.apply.ExamDto">
+		SELECT 
+				EXAMNAME as examName
+			,	DATE_FORMAT(RECEIPTSTARTDATE, '%Y/%m/%d') AS receiptstartDate
+			, 	DATE_FORMAT(RECEIPTENDDATE, '%Y/%m/%d') AS receiptEndDate
+			,	DATE_FORMAT(CERTPRINTSTARTDATE, '%Y/%m/%d') AS certPrintStartDate
+			,	DATE_FORMAT(CERTPRINTENDDATE, '%Y/%m/%d') AS certPrintEndDate
+			, 	DATE_FORMAT(EXAMDATE, '%Y/%m/%d') AS examDate
+			,	DATE_FORMAT(GRADESTARTDATE, '%Y/%m/%d') AS gradeStartDate
+			,	DATE_FORMAT(GRADEENDDATE, '%Y/%m/%d') AS gradeEndDate
+		FROM YS_EXAM
+		ORDER BY EXAMDEGREE DESC 
+		LIMIT 1
+	</select>
 	
-
+	<select id="getExamInfo" parameterType="String" resultType="com.yeosin.apply.ExamDto">
+		SELECT 
+				EXAMID
+			,	EXAMNAME
+			,	EXAMYEAR
+			,	SUBJECTID
+			,	EXAMTYPE
+			,	ISAPPROVAL
+			,	EXAMDEGREE
+			, 	DATE_FORMAT(EXAMDATE, '%Y/%m/%d') AS examDate
+			,	EXAMLOCAL
+			,	EXAMAREA
+			,	DATE_FORMAT(RECEIPTSTARTDATE, '%Y/%m/%d') AS receiptstartDate
+			, 	DATE_FORMAT(RECEIPTENDDATE, '%Y/%m/%d') AS receiptEndDate
+			,	DATE_FORMAT(ALLREFUNDEXITDATE, '%Y/%m/%d') AS allRefundExitDate
+			,	ISPRACTICALEXAM
+			,	DATE_FORMAT(CERTPRINTSTARTDATE, '%Y/%m/%d') AS certPrintStartDate
+			,	DATE_FORMAT(CERTPRINTENDDATE, '%Y/%m/%d') AS certPrintEndDate
+			,	DATE_FORMAT(GRADESTARTDATE, '%Y/%m/%d') AS gradeStartDate
+			,	DATE_FORMAT(GRADEENDDATE, '%Y/%m/%d') AS gradeEndDate
+		FROM YS_EXAM
+		WHERE EXAMID = #{examId} 
+		ORDER BY EXAMDEGREE DESC
+	</select>
+	
+	<select id="getExamList" resultType="com.yeosin.apply.ExamDto">
+		SELECT 
+				EXAMID
+			,	EXAMNAME
+			,	EXAMYEAR
+			,	SUBJECTID
+			,	EXAMTYPE
+			,	ISAPPROVAL
+			,	EXAMDEGREE
+			, 	DATE_FORMAT(EXAMDATE, '%Y/%m/%d') AS examDate
+			,	EXAMLOCAL
+			,	EXAMAREA
+			,	DATE_FORMAT(RECEIPTSTARTDATE, '%Y/%m/%d') AS receiptstartDate
+			, 	DATE_FORMAT(RECEIPTENDDATE, '%Y/%m/%d') AS receiptEndDate
+			,	DATE_FORMAT(ALLREFUNDEXITDATE, '%Y/%m/%d') AS allRefundExitDate
+			,	ISPRACTICALEXAM
+			,	DATE_FORMAT(CERTPRINTSTARTDATE, '%Y/%m/%d') AS certPrintStartDate
+			,	DATE_FORMAT(CERTPRINTENDDATE, '%Y/%m/%d') AS certPrintEndDate
+			,	DATE_FORMAT(GRADESTARTDATE, '%Y/%m/%d') AS gradeStartDate
+			,	DATE_FORMAT(GRADEENDDATE, '%Y/%m/%d') AS gradeEndDate
+		FROM YS_EXAM
+		ORDER BY EXAMDEGREE DESC
+	</select>
 </mapper>

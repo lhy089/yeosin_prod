@@ -10,7 +10,7 @@
 		<result column="EXAMID" property="examId" />
  		<association property="examDto" javaType="com.yeosin.apply.ExamDto">
 			<result column="EXAMNAME" property="examName" />
-			<result column="RECEIPTSTARTDATE" property="receiptstartDate" />
+			<result column="RECEIPTSTARTDATE" property="receiptStartDate" />
 			<result column="RECEIPTENDDATE" property="receiptEndDate" />
 			<result column="EXAMDATE" property="examDate" />
 			<result column="EXAMLOCAL" property="examLocal" />
@@ -22,9 +22,9 @@
 			,	R.USERID 					-- 유저 ID
 			,	R.EXAMID					-- 시험 ID
 			,	E.EXAMNAME 					-- 시험명
-			,	DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d %h:%i:%s') 	AS RECEIPTSTARTDATE -- 접수시작일
-			,	DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d %h:%i:%s') 		AS RECEIPTENDDATE 	-- 접수마감일
-			,	E.EXAMDATE 					-- 시험일
+			,	DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d %h:%i:%s') 	AS receiptStartDate -- 접수시작일
+			,	DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d %h:%i:%s') 		AS receiptEndDate 	-- 접수마감일
+			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d %h:%i:%s')			AS examDate	-- 시험일
 			,	E.EXAMLOCAL 				-- 시험지역
 		FROM 	YS_RECEIPT					R 	
 		INNER JOIN YS_EXAM 					E	ON 	E.EXAMID = R.EXAMID 	
@@ -36,16 +36,19 @@
 	<resultMap id="DetailApplyListResultMap" type="com.yeosin.apply.ApplyDto">
 		<result column="RECEIPTDATE" property="receiptDate" />
 		<result column="PAYMENTMETHOD" property="paymentMethod" />
+		<result column="RECEIPTID" property="receiptId" />
  		<association property="examDto" javaType="com.yeosin.apply.ExamDto">
 			<result column="EXAMID" property="examId" />
 			<result column="EXAMNAME" property="examName" />
 			<result column="EXAMDEGREE" property="examDegree" />
 			<result column="SUBJECTID" property="subjectId" />
 			<result column="EXAMDATE" property="examDate" />
+			<result column="EXAMLOCAL" property="examLocal" />
 		</association>
 		<association property="userDto" javaType="com.yeosin.user.UserDto">
 			<result column="USERID" property="userId" />
 			<result column="USERNAME" property="userName" />
+			<result column="PHONENUMBER" property="phoneNumber" />
 			<result column="EMAILADDRESS" property="emailAddress" />
 		 </association>
 		 <association property="subjectDto" javaType="com.yeosin.apply.SubjectDto">
@@ -73,6 +76,31 @@
 		WHERE 	1 = 1
 		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
 		AND 	R.RECEIPTID = #{receiptId, jdbcType=VARCHAR};
+   </select>
+   
+   <select id="getDetailApplyInfo" parameterType="map" resultMap="DetailApplyListResultMap">
+		SELECT 	
+				E.EXAMID 			-- 시험 ID 
+			,	E.EXAMNAME 			-- 시험명
+			,	E.EXAMLOCAL 		-- 시험장명
+			,	E.EXAMDEGREE 		-- 시험차수
+			,	U.USERID 			-- 유저 ID
+			,	U.USERNAME 			-- 유저명 
+			,	U.PHONENUMBER 		-- 연락처
+			,	U.EMAILADDRESS 		-- 이메일
+			,	E.SUBJECTID 		-- 종목 ID
+			,	S.SUBJECTNAME 		-- 종목명(자격종별)
+			,	DATE_FORMAT(R.RECEIPTDATE, '%Y-%m-%d') 	AS receiptDate
+			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') 	AS examDate
+			,	R.PAYMENTMETHOD 	-- 결제정보
+			, 	R.RECEIPTID
+		FROM 	YS_RECEIPT			R 
+		INNER JOIN YS_EXAM  		E 	ON	E.EXAMID = R.EXAMID 
+		INNER JOIN YS_USER  		U 	ON 	U.USERID = R.USERID 
+		INNER JOIN YS_SUBJECT  	 	S 	ON 	S.SUBJECTID = E.SUBJECTID 
+		WHERE 	1 = 1
+		AND 	R.USERID = #{userId}
+		AND 	R.RECEIPTID = #{receiptId};
    </select>
    
 </mapper>

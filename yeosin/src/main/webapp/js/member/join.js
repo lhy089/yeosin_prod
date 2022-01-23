@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	
     console.log("index.js");
-   $('#btn_doJoinProvision').click(function(){  debugger;
+   $('#btn_doJoinProvision').click(function(){
    		$(".intro").hide();
    		$(".provision").show();
    		$(".certification").hide();
@@ -16,9 +16,23 @@ $(document).ready(function(){
    		}else {
    			$(".intro").hide();
    	   		$(".provision").hide();
-   	   		$(".certification").hide();
-   	   		$(".entry").show();
+   	   		$(".certification").show();
+   	   		$(".entry").hide();
    	   		$(".finish").hide();
+
+   	   		
+   	 	setTimeout(function(){
+   	 		
+   	 	alert("미구현 된 기능입니다. 확인을 클릭하시면 다음 화면으로 넘어갑니다.");
+    	   
+	   		$(".intro").hide();
+   		$(".provision").hide();
+   		$(".certification").hide();
+   		$(".entry").show();
+   		$(".finish").hide();
+   	 		
+   	 	}, 1000);
+   	   		
    		}
    });
    
@@ -33,7 +47,33 @@ $(document).ready(function(){
    $('#btn_chkIdDupl').click(function(){ 
 		if(!isDuplication()) return false;
    });
-    
+   
+   $('#emailAddress').blur(function(){
+		if(!$(this).val()) {
+			$("#isReceiveEmail").prop("checked",false);
+			$("#isReceiveEmail").prop("disabled",true);
+		}else {
+			$("#isReceiveEmail").prop("disabled",false);
+		}
+   });
+
+   $('#phoneNumber2').blur(function(){
+   if(!$(this).val() || !$('#phoneNumber3').val()) {
+	   $("#isReceiveSms").prop("checked",false);
+	   $("#isReceiveSms").prop("disabled",true);
+   }else {
+	   $("#isReceiveSms").prop("disabled",false);
+   }
+   });
+   $('#phoneNumber3').blur(function(){
+   if(!$(this).val() || !$('#phoneNumber2').val()) {
+	   $("#isReceiveSms").prop("checked",false);
+	   $("#isReceiveSms").prop("disabled",true);
+   }else {
+	   $("#isReceiveSms").prop("disabled",false);
+   }
+   });
+
 });
 
 var isCheckId = 0;
@@ -133,7 +173,8 @@ function isValid() {
 	}
 	
 	var idReg = /^[a-z]+[a-z0-9]{5,19}$/g;
-	if (!idReg.test(userId)) {
+	var rst = idReg.test(userId);
+	if (!rst) {
 		 alert("사용할 수 없는 아이디 입니다.");
 		$('#userId').val("");
 		$('#userId').focus();
@@ -179,7 +220,8 @@ function isValid() {
 function isDuplication() {
 	var userId = $("#userId").val();
 	var idReg = /^[a-z]+[a-z0-9]{5,19}$/g;
-	if (!idReg.test(userId)) {
+	var rst = idReg.test(userId);
+	if (!rst) {
 		 alert("사용할 수 없는 아이디 입니다.");
 		$('#userId').val("");
 		$('#userId').focus();

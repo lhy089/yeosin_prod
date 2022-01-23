@@ -25,7 +25,7 @@
 <!--header-->
 <header class="pc">
   <div class="contentBox">
-    <a href="/www/index.jsp" class="home"><img src="/www/inc/img/common/logo.png" alt="여신금융협회"></a>
+    <a href="/www/main.jsp" class="home"><img src="/www/inc/img/common/logo.png" alt="여신금융협회"></a>
     <!-- 로그인전 노출 버튼// -->
 <!-- 로그인세션 사용 -->
 <!-- 세션관련은 모든 페이지 일괄 적용되도록 추가예정-->
@@ -54,7 +54,7 @@
     <ul class="depth1">
       <li><a href="/apply">원서접수</a></li>
       <li><a href="/accept">응시현황</a></li>
-      <li><a href="#">평가안내</a></li>
+      <li><a href="/examGuide">평가안내</a></li>
       <li><a href="#">알림마당</a></li>
       <li><a onclick="return false;" id="btn_change">회원정보수정</a></li>
     </ul>

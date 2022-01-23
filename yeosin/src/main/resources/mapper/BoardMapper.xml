@@ -36,5 +36,21 @@
     <update id="UpdateHitCnt" parameterType="com.yeosin.board.BoardDto">
 		UPDATE YS_BOARD SET HITCNT = HITCNT + 1 WHERE BOARDTYPE = #{boardType} AND BOARDSEQUENCE = #{boardSequence}
 	</update>
+	
+	 <select id="getNoticeListForMain" parameterType="String" resultType="com.yeosin.board.BoardDto">
+		SELECT 	
+				BOARDID
+			,	BOARDTYPE 
+			,	BOARDSEQUENCE 
+			,	TITLE 
+			,	CONTENTS 
+			,	HITCNT 
+			,	USERID 
+			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME 
+		FROM 	YS_BOARD
+		WHERE BOARDTYPE = '1'
+		ORDER BY WRITETIME DESC
+		LIMIT 5
+   </select>
    
 </mapper>

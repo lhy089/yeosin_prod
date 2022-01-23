@@ -4,6 +4,8 @@
 <head lang="ko">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
   <meta charset="utf-8">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <title>대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
   <meta name="description" content="여신금융협회">
   <meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
@@ -23,6 +25,18 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="/www/inc/css/apply.css">
+  <script>
+  $(document).ready(function(){
+	 	 $('.btn_apply').click(function() {
+			if(confirm("환불규정을 확인하셨습니까?\n환불규정에 동의 후 취소가 가능합니다.")) {
+				location.href="/cancel?receiptId="+$("#receiptId").val();
+			}else {
+				
+			}
+		})
+	 })
+  
+  </script>
 </head>
 
 <body>
@@ -35,6 +49,8 @@
     <div class="announcement">
       접수를 취소할 경우 환불 규정을 꼭 확인해야 합니다.
     </div>
+    <c:choose>
+    <c:when test="${applyInfo ne null}">
     <table>
       <colgroup>
         <col width="15.5%">
@@ -42,48 +58,54 @@
       </colgroup>
       <tr>
         <th>시험명</th>
-        <td>응시한 시험명 출력</td>
+        <td>${applyInfo.examDto.examName}</td>
       </tr>
       <tr>
         <th>시험회차</th>
-        <td>제20XX-X회차</td>
+        <td>${applyInfo.examDto.examDegree}</td>
       </tr>
       <tr>
         <th>성명</th>
-        <td>회원정보</td>
+        <td>${applyInfo.userDto.userName}</td>
       </tr>
       <tr>
         <th>연락처</th>
-        <td>회원정보</td>
+        <td>${applyInfo.userDto.phoneNumber}</td>
       </tr>
       <tr>
         <th>이메일</th>
-        <td>회원정보</td>
+        <td>${applyInfo.userDto.emailAddress}</td>
       </tr>
       <tr>
         <th>시험장명</th>
-        <td>선택정보</td>
+        <td>${applyInfo.examDto.examLocal}</td>
       </tr>
       <tr>
         <th>자격종별</th>
-        <td>선택정보</td>
+        <td></td>
       </tr>
       <tr>
         <th>접수일</th>
-        <td>접수된 일자표기</td>
+        <td>${applyInfo.receiptDate}</td>
       </tr>
       <tr>
         <th>시험일</th>
-        <td>시험일자</td>
+        <td>${applyInfo.examDto.examDate}</td>
       </tr>
       <tr>
         <th>결제정보</th>
-        <td>결제한 방법 표기(카트, 무통장 등)</td>
+        <td>${applyInfo.paymentMethod}</td>
       </tr>
     </table>
+    </c:when>
+    <c:otherwise>
+    표시할 데이터가 없습니다.
+    </c:otherwise>
+    </c:choose>
     <div class="btnWrap">
-      <a href="#" class="btn_apply">출력하기</a>
-      <a href="/cancel" class="btn_apply">접수 취소</a>
+    	<input type="hidden" value="${applyInfo.receiptId}" id="receiptId"/>
+      <a href='#' class="btn_apply">출력하기</a>
+      <a onclick="return false;" class="btn_apply">접수 취소</a>
     </div>
   </div>
 </div>

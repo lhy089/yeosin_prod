@@ -1,6 +1,5 @@
 package com.yeosin.apply;
 
-import java.util.Date;
 import java.util.List;
 
 import com.yeosin.user.UserDto;
@@ -13,12 +12,12 @@ public class ApplyDto {
 	private String receiptId; // 접수번호
 	private String userId; // 회원 ID
 	private String examId; // 시험코드
-	private Date receiptDate; // 접수일시
+	private String receiptDate; // 접수일시
 	private String isCancel; // 취소여부
 	private String paymentMethod; // 결제수단
 	private String cardName; // 카드이름
 	private String bankName; // 은행이름
-	private Date paymentDate; // 결제날짜
+	private String paymentDate; // 결제날짜
 	private Double examFee; // 응시료
 	private Double saleRate; // 할인률
 	private Double fees; // 수수료
@@ -45,10 +44,10 @@ public class ApplyDto {
 	public void setExamId(String examId) {
 		this.examId = examId;
 	}
-	public Date getReceiptDate() {
+	public String getReceiptDate() {
 		return receiptDate;
 	}
-	public void setReceiptDate(Date receiptDate) {
+	public void setReceiptDate(String receiptDate) {
 		this.receiptDate = receiptDate;
 	}
 	public String getIsCancel() {
@@ -75,10 +74,10 @@ public class ApplyDto {
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
-	public Date getPaymentDate() {
+	public String getPaymentDate() {
 		return paymentDate;
 	}
-	public void setPaymentDate(Date paymentDate) {
+	public void setPaymentDate(String paymentDate) {
 		this.paymentDate = paymentDate;
 	}
 	public Double getExamFee() {

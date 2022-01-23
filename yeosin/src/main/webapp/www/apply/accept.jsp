@@ -53,10 +53,10 @@
       <c:forEach var="apply" items="${applyList}">
       	<tr>
 			<td>${apply.examDto.examName}</td>
-	        <td>${apply.examDto.receiptstartDate} ~ ${apply.examDto.receiptEndDate}</td>
+	        <td>${apply.examDto.receiptStartDate} ~ ${apply.examDto.receiptEndDate}</td>
 	        <td>${apply.examDto.examDate}</td>
 	        <td>${apply.examDto.examLocal}</td>
-	        <td><a href="/accept_view" class="btn_apply">자세히 보기</a></td>
+	        <td><a href="/accept_view?receiptId=${apply.receiptId}" class="btn_apply">자세히 보기</a></td>
       	</tr>
       </c:forEach>
     </table>

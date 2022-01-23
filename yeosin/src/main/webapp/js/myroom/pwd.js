@@ -27,31 +27,6 @@ function doCheckedPwd() {
         	}else {
         		alert("비밀번호가 일치하지 않습니다.");
         	}
-//            if(data != null) {
-//            	var userInfo = JSON.parse(data)[0];
-//            	alert("회원가입이 완료 되었습니다.")
-//            	
-//            	$("#userInfo_name").text(userInfo.userName);
-//   	   			$("#userInfo_id").text(userInfo.userId);
-//   	   			$("#userInfo_callNumber").text(userInfo.callNumber);
-//   	   			$("#userInfo_phoneNumber").text(userInfo.phoneNumber);
-//   	   			$("#userInfo_emailAddress").text(userInfo.emailAddress);
-//   	   			if(userInfo.isReceiveSms=="Y") $("#userInfo_isReceiveSms").prop("checked","checked");
-//   	   			if(userInfo.isReceiveEmail=="Y") $("#userInfo_isReceiveEmail").prop("checked","checked");
-//            	
-//            	$("#userInfo_name").val("");
-//            	$(".intro").hide();
-//   	   			$(".provision").hide();
-//   	   			$(".certification").hide();
-//   	   			$(".entry").hide();
-//   	   			$(".finish").show();
-//   	   			
-//            }else {
-//            	$('#id').val("");
-//        		$('#pwd').val("");
-//        		$('#id').focus();
-//            	alert("회원 정보가 존재하지 않거나 일치하지 않습니다.")
-//            }
         }
       });
 }

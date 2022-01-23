@@ -25,7 +25,7 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="/www/inc/css/myroom.css">
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/myroom/change.js?t=2"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/myroom/change.js?t=1"></script>
   <script>
   debugger;
   window.onload = function() { debugger;
@@ -41,11 +41,15 @@
 	  	var phoneNumberArr = phoneNumberStr.split("-");
 	  	$("#phoneNumber2").val(phoneNumberArr[1]);
 	  	$("#phoneNumber3").val(phoneNumberArr[2]);
+	  	$("#isReceiveSms").prop("disabled",false);
+	  	if($("#isReceiveSmsStr").val() == "Y") $("#isReceiveSms").prop("checked","checked");
 	  }
 	  
-	  if($("#isReceiveSmsStr").val() == "Y") $("#isReceiveSms").prop("checked","checked");
-	  if($("#isReceiveEmailStr").val() == "Y") $("#isReceiveEmail").prop("checked","checked");
-	 
+	  var emailAddressStr = $("#emailAddress").val();
+	  if(emailAddressStr) {
+		  $("#isReceiveEmail").prop("disabled",false);
+		  if($("#isReceiveEmailStr").val() == "Y") $("#isReceiveEmail").prop("checked","checked");
+	  }	 
   }
  
   </script>
@@ -139,7 +143,7 @@
           <td>
             <p>원서접수, 자격증 발급 관련 정보를 SMS를 이용하여 서비스하고 있습니다.<br/>동의하지 않을 경우 <strong>정보가 누락</strong>될 수 있습니다.</p>
             <label><input type="checkbox" id="isReceiveSms" name="agreeChk"/> 수신 동의합니다</label>
-            <input type="hidden" value="${userInfo.isReceiveSms}" id="isReceiveSmsStr"/>
+            <input type="hidden" value="${userInfo.isReceiveSms}" id="isReceiveSmsStr" disabled="disabled"/>
           </td>
         </tr>
         <tr>
@@ -147,7 +151,7 @@
           <td>
             <p>마케팅,홍보관련 자료 및 원서접수와 관련 된 정보를 이메일로 발송합니다.<br/>동의하지 않을 경우 <strong>정보가 누락</strong>될 수 있습니다.</p>
             <label><input type="checkbox" id="isReceiveEmail" name="agreeChk"/> 수신 동의합니다</label>
-            <input type="hidden" value="${userInfo.isReceiveEmail}" id="isReceiveEmailStr"/>
+            <input type="hidden" value="${userInfo.isReceiveEmail}" id="isReceiveEmailStr" disabled="disabled"/>
           </td>
         </tr>
       </table>

@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
 <!DOCTYPE html>
 <html>
 <head lang="ko">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
   <meta charset="utf-8">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
   <title>대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
+
   <meta name="description" content="여신금융협회">
   <meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
   <meta name="viewport" content="user-scalable=no,
@@ -21,60 +26,22 @@
   <meta property="og:image" content="/www/inc/img/openGraph.jpg">
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
-
-  <link rel="stylesheet" href="/www/inc/css/apply.css">
+	
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/www/inc/css/main.css">
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js?t=1"></script>
+  <script>
+  location.href = "/index";
+  
+  </script>
 </head>
 
 <body>
-
-<!--?php include_once "../common/header.php";?-->
+<!--?php include_once "common/header.php";?-->
 <%@ include file="/www/common/header.jsp"%>
-<div class="apply list">
-  <div class="contentBox">
-    <h1>원서접수</h1>
-    <div class="announcement">
-      인터넷접수 첫날의 접수 시작 시간은 10:00 부터입니다.
-    </div>
-    <c:choose>
-	<c:when test='${examListCnt > 0}'>
-	<c:forEach var="exam" items="${examList}">
-    <table>
-      <colgroup>
-        <col width="34.7%">
-        <col width="*">
-      </colgroup>
-      <tr>
-        <th>시험명</th>
-        <td>${exam.examName}</td>
-      </tr>
-      <tr>
-        <th>시험회차</th>
-        <td>${exam.examDegree}</td>
-      </tr>
-      <tr>
-        <th>시험일</th>
-        <td>${exam.examDate}</td>
-      </tr>
-      <tr>
-        <th>시험지역</th>
-        <td>${exam.examLocal}</td>
-      </tr>
-      <tr>
-        <th>원서접수</th>
-        <td><a href="/apply2?examId=${exam.examId}" class="btn_apply">접수하기</a></td>
-      </tr>
-    </table>
-    <br/>
-    </c:forEach>
-    </c:when>
-    <c:otherwise>
-    	표시할 데이터가 없습니다.
-    </c:otherwise>
-    </c:choose>
-  </div>
+<div class="main">
+  
 </div>
 <%@ include file="/www/common/footer.jsp"%>
-<!--?php include_once "../common/footer.php";?-->
-
+<!--?php include_once "common/footer.php";?-->
 </body>
 </html>

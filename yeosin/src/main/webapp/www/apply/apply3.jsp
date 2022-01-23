@@ -22,7 +22,7 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="../inc/css/apply.css">
+  <link rel="stylesheet" href="/www/inc/css/apply.css">
 </head>
 
 <body>
@@ -34,7 +34,7 @@
     <h1>원서접수</h1>
     <div class="schedule">
       2021 대출성 상품 판매대리 &middot; 중개업자 등록 자격인증 평가<br/>
-      <span><strong>시험일</strong>2021-06-07</span><span><strong>인터넷접수</strong>2021-06-08 오전 10:00~2021-07-23</span>
+      <span><strong>시험일</strong>${examInfo.examDate}</span><span><strong>인터넷접수</strong>${examInfo.receiptStartDate} 오전 10:00 ~ ${examInfo.receiptEndDate}</span>
     </div>
     <section>
       <h2>개인정보</h2>
@@ -45,22 +45,22 @@
         </colgroup>
         <tr>
           <th>성명</th>
-          <td>홍길동</td>
+          <td>${userInfo.userName}</td>
         </tr>
         <tr>
           <th>생년월일</th>
-          <td>2020년 01월 01일</td>
+          <td>${userInfo.birthDate}</td>
         </tr>
         <tr>
           <th>휴대전화</th>
-          <td>010-0000-0000</td>
+          <td>${userInfo.phoneNumber}</td>
         </tr>
         <tr>
           <th>이메일</th>
-          <td></td>
+          <td>${userInfo.emailAddress}</td>
         </tr>
       </table>
-      <a href="../myroom/change.html" class="btn_change">개인정보 변경</a>
+      <a href="/change" class="btn_change">개인정보 변경</a>
 
       <h2>교육수료정보</h2>
       <table>

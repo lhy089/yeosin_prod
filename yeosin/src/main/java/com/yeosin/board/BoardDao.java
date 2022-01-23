@@ -27,4 +27,8 @@ public class BoardDao {
 		this.sqlSession.update(nameSpace + "UpdateHitCnt", boardDto);
 	}
 	
+	public List<BoardDto> getNoticeListForMain() {
+		return this.sqlSession.selectList(nameSpace + "getNoticeListForMain");
+	}
+	
 }

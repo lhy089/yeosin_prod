@@ -13,6 +13,19 @@ public class ExamDao {
 	private SqlSessionTemplate sqlSession;
 	private String nameSpace = "com.yeosin.apply.ExamDao.";
 	
+	public ExamDto getExamInfoForMain() {
+		return this.sqlSession.selectOne(nameSpace + "getExamInfoForMain");
+	}
+	
+	public List<ExamDto> getExamList() {
+		return this.sqlSession.selectList(nameSpace + "getExamList");
+	}
+	
+	
+	public ExamDto getExamInfo(String examId) {
+		return this.sqlSession.selectOne(nameSpace + "getExamInfo", examId);
+	}
+	
 	/*public List<ApplyDto> getApplyList(String userId) throws Exception {
 		return sqlSession.selectList(nameSpace + "GetApplyList", userId);
 	}*/

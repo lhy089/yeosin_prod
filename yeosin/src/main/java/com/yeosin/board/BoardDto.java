@@ -11,7 +11,7 @@ public class BoardDto {
 	private String contents;	//내용
 	private int hitCnt;			//조회수	
 	private String userId;		//회원 ID	(회원테이블)
-	private Date writeTime;		//작성시간
+	private String writeTime;		//작성시간
 	
 	
 	public String getBoardId() {
@@ -56,10 +56,10 @@ public class BoardDto {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public Date getWriteTime() {
+	public String getWriteTime() {
 		return writeTime;
 	}
-	public void setWriteTime(Date writeTime) {
+	public void setWriteTime(String writeTime) {
 		this.writeTime = writeTime;
 	}
 }

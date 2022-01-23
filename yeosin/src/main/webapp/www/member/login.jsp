@@ -24,12 +24,15 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="../inc/css/member.css">
-   <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/login.js?t=3"></script>
+  <link rel="stylesheet" href="/www/inc/css/member.css">
+   <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/login.js?t=1"></script>
    <script>
    if(${loginUserInfo.userId != null}) {
-	      $(location).attr("href", "/www/index.jsp");
-	   }
+	      $(location).attr("href", "/www/main.jsp");
+	}	
+   if(${isAlert}) { 
+	      alert("로그인 후 이용 가능합니다.");
+	}
    </script>
 </head>
 
