@@ -39,5 +39,9 @@ public class ApplyService {
 		return examDao.getExamInfo(examId);
 	}
 	
+	public List<ApplyDto> getExamResult(String userId) throws Exception {
+		return applyDao.getExamResult(userId);
+	}
+	
 	
 }

@@ -4,6 +4,8 @@
 <head lang="ko">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
   <meta charset="utf-8">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <title>대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
   <meta name="description" content="여신금융협회">
   <meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
@@ -22,7 +24,14 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="../inc/css/apply.css">
+  <link rel="stylesheet" href="/www/inc/css/apply.css">
+  <script>
+  $(document).ready(function(){
+	  $('#btn_print').click(function() {
+  		window.open('/ticket_print?receiptId=${applyInfo.receiptId}', 'ticketPrint', 'width=1000, height=1340, left=400, top=400, resizable = yes');
+	  })
+  })
+  </script>
 </head>
 
 <body>
@@ -35,6 +44,8 @@
     <div class="announcement">
       이메일 및 연락처 정보 변경은 회원정보수정에서 수정 가능합니다.
     </div>
+    <c:choose>
+    <c:when test="${applyInfo ne null}">
     <table>
       <colgroup>
         <col width="15.5%">
@@ -42,19 +53,19 @@
       </colgroup>
       <tr>
         <th>시험명</th>
-        <td>응시 시험명 출력</td>
+        <td>${applyInfo.examDto.examName}</td>
       </tr>
       <tr>
         <th>성명</th>
-        <td></td>
+        <td>${applyInfo.userDto.userName}</td>
       </tr>
       <tr>
         <th>연락처</th>
-        <td></td>
+        <td>${applyInfo.userDto.phoneNumber}</td>
       </tr>
       <tr>
         <th>이메일</th>
-        <td></td>
+        <td>${applyInfo.userDto.emailAddress}</td>
       </tr>
       <tr>
         <th>수료번호</th>
@@ -62,22 +73,27 @@
       </tr>
       <tr>
         <th>수험번호</th>
-        <td></td>
+        <td>${applyInfo.receiptId}</td>
       </tr>
       <tr>
         <th>시험장명</th>
-        <td>연희초등학교 (선택 시험장 출력)</td>
+        <td>${applyInfo.examDto.examLocal}</td>
       </tr>
       <tr>
         <th>시험일</th>
-        <td>21. 12. 24 (시험일 출력)</td>
+        <td>${applyInfo.examDto.examDate}</td>
       </tr>
       <tr>
         <th>결제금액</th>
-        <td>19,000원 (관리자 설정 금액 출력)</td>
+        <td>${applyInfo.examFee}</td>
       </tr>
     </table>
-    <a href="#" class="btn_apply">수험표 출력</a>
+    </c:when>
+    <c:otherwise>
+    표시할 데이터가 없습니다.
+    </c:otherwise>
+    </c:choose>
+    <a onclick="return false;" id="btn_print" class="btn_apply">수험표 출력</a>
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>

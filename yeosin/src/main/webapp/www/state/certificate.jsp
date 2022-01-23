@@ -22,7 +22,7 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
   
-  <link rel="stylesheet" href="../inc/css/state.css">
+  <link rel="stylesheet" href="/www/inc/css/state.css">
 </head>
 
 <body>

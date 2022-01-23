@@ -27,15 +27,19 @@
   <link rel="stylesheet" href="/www/inc/css/apply.css">
   <script>
   $(document).ready(function(){
-	 	 $('.btn_apply').click(function() {
+	 	 $('#btn_cancel').click(function() {
 			if(confirm("환불규정을 확인하셨습니까?\n환불규정에 동의 후 취소가 가능합니다.")) {
 				location.href="/cancel?receiptId="+$("#receiptId").val();
 			}else {
 				
 			}
-		})
+		});
+	 	 
+	 	$('#btn_print').click(function() {
+	 		// TODO : 영역 지정해서 프린트하기
+			window.print();
+		});
 	 })
-  
   </script>
 </head>
 
@@ -51,6 +55,7 @@
     </div>
     <c:choose>
     <c:when test="${applyInfo ne null}">
+    <div id="printArea">
     <table>
       <colgroup>
         <col width="15.5%">
@@ -97,6 +102,7 @@
         <td>${applyInfo.paymentMethod}</td>
       </tr>
     </table>
+    </div>
     </c:when>
     <c:otherwise>
     표시할 데이터가 없습니다.
@@ -104,8 +110,8 @@
     </c:choose>
     <div class="btnWrap">
     	<input type="hidden" value="${applyInfo.receiptId}" id="receiptId"/>
-      <a href='#' class="btn_apply">출력하기</a>
-      <a onclick="return false;" class="btn_apply">접수 취소</a>
+      <a onclick="return false;" class="btn_apply" id="btn_print">출력하기</a>
+      <a onclick="return false;" class="btn_apply" id="btn_cancel">접수 취소</a>
     </div>
   </div>
 </div>

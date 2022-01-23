@@ -4,6 +4,8 @@
 <head lang="ko">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
   <meta charset="utf-8">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <title>대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
   <meta name="description" content="여신금융협회">
   <meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
@@ -22,7 +24,22 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
   
-  <link rel="stylesheet" href="../inc/css/apply.css">
+  <link rel="stylesheet" href="/www/inc/css/apply.css">
+  
+<script>
+$(function(){
+  /* 유의사항 넘버링 */
+  $('.content ul li').each(function(){
+    var liNum = $(this).index()+1;
+    $(this).prepend('<span>'+ liNum +'</span>');
+  });
+  $(document).ready(function(){
+	  $('#btn_print').click(function() {
+  		window.print();
+	  })
+  })
+});
+</script>
 </head>
 
 <body>
@@ -39,27 +56,27 @@
     </tr>
     <tr>
       <th>수험번호</th>
-      <td>40150001</td>
+      <td>${applyInfo.receiptId}</td>
     </tr>
     <tr>
       <th>이름</th>
-      <td>홍길동</td>
+      <td>${applyInfo.userDto.userName}</td>
     </tr>
     <tr>
       <th>생년월일</th>
-      <td>20100101</td>
+      <td>${applyInfo.userDto.birthDate}</td>
     </tr>
     <tr>
       <th>시험일자</th>
-      <td>2021-08-07</td>
+      <td>${applyInfo.examDto.examDate}</td>
     </tr>
     <tr>
       <th>성적공고</th>
-      <td>2021-08-24</td>
+      <td>${applyInfo.examDto.gradeStartDate} ~ ${applyInfo.examDto.gradeEndDate}</td>
     </tr>
     <tr>
       <th>시험장소</th>
-      <td>(대전) 대성고등학교 제2고사실</td>
+      <td>${applyInfo.examDto.examLocal}</td>
     </tr>
     <tr>
       <th>입실완료시간</th>
@@ -91,18 +108,9 @@
   </h2>
   <div class="content">
     <!-- 지도 이미지 -->
-    <img src="../inc/img/apply/test-map.jpg" class="mapImg" alt="지도이미지 예시">
+    <img src="/www/inc/img/apply/test-map.jpg" class="mapImg" alt="지도이미지 예시">
   </div>
 </div>
-
-<script>
-$(function(){
-  /* 유의사항 넘버링 */
-  $('.content ul li').each(function(){
-    var liNum = $(this).index()+1;
-    $(this).prepend('<span>'+ liNum +'</span>');
-  });
-});
-</script>
+<div><a onclick="return false;" id="btn_print" class="btn_apply">출력하기</a></div>
 </body>
 </html>

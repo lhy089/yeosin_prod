@@ -27,4 +27,8 @@ public class ApplyDao {
 	public ApplyDto getDetailApplyInfo(Map<String, Object> map) throws Exception {
 		return sqlSession.selectOne(nameSpace + "getDetailApplyInfo", map);
 	}
+	
+	public List<ApplyDto> getExamResult(String userId) throws Exception {
+		return sqlSession.selectList(nameSpace + "getExamResult", userId);
+	}
 }

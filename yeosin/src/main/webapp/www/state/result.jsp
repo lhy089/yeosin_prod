@@ -22,7 +22,7 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="../inc/css/state.css">
+  <link rel="stylesheet" href="/www/inc/css/state.css">
 </head>
 
 <body>
@@ -35,6 +35,8 @@
     <div class="announcement">
       최근 3년의 응시 결과 정보만 조회 가능합니다
     </div>
+    <c:choose>
+    <c:when test="${resultListCnt>0}">
     <table>
       <colgroup>
         <col width="*">
@@ -48,13 +50,20 @@
         <th>점수</th>
         <th>자격인증서</th>
       </tr>
+      <c:forEach var="result" items="${resultList}">
       <tr>
-        <td>시험명</td>
-        <td>합격</td>
-        <td>100</td>
-        <td><a href="#" class="btn_apply">출력하기</a></td>
+        <td>${result.examDto.examName}</td>
+        <td>${result.gradeDto.isPass}</td>
+        <td>${result.gradeDto.allScore}</td>
+        <td><a href="/certificate" class="btn_apply">출력하기</a></td>
       </tr>
+      </c:forEach>
     </table>
+    </c:when>
+    <c:otherwise>
+    표시할 데이터가 없습니다.
+    </c:otherwise>
+    </c:choose>
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>

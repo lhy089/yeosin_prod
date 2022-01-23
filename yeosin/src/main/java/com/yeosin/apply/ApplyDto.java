@@ -25,6 +25,7 @@ public class ApplyDto {
 	private ExamDto examDto; // 시험 DTO
 	private UserDto userDto; // 유저 DTO
 	private SubjectDto subjectDto; // 종목 DTO
+	private GradeDto gradeDto; // 성적 DTO
 		
 	public String getReceiptId() {
 		return receiptId;
@@ -116,4 +117,11 @@ public class ApplyDto {
 	public void setSubjectDto(SubjectDto subjectDto) {
 		this.subjectDto = subjectDto;
 	}
+	public GradeDto getGradeDto() {
+		return gradeDto;
+	}
+	public void setGradeDto(GradeDto gradeDto) {
+		this.gradeDto = gradeDto;
+	}
+	
 }
