@@ -11,7 +11,7 @@ $(document).ready(function(){
        location.href="member/join.jsp";
    });
     
-    $('#btn_change').click(function(){ debugger;
+    $('.btn_change').click(function(){
         console.log("btn_change clicked");
         if($('#btn_logout').length > 0) {
         	location.href="/pwd";

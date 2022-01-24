@@ -25,7 +25,7 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="www/inc/css/member.css">
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=1"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=2"></script>
 </head>
 
 <body>
@@ -188,7 +188,7 @@
               <input type="tel" maxlength="4" id="phoneNumber2" value="">
               <input type="tel" maxlength="4" id="phoneNumber3" value="">
               <p>수신동의 하시면 안내 및 수험 정보를 받으실 수 있습니다.</br>수신동의와 별도로 비밀번호 찾기에 사용되므로 <strong>반드시 입력</strong> 바랍니다.</p>
-              <label><input type="checkbox" id="isReceiveSms" name="agreeChk"/> 수신 동의합니다</label>
+              <label><input type="checkbox" id="isReceiveSms" name="agreeChk" disabled="disabled"/> 수신 동의합니다</label>
             </td>
           </tr>
           <tr>
@@ -196,7 +196,7 @@
             <td>
               <input type="email" id="emailAddress" value="">
               <p>수신동의 하시면 안내 및 수험 정보를 받으실 수 있습니다.</br>수신동의와 별도로 비밀번호 찾기에 사용되므로 <strong>반드시 입력</strong> 바랍니다.</p>
-              <label><input type="checkbox" id="isReceiveEmail" name="agreeChk"/> 수신 동의합니다</label>
+              <label><input type="checkbox" id="isReceiveEmail" name="agreeChk" disabled="disabled"/> 수신 동의합니다</label>
             </td>
           </tr>
         </table>
@@ -235,13 +235,13 @@
           <tr>
             <th>휴대폰번호</th>
             <td id="userInfo_phoneNumber">
-              수신 동의합니다 <input type="checkbox" id="userInfo_isReceiveSms" name="agreeChk" onclick="return false" disabled="disabled"/><!--동의 했을 때 'checked' 포함-->
+              수신 동의합니다 <input type="checkbox" id="userInfo_isReceiveSms" name="agreeChk" onclick="return false"/><!--동의 했을 때 'checked' 포함-->
             </td>
           </tr>
           <tr>
             <th>이메일</th>
             <td id="userInfo_emailAddress">
-              수신 동의합니다 <input type="checkbox" id="userInfo_isReceiveEmail" name="agreeChk" onclick="return false" disabled="disabled"/>
+              수신 동의합니다 <input type="checkbox" id="userInfo_isReceiveEmail" name="agreeChk" onclick="return false"/>
             </td>
           </tr>
         </table>

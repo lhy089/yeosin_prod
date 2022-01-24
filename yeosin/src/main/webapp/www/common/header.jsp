@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js?t=2"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js?t=5"></script>
   
  <c:set var="root" value="${pageContext.request.contextPath}"/>
 <link href="/www/inc/css/reset.css" rel="stylesheet" type="text/css" media="screen">
@@ -56,7 +56,7 @@
       <li><a href="/accept">응시현황</a></li>
       <li><a href="/examGuide">평가안내</a></li>
       <li><a href="/notice?boardType=1">알림마당</a></li>
-      <li><a onclick="return false;" id="btn_change">회원정보수정</a></li>
+      <li><a onclick="return false;" class="btn_change">회원정보수정</a></li>
     </ul>
   </div>
   <div class="depth2">
@@ -93,7 +93,7 @@
 
 <!-- mo// -->
 <header class="mo">
-  <p class="home"><a href="#"><img src="/www/inc/img/common/logo.png" alt="여신금융협회"></a></p>
+  <p class="home"><a href="/www/main.jsp"><img src="/www/inc/img/common/logo.png" alt="여신금융협회"></a></p>
   <a href="#" class="btn_menu"></a>
 </header>
 <div class="menuWrap mo">
@@ -101,37 +101,37 @@
     <dl>
       <dt>원서접수<p>+</p></dt>
       <dd>
-        <p><a href="#">원서접수 신청</a></p>
-        <p><a href="#">원서접수 확인 및 취소</a></p>
-        <p><a href="#">수험표 출력</a></p>
-        <p><a href="#">환불 안내</a></p>
+        <p><a href="/apply">원서접수 신청</a></p>
+        <p><a href="/accept">원서접수 확인 및 취소</a></p>
+        <p><a href="/ticket">수험표 출력</a></p>
+        <p><a href="/refund">환불 안내</a></p>
       </dd>
     </dl>
     <dl>
       <dt>응시현황<p>+</p></dt>
       <dd>
-        <p><a href="#">원서접수 현황</a></p>
-        <p><a href="#">응시결과</a></p>
-        <p><a href="#">자격인증서발급</a></p>
+        <p><a href="/accept">원서접수 현황</a></p>
+        <p><a href="/result">응시결과</a></p>
+        <p><a href="/certificate">자격인증서발급</a></p>
       </dd>
     </dl>
     <dl>
       <dt>평가안내<p>+</p></dt>
       <dd>
-        <p><a href="#">평가 소개</a></p>
-        <p><a href="#">응시 안내</a></p>
-        <p><a href="#">시험자료실</a></p>
+        <p><a href="/examGuide">평가 소개</a></p>
+        <p><a href="/registerGuide">응시 안내</a></p>
+        <p><a href="/library?boardType=3">시험자료실</a></p>
       </dd>
     </dl>
     <dl>
       <dt>알림마당<p>+</p></dt>
       <dd>
-        <p><a href="#">공지사항</a></p>
-        <p><a href="#">자주하는 질문</a></p>
+        <p><a href="/notice?boardType=1">공지사항</a></p>
+        <p><a href="/question?boardType=2">자주하는 질문</a></p>
       </dd>
     </dl>
     <dl>
-      <dt><a href="#">회원정보수정</a></dt>
+      <dt><a onclick="return false;" class="btn_change">회원정보수정</a></dt>
       <!-- <dd>
         <p><a href="#">회원 정보 수정</a></p>
         <p><a href="#">회원 탈퇴</a></p>
