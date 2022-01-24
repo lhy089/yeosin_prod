@@ -37,5 +37,8 @@ public class BoardService {
 	public List<BoardDto> getNoticeListForMain() throws Exception{
 		return boardDao.getNoticeListForMain();
 	}
-
+	
+	public List<BoardDto> getBoardListBySearch(BoardDto boardDto) throws Exception{
+		return boardDao.getBoardListBySearch(boardDto);
+	}
 }

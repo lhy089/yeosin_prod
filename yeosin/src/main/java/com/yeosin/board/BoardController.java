@@ -3,9 +3,7 @@ package com.yeosin.board;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,6 +51,24 @@ public class BoardController {
 		return mav;
 	}
 	
+	//공지사항 검색하기
+	@RequestMapping(value="/notice_search")
+	@ResponseBody
+	public ModelAndView notice_search(BoardDto boardDto) throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+		String searchType = boardDto.getSearchType();
+		
+		List<BoardDto> noticeList = new ArrayList<>();
+		noticeList = boardService.getBoardListBySearch(boardDto);
+		
+		mav.addObject("noticeList", noticeList);
+		mav.addObject("searchType", searchType);
+		mav.setViewName("notice/notice");
+		return mav;
+	}
+	
+	
 	//자주하는 질문
 	@RequestMapping(value="/question", method=RequestMethod.GET)
 	@ResponseBody
@@ -62,10 +78,29 @@ public class BoardController {
 		
 		ModelAndView mav = new ModelAndView();	
 	
-		List<BoardDto> noticeList = new ArrayList<>();
-		noticeList = boardService.getBoardList(boardType);
+		List<BoardDto> questionList = new ArrayList<>();
+		questionList = boardService.getBoardList(boardType);
 		
-		mav.addObject("questionList", noticeList);		
+		mav.addObject("questionList", questionList);		
+		mav.setViewName("notice/question");
+		return mav;
+	}
+	
+	//자주하는 질문 검색하기
+	@RequestMapping(value="/question_search")
+	@ResponseBody
+	public ModelAndView question_search(BoardDto boardDto) throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+		String searchType = boardDto.getSearchType();
+		String category = boardDto.getCategory();
+		
+		List<BoardDto> questionList = new ArrayList<>();
+		questionList = boardService.getBoardListBySearch(boardDto);
+		
+		mav.addObject("questionList", questionList);	
+		mav.addObject("searchType", searchType);
+		mav.addObject("category", category);
 		mav.setViewName("notice/question");
 		return mav;
 	}
@@ -99,6 +134,23 @@ public class BoardController {
 			
 		mav.addObject("libraryInfo", libraryInfo);
 		mav.setViewName("guide/library_view");
+		return mav;
+	}
+	
+	//시험자료실 검색하기
+	@RequestMapping(value="/library_search")
+	@ResponseBody
+	public ModelAndView library_search(BoardDto boardDto) throws Exception{
+			
+		ModelAndView mav = new ModelAndView();
+		String searchType = boardDto.getSearchType();
+			
+		List<BoardDto> libraryList = new ArrayList<>();
+		libraryList = boardService.getBoardListBySearch(boardDto);
+			
+		mav.addObject("libraryList", libraryList);
+		mav.addObject("searchType", searchType);
+		mav.setViewName("guide/library");
 		return mav;
 	}
 	

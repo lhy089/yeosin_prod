@@ -12,6 +12,8 @@ public class BoardDto {
 	private int hitCnt;			//조회수	
 	private String userId;		//회원 ID	(회원테이블)
 	private String writeTime;		//작성시간
+	private String category;	//카테고리
+	private String categorySequence; //카테고리 번호
 	
 	private String searchWord;
 	private String searchType;
@@ -64,6 +66,18 @@ public class BoardDto {
 	}
 	public void setWriteTime(String writeTime) {
 		this.writeTime = writeTime;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public String getCategorySequence() {
+		return categorySequence;
+	}
+	public void setCategorySequence(String categorySequence) {
+		this.categorySequence = categorySequence;
 	}
 	public String getSearchWord() {
 		return searchWord;

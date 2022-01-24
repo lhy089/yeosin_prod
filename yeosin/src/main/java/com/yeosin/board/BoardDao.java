@@ -31,4 +31,9 @@ public class BoardDao {
 		return this.sqlSession.selectList(nameSpace + "getNoticeListForMain");
 	}
 	
+	public  List<BoardDto> getBoardListBySearch(BoardDto boardDto){
+		return this.sqlSession.selectList(nameSpace + "getBoardListBySearch", boardDto);
+	}
+	
+	
 }

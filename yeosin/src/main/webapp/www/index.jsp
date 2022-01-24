@@ -70,7 +70,7 @@
         <h2>공지사항</h2>
         <ul>
         <c:forEach var="notice" items="${noticeList}">
-          <li><a href="#">${notice.title}</a><span class="date">${notice.writeTime}</span></li>
+          <li><a href="/notice_view?boardType=${notice.boardType}&boardSequence=${notice.boardSequence}">${notice.title}</a><span class="date">${notice.writeTime}</span></li>
          </c:forEach>
         </ul>
       </div>

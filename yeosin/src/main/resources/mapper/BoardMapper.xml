@@ -11,10 +11,10 @@
 			,	CONTENTS 
 			,	HITCNT 
 			,	USERID 
-			,	WRITETIME 
+			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME 
 		FROM 	YS_BOARD
 		WHERE 	BOARDTYPE = #{BoardType} 
-		ORDER BY BOARDSEQUENCE
+		ORDER BY WRITETIME DESC
    </select>
    
    <select id="GetBoardInfo" parameterType="com.yeosin.board.BoardDto" resultType="com.yeosin.board.BoardDto">
@@ -73,6 +73,9 @@
 		</if>
 		<if test='searchType=="A"'>
 			AND (TITLE LIKE CONCAT('%',#{searchWord},'%') OR CONTENTS LIKE CONCAT('%',#{searchWord},'%'))
+		</if>
+		<if test='category!=""'>
+			AND CATEGORY = #{category}
 		</if>
 		ORDER BY BOARDSEQUENCE
    </select>

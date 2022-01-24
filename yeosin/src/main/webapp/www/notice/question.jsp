@@ -24,11 +24,27 @@
 
   <link rel="stylesheet" href="/www/inc/css/notice.css">
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+	   $("#btn_search").click(function() {
+	      $("#boardType").val('2');
+	      $("#category").val($("#category").val());
+	      $("#searchWord").val($("#searchWord").val());
+	      $("#searchType").val($("#searchType").val());
+	      $("#commonform").submit(); 
+	   });
+});
+</script>
 
 <body>
 
 <!--?php include_once "../common/header.php";?-->
 <%@ include file="/www/common/header.jsp"%>
+
+<form id="commonform" name="commonform" method="post" action="/question_search">
+<input type="hidden" name="boardType" id="boardType" >
+
 <div class="notice question">
   <div class="contentBox">
     <h1>자주하는 질문</h1>
@@ -36,14 +52,25 @@
       자주하는 질문을 검색할 수 있습니다.
     </div>
     <div class="searchBox">
-      <select id="" name="">
-        <option value="">전체</option>
+       <select id="category" name="category">
+       	<option value="">전체</option>
+        <option value="원서접수 및 취소" <c:if test="${category eq '원서접수 및 취소'}">selected="selected"</c:if>>원서접수 및 취소</option>
+        <option value="시험안내" <c:if test="${category eq '시험안내'}">selected="selected"</c:if>>시험안내</option>
+        <option value="결제 및 환불" <c:if test="${category eq '결제 및 환불'}">selected="selected"</c:if>>결제 및 환불</option>
+        <option value="자격증 관련" <c:if test="${category eq '자격증 관련'}">selected="selected"</c:if>>자격증 관련</option>
+        <option value="응시관련" <c:if test="${category eq '응시관련'}">selected="selected"</c:if>>응시관련</option>
+        <option value="회원가입(로그인)" <c:if test="${category eq '회원가입(로그인)'}">selected="selected"</c:if>>회원관리(로그인)</option>
+        <option value="시험결과관련" <c:if test="${category eq '시험결과관련'}">selected="selected"</c:if>>시험결과관련</option>
+        <option value="기타" <c:if test="${category eq '기타'}">selected="selected"</c:if>>기타</option>
       </select>
-      <select id="" name="">
-        <option value="">조건검색</option>
+       <select id="searchType" name="searchType">
+        <option value="S" <c:if test="${searchType eq 'S'}">selected="selected"</c:if>>제목</option>
+        <option value="C" <c:if test="${searchType eq 'C'}">selected="selected"</c:if>>내용</option>
+        <option value="A" <c:if test="${searchType eq 'A'}">selected="selected"</c:if>>제목+내용</option>
       </select>
-      <input type="text" name="" value="">
-      <a href="#" class="btn_serch">검색</a>
+      <input type="text" id="searchWord" name="searchWord" placeholder="내용을 입력해주세요">
+     <!-- <a href="#" class="btn_serch">검색</a>-->
+      <button id="btn_search" name="btn_search" class="btn_serch">검색</button>
     </div>
     <div class="questionList">
      <c:forEach var="question" items="${questionList}">	
@@ -59,6 +86,8 @@
     </div>
   </div>
 </div>
+
+</form>
 <%@ include file="/www/common/footer.jsp"%>
 <!--?php include_once "../common/footer.php";?-->
 
