@@ -2,9 +2,6 @@
 /* CSS Document */
 
 *{--font-title:SBAggroM; /*어그로체*/}
-/* h1{ font-weight: 400; font-family:sandoll-gothicneo2, sans-serif;}
-h2{ font-weight: 200; font-family:sandoll-gothicneo3, sans-serif;}
-p{font-family:'NanumSquare'; font-size:32px;} */
 
 /* apply 공통 */
 .apply{padding:40px 0 150px; box-sizing:border-box;}
@@ -46,7 +43,7 @@ p{font-family:'NanumSquare'; font-size:32px;} */
 /* 2단계 */
 .apply.second{}
 .apply.second table{width:100%; border-top:2px solid #58585b; box-sizing:border-box; margin-bottom:100px;}
-.apply.second table th,.apply.second table td{font-family:sandoll-gothicneo3, sans-serif; border-bottom:1px solid #c7c6c6; border-right:1px solid #c7c6c6; box-sizing:border-box; font-size:23px;}
+.apply.second table th,.apply.second table td{font-family:sandoll-gothicneo3, sans-serif; border-bottom:1px solid #c7c6c6; border-right:1px solid #c7c6c6; box-sizing:border-box; font-size:22px; letter-spacing:-1px;}
 .apply.second table th:last-child,.apply.second table td:last-child{border-right:0;}
 .apply.second table th{padding:20px 0; box-sizing:border-box; color:#58585b; background:#f8f8f8;}
 .apply.second table td{padding:20px 0; color:#000;}
@@ -171,6 +168,9 @@ p{font-family:'NanumSquare'; font-size:32px;} */
   .apply h1{border-bottom:0.27vw solid #0074dd; font-size:2.25vw; line-height:4.32vw; margin-bottom:4.05vw;}
   .apply .announcement{border-radius:0.9vw; padding:1.62vw 1.8vw; font-size:2.07vw; margin-bottom:4.05vw;}
   .apply .announcement span{margin-top:1.08vw;}
+  .apply .schedule{border-radius:0.9vw; background:#f8f8f8 url('../img/apply/element_apply.png') no-repeat left 1.08vw center / 6.39vw; padding:1.62vw 1.8vw 1.62vw 9vw; font-size:2.25vw; margin-bottom:5.4vw;}
+  .apply .schedule span{font-size:2.07vw; margin-top:1.08vw; margin-right:2.34vw;}
+  .apply .schedule span strong{margin-right:1.44vw;}
   .apply h2{height:2.16vw; font-size:2.16vw; line-height:2.16vw; margin-bottom:3.6vw;}
   .apply h2::before{width:0.63vw; margin-right:0.72vw;}
   .apply .btn_apply{width:18vw; height:4.5vw; font-size:2.07vw; line-height:4.5vw;}
@@ -182,7 +182,7 @@ p{font-family:'NanumSquare'; font-size:32px;} */
   .apply.list table td .btn_apply{font-size:1.89vw; padding:0 0.63vw; border-radius:0.45vw;}
 
   /* 1단계 */
-  .apply.first table{border-top:0.27vw solid #0074dd;}
+  .apply.first table{border-top:0.27vw solid #0074dd; margin-bottom:6.3vw;}
   .apply.first table th,.apply.first table td{padding:2.52vw 0;}
   .apply.first table th{font-size:2.07vw;}
   .apply.first table td{font-size:2.07vw;}
@@ -194,7 +194,6 @@ p{font-family:'NanumSquare'; font-size:32px;} */
   .apply.first table td input[type="text"]{width:57.51vw;}
   .apply.first table td input[type="checkbox"]{width:1.8vw; height:1.8vw;}
   .apply.first table td label{font-size:2.07vw;}
-  .apply.first .btn_apply{margin-top:6.3vw;}
 
   /* 2단계 */
   .apply.second table{border-top:0.18vw solid #58585b; margin-bottom:9vw;}
@@ -203,7 +202,6 @@ p{font-family:'NanumSquare'; font-size:32px;} */
   .apply.second table td{padding:1.8vw 0;}
   .apply.second table td.red{padding-left:0.9vw;}
   .apply.second table td input[type="checkbox"]{width:2.43vw; height:2.43vw;}
-  .apply.second table:nth-of-type(2){margin-bottom:6.75vw;}
   .apply.second label{font-size:2.07vw; margin:0 auto 5.85vw;}
   .apply.second input[type="checkbox"]{width:2.43vw; height:2.43vw;}
 
@@ -220,4 +218,79 @@ p{font-family:'NanumSquare'; font-size:32px;} */
   .apply.third table td input{width:44.28vw; height:4.5vw; margin-right:0.81vw; font-size:2.07vw; text-indent:1.08vw;}
   .apply.third table td span{font-size:1.8vw;}
   .apply.third .btn_change{height:4.5vw; line-height:4.5vw; font-size:2.07vw; border-radius:0.45vw; padding:0 1.08vw; margin-bottom:8.55vw;}
+
+  /* 4단계 */
+  .apply.fourth .announcement{margin-bottom:3.42vw;}
+  .apply.fourth h4{font-size:2.07vw;}
+  .apply.fourth .areaInfo{border-top:0.27vw solid #0074dd; padding:1.35vw 0 1.35vw;}
+  .apply.fourth .areaInfo p{font-size:2.07vw;}
+  .apply.fourth .areaInfo .location select{width:40.05vw; height:4.5vw; margin-right:0.9vw; font-size:2.07vw; text-indent:1.08vw; border-radius:0.45vw; background:url('../img/common/icon_select.png') no-repeat right 1.26vw center / 1.44vw;}
+  .apply.fourth .areaInfo .btn_serch{width:9.9vw; height:4.5vw; line-height:4.5vw; border-radius:0.45vw;}
+  .apply.fourth .objInfo{padding:2.25vw 0 2.7vw;}
+  .apply.fourth table{border-top:0.18vw solid #58585b; font-size:2.07vw;}
+  .apply.fourth table.areaTable{margin-bottom:3.6vw;}
+  .apply.fourth table.objTable{margin-bottom:6.3vw;}
+  .apply.fourth table th,.apply.fourth table td{padding:1.62vw 0;}
+  .apply.fourth table td .btn_map{width:8.1vw; height:3.06vw; line-height:3.06vw; border-radius:0.45vw; font-size:1.89vw;}
+  .apply.fourth table td input[type="checkbox"]{width:2.43vw; height:2.43vw;}
+
+  /* 5단계 */
+  .apply.fifth .announcement{border-radius:0.9vw; padding:1.62vw 1.8vw; font-size:2.07vw; margin-bottom:4.05vw;}
+  .apply.fifth .announcement span{font-size:2.07vw;}
+  .apply.fifth table{border-top:0.27vw solid #0074dd; margin-bottom:6.3vw;}
+  .apply.fifth table:first-of-type{margin-bottom:1.62vw;}
+  .apply.fifth table th,.apply.fifth table td{padding:2.52vw 0;}
+  .apply.fifth table:nth-of-type(2) th,.apply.fifth table:nth-of-type(2) td{padding:1.35vw 0;}
+  .apply.fifth table th{font-size:2.07vw;}
+  .apply.fifth table td{font-size:2.07vw; padding-left:1.98vw;}
+  .apply.fifth table td select{width:44.28vw; height:4.5vw; margin-right:1.44vw; font-size:2.07vw; text-indent:1.08vw;}
+  .apply.fifth table td input{height:4.5vw; margin-right:0.81vw; font-size:2.07vw; text-indent:1.08vw;}
+  .apply.fifth table td input[type="radio"]{width:1.62vw; height:1.62vw;}
+  .apply.fifth table td label{font-size:2.07vw; margin-right:2.88vw;}
+
+  /* 6단계 */
+  .apply.sixth .doneBox{border-top:0.27vw solid #0074dd; padding:5.4vw 0; font-size:2.25vw; line-height:3.6vw;}
+  .apply.sixth .doneBox p{margin:0 0 3.42vw 0;}
+
+  /* 접수정보 */
+  .apply.accept .announcement{margin-bottom:5.22vw;}
+  .apply.accept table{border-top:0.18vw solid #58585b; margin-bottom:2.7vw;}
+  .apply.accept table th,.apply.accept table td{font-size:2.07vw;}
+  .apply.accept table th{padding:1.8vw 0;}
+  .apply.accept table td{padding:1.8vw 0;}
+  .apply.accept table.none td{padding-left:3.6vw; background:url('../img/apply/icon_report.png') no-repeat left center / 2.79vw;}
+  .apply.accept table td .btn_apply{width:10.35vw; height:3.15vw; line-height:3.15vw; border-radius:0.45vw; font-size:1.89vw;}
+  .apply.accept .pageCnt{font-size:1.53vw;}
+
+  /* 접수정보 자세히보기 */
+  .apply.accept_view .announcement{margin-bottom:5.22vw;}
+  .apply.accept_view table{border-top:0.27vw solid #0074dd; margin-bottom:6.3vw;}
+  .apply.accept_view table th,.apply.accept_view table td{padding:2.52vw 0;}
+  .apply.accept_view table th{font-size:2.07vw;}
+  .apply.accept_view table td{font-size:2.07vw; padding-left:1.98vw;}
+  .apply.accept_view table td input{height:4.5vw; margin-right:0.81vw; font-size:2.07vw; text-indent:1.08vw;}
+  .apply.accept_view table td input[type="tel"]{width:18.54vw;}
+  .apply.accept_view table td input[type="email"]{width:71.46vw;}
+  .apply.accept_view table td input[type="text"]{width:57.51vw;}
+  .apply.accept_view table td input[type="radio"]{width:1.8vw; height:1.8vw;}
+  .apply.accept_view table td label{font-size:2.07vw;}
+  .apply.accept_view .btnWrap .btn_apply{margin:0 2.25vw;}
+
+  /* 취소완료 */
+  .apply.cancel .completion{padding:5.4vw 0 5.13vw; font-size:2.34vw;}
+
+  /* 수험표 */
+  .ticket{width:90vw; padding:1.53vw 2.7vw 2.7vw;}
+  .ticket h1{font-size:2.25vw; line-height:4.23vw; border-bottom:0.27vw solid #58585b; padding-right:2.25vw; margin-bottom:2.7vw;}
+  .ticket h1 span{font-size:1.8vw;}
+  .ticket table{border-top:0.18vw solid #58585b; margin-bottom:2.25vw;}
+  .ticket table th,.ticket table td{font-size:1.44vw; line-height:3.42vw;}
+  .ticket table td{padding-left:1.44vw;}
+  .ticket h2{height:1.8vw; border-left:0.63vw solid #58585b; padding-left:1.35vw; margin-bottom:1.35vw; font-size:1.8vw; line-height:1.8vw;}
+  .ticket .content{margin-bottom:2.25vw;}
+  .ticket .content ul{padding:1.08vw;}
+  .ticket .content ul li{line-height:2.07vw; margin-bottom:0.27vw;}
+  .ticket .content ul li p{font-size:1.53vw;}
+  .ticket .content ul li span{width:1.62vw; height:1.62vw; line-height:1.8vw; margin-top:0.45vw; font-size:1.17vw; margin-right:0.36vw;}
+  .ticket .content .mapImg{max-height:31.32vw;}
 }

@@ -2,9 +2,6 @@
 /* CSS Document */
 
 *{--font-title:SBAggroM; /*어그로체*/}
-/* h1{ font-weight: 400; font-family:sandoll-gothicneo2, sans-serif;}
-h2{ font-weight: 200; font-family:sandoll-gothicneo3, sans-serif;}
-p{font-family:'NanumSquare'; font-size:32px;} */
 
 /* notice 공통 */
 .notice{padding:40px 0 150px; box-sizing:border-box;}
@@ -21,7 +18,7 @@ p{font-family:'NanumSquare'; font-size:32px;} */
 
 /* notice */
 .notice.library h1{margin-bottom:32px;}
-.notice.library .searchBox{width:100%; border:1px solid #c7c6c6; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:0; padding:30px 0 30px; font-size:0; color:#58585b; text-align:center; margin-bottom:60px;}
+.notice.library .searchBox{width:100%; border:1px solid #c7c6c6; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:0; padding:30px 0 30px; color:#58585b; text-align:center; margin-bottom:60px;}
 .notice.library .searchBox *{font-size:23px;}
 .notice.library .searchBox select{width:220px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:10px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; letter-spacing:-0.5px; text-indent:12px; border-radius:5px; background:#f8f8f8 url('../img/common/icon_select.png') no-repeat right 14px center / 16px; -webkit-appearance:none; -moz-appearance:none; appearance:none;}
 .notice.library .searchBox input[type="text"]{width:543px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:10px; font-family:sandoll-gothicneo3, sans-serif;}
@@ -58,7 +55,7 @@ p{font-family:'NanumSquare'; font-size:32px;} */
 
 /* question */
 .notice.question{}
-.notice.question .searchBox{width:100%; border:1px solid #c7c6c6; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:0; padding:30px 0 30px; font-size:0; color:#58585b; text-align:center; margin-bottom:60px;}
+.notice.question .searchBox{width:100%; border:1px solid #c7c6c6; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:0; padding:30px 0 30px; color:#58585b; text-align:center; margin-bottom:60px;}
 .notice.question .searchBox *{font-size:23px;}
 .notice.question .searchBox select{width:220px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:10px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; letter-spacing:-0.5px; text-indent:12px; border-radius:5px; background:#f8f8f8 url('../img/common/icon_select.png') no-repeat right 14px center / 16px; -webkit-appearance:none; -moz-appearance:none; appearance:none;}
 .notice.question .searchBox input[type="text"]{width:327px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:10px; font-family:sandoll-gothicneo3, sans-serif;}
@@ -73,5 +70,48 @@ p{font-family:'NanumSquare'; font-size:32px;} */
 .notice.question .questionList dd{font-size:22px; padding:40px 15px 40px 48px; line-height:1.5; background:#f8f8f8; display:none;}
 
 @media (max-width:768px){
+  /* notice 공통 */
+  .notice{padding:3.6vw 0 13.5vw;}
+  .notice h1{border-bottom:0.27vw solid #0074dd; font-size:2.25vw; line-height:4.32vw;}
+  .notice .announcement{border-radius:0.9vw; padding:1.62vw 1.8vw; font-size:2.07vw; margin:2.88vw 0 3.6vw;}
+  .notice .schedule{border-radius:0.9vw; background:#f8f8f8 url('../img/apply/element_apply.png') no-repeat left 1.08vw center / 6.39vw; padding:1.62vw 1.8vw 1.62vw 9vw; font-size:2.25vw; margin-bottom:5.4vw;}
+  .notice h2{height:2.16vw; font-size:2.16vw; line-height:2.16vw; margin-bottom:3.6vw;}
+  .notice h2::before{width:0.63vw; margin-right:0.72vw;}
+  .notice .btn_apply{width:18vw; height:4.5vw; font-size:2.07vw; line-height:4.5vw;}
+  .notice .pageCnt{font-size:1.53vw;}
 
+  /* notice */
+  .notice.library h1{margin-bottom:2.88vw;}
+  .notice.library .searchBox{padding:2.7vw 0 2.7vw; margin-bottom:5.4vw;}
+  .notice.library .searchBox *{font-size:2.07vw;}
+  .notice.library .searchBox select{width:19.8vw; height:4.5vw; margin-right:0.9vw; font-size:2.07vw; text-indent:1.08vw; border-radius:0.45vw; background:#f8f8f8 url('../img/common/icon_select.png') no-repeat right 1.26vw center / 1.44vw;}
+  .notice.library .searchBox input[type="text"]{width:48.87vw; height:4.5vw; margin-right:0.9vw;}
+  .notice.library .searchBox .btn_serch{width:9.9vw; height:4.5vw; line-height:4.5vw; border-radius:0.45vw;}
+  .notice.library .dataList{border-top:0.18vw solid #58585b; margin-bottom:2.7vw;}
+  .notice.library .dataList li{padding:1.62vw 0 1.44vw;}
+  .notice.library .dataList li a{font-size:2.07vw; margin-bottom:1.08vw;}
+  .notice.library .dataList li div p{padding-right:0.81vw; margin-left:0.81vw; font-size:1.62vw;}
+  .notice.library .dataList li .document{width:1.26vw; height:1.62vw;}
+
+  /* notice_view */
+  .notice.notice_view h1{margin-bottom:2.88vw;}
+  .notice.notice_view .btnWrap .btn{width:9.81vw; height:4.05vw; line-height:4.05vw; border-radius:0.45vw; font-size:2.07vw; margin-right:0.9vw;}
+  .notice.notice_view .content{border-top:0.18vw solid #58585b; margin-top:1.8vw;}
+  .notice.notice_view .content .info{padding:2.88vw 0 1.8vw;}
+  .notice.notice_view .content .info h3{font-size:2.43vw; margin-bottom:1.44vw;}
+  .notice.notice_view .content .info div p{padding-right:0.81vw; margin-left:0.81vw; font-size:1.62vw;}
+  .notice.notice_view .content .info div .document{width:1.26vw; height:1.62vw;}
+  .notice.notice_view .content .text{font-size:1.98vw; padding:1.8vw 0 6.3vw;}
+
+  /* question */
+  .notice.question .searchBox{padding:2.7vw 0 2.7vw; margin-bottom:5.4vw;}
+  .notice.question .searchBox *{font-size:2.07vw;}
+  .notice.question .searchBox select{width:19.8vw; height:4.5vw; margin-right:0.9vw; font-size:2.07vw; text-indent:1.08vw; border-radius:0.45vw; background:#f8f8f8 url('../img/common/icon_select.png') no-repeat right 1.26vw center / 1.44vw;}
+  .notice.question .searchBox input[type="text"]{width:29.43vw; height:4.5vw; margin-right:0.9vw;}
+  .notice.question .searchBox .btn_serch{width:9.9vw; height:4.5vw; line-height:4.5vw; border-radius:0.45vw;}
+  .notice.question .questionList{border-top:0.18vw solid #58585b; margin-bottom:2.7vw;}
+  .notice.question .questionList dt,.notice.question .questionList dd{padding:1.17vw 0;}
+  .notice.question .questionList dt{padding-left:4.5vw; padding-right:3.6vw; background:url('../img/common/element_Q.png') no-repeat left 1.17vw / 3.15vw; line-height:3.15vw; font-size:2.07vw;}
+  .notice.question .questionList dt::after{width:1.53vw; height:1.08vw; background:url('../img/common/element_toggle.png') no-repeat right top / 1.53vw; right:1.08vw;}
+  .notice.question .questionList dd{font-size:1.98vw; padding:3.6vw 1.35vw 3.6vw 4.32vw;}
 }

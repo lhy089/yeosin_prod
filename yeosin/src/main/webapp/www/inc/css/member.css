@@ -186,7 +186,7 @@
   .join .intro{padding:3.42vw 0 3.6vw; font-size:2.25vw;}
   .join .intro .btn_next{width:18vw; height:4.5vw; font-size:2.07vw; margin:1.62vw auto 0; line-height:4.5vw;}
 
-  .join .provision>div{border-top:0.18vw/*2px*/ solid #e5e4e4; line-height:4.68vw; font-size:2.07vw; margin-bottom:3.42vw;}
+  .join .provision>div{border-top:0.18vw solid #e5e4e4; line-height:4.68vw; font-size:2.07vw; margin-bottom:3.42vw;}
   .join .provision>div:first-of-type{border-bottom:0.18vw solid #e5e4e4;}
   .join .provision label{padding-left:1.08vw;}
   .join .provision input[type="checkbox"]{width:1.8vw; height:1.8vw; margin-right:0.72vw;}

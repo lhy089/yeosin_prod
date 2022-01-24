@@ -40,7 +40,8 @@ footer .corporate p{height:100%; display:table-cell; vertical-align:middle; font
 
 @media (max-width:768px){
 	/* header */
-	section:first-of-type{margin-top:15vw;}
+	/* section:first-of-type{margin-top:15vw;} */
+	.contentBox:first-of-type{margin-top:15vw;}
 	header{height:15vw; background:#deeff6; padding-top:0; position:fixed; top:0;}
 	header .home{width:28vw; height:100%; float:inherit; margin:0 auto; display:table;}
 	header .home a{height:100%; display:table-cell; vertical-align:middle;}

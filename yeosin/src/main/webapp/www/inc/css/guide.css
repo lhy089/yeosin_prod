@@ -2,9 +2,6 @@
 /* CSS Document */
 
 *{--font-title:SBAggroM; /*어그로체*/}
-/* h1{ font-weight: 400; font-family:sandoll-gothicneo2, sans-serif;}
-h2{ font-weight: 200; font-family:sandoll-gothicneo3, sans-serif;}
-p{font-family:'NanumSquare'; font-size:32px;} */
 
 /* guide 공통 */
 .guide{padding:40px 0 150px; box-sizing:border-box;}
@@ -89,5 +86,59 @@ p{font-family:'NanumSquare'; font-size:32px;} */
 .notice.notice_view .content .text{font-family:sandoll-gothicneo3, sans-serif; font-size:22px; color:#000; line-height:1.64; letter-spacing:-1px; padding:20px 0 70px; box-sizing:border-box;}
 
 @media (max-width:768px){
+  /* guide 공통 */
+  .guide{padding:3.6vw 0 13.5vw;}
+  .guide h1{border-bottom:0.27vw solid #0074dd; font-size:2.25vw; line-height:4.32vw;}
+  .guide .announcement{padding:2.7vw 0; font-size:2.25vw; margin-bottom:2.43vw;}
+  .guide .schedule{border-radius:0.9vw; background:#f8f8f8 url('../img/apply/element_apply.png') no-repeat left 1.08vw center / 6.39vw; padding:1.62vw 1.8vw 1.62vw 9vw; font-size:2.25vw; margin-bottom:5.4vw;}
+  .guide .schedule span{font-size:2.07vw; margin-top:1.08vw; margin-right:2.34vw;}
+  .guide .schedule span strong{margin-right:1.44vw;}
+  .guide h2{height:2.16vw; font-size:2.16vw; line-height:2.16vw; margin-bottom:3.6vw;}
+  .guide h2::before{width:0.63vw; margin-right:0.72vw;}
+  .guide .btn_apply{width:18vw; height:4.5vw; font-size:2.07vw; line-height:4.5vw;}
+  .guide .pageCnt{font-size:1.53vw;}
 
+  /* exam */
+  .guide.exam .section{margin-bottom:9vw;}
+  .guide.exam .section p{font-size:1.98vw;}
+  .guide.exam .section p.sequence{line-height:5.58vw; margin-top:1.98vw;}
+  .guide.exam .section span{padding-left:1.62vw; line-height:4.05vw; background:url('../img/common/icon_arrow.png') no-repeat left center / 1.08vw; font-size:1.8vw;}
+  .guide.exam table{margin-top:2.25vw;}
+  .guide.exam table th{font-size:2.07vw; padding:1.17vw 0;}
+  .guide.exam table td{font-size:1.98vw; line-height:3.15vw; padding:1.17vw 0 1.17vw 1.35vw;}
+  .guide.exam table.broad th{padding:1.8vw 0;}
+  .guide.exam table.broad td{padding:1.8vw 0 1.8vw 1.35vw;}
+  .guide.exam table td .btn_apply{font-size:1.89vw; padding:0 0.63vw; border-radius:0.45vw;}
+
+  /* register */
+  .guide.register h2{margin-bottom:0.9vw;}
+  .guide.register h3{margin-bottom:1.08vw; font-size:1.98vw;}
+  .guide.register .section{padding:2.7vw 0 1.17vw;}
+  .guide.register .dot{padding-left:1.26vw; background:url('../img/common/icon_dot.png') no-repeat left 1.44vw / 0.72vw; font-size:1.98vw; margin-bottom:0.54vw;}
+  .guide.register p{font-size:1.8vw;}
+  .guide.register ul li{font-size:1.98vw;}
+  .guide.register ul li span{width:1.98vw; height:1.98vw; line-height:1.98vw; margin-right:0.54vw;}
+
+  /* library */
+  .guide.library h1{margin-bottom:2.88vw;}
+  .guide.library .searchBox{padding:2.7vw 0 2.7vw; margin-bottom:5.4vw;}
+  .guide.library .searchBox *{font-size:2.07vw;}
+  .guide.library .searchBox select{width:19.8vw; height:4.5vw; margin-right:0.9vw; font-size:2.07vw; text-indent:1.08vw; border-radius:0.45vw; background:#f8f8f8 url('../img/common/icon_select.png') no-repeat right 1.26vw center / 1.44vw;}
+  .guide.library .searchBox input[type="text"]{width:48.87vw; height:4.5vw; margin-right:0.9vw;}
+  .guide.library .searchBox .btn_serch{width:9.9vw; height:4.5vw; line-height:4.5vw; border-radius:0.45vw;}
+  .guide.library .dataList{border-top:0.18vw solid #58585b; margin-bottom:2.7vw;}
+  .guide.library .dataList li{padding:1.62vw 0 1.44vw;}
+  .guide.library .dataList li a{font-size:2.07vw; margin-bottom:1.08vw;}
+  .guide.library .dataList li div p{padding-right:0.81vw; margin-left:0.81vw; font-size:1.62vw;}
+  .guide.library .dataList li .document{width:1.26vw; height:1.62vw;}
+
+  /* library_view */
+  .guide.library_view h1{margin-bottom:2.88vw;}
+  .guide.library_view .btnWrap .btn{width:9.81vw; height:4.05vw; line-height:4.05vw; border-radius:0.45vw; font-size:2.07vw; margin-right:0.9vw;}
+  .guide.library_view .content{border-top:0.18vw solid #58585b; margin-top:1.8vw;}
+  .guide.library_view .content .info{padding:2.88vw 0 1.8vw;}
+  .guide.library_view .content .info h3{font-size:2.43vw; margin-bottom:1.44vw;}
+  .guide.library_view .content .info div p{padding-right:0.81vw; margin-left:0.81vw; font-size:1.62vw;}
+  .guide.library_view .content .info div .document{width:1.26vw; height:1.62vw;}
+  .notice.notice_view .content .text{font-size:1.98vw; padding:1.8vw 0 6.3vw;}
 }
