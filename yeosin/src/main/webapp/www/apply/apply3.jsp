@@ -21,8 +21,10 @@
   <meta property="og:image" content="/www/inc/img/openGraph.jpg">
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
-
   <link rel="stylesheet" href="/www/inc/css/apply.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=1"></script>
 </head>
 
 <body>
@@ -81,12 +83,13 @@
         <tr>
           <th>교육수료증번호</th>
           <td>
-            <input type="text" name="" value="">
+            <input type="text" name="" value="" id="eduNum">
             <span>※ 필수입력항목</span>
           </td>
         </tr>
       </table>
-      <a href="#" class="btn_apply">작성완료</a>
+      <input type="hidden" value="${examInfo.examId}" id="examId"/>
+      <a id="btn_completed" class="btn_apply">작성완료</a>
     </section>
   </div>
 </div>

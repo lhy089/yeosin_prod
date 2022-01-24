@@ -31,4 +31,5 @@ public class ApplyDao {
 	public List<ApplyDto> getExamResult(String userId) throws Exception {
 		return sqlSession.selectList(nameSpace + "getExamResult", userId);
 	}
+	
 }

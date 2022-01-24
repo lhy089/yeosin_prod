@@ -1,5 +1,7 @@
 package com.yeosin.user;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,5 +17,9 @@ public class EduCompletionDao {
 	
 	public String getEduCompletionInfo(String userId) {
 		return this.sqlSession.selectOne(namespace + "getEduCompletionInfo", userId);
+	}
+	
+	public String getIsCompleteEdu(Map<String, Object> map) throws Exception {
+		return this.sqlSession.selectOne(namespace + "getisUserEdu", map);
 	}
 }

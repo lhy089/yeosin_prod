@@ -27,9 +27,9 @@ public class ApplyController {
 	
 	@Autowired
 	private ApplyService applyService;
+	
 	@Autowired
 	private UserService userService;
-	private String _userId = "hyong02";
 	
 	// 원서접수
 	@RequestMapping(value="/apply", method=RequestMethod.GET)
@@ -55,6 +55,7 @@ public class ApplyController {
 		return mav;
 	}
 	
+	// 원서접수2
 	@RequestMapping(value="/apply2", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView apply2(@RequestParam("examId") String examId, HttpSession session, HttpServletResponse response) throws Exception {
@@ -67,6 +68,7 @@ public class ApplyController {
 	}
 	
 	
+	// 원서접수3
 	@RequestMapping(value="/apply3", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView apply3(@RequestParam("examId") String examId, HttpSession session, HttpServletResponse response) throws Exception {
@@ -75,14 +77,33 @@ public class ApplyController {
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 			
 		userInfo = userService.getLoginUserInfo(userInfo);
-			
 		ExamDto examInfo = applyService.getExamInfo(examId);
+		
 		mav.addObject("examInfo", examInfo);
 		mav.addObject("userInfo", userInfo);
 		mav.setViewName("apply/apply3");
 		return mav;
 	}
 
+	// 원서접수4(로그인한 유저의 교육증 수료여부 체크)
+	@RequestMapping(value="/apply4", method=RequestMethod.GET)
+	@ResponseBody
+	public void apply4(@RequestParam("eduNum") String eduNum, HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		userInfo = userService.getLoginUserInfo(userInfo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userInfo.getUserId());
+		map.put("eduNum", eduNum);
+		String isPassEdu = applyService.getIsCompleteEdu(map);
+
+		response.getWriter().print(isPassEdu);
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
+	
 	// 원서확인 및 취소
 	@RequestMapping(value="/accept", method=RequestMethod.GET)
 	@ResponseBody

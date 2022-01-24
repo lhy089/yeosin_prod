@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yeosin.user.EduCompletionDao;
+
 @Service
 public class ApplyService {
 	
@@ -14,6 +16,9 @@ public class ApplyService {
 	
 	@Autowired	
 	private ExamDao examDao;
+	
+	@Autowired
+	private EduCompletionDao eduDao;
 	
 	public List<ApplyDto> getApplyList(String userId) throws Exception {
 		return applyDao.getApplyList(userId);
@@ -43,5 +48,7 @@ public class ApplyService {
 		return applyDao.getExamResult(userId);
 	}
 	
-	
+	public String getIsCompleteEdu(Map<String, Object> map) throws Exception {
+		return eduDao.getIsCompleteEdu(map);
+	}
 }
