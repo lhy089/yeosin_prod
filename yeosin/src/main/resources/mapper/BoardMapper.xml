@@ -12,6 +12,8 @@
 			,	HITCNT 
 			,	USERID 
 			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME 
+			,	CATEGORY
+			,	CATEGORYSEQUENCE
 		FROM 	YS_BOARD
 		WHERE 	BOARDTYPE = #{BoardType} 
 		ORDER BY WRITETIME DESC
@@ -26,10 +28,46 @@
 			,	CONTENTS 
 			,	HITCNT 
 			,	USERID 
-			,	WRITETIME 
+			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME 
+			,	CATEGORY
+			,	CATEGORYSEQUENCE 
 		FROM 	YS_BOARD
 		WHERE 	BOARDTYPE = #{boardType} 
 			AND BOARDSEQUENCE = #{boardSequence}
+   </select>
+   
+   <select id="getPreviousBoardInfo" parameterType="com.yeosin.board.BoardDto" resultType="com.yeosin.board.BoardDto">
+   		SELECT 	
+				BOARDID
+			,	BOARDTYPE 
+			,	BOARDSEQUENCE 
+			,	TITLE 
+			,	CONTENTS 
+			,	HITCNT 
+			,	USERID 
+			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME 
+			,	CATEGORY
+			,	CATEGORYSEQUENCE 
+		FROM 	YS_BOARD
+		WHERE 	BOARDTYPE = #{boardType} 
+			AND BOARDSEQUENCE = #{boardSequence} - 1;
+   </select>
+   
+   <select id="getNextBoardInfo" parameterType="com.yeosin.board.BoardDto" resultType="com.yeosin.board.BoardDto">
+ 	  	SELECT 	
+				BOARDID
+			,	BOARDTYPE 
+			,	BOARDSEQUENCE 
+			,	TITLE 
+			,	CONTENTS 
+			,	HITCNT 
+			,	USERID 
+			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME 
+			,	CATEGORY
+			,	CATEGORYSEQUENCE 
+		FROM 	YS_BOARD
+		WHERE 	BOARDTYPE = #{boardType} 
+			AND BOARDSEQUENCE = #{boardSequence} + 1;
    </select>
    
    
@@ -47,6 +85,8 @@
 			,	HITCNT 
 			,	USERID 
 			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME 
+			,	CATEGORY
+			,	CATEGORYSEQUENCE 
 		FROM 	YS_BOARD
 		WHERE BOARDTYPE = '1'
 		ORDER BY WRITETIME DESC
@@ -62,7 +102,9 @@
 			,	CONTENTS 
 			,	HITCNT 
 			,	USERID 
-			,	WRITETIME 
+			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME 
+			,	CATEGORY
+			,	CATEGORYSEQUENCE 
 		FROM 	YS_BOARD
 		WHERE 	BOARDTYPE = #{boardType}
 		<if test='searchType=="S"'>
@@ -78,6 +120,20 @@
 			AND CATEGORY = #{category}
 		</if>
 		ORDER BY BOARDSEQUENCE
+   </select>
+   
+    <select id="getMaxBoardSequence" parameterType="String" resultType="int">
+		SELECT 	
+				MAX(BOARDSEQUENCE)
+		FROM 	YS_BOARD
+		WHERE BOARDTYPE = #{boardType}
+   </select>
+   
+   <select id="getMinBoardSequence" parameterType="String" resultType="int">
+   		SELECT
+   			MIN(BOARDSEQUENCE)
+		FROM 	YS_BOARD
+		WHERE BOARDTYPE = #{boardType}
    </select>
    
 </mapper>

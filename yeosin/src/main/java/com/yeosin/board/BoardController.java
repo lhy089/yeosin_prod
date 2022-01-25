@@ -45,8 +45,12 @@ public class BoardController {
 		BoardDto noticeInfo = new BoardDto();
 		
 		noticeInfo = boardService.getBoardInfo(boardDto);
+		int minNoticeSequence = boardService.getMinBoardSequence(boardDto.getBoardType());
+		int maxNoticeSequence = boardService.getMaxBoardSequence(boardDto.getBoardType());
 		
 		mav.addObject("noticeInfo", noticeInfo);
+		mav.addObject("minNoticeSequence", minNoticeSequence);
+		mav.addObject("maxNoticeSequence", maxNoticeSequence);
 		mav.setViewName("notice/notice_view");
 		return mav;
 	}
@@ -66,6 +70,40 @@ public class BoardController {
 		mav.addObject("searchType", searchType);
 		mav.setViewName("notice/notice");
 		return mav;
+	}
+	
+	//공지사항 이전
+	@RequestMapping(value="/notice_previous")
+	@ResponseBody
+	public ModelAndView notice_previous(BoardDto boardDto) throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+
+		BoardDto noticeInfo = new BoardDto();		
+		noticeInfo = boardService.getPreviousBoardInfo(boardDto);
+		int minNoticeSequence = boardService.getMinBoardSequence(boardDto.getBoardType()); 
+		
+		mav.addObject("noticeInfo", noticeInfo);
+		mav.addObject("minNoticeSequence", minNoticeSequence);
+		mav.setViewName("notice/notice_view");
+		return mav;	
+	}
+	
+	//공지사항 다음
+	@RequestMapping(value="/notice_next")
+	@ResponseBody
+	public ModelAndView notice_next(BoardDto boardDto) throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+
+		BoardDto noticeInfo = new BoardDto();		
+		noticeInfo = boardService.getNextBoardInfo(boardDto);
+		int maxNoticeSequence = boardService.getMaxBoardSequence(boardDto.getBoardType());
+		
+		mav.addObject("noticeInfo", noticeInfo);
+		mav.addObject("maxNoticeSequence", maxNoticeSequence);
+		mav.setViewName("notice/notice_view");
+		return mav;	
 	}
 	
 	
@@ -131,7 +169,11 @@ public class BoardController {
 		BoardDto libraryInfo = new BoardDto();
 			
 		libraryInfo = boardService.getBoardInfo(boardDto);
+		int minLibrarySequence = boardService.getMinBoardSequence(boardDto.getBoardType()); 
+		int maxLibrarySequence = boardService.getMaxBoardSequence(boardDto.getBoardType());
 			
+		mav.addObject("minLibrarySequence", minLibrarySequence);
+		mav.addObject("maxLibrarySequence", maxLibrarySequence);
 		mav.addObject("libraryInfo", libraryInfo);
 		mav.setViewName("guide/library_view");
 		return mav;
@@ -152,6 +194,40 @@ public class BoardController {
 		mav.addObject("searchType", searchType);
 		mav.setViewName("guide/library");
 		return mav;
+	}
+	
+	//시험자료실 이전
+	@RequestMapping(value="/library_previous")
+	@ResponseBody
+	public ModelAndView library_previous(BoardDto boardDto) throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+
+		BoardDto libraryInfo = new BoardDto();		
+		libraryInfo = boardService.getPreviousBoardInfo(boardDto);
+		int minLibrarySequence = boardService.getMinBoardSequence(boardDto.getBoardType()); 
+		
+		mav.addObject("libraryInfo", libraryInfo);
+		mav.addObject("minLibrarySequence", minLibrarySequence);
+		mav.setViewName("guide/library_view");
+		return mav;	
+	}
+	
+	//시험자료실 다음
+	@RequestMapping(value="/library_next")
+	@ResponseBody
+	public ModelAndView library_next(BoardDto boardDto) throws Exception{
+			
+		ModelAndView mav = new ModelAndView();
+
+		BoardDto libraryInfo = new BoardDto();		
+		libraryInfo = boardService.getNextBoardInfo(boardDto);
+		int maxLibrarySequence = boardService.getMaxBoardSequence(boardDto.getBoardType());
+			
+		mav.addObject("libraryInfo", libraryInfo);
+		mav.addObject("maxLibrarySequence", maxLibrarySequence);
+		mav.setViewName("guide/library_view");
+		return mav;	
 	}
 	
 	//평가소개

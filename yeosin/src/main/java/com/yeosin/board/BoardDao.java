@@ -23,6 +23,14 @@ public class BoardDao {
 		return this.sqlSession.selectOne(nameSpace + "GetBoardInfo", boardDto);
 	}
 	
+	public BoardDto getPreviousBoardInfo(BoardDto boardDto) {
+		return this.sqlSession.selectOne(nameSpace + "getPreviousBoardInfo" , boardDto);
+	}
+	
+	public BoardDto getNextBoardInfo(BoardDto boardDto) {
+		return this.sqlSession.selectOne(nameSpace + "getNextBoardInfo" , boardDto);
+	}
+	
 	public void updateHitCnt(BoardDto boardDto) {
 		this.sqlSession.update(nameSpace + "UpdateHitCnt", boardDto);
 	}
@@ -35,5 +43,12 @@ public class BoardDao {
 		return this.sqlSession.selectList(nameSpace + "getBoardListBySearch", boardDto);
 	}
 	
+	public int getMaxBoardSequence(String boardType) {
+		return this.sqlSession.selectOne(nameSpace + "getMaxBoardSequence", boardType);
+	}
+	
+	public int getMinBoardSequence(String boardType) {
+		return this.sqlSession.selectOne(nameSpace + "getMinBoardSequence", boardType);
+	}
 	
 }

@@ -34,11 +34,27 @@ public class BoardService {
 		return boardDao.getBoardInfo(boardDto);
 	}
 	
+	public BoardDto getPreviousBoardInfo(BoardDto boardDto) throws Exception{
+		return boardDao.getPreviousBoardInfo(boardDto);
+	}
+	
+	public BoardDto getNextBoardInfo(BoardDto boardDto) throws Exception{
+		return boardDao.getNextBoardInfo(boardDto);
+	}
+	
 	public List<BoardDto> getNoticeListForMain() throws Exception{
 		return boardDao.getNoticeListForMain();
 	}
 	
 	public List<BoardDto> getBoardListBySearch(BoardDto boardDto) throws Exception{
 		return boardDao.getBoardListBySearch(boardDto);
+	}
+	
+	public int getMaxBoardSequence(String boardType) throws Exception{
+		return boardDao.getMaxBoardSequence(boardType);
+	}
+	
+	public int getMinBoardSequence(String boardType) throws Exception{
+		return boardDao.getMinBoardSequence(boardType);
 	}
 }

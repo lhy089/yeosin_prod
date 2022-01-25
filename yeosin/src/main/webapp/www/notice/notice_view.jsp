@@ -33,9 +33,13 @@
   <div class="contentBox">
     <h1>공지사항</h1>
     <div class="btnWrap topBtn">
-      <a href="#" class="btn">이전</a>
-      <a href="#" class="btn">다음</a>
-      <a href="#" class="btn">목록</a>
+      <c:if test="${minNoticeSequence != noticeInfo.boardSequence}">
+      	<a href="/notice_previous?boardType=${noticeInfo.boardType}&boardSequence=${noticeInfo.boardSequence}" class="btn">이전</a>
+       </c:if>
+      <c:if test="${maxNoticeSequence != noticeInfo.boardSequence}">
+      	<a href="/notice_next?boardType=${noticeInfo.boardType}&boardSequence=${noticeInfo.boardSequence}" class="btn">다음</a>
+      </c:if>
+      <a href="/notice?boardType=1" class="btn">목록</a>
     </div>
     <div class="content">
       <div class="info">
@@ -54,9 +58,13 @@
       <!-- //내용 영역 -->
     </div>
     <div class="btnWrap bottomBtn">
-      <a href="#" class="btn">이전</a>
-      <a href="#" class="btn">다음</a>
-      <a href="#" class="btn">목록</a>
+   	  <c:if test="${minNoticeSequence != noticeInfo.boardSequence}">
+      	<a href="/notice_previous?boardType=${noticeInfo.boardType}&boardSequence=${noticeInfo.boardSequence}" class="btn">이전</a>
+      </c:if>
+      <c:if test="${maxNoticeSequence != noticeInfo.boardSequence}">
+     	<a href="/notice_next?boardType=${noticeInfo.boardType}&boardSequence=${noticeInfo.boardSequence}" class="btn">다음</a>
+     </c:if>
+      <a href="/notice?boardType=1" class="btn">목록</a>
     </div>
   </div>
 </div>
