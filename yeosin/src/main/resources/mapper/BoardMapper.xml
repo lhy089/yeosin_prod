@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yeosin.board.BoardDao" >
- <select id="GetBoardList" parameterType="String" resultType="com.yeosin.board.BoardDto">
+ <select id="GetBoardList" parameterType="com.yeosin.board.BoardDto" resultType="com.yeosin.board.BoardDto">
 		SELECT 	
 				BOARDID
 			,	BOARDTYPE 
@@ -15,8 +15,9 @@
 			,	CATEGORY
 			,	CATEGORYSEQUENCE
 		FROM 	YS_BOARD
-		WHERE 	BOARDTYPE = #{BoardType} 
-		ORDER BY WRITETIME DESC
+		WHERE 	BOARDTYPE = #{boardType} 
+		ORDER BY BOARDSEQUENCE 
+		LIMIT #{pageStart}, #{perPageNum}
    </select>
    
    <select id="GetBoardInfo" parameterType="com.yeosin.board.BoardDto" resultType="com.yeosin.board.BoardDto">
@@ -136,4 +137,12 @@
 		WHERE BOARDTYPE = #{boardType}
    </select>
    
+   <select id="CountBoardListTotal" resultType="Integer" parameterType="com.yeosin.board.BoardDto" >
+        SELECT
+            count(*)
+        FROM
+           YS_BOARD
+        WHERE
+            BOARDTYPE = #{boardType}
+	</select>
 </mapper>

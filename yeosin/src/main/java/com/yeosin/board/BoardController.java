@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,15 +21,20 @@ public class BoardController {
 	//공지사항 리스트
 	@RequestMapping(value="/notice", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView notice(@RequestParam("boardType") String boardType , HttpServletResponse response) throws Exception 
+	public ModelAndView notice(BoardDto boardDto , HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");
 		
 		ModelAndView mav = new ModelAndView();	
-	
-		List<BoardDto> noticeList = new ArrayList<>();
-		noticeList = boardService.getBoardList(boardType);
 		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setBoardDto(boardDto);
+		pageMaker.setTotalCount(boardService.CountBoardListTotal(boardDto));
+		
+		List<BoardDto> noticeList = new ArrayList<>();
+		noticeList = boardService.getBoardList(boardDto);
+
+		mav.addObject("pageMaker", pageMaker);
 		mav.addObject("noticeList", noticeList);		
 		mav.setViewName("notice/notice");
 		return mav;
@@ -47,6 +51,7 @@ public class BoardController {
 		noticeInfo = boardService.getBoardInfo(boardDto);
 		int minNoticeSequence = boardService.getMinBoardSequence(boardDto.getBoardType());
 		int maxNoticeSequence = boardService.getMaxBoardSequence(boardDto.getBoardType());
+		noticeInfo.setPage(boardDto.getPage());
 		
 		mav.addObject("noticeInfo", noticeInfo);
 		mav.addObject("minNoticeSequence", minNoticeSequence);
@@ -110,15 +115,20 @@ public class BoardController {
 	//자주하는 질문
 	@RequestMapping(value="/question", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView question(@RequestParam("boardType") String boardType , HttpServletResponse response) throws Exception 
+	public ModelAndView question(BoardDto boardDto , HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");
 		
 		ModelAndView mav = new ModelAndView();	
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setBoardDto(boardDto);
+		pageMaker.setTotalCount(boardService.CountBoardListTotal(boardDto));
 	
 		List<BoardDto> questionList = new ArrayList<>();
-		questionList = boardService.getBoardList(boardType);
+		questionList = boardService.getBoardList(boardDto);
 		
+		mav.addObject("pageMaker", pageMaker);
 		mav.addObject("questionList", questionList);		
 		mav.setViewName("notice/question");
 		return mav;
@@ -146,15 +156,20 @@ public class BoardController {
 	//시험자료실 리스트
 	@RequestMapping(value="/library", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView library(@RequestParam("boardType") String boardType , HttpServletResponse response) throws Exception 
+	public ModelAndView library(BoardDto boardDto , HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");
 			
 		ModelAndView mav = new ModelAndView();	
 		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setBoardDto(boardDto);
+		pageMaker.setTotalCount(boardService.CountBoardListTotal(boardDto));
+		
 		List<BoardDto> libraryList = new ArrayList<>();
-		libraryList = boardService.getBoardList(boardType);
+		libraryList = boardService.getBoardList(boardDto);
 			
+		mav.addObject("pageMaker", pageMaker);
 		mav.addObject("libraryList", libraryList);		
 		mav.setViewName("guide/library");
 		return mav;
@@ -171,6 +186,7 @@ public class BoardController {
 		libraryInfo = boardService.getBoardInfo(boardDto);
 		int minLibrarySequence = boardService.getMinBoardSequence(boardDto.getBoardType()); 
 		int maxLibrarySequence = boardService.getMaxBoardSequence(boardDto.getBoardType());
+		libraryInfo.setPage(boardDto.getPage());
 			
 		mav.addObject("minLibrarySequence", minLibrarySequence);
 		mav.addObject("maxLibrarySequence", maxLibrarySequence);

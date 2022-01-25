@@ -1,7 +1,6 @@
 package com.yeosin.board;
 
 import java.util.List;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,8 +13,8 @@ public class BoardDao {
 	private String nameSpace = "com.yeosin.board.BoardDao.";
 
 
-	public List<BoardDto> getBoardList(String getBoardType){
-		return this.sqlSession.selectList(nameSpace + "GetBoardList", getBoardType);
+	public List<BoardDto> getBoardList(BoardDto boardDto){
+		return this.sqlSession.selectList(nameSpace + "GetBoardList", boardDto);
 	}
 	
 
@@ -51,4 +50,7 @@ public class BoardDao {
 		return this.sqlSession.selectOne(nameSpace + "getMinBoardSequence", boardType);
 	}
 	
+	public int CountBoardListTotal(BoardDto boardDto) {
+		return this.sqlSession.selectOne(nameSpace + "CountBoardListTotal", boardDto);
+	}	
 }

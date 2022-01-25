@@ -39,7 +39,7 @@
       <c:if test="${maxNoticeSequence != noticeInfo.boardSequence}">
       	<a href="/notice_next?boardType=${noticeInfo.boardType}&boardSequence=${noticeInfo.boardSequence}" class="btn">다음</a>
       </c:if>
-      <a href="/notice?boardType=1" class="btn">목록</a>
+      <a href="/notice?boardType=1&page=${noticeInfo.page}" class="btn">목록</a>
     </div>
     <div class="content">
       <div class="info">
@@ -64,7 +64,7 @@
       <c:if test="${maxNoticeSequence != noticeInfo.boardSequence}">
      	<a href="/notice_next?boardType=${noticeInfo.boardType}&boardSequence=${noticeInfo.boardSequence}" class="btn">다음</a>
      </c:if>
-      <a href="/notice?boardType=1" class="btn">목록</a>
+      <a href="/notice?boardType=1&page=${noticeInfo.page}" class="btn">목록</a>
     </div>
   </div>
 </div>

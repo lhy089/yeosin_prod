@@ -39,7 +39,7 @@
      	<c:if test="${maxLibrarySequence != libraryInfo.boardSequence}">
      		 <a href="/library_next?boardType=${libraryInfo.boardType}&boardSequence=${libraryInfo.boardSequence}" class="btn">다음</a>
     	</c:if>
-      <a href="/library?boardType=3" class="btn">목록</a>
+      <a href="/library?boardType=3&page=${libraryInfo.page}" class="btn">목록</a>
     </div>
     <div class="content">
       <div class="info">
@@ -64,7 +64,7 @@
      	<c:if test="${maxLibrarySequence != libraryInfo.boardSequence}">
      		 <a href="/library_next?boardType=${libraryInfo.boardType}&boardSequence=${libraryInfo.boardSequence}" class="btn">다음</a>
     	</c:if>
-      <a href="/library?boardType=3" class="btn">목록</a>
+      <a href="/library?boardType=3&page=${libraryInfo.page}" class="btn">목록</a>
     </div>
   </div>
 </div>

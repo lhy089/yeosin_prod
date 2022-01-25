@@ -5,9 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.yeosin.apply.ApplyDto;
 
 @Service
 public class BoardService {
@@ -24,8 +21,8 @@ public class BoardService {
 		return boardDao.viewBoard(board);
 	}*/
 	
-	public List<BoardDto> getBoardList(String getBoardType) throws Exception {
-		return boardDao.getBoardList(getBoardType);
+	public List<BoardDto> getBoardList(BoardDto boardDto) throws Exception {
+		return boardDao.getBoardList(boardDto);
 	}
 	
 	
@@ -56,5 +53,9 @@ public class BoardService {
 	
 	public int getMinBoardSequence(String boardType) throws Exception{
 		return boardDao.getMinBoardSequence(boardType);
+	}
+	
+	public int CountBoardListTotal(BoardDto boardDto) {
+		return boardDao.CountBoardListTotal(boardDto);
 	}
 }

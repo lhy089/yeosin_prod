@@ -62,7 +62,7 @@ $(document).ready(function() {
     <ul class="dataList">
       <c:forEach var="notice" items="${noticeList}">	
       	<li>
-        	<a href="/notice_view?boardType=${notice.boardType}&boardSequence=${notice.boardSequence}">${notice.title}</a>
+        	<a href="/notice_view?boardType=${notice.boardType}&boardSequence=${notice.boardSequence}&page=${pageMaker.boardDto.page}">${notice.title}</a>
         	<div>
           		<p class="num">No.${notice.boardSequence}</p>
          	 	<p class="viewCount">조회수 : ${notice.hitCnt}</p>
@@ -71,7 +71,24 @@ $(document).ready(function() {
       	</li>
       </c:forEach>
     </ul>
-
+    
+    <ul class="btn-group pagination">
+  	<c:if test="${pageMaker.prev }">
+   		<li>
+     		 <a href='<c:url value="/notice?page=${pageMaker.startPage-1}&boardType=1" />'><i class="fa fa-chevron-left">이전</i></a>
+  		</li>
+ 	</c:if>
+  	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+    	<li>
+       		<a href='<c:url value="/notice?page=${pageNum}&boardType=1"/>'><i class="fa">${pageNum}</i></a>
+    	</li>
+    </c:forEach>
+    <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+    	<li>
+      		<a href='<c:url value="/notice?page=${pageMaker.endPage+1}&boardType=1"/>'><i class="fa fa-chevron-right">다음</i></a>
+   		</li>
+    </c:if>
+	</ul>
     <p class="pageCnt">전체 7건, 1/1 페이지</p>
     <div class="pageWrap">
       <!-- 페이징 -->

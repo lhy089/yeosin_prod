@@ -80,6 +80,24 @@ $(document).ready(function() {
       	</dl>
       </c:forEach> 
     </div>
+    
+    <ul class="btn-group pagination">
+  	<c:if test="${pageMaker.prev}">
+   		<li>
+     		 <a href='<c:url value="/question?page=${pageMaker.startPage-1}&boardType=2" />'><i class="fa fa-chevron-left">이전</i></a>
+  		</li>
+ 	</c:if>
+  	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+    	<li>
+       		<a href='<c:url value="/question?page=${pageNum}&boardType=2"/>'><i class="fa">${pageNum}</i></a>
+    	</li>
+    </c:forEach>
+    <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+    	<li>
+      		<a href='<c:url value="/question?page=${pageMaker.endPage+1}&boardType=2"/>'><i class="fa fa-chevron-right">다음</i></a>
+   		</li>
+    </c:if>
+	</ul>
     <p class="pageCnt">전체 7건, 1/1 페이지</p>
     <div class="pageWrap">
       <!-- 페이징 -->

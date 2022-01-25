@@ -63,7 +63,7 @@ $(document).ready(function() {
     <ul class="dataList">
       <c:forEach var="library" items="${libraryList}">	
       	<li>
-        	<a href="/library_view?boardType=${library.boardType}&boardSequence=${library.boardSequence}">${library.title}</a>
+        	<a href="/library_view?boardType=${library.boardType}&boardSequence=${library.boardSequence}&page=${pageMaker.boardDto.page}">${library.title}</a>
         	<div>
           		<p class="num">No.${library.boardSequence}</p>
          	 	<p class="viewCount">조회수 : ${library.hitCnt}</p>
@@ -72,6 +72,24 @@ $(document).ready(function() {
       	</li>
       </c:forEach>
     </ul>
+    
+    <ul class="btn-group pagination">
+  	<c:if test="${pageMaker.prev}">
+   		<li>
+     		 <a href='<c:url value="/library?page=${pageMaker.startPage-1}&boardType=3" />'><i class="fa fa-chevron-left">이전</i></a>
+  		</li>
+ 	</c:if>
+  	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+    	<li>
+       		<a href='<c:url value="/library?page=${pageNum}&boardType=3"/>'><i class="fa">${pageNum}</i></a>
+    	</li>
+    </c:forEach>
+    <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+    	<li>
+      		<a href='<c:url value="/library?page=${pageMaker.endPage+1}&boardType=3"/>'><i class="fa fa-chevron-right">다음</i></a>
+   		</li>
+    </c:if>
+	</ul>
 
     <p class="pageCnt">전체 7건, 1/1 페이지</p>
     <div class="pageWrap">
