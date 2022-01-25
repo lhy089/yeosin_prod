@@ -45,8 +45,9 @@
       <h4>고사장</h4>
       <p class="location">
         <select id="" name="">
-          <option value="서울특별시">서울특별시</option>
-          <option value="대전광역시">대전광역시</option>
+            <c:forEach var="examZoneList" items="${examZoneList}" varStatus="i">
+         		<option value="${examZoneList.examZoneId}">${examZoneList.examZoneName}</option>
+      		</c:forEach>
         </select>
       </p>
       <p class="serch"><a href="#" class="btn_serch">검색</a></p>

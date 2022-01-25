@@ -1,8 +1,6 @@
 package com.yeosin.apply;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,23 +29,27 @@ public class ApplyController {
 	@Autowired
 	private UserService userService;
 	
-	// 원서접수
+	// 원서접수(접수가능한 시험 리스트 View)
 	@RequestMapping(value="/apply", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView apply(HttpSession session, HttpServletResponse response) throws Exception 
+	public ModelAndView ExamListByApply(HttpSession session, HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		ModelAndView mav = new ModelAndView();
 		List<ExamDto> examList = new ArrayList<>();
+		
 		// 로그인 정보 있을 때
-		if(userInfo != null) {
-			// 시험 리스트 ??
+		if (userInfo != null) 
+		{
 			examList = applyService.getExamList();
 			mav.addObject("examListCnt", examList.size());
 			mav.addObject("examList", examList);
 			mav.setViewName("apply/apply");
-		}else { // 로그인 정보 없을 때
+		} 
+		// 로그인 정보 없을 때
+		else 
+		{
 			mav.addObject("isAlert", true);
 			mav.setViewName("member/login");
 		}
@@ -55,23 +57,25 @@ public class ApplyController {
 		return mav;
 	}
 	
-	// 원서접수2
+	// 원서접수2(환불규정에 대한 동의 View)
 	@RequestMapping(value="/apply2", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView apply2(@RequestParam("examId") String examId, HttpSession session, HttpServletResponse response) throws Exception {
+	public ModelAndView AgreeRefundByApply(@RequestParam("examId") String examId, HttpSession session, HttpServletResponse response) throws Exception 
+	{
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
-		//examId 받고 넘기기
+
 		mav.addObject("examId", examId);
 		mav.setViewName("apply/apply2");
 		return mav;
 	}
 	
 	
-	// 원서접수3
+	// 원서접수3(개인정보 및 교육수료정보 입력 View)
 	@RequestMapping(value="/apply3", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView apply3(@RequestParam("examId") String examId, HttpSession session, HttpServletResponse response) throws Exception {
+	public ModelAndView EduInfoByApply(@RequestParam("examId") String examId, HttpSession session, HttpServletResponse response) throws Exception 
+	{
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
@@ -85,23 +89,45 @@ public class ApplyController {
 		return mav;
 	}
 
-	// 원서접수4(로그인한 유저의 교육증 수료여부 체크)
-	@RequestMapping(value="/apply4", method=RequestMethod.GET)
+	// 로그인한 유저의 교육증 수료여부 체크
+	@RequestMapping(value="/isCompleteEdu", method=RequestMethod.GET)
 	@ResponseBody
-	public void apply4(@RequestParam("eduNum") String eduNum, HttpSession session, HttpServletResponse response) throws Exception {
+	public Map<String, Object> IsCompleteEdu(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
+	{
 		response.setCharacterEncoding("UTF-8");
 		
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		userInfo = userService.getLoginUserInfo(userInfo);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("userId", userInfo.getUserId());
-		map.put("eduNum", eduNum);
-		String isPassEdu = applyService.getIsCompleteEdu(map);
-
-		response.getWriter().print(isPassEdu);
-		response.getWriter().flush();
-		response.getWriter().close();
+		// JSP에서 넘어온 데이터
+		Map<String, Object> paremterMap = new HashMap<String, Object>();
+		paremterMap.put("userId", userInfo.getUserId());
+		paremterMap.put("eduNum", requestMap.get("eduNum"));
+		
+		// AJAX로 넘겨줄 데이터
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("isPassEdu", applyService.getIsCompleteEdu(paremterMap));
+		resultMap.put("examId", requestMap.get("examId"));
+		
+		return resultMap;
+	}
+	
+	// 원서접수4(고사장 및 시험영역선택 View)
+	@RequestMapping(value="/apply4", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView ExamZoneInfoByApply(@RequestParam("examId") String examId, HttpSession session, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+			
+		userInfo = userService.getLoginUserInfo(userInfo);
+		ExamDto examInfo = applyService.getExamInfo(examId);
+		
+		mav.addObject("examInfo", examInfo);
+		mav.addObject("userInfo", userInfo);
+		mav.setViewName("apply/apply4");
+		return mav;
 	}
 	
 	// 원서확인 및 취소
