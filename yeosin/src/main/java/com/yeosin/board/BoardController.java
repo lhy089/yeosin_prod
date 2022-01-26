@@ -19,23 +19,22 @@ public class BoardController {
 	private BoardService boardService;
 	
 	//공지사항 리스트
-	@RequestMapping(value="/notice", method=RequestMethod.GET)
+	@RequestMapping(value="/notice")
 	@ResponseBody
 	public ModelAndView notice(BoardDto boardDto , HttpServletResponse response) throws Exception 
 	{
-		response.setCharacterEncoding("UTF-8");
-		
 		ModelAndView mav = new ModelAndView();	
 		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setBoardDto(boardDto);
-		pageMaker.setTotalCount(boardService.CountBoardListTotal(boardDto));
+		pageMaker.setTotalCount(boardService.countBoardListTotal(boardDto));
 		
 		List<BoardDto> noticeList = new ArrayList<>();
 		noticeList = boardService.getBoardList(boardDto);
 
 		mav.addObject("pageMaker", pageMaker);
-		mav.addObject("noticeList", noticeList);		
+		mav.addObject("noticeList", noticeList);	
+		mav.addObject("boardDto", boardDto);
 		mav.setViewName("notice/notice");
 		return mav;
 	}
@@ -57,23 +56,6 @@ public class BoardController {
 		mav.addObject("minNoticeSequence", minNoticeSequence);
 		mav.addObject("maxNoticeSequence", maxNoticeSequence);
 		mav.setViewName("notice/notice_view");
-		return mav;
-	}
-	
-	//공지사항 검색하기
-	@RequestMapping(value="/notice_search")
-	@ResponseBody
-	public ModelAndView notice_search(BoardDto boardDto) throws Exception{
-		
-		ModelAndView mav = new ModelAndView();
-		String searchType = boardDto.getSearchType();
-		
-		List<BoardDto> noticeList = new ArrayList<>();
-		noticeList = boardService.getBoardListBySearch(boardDto);
-		
-		mav.addObject("noticeList", noticeList);
-		mav.addObject("searchType", searchType);
-		mav.setViewName("notice/notice");
 		return mav;
 	}
 	
@@ -113,7 +95,7 @@ public class BoardController {
 	
 	
 	//자주하는 질문
-	@RequestMapping(value="/question", method=RequestMethod.GET)
+	@RequestMapping(value="/question")
 	@ResponseBody
 	public ModelAndView question(BoardDto boardDto , HttpServletResponse response) throws Exception 
 	{
@@ -123,38 +105,20 @@ public class BoardController {
 		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setBoardDto(boardDto);
-		pageMaker.setTotalCount(boardService.CountBoardListTotal(boardDto));
+		pageMaker.setTotalCount(boardService.countBoardListTotal(boardDto));
 	
 		List<BoardDto> questionList = new ArrayList<>();
 		questionList = boardService.getBoardList(boardDto);
 		
 		mav.addObject("pageMaker", pageMaker);
-		mav.addObject("questionList", questionList);		
-		mav.setViewName("notice/question");
-		return mav;
-	}
-	
-	//자주하는 질문 검색하기
-	@RequestMapping(value="/question_search")
-	@ResponseBody
-	public ModelAndView question_search(BoardDto boardDto) throws Exception{
-		
-		ModelAndView mav = new ModelAndView();
-		String searchType = boardDto.getSearchType();
-		String category = boardDto.getCategory();
-		
-		List<BoardDto> questionList = new ArrayList<>();
-		questionList = boardService.getBoardListBySearch(boardDto);
-		
 		mav.addObject("questionList", questionList);	
-		mav.addObject("searchType", searchType);
-		mav.addObject("category", category);
+		mav.addObject("boardDto", boardDto);
 		mav.setViewName("notice/question");
 		return mav;
 	}
 	
 	//시험자료실 리스트
-	@RequestMapping(value="/library", method=RequestMethod.GET)
+	@RequestMapping(value="/library")
 	@ResponseBody
 	public ModelAndView library(BoardDto boardDto , HttpServletResponse response) throws Exception 
 	{
@@ -164,13 +128,14 @@ public class BoardController {
 		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setBoardDto(boardDto);
-		pageMaker.setTotalCount(boardService.CountBoardListTotal(boardDto));
+		pageMaker.setTotalCount(boardService.countBoardListTotal(boardDto));
 		
 		List<BoardDto> libraryList = new ArrayList<>();
 		libraryList = boardService.getBoardList(boardDto);
 			
 		mav.addObject("pageMaker", pageMaker);
-		mav.addObject("libraryList", libraryList);		
+		mav.addObject("libraryList", libraryList);	
+		mav.addObject("boardDto", boardDto);
 		mav.setViewName("guide/library");
 		return mav;
 	}
@@ -204,7 +169,7 @@ public class BoardController {
 		String searchType = boardDto.getSearchType();
 			
 		List<BoardDto> libraryList = new ArrayList<>();
-		libraryList = boardService.getBoardListBySearch(boardDto);
+		libraryList = boardService.getBoardList(boardDto);
 			
 		mav.addObject("libraryList", libraryList);
 		mav.addObject("searchType", searchType);

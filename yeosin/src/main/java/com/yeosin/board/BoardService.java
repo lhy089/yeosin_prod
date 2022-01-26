@@ -22,6 +22,16 @@ public class BoardService {
 	}*/
 	
 	public List<BoardDto> getBoardList(BoardDto boardDto) throws Exception {
+		
+		if(boardDto.getSearchType() == null)
+			boardDto.setSearchType("");
+		
+		if(boardDto.getSearchWord() == null)
+			boardDto.setSearchWord("");
+		
+		if(boardDto.getCategory() == null)
+			boardDto.setCategory("");
+		
 		return boardDao.getBoardList(boardDto);
 	}
 	
@@ -43,10 +53,6 @@ public class BoardService {
 		return boardDao.getNoticeListForMain();
 	}
 	
-	public List<BoardDto> getBoardListBySearch(BoardDto boardDto) throws Exception{
-		return boardDao.getBoardListBySearch(boardDto);
-	}
-	
 	public int getMaxBoardSequence(String boardType) throws Exception{
 		return boardDao.getMaxBoardSequence(boardType);
 	}
@@ -55,7 +61,17 @@ public class BoardService {
 		return boardDao.getMinBoardSequence(boardType);
 	}
 	
-	public int CountBoardListTotal(BoardDto boardDto) {
-		return boardDao.CountBoardListTotal(boardDto);
+	public int countBoardListTotal(BoardDto boardDto) {
+		
+		if(boardDto.getSearchType() == null)
+			boardDto.setSearchType("");
+		
+		if(boardDto.getSearchWord() == null)
+			boardDto.setSearchWord("");
+		
+		if(boardDto.getCategory() == null)
+			boardDto.setCategory("");
+		
+		return boardDao.countBoardListTotal(boardDto);
 	}
 }

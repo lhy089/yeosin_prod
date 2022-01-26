@@ -32,6 +32,8 @@ $(document).ready(function() {
 	      $("#category").val($("#category").val());
 	      $("#searchWord").val($("#searchWord").val());
 	      $("#searchType").val($("#searchType").val());
+	      $("#category").val($("#category").val());
+	      $("#page").val(1);
 	      $("#commonform").submit(); 
 	   });
 });
@@ -42,8 +44,9 @@ $(document).ready(function() {
 <!--?php include_once "../common/header.php";?-->
 <%@ include file="/www/common/header.jsp"%>
 
-<form id="commonform" name="commonform" method="post" action="/question_search">
+<form id="commonform" name="commonform" method="post" action="/question">
 <input type="hidden" name="boardType" id="boardType" >
+<input type="hidden" name="page" id="page">
 
 <div class="notice question">
   <div class="contentBox">
@@ -54,19 +57,19 @@ $(document).ready(function() {
     <div class="searchBox">
        <select id="category" name="category">
        	<option value="">전체</option>
-        <option value="원서접수 및 취소" <c:if test="${category eq '원서접수 및 취소'}">selected="selected"</c:if>>원서접수 및 취소</option>
-        <option value="시험안내" <c:if test="${category eq '시험안내'}">selected="selected"</c:if>>시험안내</option>
-        <option value="결제 및 환불" <c:if test="${category eq '결제 및 환불'}">selected="selected"</c:if>>결제 및 환불</option>
-        <option value="자격증 관련" <c:if test="${category eq '자격증 관련'}">selected="selected"</c:if>>자격증 관련</option>
-        <option value="응시관련" <c:if test="${category eq '응시관련'}">selected="selected"</c:if>>응시관련</option>
-        <option value="회원가입(로그인)" <c:if test="${category eq '회원가입(로그인)'}">selected="selected"</c:if>>회원관리(로그인)</option>
-        <option value="시험결과관련" <c:if test="${category eq '시험결과관련'}">selected="selected"</c:if>>시험결과관련</option>
-        <option value="기타" <c:if test="${category eq '기타'}">selected="selected"</c:if>>기타</option>
+        <option value="원서접수 및 취소" <c:if test="${boardDto.category eq '원서접수 및 취소'}">selected="selected"</c:if>>원서접수 및 취소</option>
+        <option value="시험안내" <c:if test="${boardDto.category eq '시험안내'}">selected="selected"</c:if>>시험안내</option>
+        <option value="결제 및 환불" <c:if test="${boardDto.category eq '결제 및 환불'}">selected="selected"</c:if>>결제 및 환불</option>
+        <option value="자격증 관련" <c:if test="${boardDto.category eq '자격증 관련'}">selected="selected"</c:if>>자격증 관련</option>
+        <option value="응시관련" <c:if test="${boardDto.category eq '응시관련'}">selected="selected"</c:if>>응시관련</option>
+        <option value="회원가입(로그인)" <c:if test="${boardDto.category eq '회원가입(로그인)'}">selected="selected"</c:if>>회원관리(로그인)</option>
+        <option value="시험결과관련" <c:if test="${boardDto.category eq '시험결과관련'}">selected="selected"</c:if>>시험결과관련</option>
+        <option value="기타" <c:if test="${boardDto.category eq '기타'}">selected="selected"</c:if>>기타</option>
       </select>
        <select id="searchType" name="searchType">
-        <option value="S" <c:if test="${searchType eq 'S'}">selected="selected"</c:if>>제목</option>
-        <option value="C" <c:if test="${searchType eq 'C'}">selected="selected"</c:if>>내용</option>
-        <option value="A" <c:if test="${searchType eq 'A'}">selected="selected"</c:if>>제목+내용</option>
+        <option value="S" <c:if test="${boardDto.searchType eq 'S'}">selected="selected"</c:if>>제목</option>
+        <option value="C" <c:if test="${boardDto.searchType eq 'C'}">selected="selected"</c:if>>내용</option>
+        <option value="A" <c:if test="${boardDto.searchType eq 'A'}">selected="selected"</c:if>>제목+내용</option>
       </select>
       <input type="text" id="searchWord" name="searchWord" placeholder="내용을 입력해주세요">
      <!-- <a href="#" class="btn_serch">검색</a>-->
@@ -84,21 +87,21 @@ $(document).ready(function() {
     <ul class="btn-group pagination">
   	<c:if test="${pageMaker.prev}">
    		<li>
-     		 <a href='<c:url value="/question?page=${pageMaker.startPage-1}&boardType=2" />'><i class="fa fa-chevron-left">이전</i></a>
+     		 <a href='<c:url value="/question?page=${pageMaker.startPage-1}&boardType=2&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}" />'><i class="fa fa-chevron-left">이전</i></a>
   		</li>
  	</c:if>
   	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
     	<li>
-       		<a href='<c:url value="/question?page=${pageNum}&boardType=2"/>'><i class="fa">${pageNum}</i></a>
+       		<a href='<c:url value="/question?page=${pageNum}&boardType=2&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}"/>'><i class="fa">${pageNum}</i></a>
     	</li>
     </c:forEach>
     <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
     	<li>
-      		<a href='<c:url value="/question?page=${pageMaker.endPage+1}&boardType=2"/>'><i class="fa fa-chevron-right">다음</i></a>
+      		<a href='<c:url value="/question?page=${pageMaker.endPage+1}&boardType=2&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}"/>'><i class="fa fa-chevron-right">다음</i></a>
    		</li>
     </c:if>
 	</ul>
-    <p class="pageCnt">전체 7건, 1/1 페이지</p>
+    <p class="pageCnt">전체 ${pageMaker.totalCount}건, ${boardDto.page}/${pageMaker.totalCount / pageMaker.displayPageNum } 페이지</p>
     <div class="pageWrap">
       <!-- 페이징 -->
     </div>

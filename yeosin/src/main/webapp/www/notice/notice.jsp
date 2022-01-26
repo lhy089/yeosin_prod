@@ -32,6 +32,7 @@ $(document).ready(function() {
 	      $("#category").val('');
 	      $("#searchWord").val($("#searchWord").val());
 	      $("#searchType").val($("#searchType").val());
+	      $("#page").val(1);
 	      $("#commonform").submit(); 
 	   });
 });
@@ -42,18 +43,19 @@ $(document).ready(function() {
 <!--?php include_once "../common/header.php";?-->
 <%@ include file="/www/common/header.jsp"%>
  
-<form id="commonform" name="commonform" method="post" action="/notice_search">
+<form id="commonform" name="commonform" method="post" action="/notice">
 <input type="hidden" name="boardType" id="boardType" >
 <input type="hidden" name="category" id="category">
+<input type="hidden" name="page" id="page">
 
 <div class="notice library">
   <div class="contentBox">
     <h1>공지사항</h1>
     <div class="searchBox">
       <select id="searchType" name="searchType">
-        <option value="S" <c:if test="${searchType eq 'S'}">selected="selected"</c:if>>제목</option>
-        <option value="C" <c:if test="${searchType eq 'C'}">selected="selected"</c:if>>내용</option>
-        <option value="A" <c:if test="${searchType eq 'A'}">selected="selected"</c:if>>제목+내용</option>
+        <option value="S" <c:if test="${boardDto.searchType eq 'S'}">selected="selected"</c:if>>제목</option>
+        <option value="C" <c:if test="${boardDto.searchType eq 'C'}">selected="selected"</c:if>>내용</option>
+        <option value="A" <c:if test="${boardDto.searchType eq 'A'}">selected="selected"</c:if>>제목+내용</option>
       </select>
       <input type="text" id="searchWord" name="searchWord" placeholder="내용을 입력해주세요">
       <!--<a href="/#" id="btn_search" class="btn_serch">검색</a>-->
@@ -75,21 +77,21 @@ $(document).ready(function() {
     <ul class="btn-group pagination">
   	<c:if test="${pageMaker.prev }">
    		<li>
-     		 <a href='<c:url value="/notice?page=${pageMaker.startPage-1}&boardType=1" />'><i class="fa fa-chevron-left">이전</i></a>
+     		 <a href='<c:url value="/notice?page=${pageMaker.startPage-1}&boardType=1&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}" />'><i class="fa fa-chevron-left">이전</i></a>
   		</li>
  	</c:if>
   	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
     	<li>
-       		<a href='<c:url value="/notice?page=${pageNum}&boardType=1"/>'><i class="fa">${pageNum}</i></a>
+       		<a href='<c:url value="/notice?page=${pageNum}&boardType=1&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}"/>'><i class="fa">${pageNum}</i></a>
     	</li>
     </c:forEach>
     <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
     	<li>
-      		<a href='<c:url value="/notice?page=${pageMaker.endPage+1}&boardType=1"/>'><i class="fa fa-chevron-right">다음</i></a>
+      		<a href='<c:url value="/notice?page=${pageMaker.endPage+1}&boardType=1&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}"/>'><i class="fa fa-chevron-right">다음</i></a>
    		</li>
     </c:if>
 	</ul>
-    <p class="pageCnt">전체 7건, 1/1 페이지</p>
+    <p class="pageCnt">전체 ${pageMaker.totalCount}건, ${boardDto.page}/${pageMaker.totalCount / pageMaker.displayPageNum } 페이지</p>
     <div class="pageWrap">
       <!-- 페이징 -->
     </div>
