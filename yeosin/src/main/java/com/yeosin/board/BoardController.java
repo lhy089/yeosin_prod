@@ -1,6 +1,7 @@
 package com.yeosin.board;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +32,13 @@ public class BoardController {
 		
 		List<BoardDto> noticeList = new ArrayList<>();
 		noticeList = boardService.getBoardList(boardDto);
+		
+		for(int i = 0 ; i < noticeList.size(); i++)
+		{
+			noticeList.get(i).setPage(pageMaker.getBoardDto().getPage());
+			noticeList.get(i).setSearchType(boardDto.getSearchType());
+			noticeList.get(i).setSearchWord(boardDto.getSearchWord());
+		}
 
 		mav.addObject("pageMaker", pageMaker);
 		mav.addObject("noticeList", noticeList);	
@@ -46,15 +54,16 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		
 		BoardDto noticeInfo = new BoardDto();
+		HashMap<String, Object> noticeSequence = new HashMap<>();
 		
+		noticeSequence = boardService.getBoardSequence(boardDto);
 		noticeInfo = boardService.getBoardInfo(boardDto);
-		int minNoticeSequence = boardService.getMinBoardSequence(boardDto.getBoardType());
-		int maxNoticeSequence = boardService.getMaxBoardSequence(boardDto.getBoardType());
 		noticeInfo.setPage(boardDto.getPage());
+		noticeInfo.setSearchType(boardDto.getSearchType());
+		noticeInfo.setSearchWord(boardDto.getSearchWord());
 		
 		mav.addObject("noticeInfo", noticeInfo);
-		mav.addObject("minNoticeSequence", minNoticeSequence);
-		mav.addObject("maxNoticeSequence", maxNoticeSequence);
+		mav.addObject("noticeSequence",noticeSequence);
 		mav.setViewName("notice/notice_view");
 		return mav;
 	}
@@ -66,12 +75,18 @@ public class BoardController {
 		
 		ModelAndView mav = new ModelAndView();
 
-		BoardDto noticeInfo = new BoardDto();		
-		noticeInfo = boardService.getPreviousBoardInfo(boardDto);
-		int minNoticeSequence = boardService.getMinBoardSequence(boardDto.getBoardType()); 
+		BoardDto noticeInfo = new BoardDto();	
+		HashMap<String, Object> noticeSequence = new HashMap<>();
+		
+		noticeSequence = boardService.getBoardSequence(boardDto);
+		boardDto.setBoardSequence((Integer)noticeSequence.get("preBoardSequence"));
+		noticeInfo = boardService.getBoardInfo(boardDto);
+		noticeInfo.setPage(boardDto.getPage());
+		noticeInfo.setSearchType(boardDto.getSearchType());
+		noticeInfo.setSearchWord(boardDto.getSearchWord());
 		
 		mav.addObject("noticeInfo", noticeInfo);
-		mav.addObject("minNoticeSequence", minNoticeSequence);
+		mav.addObject("noticeSequence",noticeSequence);
 		mav.setViewName("notice/notice_view");
 		return mav;	
 	}
@@ -84,11 +99,17 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 
 		BoardDto noticeInfo = new BoardDto();		
-		noticeInfo = boardService.getNextBoardInfo(boardDto);
-		int maxNoticeSequence = boardService.getMaxBoardSequence(boardDto.getBoardType());
+		HashMap<String, Object> noticeSequence = new HashMap<>();
+		
+		noticeSequence = boardService.getBoardSequence(boardDto);
+		boardDto.setBoardSequence((Integer)noticeSequence.get("nextBoardSequence"));
+		noticeInfo = boardService.getBoardInfo(boardDto);
+		noticeInfo.setPage(boardDto.getPage());
+		noticeInfo.setSearchType(boardDto.getSearchType());
+		noticeInfo.setSearchWord(boardDto.getSearchWord());
 		
 		mav.addObject("noticeInfo", noticeInfo);
-		mav.addObject("maxNoticeSequence", maxNoticeSequence);
+		mav.addObject("noticeSequence",noticeSequence);
 		mav.setViewName("notice/notice_view");
 		return mav;	
 	}
@@ -149,8 +170,8 @@ public class BoardController {
 		BoardDto libraryInfo = new BoardDto();
 			
 		libraryInfo = boardService.getBoardInfo(boardDto);
-		int minLibrarySequence = boardService.getMinBoardSequence(boardDto.getBoardType()); 
-		int maxLibrarySequence = boardService.getMaxBoardSequence(boardDto.getBoardType());
+		int minLibrarySequence = boardService.getMinBoardSequence(boardDto); 
+		int maxLibrarySequence = boardService.getMaxBoardSequence(boardDto);
 		libraryInfo.setPage(boardDto.getPage());
 			
 		mav.addObject("minLibrarySequence", minLibrarySequence);
@@ -186,7 +207,7 @@ public class BoardController {
 
 		BoardDto libraryInfo = new BoardDto();		
 		libraryInfo = boardService.getPreviousBoardInfo(boardDto);
-		int minLibrarySequence = boardService.getMinBoardSequence(boardDto.getBoardType()); 
+		int minLibrarySequence = boardService.getMinBoardSequence(boardDto); 
 		
 		mav.addObject("libraryInfo", libraryInfo);
 		mav.addObject("minLibrarySequence", minLibrarySequence);
@@ -203,7 +224,7 @@ public class BoardController {
 
 		BoardDto libraryInfo = new BoardDto();		
 		libraryInfo = boardService.getNextBoardInfo(boardDto);
-		int maxLibrarySequence = boardService.getMaxBoardSequence(boardDto.getBoardType());
+		int maxLibrarySequence = boardService.getMaxBoardSequence(boardDto);
 			
 		mav.addObject("libraryInfo", libraryInfo);
 		mav.addObject("maxLibrarySequence", maxLibrarySequence);

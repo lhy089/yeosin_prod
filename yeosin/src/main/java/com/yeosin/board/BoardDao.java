@@ -38,12 +38,12 @@ public class BoardDao {
 		return this.sqlSession.selectList(nameSpace + "getNoticeListForMain");
 	}
 	
-	public int getMaxBoardSequence(String boardType) {
-		return this.sqlSession.selectOne(nameSpace + "getMaxBoardSequence", boardType);
+	public int getMaxBoardSequence(BoardDto boardDto) {
+		return this.sqlSession.selectOne(nameSpace + "getMaxBoardSequence", boardDto);
 	}
 	
-	public int getMinBoardSequence(String boardType) {
-		return this.sqlSession.selectOne(nameSpace + "getMinBoardSequence", boardType);
+	public int getMinBoardSequence(BoardDto boardDto) {
+		return this.sqlSession.selectOne(nameSpace + "getMinBoardSequence", boardDto);
 	}
 	
 	public int countBoardListTotal(BoardDto boardDto) {

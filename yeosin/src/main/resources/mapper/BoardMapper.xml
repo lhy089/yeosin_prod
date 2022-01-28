@@ -64,6 +64,18 @@
 		FROM 	YS_BOARD
 		WHERE 	BOARDTYPE = #{boardType} 
 			AND BOARDSEQUENCE = #{boardSequence} - 1;
+		<if test='searchType=="S"'>
+			AND TITLE LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		<if test='searchType=="C"'>
+			AND CONTENTS LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		<if test='searchType=="A"'>
+			AND (TITLE LIKE CONCAT('%',#{searchWord},'%') OR CONTENTS LIKE CONCAT('%',#{searchWord},'%'))
+		</if>
+		<if test='category!=""'>
+			AND CATEGORY = #{category}
+		</if>
    </select>
    
    <select id="getNextBoardInfo" parameterType="com.yeosin.board.BoardDto" resultType="com.yeosin.board.BoardDto">
@@ -81,6 +93,18 @@
 		FROM 	YS_BOARD
 		WHERE 	BOARDTYPE = #{boardType} 
 			AND BOARDSEQUENCE = #{boardSequence} + 1;
+		<if test='searchType=="S"'>
+			AND TITLE LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		<if test='searchType=="C"'>
+			AND CONTENTS LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		<if test='searchType=="A"'>
+			AND (TITLE LIKE CONCAT('%',#{searchWord},'%') OR CONTENTS LIKE CONCAT('%',#{searchWord},'%'))
+		</if>
+		<if test='category!=""'>
+			AND CATEGORY = #{category}
+		</if>
    </select>
    
    
@@ -106,18 +130,43 @@
 		LIMIT 5
    </select>
    
-    <select id="getMaxBoardSequence" parameterType="String" resultType="int">
+    <select id="getMaxBoardSequence" parameterType="com.yeosin.board.BoardDto" resultType="int">
 		SELECT 	
 				MAX(BOARDSEQUENCE)
 		FROM 	YS_BOARD
 		WHERE BOARDTYPE = #{boardType}
+		<if test='searchType=="S"'>
+			AND TITLE LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		<if test='searchType=="C"'>
+			AND CONTENTS LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		<if test='searchType=="A"'>
+			AND (TITLE LIKE CONCAT('%',#{searchWord},'%') OR CONTENTS LIKE CONCAT('%',#{searchWord},'%'))
+		</if>
+		<if test='category!=""'>
+			AND CATEGORY = #{category}
+		</if>
    </select>
    
-   <select id="getMinBoardSequence" parameterType="String" resultType="int">
+   <select id="getMinBoardSequence" parameterType="com.yeosin.board.BoardDto" resultType="int">
    		SELECT
    			MIN(BOARDSEQUENCE)
 		FROM 	YS_BOARD
 		WHERE BOARDTYPE = #{boardType}
+			  BOARDSEQUENCE = #{boardSequence}
+		<if test='searchType=="S"'>
+			AND TITLE LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		<if test='searchType=="C"'>
+			AND CONTENTS LIKE CONCAT('%',#{searchWord},'%')
+		</if>
+		<if test='searchType=="A"'>
+			AND (TITLE LIKE CONCAT('%',#{searchWord},'%') OR CONTENTS LIKE CONCAT('%',#{searchWord},'%'))
+		</if>
+		<if test='category!=""'>
+			AND CATEGORY = #{category}
+		</if>
    </select>
    
    <select id="countBoardListTotal" resultType="Integer" parameterType="com.yeosin.board.BoardDto" >

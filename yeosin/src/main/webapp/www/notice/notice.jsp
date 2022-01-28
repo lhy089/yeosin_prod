@@ -64,7 +64,7 @@ $(document).ready(function() {
     <ul class="dataList">
       <c:forEach var="notice" items="${noticeList}">	
       	<li>
-        	<a href="/notice_view?boardType=${notice.boardType}&boardSequence=${notice.boardSequence}&page=${pageMaker.boardDto.page}">${notice.title}</a>
+        	<a href="/notice_view?boardType=${notice.boardType}&boardSequence=${notice.boardSequence}&page=${pageMaker.boardDto.page}&searchWord=${notice.searchWord}&searchType=${notice.searchType}">${notice.title}</a>
         	<div>
           		<p class="num">No.${notice.boardSequence}</p>
          	 	<p class="viewCount">조회수 : ${notice.hitCnt}</p>

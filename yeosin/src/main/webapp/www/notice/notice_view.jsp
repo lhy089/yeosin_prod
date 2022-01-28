@@ -21,7 +21,6 @@
   <meta property="og:image" content="/www/inc/img/openGraph.jpg">
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
-
   <link rel="stylesheet" href="/www/inc/css/notice.css">
 </head>
 
@@ -33,13 +32,13 @@
   <div class="contentBox">
     <h1>공지사항</h1>
     <div class="btnWrap topBtn">
-      <c:if test="${minNoticeSequence != noticeInfo.boardSequence}">
-      	<a href="/notice_previous?boardType=${noticeInfo.boardType}&boardSequence=${noticeInfo.boardSequence}" class="btn">이전</a>
+      <c:if test="${noticeSequence.pageMinBoardSequence != noticeInfo.boardSequence}">
+      	<a href="/notice_previous?boardType=1&boardSequence=${noticeInfo.boardSequence}&searchWord=${noticeInfo.searchWord}&searchType=${noticeInfo.searchType}&page=${noticeInfo.page}" class="btn">이전</a>
        </c:if>
-      <c:if test="${maxNoticeSequence != noticeInfo.boardSequence}">
-      	<a href="/notice_next?boardType=${noticeInfo.boardType}&boardSequence=${noticeInfo.boardSequence}" class="btn">다음</a>
+      <c:if test="${noticeSequence.pageMaxBoardSequence != noticeInfo.boardSequence}">
+      	<a href="/notice_next?boardType=1&boardSequence=${noticeInfo.boardSequence}&searchWord=${noticeInfo.searchWord}&searchType=${noticeInfo.searchType}&page=${noticeInfo.page}" class="btn">다음</a>
       </c:if>
-      <a href="/notice?boardType=1&page=${noticeInfo.page}" class="btn">목록</a>
+      <a href="/notice?boardType=1&page=${noticeInfo.page}&searchWord=${noticeInfo.searchWord}&searchType=${noticeInfo.searchType}" class="btn">목록</a>
     </div>
     <div class="content">
       <div class="info">
@@ -58,13 +57,13 @@
       <!-- //내용 영역 -->
     </div>
     <div class="btnWrap bottomBtn">
-   	  <c:if test="${minNoticeSequence != noticeInfo.boardSequence}">
-      	<a href="/notice_previous?boardType=${noticeInfo.boardType}&boardSequence=${noticeInfo.boardSequence}" class="btn">이전</a>
+   	  <c:if test="${noticeSequence.pageMinBoardSequence != noticeInfo.boardSequence}">
+      	<a href="/notice_previous?boardType=1&boardSequence=${noticeInfo.boardSequence}&searchWord=${noticeInfo.searchWord}&searchType=${noticeInfo.searchType}&page=${noticeInfo.page} class="btn">이전</a>
       </c:if>
-      <c:if test="${maxNoticeSequence != noticeInfo.boardSequence}">
-     	<a href="/notice_next?boardType=${noticeInfo.boardType}&boardSequence=${noticeInfo.boardSequence}" class="btn">다음</a>
+      <c:if test="${noticeSequence.pageMaxBoardSequence != noticeInfo.boardSequence}">
+     	<a href="/notice_next?boardType=1&boardSequence=${noticeInfo.boardSequence}&searchWord=${noticeInfo.searchWord}&searchType=${noticeInfo.searchType}&page=${noticeInfo.page}" class="btn">다음</a>
      </c:if>
-      <a href="/notice?boardType=1&page=${noticeInfo.page}" class="btn">목록</a>
+      <a href="/notice?boardType=1&page=${noticeInfo.page}&searchWord=${noticeInfo.searchWord}&searchType=${noticeInfo.searchType}" class="btn">목록</a>
     </div>
   </div>
 </div>
