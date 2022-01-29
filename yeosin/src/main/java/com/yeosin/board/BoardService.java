@@ -34,53 +34,8 @@ public class BoardService {
 		return boardDao.getBoardInfo(boardDto);
 	}
 	
-	public BoardDto getPreviousBoardInfo(BoardDto boardDto) throws Exception{
-		
-		boardDto = changeNullToEmpty(boardDto);
-		return boardDao.getPreviousBoardInfo(boardDto);
-	}
-	
-	public BoardDto getNextBoardInfo(BoardDto boardDto) throws Exception{
-		
-		boardDto = changeNullToEmpty(boardDto);
-		return boardDao.getNextBoardInfo(boardDto);
-	}
-	
 	public List<BoardDto> getNoticeListForMain() throws Exception{
 		return boardDao.getNoticeListForMain();
-	}
-	
-	public int getMaxBoardSequence(BoardDto boardDto) throws Exception{
-		
-		//boardDto = changeNullToEmpty(boardDto);
-		int pageMaxBoardSequence = -1;
-		
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setBoardDto(boardDto);
-		pageMaker.setTotalCount(countBoardListTotal(boardDto));
-		
-		List<BoardDto> noticeList = new ArrayList<>();
-		noticeList = getBoardList(boardDto);
-		
-		pageMaxBoardSequence = noticeList.get(pageMaker.getBoardDto().getPerPageNum()-1).getBoardSequence();
-		
-		return pageMaxBoardSequence;
-	}
-	
-	public int getMinBoardSequence(BoardDto boardDto) throws Exception{
-		
-		int pageMinBoardSequence = -1;
-		
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setBoardDto(boardDto);
-		pageMaker.setTotalCount(countBoardListTotal(boardDto));
-		
-		List<BoardDto> noticeList = new ArrayList<>();
-		noticeList = getBoardList(boardDto);
-		
-		pageMinBoardSequence = noticeList.get(0).getBoardSequence();
-		
-		return pageMinBoardSequence;
 	}
 	
 	public HashMap<String, Object> getBoardSequence(BoardDto boardDto) throws Exception{

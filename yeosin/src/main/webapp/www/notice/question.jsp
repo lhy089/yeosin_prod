@@ -21,6 +21,7 @@
   <meta property="og:image" content="/www/inc/img/openGraph.jpg">
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
   <link rel="stylesheet" href="/www/inc/css/notice.css">
 </head>
@@ -32,7 +33,6 @@ $(document).ready(function() {
 	      $("#category").val($("#category").val());
 	      $("#searchWord").val($("#searchWord").val());
 	      $("#searchType").val($("#searchType").val());
-	      $("#category").val($("#category").val());
 	      $("#page").val(1);
 	      $("#commonform").submit(); 
 	   });
@@ -62,7 +62,7 @@ $(document).ready(function() {
         <option value="결제 및 환불" <c:if test="${boardDto.category eq '결제 및 환불'}">selected="selected"</c:if>>결제 및 환불</option>
         <option value="자격증 관련" <c:if test="${boardDto.category eq '자격증 관련'}">selected="selected"</c:if>>자격증 관련</option>
         <option value="응시관련" <c:if test="${boardDto.category eq '응시관련'}">selected="selected"</c:if>>응시관련</option>
-        <option value="회원가입(로그인)" <c:if test="${boardDto.category eq '회원가입(로그인)'}">selected="selected"</c:if>>회원관리(로그인)</option>
+        <option value="회원가입(로그인)" <c:if test="${boardDto.category eq '회원가입(로그인)'}">selected="selected"</c:if>>회원가입(로그인)</option>
         <option value="시험결과관련" <c:if test="${boardDto.category eq '시험결과관련'}">selected="selected"</c:if>>시험결과관련</option>
         <option value="기타" <c:if test="${boardDto.category eq '기타'}">selected="selected"</c:if>>기타</option>
       </select>
@@ -71,7 +71,7 @@ $(document).ready(function() {
         <option value="C" <c:if test="${boardDto.searchType eq 'C'}">selected="selected"</c:if>>내용</option>
         <option value="A" <c:if test="${boardDto.searchType eq 'A'}">selected="selected"</c:if>>제목+내용</option>
       </select>
-      <input type="text" id="searchWord" name="searchWord" placeholder="내용을 입력해주세요">
+      <input type="text" id="searchWord" name="searchWord" placeholder="내용을 입력해주세요" value="${boardDto.searchWord}">
      <!-- <a href="#" class="btn_serch">검색</a>-->
       <button id="btn_search" name="btn_search" class="btn_serch">검색</button>
     </div>
@@ -87,21 +87,24 @@ $(document).ready(function() {
     <ul class="btn-group pagination">
   	<c:if test="${pageMaker.prev}">
    		<li>
-     		 <a href='<c:url value="/question?page=${pageMaker.startPage-1}&boardType=2&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}" />'><i class="fa fa-chevron-left">이전</i></a>
+     		 <a href='<c:url value="/question?page=${pageMaker.startPage-1}&boardType=2&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}&category=${boardDto.category}" />'><i class="fa fa-chevron-left">이전</i></a>
   		</li>
  	</c:if>
   	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
     	<li>
-       		<a href='<c:url value="/question?page=${pageNum}&boardType=2&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}"/>'><i class="fa">${pageNum}</i></a>
+       		<a href='<c:url value="/question?page=${pageNum}&boardType=2&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}&category=${boardDto.category}"/>'><i class="fa">${pageNum}</i></a>
     	</li>
     </c:forEach>
     <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
     	<li>
-      		<a href='<c:url value="/question?page=${pageMaker.endPage+1}&boardType=2&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}"/>'><i class="fa fa-chevron-right">다음</i></a>
+      		<a href='<c:url value="/question?page=${pageMaker.endPage+1}&boardType=2&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}&category=${boardDto.category}"/>'><i class="fa fa-chevron-right">다음</i></a>
    		</li>
     </c:if>
 	</ul>
-    <p class="pageCnt">전체 ${pageMaker.totalCount}건, ${boardDto.page}/${pageMaker.totalCount / pageMaker.displayPageNum } 페이지</p>
+	
+	<c:set var="OutputPageTotal" value="${(pageMaker.totalCount/boardDto.perPageNum)+(1-((pageMaker.totalCount/boardDto.perPageNum)%1))%1}" />
+	<fmt:parseNumber var="OutputPage"  value="${OutputPageTotal}" integerOnly="true" type="number"/>
+    <p class="pageCnt">전체 ${pageMaker.totalCount}건, ${boardDto.page} / <c:out value="${OutputPage}"/> 페이지</p>
     <div class="pageWrap">
       <!-- 페이징 -->
     </div>

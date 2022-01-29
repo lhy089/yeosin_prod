@@ -21,6 +21,7 @@
   <meta property="og:image" content="/www/inc/img/openGraph.jpg">
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
+  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
   <link rel="stylesheet" href="/www/inc/css/notice.css">
 </head>
@@ -57,7 +58,7 @@ $(document).ready(function() {
         <option value="C" <c:if test="${boardDto.searchType eq 'C'}">selected="selected"</c:if>>내용</option>
         <option value="A" <c:if test="${boardDto.searchType eq 'A'}">selected="selected"</c:if>>제목+내용</option>
       </select>
-      <input type="text" id="searchWord" name="searchWord" placeholder="내용을 입력해주세요">
+      <input type="text" id="searchWord" name="searchWord" placeholder="내용을 입력해주세요" value="${boardDto.searchWord}">
       <!--<a href="/#" id="btn_search" class="btn_serch">검색</a>-->
       <button id="btn_search" name="btn_search" class="btn_serch">검색</button>
     </div>
@@ -91,7 +92,10 @@ $(document).ready(function() {
    		</li>
     </c:if>
 	</ul>
-    <p class="pageCnt">전체 ${pageMaker.totalCount}건, ${boardDto.page}/${pageMaker.totalCount / pageMaker.displayPageNum } 페이지</p>
+	
+	<c:set var="OutputPageTotal" value="${(pageMaker.totalCount/boardDto.perPageNum)+(1-((pageMaker.totalCount/boardDto.perPageNum)%1))%1}" />
+	<fmt:parseNumber var="OutputPage"  value="${OutputPageTotal}" integerOnly="true" type="number"/>
+    <p class="pageCnt">전체 ${pageMaker.totalCount}건, ${boardDto.page} / <c:out value="${OutputPage}"/> 페이지</p>
     <div class="pageWrap">
       <!-- 페이징 -->
     </div>

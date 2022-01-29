@@ -17,17 +17,8 @@ public class BoardDao {
 		return this.sqlSession.selectList(nameSpace + "getBoardList", boardDto);
 	}
 	
-
 	public BoardDto getBoardInfo(BoardDto boardDto) {
 		return this.sqlSession.selectOne(nameSpace + "getBoardInfo", boardDto);
-	}
-	
-	public BoardDto getPreviousBoardInfo(BoardDto boardDto) {
-		return this.sqlSession.selectOne(nameSpace + "getPreviousBoardInfo" , boardDto);
-	}
-	
-	public BoardDto getNextBoardInfo(BoardDto boardDto) {
-		return this.sqlSession.selectOne(nameSpace + "getNextBoardInfo" , boardDto);
 	}
 	
 	public void updateHitCnt(BoardDto boardDto) {
@@ -36,14 +27,6 @@ public class BoardDao {
 	
 	public List<BoardDto> getNoticeListForMain() {
 		return this.sqlSession.selectList(nameSpace + "getNoticeListForMain");
-	}
-	
-	public int getMaxBoardSequence(BoardDto boardDto) {
-		return this.sqlSession.selectOne(nameSpace + "getMaxBoardSequence", boardDto);
-	}
-	
-	public int getMinBoardSequence(BoardDto boardDto) {
-		return this.sqlSession.selectOne(nameSpace + "getMinBoardSequence", boardDto);
 	}
 	
 	public int countBoardListTotal(BoardDto boardDto) {

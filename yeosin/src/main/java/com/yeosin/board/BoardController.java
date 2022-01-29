@@ -153,6 +153,13 @@ public class BoardController {
 		
 		List<BoardDto> libraryList = new ArrayList<>();
 		libraryList = boardService.getBoardList(boardDto);
+		
+		for(int i = 0 ; i < libraryList.size(); i++)
+		{
+			libraryList.get(i).setPage(pageMaker.getBoardDto().getPage());
+			libraryList.get(i).setSearchType(boardDto.getSearchType());
+			libraryList.get(i).setSearchWord(boardDto.getSearchWord());
+		}
 			
 		mav.addObject("pageMaker", pageMaker);
 		mav.addObject("libraryList", libraryList);	
@@ -165,36 +172,22 @@ public class BoardController {
 	@RequestMapping(value="/library_view", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView library_view(BoardDto boardDto)  throws Exception {
+		
 		ModelAndView mav = new ModelAndView();
 			
 		BoardDto libraryInfo = new BoardDto();
-			
+		HashMap<String, Object> librarySequence = new HashMap<>();
+		
+		librarySequence = boardService.getBoardSequence(boardDto);
 		libraryInfo = boardService.getBoardInfo(boardDto);
-		int minLibrarySequence = boardService.getMinBoardSequence(boardDto); 
-		int maxLibrarySequence = boardService.getMaxBoardSequence(boardDto);
 		libraryInfo.setPage(boardDto.getPage());
+		libraryInfo.setSearchType(boardDto.getSearchType());
+		libraryInfo.setSearchWord(boardDto.getSearchWord());
 			
-		mav.addObject("minLibrarySequence", minLibrarySequence);
-		mav.addObject("maxLibrarySequence", maxLibrarySequence);
+		
 		mav.addObject("libraryInfo", libraryInfo);
+		mav.addObject("librarySequence",librarySequence);
 		mav.setViewName("guide/library_view");
-		return mav;
-	}
-	
-	//시험자료실 검색하기
-	@RequestMapping(value="/library_search")
-	@ResponseBody
-	public ModelAndView library_search(BoardDto boardDto) throws Exception{
-			
-		ModelAndView mav = new ModelAndView();
-		String searchType = boardDto.getSearchType();
-			
-		List<BoardDto> libraryList = new ArrayList<>();
-		libraryList = boardService.getBoardList(boardDto);
-			
-		mav.addObject("libraryList", libraryList);
-		mav.addObject("searchType", searchType);
-		mav.setViewName("guide/library");
 		return mav;
 	}
 	
@@ -204,13 +197,19 @@ public class BoardController {
 	public ModelAndView library_previous(BoardDto boardDto) throws Exception{
 		
 		ModelAndView mav = new ModelAndView();
-
+		
 		BoardDto libraryInfo = new BoardDto();		
-		libraryInfo = boardService.getPreviousBoardInfo(boardDto);
-		int minLibrarySequence = boardService.getMinBoardSequence(boardDto); 
+		HashMap<String, Object> librarySequence = new HashMap<>();
+		
+		librarySequence = boardService.getBoardSequence(boardDto);
+		boardDto.setBoardSequence((Integer)librarySequence.get("preBoardSequence"));
+		libraryInfo = boardService.getBoardInfo(boardDto);
+		libraryInfo.setPage(boardDto.getPage());
+		libraryInfo.setSearchType(boardDto.getSearchType());
+		libraryInfo.setSearchWord(boardDto.getSearchWord());
 		
 		mav.addObject("libraryInfo", libraryInfo);
-		mav.addObject("minLibrarySequence", minLibrarySequence);
+		mav.addObject("librarySequence",librarySequence);
 		mav.setViewName("guide/library_view");
 		return mav;	
 	}
@@ -223,11 +222,17 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 
 		BoardDto libraryInfo = new BoardDto();		
-		libraryInfo = boardService.getNextBoardInfo(boardDto);
-		int maxLibrarySequence = boardService.getMaxBoardSequence(boardDto);
-			
+		HashMap<String, Object> librarySequence = new HashMap<>();
+		
+		librarySequence = boardService.getBoardSequence(boardDto);
+		boardDto.setBoardSequence((Integer)librarySequence.get("nextBoardSequence"));
+		libraryInfo = boardService.getBoardInfo(boardDto);
+		libraryInfo.setPage(boardDto.getPage());
+		libraryInfo.setSearchType(boardDto.getSearchType());
+		libraryInfo.setSearchWord(boardDto.getSearchWord());
+		
 		mav.addObject("libraryInfo", libraryInfo);
-		mav.addObject("maxLibrarySequence", maxLibrarySequence);
+		mav.addObject("librarySequence", librarySequence);
 		mav.setViewName("guide/library_view");
 		return mav;	
 	}
