@@ -2,27 +2,29 @@
 <!DOCTYPE html>
 <html>
 <head lang="ko">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-  <meta charset="utf-8">
-  <title>대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
-  <meta name="description" content="여신금융협회">
-  <meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
-  <meta name="viewport" content="user-scalable=no,
-   initial-scale=1.0,
-   maximum-scale=1.0,
-   minimum-scale=1.0,
-   width=device-width,
-   height=device-height">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="여신금융협회"/>
-  <!-- <meta property="og:url" content="사이트url"> -->
-  <meta property="og:title" content="대출성 상품 판매대리•중개업자 등록 자격인증 평가">
-  <meta property="og:description" content="대출성 상품 판매대리•중개업자 등록 자격인증 평가">
-  <meta property="og:image" content="/www/inc/img/openGraph.jpg">
-  <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
-  <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
-
-  <link rel="stylesheet" href="../inc/css/apply.css">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<meta charset="utf-8">
+	<title>대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
+	<meta name="description" content="여신금융협회">
+	<meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
+	<meta name="viewport" content="user-scalable=no,
+	 initial-scale=1.0,
+	 maximum-scale=1.0,
+	 minimum-scale=1.0,
+	 width=device-width,
+	 height=device-height">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="여신금융협회"/>
+	<!-- <meta property="og:url" content="사이트url"> -->
+	<meta property="og:title" content="대출성 상품 판매대리•중개업자 등록 자격인증 평가">
+	<meta property="og:description" content="대출성 상품 판매대리•중개업자 등록 자격인증 평가">
+	<meta property="og:image" content="/www/inc/img/openGraph.jpg">
+	<link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
+	<link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
+	<link rel="stylesheet" href="/www/inc/css/apply.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=1"></script>
 </head>
 
 <body>
@@ -44,13 +46,23 @@
     <div class="areaInfo">
       <h4>고사장</h4>
       <p class="location">
-        <select id="" name="">
+      	
+      	<!-- 임시 하드코딩  -->
+        <select id="examZoneDetailList" name="">
+         	<option value="도봉구">도봉구</option>
+         	<option value="노원구">노원구</option>
+         	<option value="강남구">강남구</option>
+         	<option value="계양구">계양구</option>
+         	<option value="부평구">부평구</option>
+        </select>
+        
+<%--         <select id="" name="">
             <c:forEach var="examZoneList" items="${examZoneList}" varStatus="i">
          		<option value="${examZoneList.examZoneId}">${examZoneList.examZoneName}</option>
       		</c:forEach>
-        </select>
+        </select> --%>
       </p>
-      <p class="serch"><a href="#" class="btn_serch">검색</a></p>
+      <p class="serch"><a class="btn_serch" id="btn_examzoneSearch">검색</a></p>
     </div>
     <table class="areaTable">
       <colgroup>
@@ -68,25 +80,18 @@
         <th>가능</th>
       </tr>
       <tr>
-        <td><input type="checkbox" name="check" value=""></td>
-        <td>(대전) 대성고등학교</td>
-        <td>대전지역센터</td>
-        <td>495</td>
+     	<td><input type="checkbox" name="check" value=""></td>
+        <td id="examZoneName"></td>
+        <td id="localCenterName"></td>
+        <td id="leftOverSeat"></td>
         <td><a href="#" class="btn_map">약도</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" name="check" value=""></td>
-        <td>(주)커커</td>
-        <td>서울강남지역센터</td>
-        <td>100</td>
-        <td><a href="#" class="btn_map">약도</a></td>
-      </tr>
-      <tr>
-        <td><input type="checkbox" name="check" value=""></td>
-        <td>(서울) 월촌초등학교</td>
-        <td>서울남부지역센터</td>
-        <td>100</td>
-        <td><a href="#" class="btn_map">약도</a></td>
+			<c:forEach var="examZoneList" items="${examZoneList}" varStatus="i">
+		        <td><input type="checkbox" name="check" value=""></td>
+		        <td>${examZoneList.examZoneName}</td>
+		        <td>${examZoneList.localCenterName}</td>
+		        <td>${examZoneList.leftOverSeat}</td>
+		        <td><a href="#" class="btn_map">약도</a></td>
+			</c:forEach>
       </tr>
     </table>
 

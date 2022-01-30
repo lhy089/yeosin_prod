@@ -12,7 +12,14 @@ public class ExamZoneDto {
 	private int examTotalUserCnt;	//전체 인원 수
 	private String examZoneMap;		//약도
 	private String description;		//비고
+	private int leftOverSeat;  		//잔여좌석수
 	
+	public int getLeftOverSeat() {
+		return leftOverSeat;
+	}
+	public void setLeftOverSeat(int leftOverSeat) {
+		this.leftOverSeat = leftOverSeat;
+	}
 	public String getExamZoneId() {
 		return examZoneId;
 	}

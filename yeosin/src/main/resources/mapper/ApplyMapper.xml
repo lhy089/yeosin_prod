@@ -22,9 +22,9 @@
 			,	R.USERID 					-- 유저 ID
 			,	R.EXAMID					-- 시험 ID
 			,	E.EXAMNAME 					-- 시험명
-			,	DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d %h:%i:%s') 	AS RECEIPTSTARTDATE -- 접수시작일
-			,	DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d %h:%i:%s') 		AS RECEIPTENDDATE 	-- 접수마감일
-			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d %h:%i:%s')			AS EXAMDATE	-- 시험일
+			,   DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d')    	AS RECEIPTSTARTDATE 	-- 접수시작일
+         	,   DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d')       AS RECEIPTENDDATE    	-- 접수마감일
+			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d %T')			AS EXAMDATE				-- 시험일
 			,	E.EXAMLOCAL 				-- 시험지역
 		FROM 	YS_RECEIPT					R 	
 		INNER JOIN YS_EXAM 					E	ON 	E.EXAMID = R.EXAMID 	

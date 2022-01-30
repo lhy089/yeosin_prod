@@ -17,6 +17,9 @@ public class ApplyService {
 	@Autowired	
 	private ExamDao examDao;
 	
+	@Autowired	
+	private ExamZoneDao examZoneDao;
+	
 	@Autowired
 	private EduCompletionDao eduDao;
 	
@@ -51,4 +54,9 @@ public class ApplyService {
 	public String getIsCompleteEdu(Map<String, Object> map) throws Exception {
 		return eduDao.getIsCompleteEdu(map);
 	}
+	
+	public List<ExamZoneDto> getExamZoneList(Map<String, Object> map) throws Exception {
+		return examZoneDao.getExamZoneList(map);
+	}
+	
 }

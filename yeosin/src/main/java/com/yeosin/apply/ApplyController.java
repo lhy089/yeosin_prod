@@ -112,17 +112,35 @@ public class ApplyController {
 		return resultMap;
 	}
 	
+	// 고사장 검색
+	@RequestMapping(value="/SearchExamZone", method=RequestMethod.GET)
+	@ResponseBody
+	public List<ExamZoneDto> SearchExamZone(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");
+		
+		// JSP에서 넘어온 데이터
+		Map<String, Object> paremterMap = new HashMap<String, Object>();
+		paremterMap.put("examZoneDetail", requestMap.get("examZoneDetail"));
+		
+		// AJAX로 넘겨줄 데이터
+		List<ExamZoneDto> examZoneList = new ArrayList<ExamZoneDto>();
+		examZoneList = applyService.getExamZoneList(paremterMap);
+		
+		return examZoneList;
+	}
+	
 	// 원서접수4(고사장 및 시험영역선택 View)
 	@RequestMapping(value="/apply4", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView ExamZoneInfoByApply(@RequestParam("examId") String examId, HttpSession session, HttpServletResponse response) throws Exception 
+	public ModelAndView ExamZoneInfoByApply(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 			
 		userInfo = userService.getLoginUserInfo(userInfo);
-		ExamDto examInfo = applyService.getExamInfo(examId);
+		ExamDto examInfo = applyService.getExamInfo(requestMap.get("examId").toString());
 		
 		mav.addObject("examInfo", examInfo);
 		mav.addObject("userInfo", userInfo);

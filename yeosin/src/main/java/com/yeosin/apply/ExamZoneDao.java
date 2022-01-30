@@ -1,6 +1,7 @@
 package com.yeosin.apply;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,8 @@ public class ExamZoneDao {
 	private SqlSessionTemplate sqlSession;
 	private String nameSpace = "com.yeosin.apply.ExamZoneDao.";
 	
-	/*public List<ApplyDto> getApplyList(String userId) throws Exception {
-		return sqlSession.selectList(nameSpace + "GetApplyList", userId);
-	}*/
+	public List<ExamZoneDto> getExamZoneList(Map<String, Object> map) {
+		return this.sqlSession.selectList(nameSpace + "getExamZoneList");
+	}
 
 }

@@ -73,10 +73,10 @@
         <tr>
           <th>교육과정</th>
           <td>
-            <select id="" name="">
-              <option value="">선택</option>
-              <option value="">대출•기타 대출성 상품</option>
-              <option value="">리스 •할부 상품</option>
+            <select id="productType" name="">
+              <option value="*">선택</option>
+              <option value="productType_1">대출•기타 대출성 상품</option>
+              <option value="productType_2">리스 •할부 상품</option>
             </select>
           </td>
         </tr>
