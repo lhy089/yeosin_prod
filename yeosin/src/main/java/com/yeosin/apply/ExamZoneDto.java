@@ -1,5 +1,8 @@
 package com.yeosin.apply;
 
+/*
+ *	고사장 테이블 DTO 
+ */
 public class ExamZoneDto {
 	
 	private String examZoneId;		//고사장(PK)
@@ -14,6 +17,14 @@ public class ExamZoneDto {
 	private String description;		//비고
 	private int leftOverSeat;  		//잔여좌석수
 	
+	private LocalCenterDto localCenterDto; // 고사장 DTO
+	
+	public LocalCenterDto getLocalCenterDto() {
+		return localCenterDto;
+	}
+	public void setLocalCenterDto(LocalCenterDto localCenterDto) {
+		this.localCenterDto = localCenterDto;
+	}
 	public int getLeftOverSeat() {
 		return leftOverSeat;
 	}

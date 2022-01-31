@@ -148,6 +148,21 @@ public class ApplyController {
 		return mav;
 	}
 	
+	// 원서접수5(고사장 및 시험영역선택 View)
+	@RequestMapping(value="/apply5", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView apply5(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+			
+		userInfo = userService.getLoginUserInfo(userInfo);
+
+		mav.setViewName("apply/apply5");
+		return mav;
+	}
+	
 	// 원서확인 및 취소
 	@RequestMapping(value="/accept", method=RequestMethod.GET)
 	@ResponseBody

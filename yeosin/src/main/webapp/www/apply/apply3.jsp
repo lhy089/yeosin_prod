@@ -89,7 +89,7 @@
         </tr>
       </table>
       <input type="hidden" value="${examInfo.examId}" id="examId"/>
-      <a id="btn_completed" class="btn_apply">작성완료</a>
+      <a class="btn_apply" id="btn_completed">작성완료</a>
     </section>
   </div>
 </div>

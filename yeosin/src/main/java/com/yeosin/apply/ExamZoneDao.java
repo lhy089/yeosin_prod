@@ -15,7 +15,7 @@ public class ExamZoneDao {
 	private String nameSpace = "com.yeosin.apply.ExamZoneDao.";
 	
 	public List<ExamZoneDto> getExamZoneList(Map<String, Object> map) {
-		return this.sqlSession.selectList(nameSpace + "getExamZoneList");
+		return this.sqlSession.selectList(nameSpace + "getExamZoneList", map);
 	}
 
 }

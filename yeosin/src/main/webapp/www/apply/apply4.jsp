@@ -64,7 +64,7 @@
       </p>
       <p class="serch"><a class="btn_serch" id="btn_examzoneSearch">검색</a></p>
     </div>
-    <table class="areaTable">
+    <table class="areaTable" id="examZoneListAjax">
       <colgroup>
         <col width="14.5%">
         <col width="*">
@@ -79,20 +79,7 @@
         <th>잔여좌석</th>
         <th>가능</th>
       </tr>
-      <tr>
-     	<td><input type="checkbox" name="check" value=""></td>
-        <td id="examZoneName"></td>
-        <td id="localCenterName"></td>
-        <td id="leftOverSeat"></td>
-        <td><a href="#" class="btn_map">약도</a></td>
-			<c:forEach var="examZoneList" items="${examZoneList}" varStatus="i">
-		        <td><input type="checkbox" name="check" value=""></td>
-		        <td>${examZoneList.examZoneName}</td>
-		        <td>${examZoneList.localCenterName}</td>
-		        <td>${examZoneList.leftOverSeat}</td>
-		        <td><a href="#" class="btn_map">약도</a></td>
-			</c:forEach>
-      </tr>
+      <!-- Ajax로 <tr> 호출하는 영역 -->
     </table>
 
     <div class="objInfo">
@@ -117,7 +104,9 @@
       </tr>
     </table>
 
-    <a href="#" class="btn_apply">접수하기</a>
+	<input type="hidden" value="" id="examId"/>
+	<input type="hidden" value="" id="eduNum"/>
+    <a class="btn_apply" id="btn_receipt">접수하기</a>
 
   </div>
 </div>

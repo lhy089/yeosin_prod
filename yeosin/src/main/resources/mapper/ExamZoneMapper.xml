@@ -4,7 +4,7 @@
 <mapper namespace="com.yeosin.apply.ExamZoneDao" >
 	
 	<!-- 지역의 고사장 리스트 조회 -->
-<!--  	<resultMap id="ExamZoneListResultMap" type="com.yeosin.apply.ExamZoneDto">
+  	<resultMap id="ExamZoneListResultMap" type="com.yeosin.apply.ExamZoneDto">
 		<result column="EXAMZONEID" property="examZoneId" />
 		<result column="EXAMZONENAME" property="examZoneName" />
 		<result column="LOCAL" property="local" />
@@ -14,11 +14,11 @@
 		<result column="EXAMROOMUSERCNT" property="examRoomUserCnt" />
  		<result column="LEFTOVERSEAT" property="leftOverSeat" />
 		<result column="EXAMZONEMAP" property="examZoneMap" />
- 		<association property="localCenterDto" javaType="com.yeosin.apply.LocalCenterDto">
+  		<association property="localCenterDto" javaType="com.yeosin.apply.LocalCenterDto">
 			<result column="LOCALCENTERNAME" property="localCenterName" />
 		</association>
-	</resultMap> -->
-	<select id="getExamZoneList" parameterType="map" resultType="com.yeosin.apply.ExamZoneDto">
+	</resultMap>
+	<select id="getExamZoneList" parameterType="map" resultMap="ExamZoneListResultMap">
 		SELECT 	
 				EZ.EXAMZONEID 													-- 고사장 ID
 			,	EZ.EXAMZONENAME 												-- 고사장명
@@ -31,7 +31,7 @@
 		FROM 	YS_EXAMZONE					EZ 	
 		LEFT JOIN YS_LOCALCENTER			LC	ON 	EZ.LOCALCENTERID = LC.LOCALCENTERID 
 		WHERE 	1 = 1
-		AND 	EZ.LOCALDETAIL = '도봉구';
+		AND 	EZ.LOCALDETAIL = #{examZoneDetail};
 	</select>
    
 </mapper>
