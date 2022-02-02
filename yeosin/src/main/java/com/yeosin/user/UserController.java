@@ -3,6 +3,7 @@ package com.yeosin.user;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -18,6 +19,7 @@ import com.yeosin.apply.ApplyService;
 import com.yeosin.apply.ExamDto;
 import com.yeosin.board.BoardDto;
 import com.yeosin.board.BoardService;
+import com.yeosin.util.CheckPlus;
 import com.yeosin.util.EncryptUtils;
 
 @Controller
@@ -198,6 +200,33 @@ public class UserController {
 			response.getWriter().flush();
 			response.getWriter().close();
 //			new Gson().toJson(userResult,response.getWriter());
+		}
+
+	// 인증
+	@RequestMapping(value = "/doOpenCert")
+	@ResponseBody
+	public void doOpenCert(String sAuthType, HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		CheckPlus certUtil = new CheckPlus();
+		String result = certUtil.getEncData(session, sAuthType);
+		response.getWriter().print(result);
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
+	
+	// 인증 성공
+		@RequestMapping(value = "/successCheckPlus")
+		@ResponseBody
+		public ModelAndView successCheckPlus(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {
+			
+			response.setCharacterEncoding("UTF-8");
+			ModelAndView mav = new ModelAndView();
+			String sessionid = (String) session.getAttribute("loginId");
+			CheckPlus certUtil = new CheckPlus();
+			String result = certUtil.successCheckPlus(request, session);
+			mav.addObject("result", result);
+			mav.setViewName("member/join2");
+			return mav;
 		}
 
 }

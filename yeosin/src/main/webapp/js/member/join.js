@@ -20,7 +20,7 @@ $(document).ready(function(){
    	   		$(".entry").hide();
    	   		$(".finish").hide();
 
-   	   		
+   	   /*
    	 	setTimeout(function(){
    	 		
    	 	alert("미구현 된 기능입니다. 확인을 클릭하시면 다음 화면으로 넘어갑니다.");
@@ -32,6 +32,7 @@ $(document).ready(function(){
    		$(".finish").hide();
    	 		
    	 	}, 1000);
+   	 	*/
    	   		
    		}
    });

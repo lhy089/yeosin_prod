@@ -26,6 +26,45 @@
 
   <link rel="stylesheet" href="www/inc/css/member.css">
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=2"></script>
+  <script language='javascript'>
+	window.name ="Parent_window";
+	
+	function fnPopup(authType){
+		
+		$.ajax({
+	        type: "POST",
+	        url: "/doOpenCert",
+	        data: {sAuthType : authType},
+	        sendDataType : 'string',
+	        success: function(data) { debugger;
+	        	$("#encodeData").val(data);
+	        	window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+	    		document.form_chk.action = "https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb";
+	    		document.form_chk.target = "popupChk";
+	    		document.form_chk.submit();
+	        }
+	      });
+		
+	}
+	window.addEventListener('message', function(e) { debugger;
+	     var data = e.data;
+	     var birtDate = data.birth.substring(0,4)+"-"+data.birth.substring(4,6)+"-"+data.birth.substring(6,8);
+	     var gender = data.gender==0?"여":"남"
+	     $("#userName").val(data.name);
+	     $("#birth").text(birtDate);
+	     $("#birth").attr("value",data.birth)
+	     $("#gender").text(gender);
+	     $("#gender").attr("value",data.gender)
+	     
+	     alert("인증 되었습니다.");
+	     
+	    $(".intro").hide();
+   		$(".provision").hide();
+   		$(".certification").hide();
+   		$(".entry").show();
+   		$(".finish").hide();
+	});
+	</script>
 </head>
 
 <body>
@@ -80,6 +119,7 @@
       <!-- //(2단계)약관 -->
 
       <!-- (3단계)본인인증// -->
+      <form name="form_chk" method="post">
       <section class="certification">
         <ul>
           <li class="phone">
@@ -87,7 +127,12 @@
             <span>본인명의 휴대폰 번호로 인증</span>
             <div>
               <p>
-                <a href="#">휴대폰 본인인증</a>
+              
+		<input type="hidden" name="m" value="checkplusService">						<!-- 필수 데이타로, 누락하시면 안됩니다. -->
+		<input type="hidden" name="EncodeData" id="encodeData" value="">		<!-- 위에서 업체정보를 암호화 한 데이타입니다. -->
+	    
+		<a href="javascript:fnPopup('M');"> 휴대폰 본인인증</a>
+	
               </p>
             </div>
           </li>
@@ -96,7 +141,7 @@
             <span>(구 공인인증서)</span>
             <div>
               <p>
-                <a href="#">공동인증서인증</a>
+                <a href="javascript:fnPopup('U');">공동인증서인증</a>
               </p>
             </div>
           </li>
@@ -105,7 +150,7 @@
             <span>주민번호 대체 서비스</span>
             <div>
               <p>
-                <a href="#">I-PIN 인증</a>
+                <a href="javascript:fnPopup('P');">I-PIN 인증</a>
                 <a href="#">I-PIN 발급신청</a>
               </p>
             </div>
@@ -124,6 +169,7 @@
           </p>
         </div>
       </section>
+      </form>
       <!-- //(3단계)본인인증 -->
 
       <!-- (4단계)기입// -->
@@ -163,13 +209,13 @@
           <tr>
             <th class="essential">생년월일</th>
             <td>
-              <p>1999.01.01</p>
+              <p id="birth"></p>
             </td>
           </tr>
           <tr>
             <th class="essential">성별</th>
             <td>
-              <p>남</p>
+              <p id="gender"></p>
             </td>
           </tr>
         </table>
