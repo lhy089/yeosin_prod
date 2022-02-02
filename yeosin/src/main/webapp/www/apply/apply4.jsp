@@ -46,7 +46,6 @@
     <div class="areaInfo">
       <h4>고사장</h4>
       <p class="location">
-      	
       	<!-- 임시 하드코딩  -->
         <select id="examZoneDetailList" name="">
          	<option value="도봉구">도봉구</option>
@@ -95,18 +94,19 @@
         <th>과목</th>
       </tr>
       <tr>
-        <td><input type="checkbox" name="check" value=""></td>
+        <td><input type="checkbox" name="check" value="subject1"></td>
         <td>대출 · 기타 대출성 상품</td>
       </tr>
       <tr>
-        <td><input type="checkbox" name="check" value=""></td>
+        <td><input type="checkbox" name="check" value="subject2"></td>
         <td>리스 · 할부 상품</td>
       </tr>
     </table>
-
-	<input type="hidden" value="" id="examId"/>
-	<input type="hidden" value="" id="eduNum"/>
-    <a class="btn_apply" id="btn_receipt">접수하기</a>
+	<input type="hidden" value="<%=request.getParameter("examId")%>" id="examId"/>
+	<input type="hidden" value="<%=request.getParameter("eduNum")%>" id="eduNum"/>
+	<input type="hidden" value="" id="examZoneId"/>
+	<input type="hidden" value="" id="examSubjectId"/>
+    <a class="btn_apply" href="/apply5?examId=<%=request.getParameter("examId")%>&eduNum=<%=request.getParameter("eduNum")%>" onclick="return doReceipt();">접수하기</a>
 
   </div>
 </div>

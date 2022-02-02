@@ -37,6 +37,7 @@
 			,	DATE_FORMAT(CERTPRINTENDDATE, '%Y/%m/%d') AS certPrintEndDate
 			,	DATE_FORMAT(GRADESTARTDATE, '%Y/%m/%d') AS gradeStartDate
 			,	DATE_FORMAT(GRADEENDDATE, '%Y/%m/%d') AS gradeEndDate
+			,	EXAMCOST
 		FROM YS_EXAM
 		WHERE EXAMID = #{examId} 
 		ORDER BY EXAMDEGREE DESC

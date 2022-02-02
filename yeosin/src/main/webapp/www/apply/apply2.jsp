@@ -4,8 +4,6 @@
 <head lang="ko">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
   <meta charset="utf-8">
-  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <title>대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
   <meta name="description" content="여신금융협회">
   <meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
@@ -24,18 +22,9 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
   <link rel="stylesheet" href="/www/inc/css/apply.css">
-  <script>
-  $(document).ready(function(){
- 	 $('.btn_apply').click(function() { debugger;
-		if(!$('#agreeChk').is(':checked')){
-			alert("위 내용에 동의가 필요합니다.");
-			$('#agreeChk').focus();
-		}else {
-			location.href="/apply3?examId="+$("#examId").val();
-		}
-	})
- })
-  </script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=1"></script>
 </head>
 
 <body>
@@ -127,7 +116,7 @@
 		<input type="hidden" value="${examId}" id="examId"/>
       <label><input type="checkbox" id="agreeChk" name="agreeChk"/> 위의 내용을 모두 인지하였고 이에 동의합니다.</label>
 	
-      <a onclick="return false;" class="btn_apply">원서접수하기</a>
+      <a class="btn_apply" id="btn_apply">원서접수하기</a>
     </section>
   </div>
 </div>

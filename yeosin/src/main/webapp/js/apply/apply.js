@@ -1,5 +1,10 @@
 $(document).ready(function(){
 
+	// 원서접수 클릭시 환불규정동의 체크(apply2.jsp)
+	$('#btn_apply').click(function(){
+		doApplyStart();
+	});
+	
 	// 작성완료 클릭시 교육과정 및 교육수료증번호 Valid Check(apply3.jsp)
 	$('#btn_completed').click(function(){	
 		doCompleted();		
@@ -17,6 +22,20 @@ $(document).ready(function(){
 
 });
 
+// 원서접수 환불규정동의 체크함수(apply2.jsp)
+function doApplyStart()
+{
+	if (!$('#agreeChk').is(':checked'))
+	{
+		alert("위 내용에 동의가 필요합니다.");
+		$('#agreeChk').focus();
+	} 
+	else
+	{
+		$(location).attr("href", "apply3?examId=" + $('#examId').val());
+	}	
+}
+
 // 교육증수료번호 체크함수(apply3.jsp)
 function doCompleted() 
 {
@@ -32,7 +51,6 @@ function doCompleted()
 	else if (eduNum == '') 
 	{
 		alert("교육수료증번호는 필수입력입니다.");
-		$('#eduNum').focus();
 		return false;
 	}
 	
@@ -48,8 +66,8 @@ function doCompleted()
 			console.log("AJAX Request 성공");
 			if (data.isPassEdu == "Y") 
 			{
-				// TODO : apply4.jsp로 링크를 이동시킴과 동시에 교육수료번호, 시험ID를 넘겨야함
-				$(location).attr("href", "/www/apply/apply4.jsp");
+				// apply4.jsp로 링크를 이동시킴과 동시에 교육수료번호, 시험ID를 넘겨야함
+				$(location).attr("href", "/www/apply/apply4.jsp?examId=" + examId + "&eduNum=" + eduNum);
 			} 
 			else 
 			{
@@ -100,14 +118,6 @@ function doExamZoneSearch()
 				table.append(createHtml);
 				
 				createHtml = '';
-				
-/*				table.append('<tr class="examZoneListRowAjax">');
-				table.append($('<td>', {html : "<input type='checkbox' name='check' value='" + value.examZoneId +"'>"}));
-				table.append($('<td>', {text : value.examZoneName}));
-				table.append($('<td>', {text : value.localCenterDto.localCenterName}));
-				table.append($('<td>', {text : value.leftOverSeat}));
-				table.append($('<td>', {html : "<a href='#' class='btn_map' value='" + value.examZoneMap + "'>약도</a>"}));
-				table.append('</tr>');*/
 			});
         },
         error: function() 
@@ -122,7 +132,7 @@ function doExamZoneSearch()
 
 // 접수하기 체크함수(apply4.jsp)
 function doReceipt() 
-{		
+{		 
 	var isExamZoneChecked = $('input:radio[name=radio]').is(':checked');
 	var isExamAreaChecked = $('input:checkbox[name=check]').is(':checked');
 	
@@ -133,7 +143,10 @@ function doReceipt()
 	}
 	else 
 	{
-		// TODO : apply5.jsp로 링크를 이동시킴과 동시에 교육수료번호, 시험ID, 고사장ID, 종목ID를 넘겨야함
-		$(location).attr("href", "/www/apply/apply5.jsp");		
+		var examZoneId = $('input:radio[name=radio]').val();
+		var subjectId = $('input:checkbox[name=check]').val();
+		$('input[id=examZoneId]').attr('value', examZoneId);
+		$('input[id=examSubjectId]').attr('value', subjectId);
+		return true;	
 	}
 }

@@ -44,19 +44,19 @@
         </colgroup>
         <tr>
           <th>시험명</th>
-          <td>응시 시험명 출력</td>
+          <td>${examInfo.examName}</td>
         </tr>
         <tr>
           <th>성명</th>
-          <td></td>
+          <td>${userInfo.userName}</td>
         </tr>
         <tr>
           <th>연락처</th>
-          <td></td>
+          <td>${userInfo.phoneNumber}</td>
         </tr>
         <tr>
           <th>이메일</th>
-          <td></td>
+          <td>${userInfo.emailAddress}</td>
         </tr>
         <tr>
           <th>수료번호</th>
@@ -68,11 +68,11 @@
         </tr>
         <tr>
           <th>시험일</th>
-          <td>21. 12. 24 (시험일 출력)</td>
+          <td>${examInfo.examDate}</td>
         </tr>
         <tr>
           <th>결제금액</th>
-          <td>19,000원 (관리자 설정 금액 출력)</td>
+          <td>${examInfo.examCost}원</td>
         </tr>
         <tr>
           <th>결제방법선택</th>
