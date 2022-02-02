@@ -105,10 +105,10 @@
           <th>성별</th>
           <td>${userInfo.gender}</td>
         </tr>
-        <tr>
+    <!--     <tr>
           <th>내국인여부</th>
           <td></td>
-        </tr>
+        </tr> -->
         <tr>
           <th>연락처</th>
           <td>

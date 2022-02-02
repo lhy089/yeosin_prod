@@ -38,18 +38,17 @@
 
 /* 자격인증서발급 */
 .state.certificate{}
-.state.certificate .document{width:100%; border:1px solid #707070; box-sizing:border-box; padding:35px; margin-bottom:70px;}
-.state.certificate .document .docNum{font-family:sandoll-gothicneo3, sans-serif; font-size:20px; line-height:27px; color:#000;}
-.state.certificate .document h3{width:100%; height:288px; font-family:sandoll-gothicneo3, sans-serif; font-size:80px; line-height:88px; color:#000; text-align:center; display:table; margin-bottom:42px;}
+.state.certificate .document{width:100%; height:1380px; border:1px solid #707070; box-sizing:border-box; background:url('../img/state/bg_certificate.jpg') no-repeat center / contain; padding-top:134px; margin-bottom:70px;}
+.state.certificate .document .docNum{font-family:sandoll-gothicneo3, sans-serif; font-size:20px; line-height:1; color:#000; text-indent:134px; margin-bottom:20px;}
+.state.certificate .document h3{width:100%; height:230px; font-family:ChosunGs, serif; font-size:90px; line-height:100px; color:#000; text-align:center; display:table;}
 .state.certificate .document h3 p{width:100%; height:100%; display:table-cell; vertical-align:middle;}
-.state.certificate .document table{width:100%; border-top:2px solid #58585b; box-sizing:border-box; margin-bottom:90px;}
-.state.certificate .document table th,.state.certificate .document table td{font-family:sandoll-gothicneo3, sans-serif; font-size:25px; padding:22px 0; border-bottom:1px solid #c7c6c6; box-sizing:border-box; letter-spacing:-0.5px;}
-.state.certificate .document table tr:last-of-type th,.state.certificate .document table tr:last-of-type td{border-bottom:2px solid #58585b;}
-.state.certificate .document table th{border-right:1px solid #c7c6c6; color:#58585b;}
-.state.certificate .document table td{color:#000; padding-left:12px;}
-.state.certificate .document .evidence{height:420px; font-family:sandoll-gothicneo3, sans-serif; font-size:32px; line-height:60px; color:#000; text-align:center; margin-bottom:30px;}
-.state.certificate .document .date{font-family:sandoll-gothicneo3, sans-serif; font-size:25px; line-height:25px; text-align:center; margin-bottom:70px;}
-.state.certificate .document .institution{font-family:sandoll-gothicneo3, sans-serif; font-size:40px; line-height:40px; text-align:center; margin-bottom:45px;}
+.state.certificate .document table{width:73.2%; margin:0 auto; text-align:left;}
+.state.certificate .document table th,.state.certificate .document table td{font-family:sandoll-gothicneo3, sans-serif; font-size:25px; padding-bottom:25px; line-height:1.48; letter-spacing:-0.5px; box-sizing:border-box;}
+.state.certificate .document table th{color:#58585b;}
+.state.certificate .document table td{color:#000; padding-left:16px; background:url('../img/state/element_dot.png') no-repeat left 12px /3px;}
+.state.certificate .document .evidence{height:376px; font-family:ChosunGs, serif; font-size:38px; line-height:1.6; color:#000; text-align:center; margin-bottom:60px; display:table;}
+.state.certificate .document .evidence p{height:100%; display:table-cell; vertical-align:middle;}
+.state.certificate .document .date{font-family:ChosunGs, serif; font-size:32px; line-height:1.25; text-align:center;}
 
 @media (max-width:768px){
   /* state 공통 */

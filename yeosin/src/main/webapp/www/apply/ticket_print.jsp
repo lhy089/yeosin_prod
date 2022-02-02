@@ -24,6 +24,11 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
   
+   <script src="/www/inc/js/jquery-3.4.1.min.js"></script>
+  <link href="/www/inc/css/reset.css" rel="stylesheet" type="text/css" media="screen">
+  <link href="/www/inc/css/common.css" rel="stylesheet" type="text/css" media="screen">
+  <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"> <!--나눔스퀘어 font-->
+  
   <link rel="stylesheet" href="/www/inc/css/apply.css">
   
 <script>

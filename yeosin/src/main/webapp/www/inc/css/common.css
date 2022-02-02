@@ -5,6 +5,7 @@
 *{--font-title:SBAggroM; /*어그로체*/}
 
 .contentBox{width:1000px; margin:0 auto;}
+.contentBoxAd{width:1400px;}
 
 .pc{display:block;}
 .mo{display:none;}

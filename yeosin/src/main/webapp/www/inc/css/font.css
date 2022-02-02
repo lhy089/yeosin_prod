@@ -15,6 +15,14 @@
     font-weight: 200;
 }
 
+/* 조선궁서체 */
+@font-face {
+    font-family: 'ChosunGs';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGs.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Noto Sans KR */
 @font-face{
   font-family:NotoSansKR;
@@ -36,63 +44,4 @@
   src: url(../fonts/NotoSansKR-Bold.woff) format('woff'),
        url(../fonts/NotoSansKR-Bold.woff2) format('woff2');
   font-weight: bold;
-}
-
-
-/* 뉴오리진 */
-@font-face{
-font-family:NewOrigin Gothic;
-src: url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicBold.eot) format('embedded-opentype');
-src: url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicBold.eot?#iefix) format('embedded-opentype'),
-     url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicBold.woff) format('woff'),
-     url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicBold.woff2) format('woff2');
-font-weight: 700;
-}
-
-
-@font-face{
-font-family:NewOrigin Gothic;
-src: url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicSemiBold.eot) format('embedded-opentype');
-src: url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicSemiBold.eot?#iefix) format('embedded-opentype'),
-     url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicSemiBold.woff) format('woff'),
-     url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicSemiBold.woff2) format('woff2');
-font-weight: 600;
-}
-
-@font-face{
-font-family:NewOrigin Gothic;
-src: url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicMedium.eot) format('embedded-opentype');
-src: url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicMedium.eot?#iefix) format('embedded-opentype');
-src: url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicMedium.woff) format('woff'),
-     url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicMedium.woff2) format('woff2');
-font-weight: 400;
-}
-
-@font-face{
-font-family:NewOrigin Gothic;
-src: url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicLight.eot) format('embedded-opentype');
-src: url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicLight.eot?#iefix) format('embedded-opentype'),
-     url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicLight.woff) format('woff'),
-     url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginGothicLight.woff2) format('woff2');
-font-weight: 100;
-}
-
-/* 뉴오리진 명조 */
-
-@font-face{
-font-family:NewOrigin Myongjo;
-src: url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginMyongjoRegular.eot) format('embedded-opentype');
-src: url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginMyongjoRegular.eot?#iefix) format('embedded-opentype'),
-     url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginMyongjoRegular.woff) format('woff'),
-     url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginMyongjoRegular.woff2) format('woff2');
-font-weight: 400;
-}
-
-@font-face{
-font-family:NewOrigin Myongjo;
-src: url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginMyongjoSemiBold.eot) format('embedded-opentype');
-src: url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginMyongjoSemiBold.eot?#iefix) format('embedded-opentype'),
-     url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginMyongjoSemiBold.woff) format('woff'),
-     url(https://www.neworigin.co.kr/data/skin/front/neworigin/css/fonts/NewOriginMyongjoSemiBold.woff2) format('woff2');
-font-weight: 600;
 }
