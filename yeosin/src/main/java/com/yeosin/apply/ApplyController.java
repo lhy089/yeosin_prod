@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yeosin.board.BoardDto;
+import com.yeosin.board.PageMaker;
 import com.yeosin.user.UserDto;
 import com.yeosin.user.UserService;
 
@@ -175,16 +177,24 @@ public class ApplyController {
 	// 원서확인 및 취소
 	@RequestMapping(value="/accept", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView accept(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	public ModelAndView accept(ApplyDto applyDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		ModelAndView mav = new ModelAndView();
-		List<ApplyDto> applyList = new ArrayList<>();
+		
 
 		if(userInfo != null) {
-			applyList = applyService.getApplyList(userInfo.getUserId());
+			ApplyPageMaker pageMaker = new ApplyPageMaker();
+			pageMaker.setApplyDto(applyDto);
+			pageMaker.setTotalCount(applyService.countApplyListTotal(userInfo.getUserId()));
+			applyDto.setUserId(userInfo.getUserId());
+			
+			List<ApplyDto> applyList = new ArrayList<>();
+			applyList = applyService.getApplyList(applyDto);
+			mav.addObject("pageMaker", pageMaker);
 			mav.addObject("applyList", applyList);
+			mav.addObject("applyDto", applyDto);
 			mav.setViewName("apply/accept");
 		}else {
 			mav.addObject("isAlert", true);
@@ -196,19 +206,25 @@ public class ApplyController {
 	// 수험표 출력
 	@RequestMapping(value="/ticket", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView ticket(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	public ModelAndView ticket(ApplyDto applyDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");
 		
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
-		List<ApplyDto> applyList = new ArrayList<>();
-		
 		
 		if(userInfo != null) {
-			applyList = applyService.getApplyList(userInfo.getUserId());
-			mav.addObject("applyListCnt", applyList.size());
+			ApplyPageMaker pageMaker = new ApplyPageMaker();
+			pageMaker.setApplyDto(applyDto);
+			pageMaker.setTotalCount(applyService.countApplyListTotal(userInfo.getUserId()));
+			applyDto.setUserId(userInfo.getUserId());
+			
+			List<ApplyDto> applyList = new ArrayList<>();
+			applyList = applyService.getApplyList(applyDto);
+			mav.addObject("pageMaker", pageMaker);
 			mav.addObject("applyList", applyList);
+			mav.addObject("applyListCnt", applyList.size());
+			mav.addObject("applyDto", applyDto);
 			mav.setViewName("apply/ticket");
 		}else {
 			mav.addObject("isAlert", true);
@@ -229,11 +245,11 @@ public class ApplyController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userId", userInfo.getUserId());
-		map.put("receiptId", receiptId); // TODO : 원서접수에서 가져올 수 있도록 수정예정
+		map.put("receiptId", receiptId); 
 		
 		ModelAndView mav = new ModelAndView();
 		
-		ApplyDto applyInfo = applyService.getDetailApplyInfo(map); // TODO : UserId Session에서 가져올 수 있도록 수정예정
+		ApplyDto applyInfo = applyService.getDetailApplyInfo(map);
 		
 		mav.addObject("applyInfo", applyInfo);
 		mav.setViewName("apply/accept_view");
@@ -263,7 +279,7 @@ public class ApplyController {
 		map.put("userId", userInfo.getUserId());
 		map.put("receiptId", receiptId);
 		
-		ApplyDto applyInfo = applyService.getDetailApplyInfo(map); // TODO : UserId Session에서 가져올 수 있도록 수정예정
+		ApplyDto applyInfo = applyService.getDetailApplyInfo(map); // TODO : 교육수료증 api 구현 후 수정필요
 		
 		mav.addObject("applyInfo", applyInfo);
 		mav.setViewName("apply/ticket_view");

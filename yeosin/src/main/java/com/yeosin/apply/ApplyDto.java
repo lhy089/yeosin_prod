@@ -22,11 +22,18 @@ public class ApplyDto {
 	private Double saleRate; // 할인률
 	private Double fees; // 수수료
 	
+	private int page;  		//현재 페이지 번호	
+	private int perPageNum; //현 페이지당 보여줄 게시글의 갯수
+	
 	private ExamDto examDto; // 시험 DTO
 	private UserDto userDto; // 유저 DTO
 	private SubjectDto subjectDto; // 종목 DTO
 	private GradeDto gradeDto; // 성적 DTO
 		
+	public ApplyDto() {
+		this.page = 1;
+		this.perPageNum  = 3;
+	}
 	public String getReceiptId() {
 		return receiptId;
 	}
@@ -122,6 +129,33 @@ public class ApplyDto {
 	}
 	public void setGradeDto(GradeDto gradeDto) {
 		this.gradeDto = gradeDto;
+	}
+	
+	public int getPageStart() {
+		return (this.page-1) * perPageNum;
+	}
+	public int getPage() {
+		return page;
+	}
+	
+	public void setPage(int page) {
+		if(page <= 0) {
+			this.page = 1;
+		} else {
+			this.page = page;
+		}
+	}
+	public int getPerPageNum() {
+		return perPageNum;
+	}
+	
+	public void setPerPageNum(int pageCount) {
+		int cnt = this.perPageNum;
+		if(pageCount != cnt) {
+			this.perPageNum = cnt;
+		}else {
+			this.perPageNum = pageCount;
+		}
 	}
 	
 }

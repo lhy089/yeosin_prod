@@ -23,8 +23,8 @@ public class ApplyService {
 	@Autowired
 	private EduCompletionDao eduDao;
 	
-	public List<ApplyDto> getApplyList(String userId) throws Exception {
-		return applyDao.getApplyList(userId);
+	public List<ApplyDto> getApplyList(ApplyDto applyDto) throws Exception {
+		return applyDao.getApplyList(applyDto);
 	}
 	
 	public List<ApplyDto> getDetailApplyList(Map<String, Object> map) throws Exception {
@@ -59,4 +59,7 @@ public class ApplyService {
 		return examZoneDao.getExamZoneList(map);
 	}
 	
+	public int countApplyListTotal(String userId) throws Exception{
+		return applyDao.countApplyListTotal(userId);
+	}
 }

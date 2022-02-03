@@ -16,7 +16,8 @@
 			<result column="EXAMLOCAL" property="examLocal" />
 		</association>
 	</resultMap>
-	<select id="GetApplyList" parameterType="String" resultMap="ApplyListResultMap">
+	<select id="GetApplyList" parameterType="com.yeosin.apply.ApplyDto" resultMap="ApplyListResultMap">
+	
 		SELECT 	
 				R.RECEIPTID 				-- 접수 ID
 			,	R.USERID 					-- 유저 ID
@@ -24,13 +25,31 @@
 			,	E.EXAMNAME 					-- 시험명
 			,   DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d')    	AS RECEIPTSTARTDATE 	-- 접수시작일
          	,   DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d')       AS RECEIPTENDDATE    	-- 접수마감일
-			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d %T')			AS EXAMDATE				-- 시험일
+			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d')				AS EXAMDATE				-- 시험일
 			,	E.EXAMLOCAL 				-- 시험지역
 		FROM 	YS_RECEIPT					R 	
 		INNER JOIN YS_EXAM 					E	ON 	E.EXAMID = R.EXAMID 	
 		WHERE 	1 = 1
-		AND 	R.USERID = #{userId, jdbcType=VARCHAR};
+		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
+		AND 	R.ISCANCEL = 'N'
+		<![CDATA[
+		AND 	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') >= DATE_FORMAT(NOW(), '%Y-%m-%d')
+		]]>
+		ORDER BY E.EXAMDATE
+		LIMIT #{pageStart}, #{perPageNum};
    </select>
+   
+   <select id="countApplyListTotal"  parameterType="String" resultType="Integer">
+   		SELECT 	count(*)
+ 		FROM   	YS_RECEIPT	R
+ 		INNER JOIN YS_EXAM	E	ON	E.EXAMID = R.EXAMID
+ 		WHERE	1 = 1
+ 		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
+ 		AND 	R.ISCANCEL = 'N'
+		<![CDATA[
+		AND 	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') >= DATE_FORMAT(NOW(), '%Y-%m-%d');
+		]]> 
+	</select>
    
    	<!-- 로그인 유저의 접수별 상세현황 조회 -->
 	<resultMap id="DetailApplyListResultMap" type="com.yeosin.apply.ApplyDto">

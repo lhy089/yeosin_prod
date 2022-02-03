@@ -21,6 +21,7 @@
   <meta property="og:image" content="/www/inc/img/openGraph.jpg">
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
+   <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
   <link rel="stylesheet" href="/www/inc/css/apply.css">
 </head>
@@ -60,7 +61,28 @@
       	</tr>
       </c:forEach>
     </table>
-    <p class="pageCnt">전체 0건, 1/0 페이지</p>
+    
+   <ul class="btn-group pagination">
+  	<c:if test="${pageMaker.prev}">
+   		<li>
+     		 <a href='<c:url value="/accept?page=${pageMaker.startPage-1}&userId=${applyDto.userId}" />'><i class="fa fa-chevron-left">이전</i></a>
+  		</li>
+ 	</c:if>
+  	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+    	<li>
+       		<a href='<c:url value="/accept?page=${pageNum}&userId=${applyDto.userId}"/>'><i class="fa">${pageNum}</i></a>
+    	</li>
+    </c:forEach>
+    <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+    	<li>
+      		<a href='<c:url value="/accept?page=${pageMaker.endPage+1}&userId=${applyDto.userId}"/>'><i class="fa fa-chevron-right">다음</i></a>
+   		</li>
+    </c:if>
+	</ul>
+	
+	<c:set var="OutputPageTotal" value="${(pageMaker.totalCount/applyDto.perPageNum)+(1-((pageMaker.totalCount/applyDto.perPageNum)%1))%1}" />
+	<fmt:parseNumber var="OutputPage"  value="${OutputPageTotal}" integerOnly="true" type="number"/>
+    <p class="pageCnt">전체 ${pageMaker.totalCount}건, ${applyDto.page} / <c:out value="${OutputPage}"/> 페이지</p>
     <div class="pageWrap">
       <!-- 페이징 -->
     </div>
