@@ -5,6 +5,13 @@ $(document).ready(function(){
 		doExamZoneSearch();
 	});
 	
+	$('#btn_cancel').click(function(){
+		if (confirm("환불규정을 확인하셨습니까?\n환불규정에 동의 후 취소가 가능합니다.")) 
+		{
+			location.href="/cancel?receiptId="+$("#receiptId").val();
+		}
+	});
+	
 });
 
 // 원서접수 환불규정동의 체크함수(apply2.jsp)

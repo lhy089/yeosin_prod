@@ -17,7 +17,6 @@
 		</association>
 	</resultMap>
 	<select id="GetApplyList" parameterType="com.yeosin.apply.ApplyDto" resultMap="ApplyListResultMap">
-	
 		SELECT 	
 				R.RECEIPTID 				-- 접수 ID
 			,	R.USERID 					-- 유저 ID
@@ -39,6 +38,7 @@
 		LIMIT #{pageStart}, #{perPageNum};
    </select>
    
+   <!-- 로그인 유저의 원서접수 총 갯수 조회 -->
    <select id="countApplyListTotal"  parameterType="String" resultType="Integer">
    		SELECT 	count(*)
  		FROM   	YS_RECEIPT	R

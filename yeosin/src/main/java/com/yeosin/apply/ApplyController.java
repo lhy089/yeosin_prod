@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.yeosin.board.BoardDto;
-import com.yeosin.board.PageMaker;
 import com.yeosin.user.UserDto;
 import com.yeosin.user.UserService;
 
@@ -226,11 +224,33 @@ public class ApplyController {
 			mav.addObject("applyList", applyList);
 			mav.addObject("applyDto", applyDto);
 			mav.setViewName("apply/accept");
-		} else 
+		} 
+		else 
 		{
 			mav.addObject("isAlert", true);
 			mav.setViewName("member/login");
 		}
+		return mav;
+	}
+	
+	// 원서접수 확인 및 취소 상세현황
+	@RequestMapping(value="/accept_view", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView accept_view(@RequestParam("receiptId") String receiptId, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userInfo.getUserId());
+		map.put("receiptId", receiptId); 
+		
+		ModelAndView mav = new ModelAndView();
+		
+		ApplyDto applyInfo = applyService.getDetailApplyInfo(map);
+		
+		mav.addObject("applyInfo", applyInfo);
+		mav.setViewName("apply/accept_view");
 		return mav;
 	}
 	
@@ -262,28 +282,6 @@ public class ApplyController {
 			mav.setViewName("member/login");
 		}
 		
-		return mav;
-	}
-	
-	// 원서확인 및 취소 상세현황
-	@RequestMapping(value="/accept_view", method=RequestMethod.GET)
-	@ResponseBody
-	public ModelAndView accept_view(@RequestParam("receiptId") String receiptId, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
-	{
-		response.setCharacterEncoding("UTF-8");
-		
-		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("userId", userInfo.getUserId());
-		map.put("receiptId", receiptId); 
-		
-		ModelAndView mav = new ModelAndView();
-		
-		ApplyDto applyInfo = applyService.getDetailApplyInfo(map);
-		
-		mav.addObject("applyInfo", applyInfo);
-		mav.setViewName("apply/accept_view");
 		return mav;
 	}
 	

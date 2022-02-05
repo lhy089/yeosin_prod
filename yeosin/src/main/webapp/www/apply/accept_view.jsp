@@ -25,6 +25,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/common/common.js?t=1"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=1"></script>
   <script>
   $(document).ready(function(){
 	 	 $('#btn_cancel').click(function() {
@@ -82,7 +83,7 @@
       </tr>
       <tr>
         <th>자격종별</th>
-        <td></td>
+        <td>${applyInfo.subjectDto.subjectName}</td>
       </tr>
       <tr>
         <th>접수일</th>
@@ -106,7 +107,7 @@
     <div class="btnWrap">
     	<input type="hidden" value="${applyInfo.receiptId}" id="receiptId"/>
       <a onclick="return false;" class="btn_apply" id="btn_print">출력하기</a>
-      <a onclick="return false;" class="btn_apply" id="btn_cancel">접수 취소</a>
+      <a onclick="return false;" class="btn_apply" id="btn_cancel">접수취소</a>
     </div>
   </div>
 </div>
