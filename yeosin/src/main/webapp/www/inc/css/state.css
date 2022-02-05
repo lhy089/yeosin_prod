@@ -46,7 +46,7 @@
 .state.certificate .document table th,.state.certificate .document table td{font-family:sandoll-gothicneo3, sans-serif; font-size:25px; padding-bottom:25px; line-height:1.48; letter-spacing:-0.5px; box-sizing:border-box;}
 .state.certificate .document table th{color:#58585b;}
 .state.certificate .document table td{color:#000; padding-left:16px; background:url('../img/state/element_dot.png') no-repeat left 12px /3px;}
-.state.certificate .document .evidence{height:376px; font-family:ChosunGs, serif; font-size:38px; line-height:1.6; color:#000; text-align:center; margin-bottom:60px; display:table;}
+.state.certificate .document .evidence{height:376px; font-family:ChosunGs, serif; font-size:38px; line-height:1.6; color:#000; text-align:center; margin:0 auto 60px; display:table;}
 .state.certificate .document .evidence p{height:100%; display:table-cell; vertical-align:middle;}
 .state.certificate .document .date{font-family:ChosunGs, serif; font-size:32px; line-height:1.25; text-align:center;}
 

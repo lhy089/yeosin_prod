@@ -83,7 +83,7 @@
 .guide.library_view .content .info div p:first-of-type{margin-left:0;}
 .guide.library_view .content .info div p:last-of-type{border-right:none;}
 .guide.library_view .content .info div .document{width:14px; height:18px; display:inline-block; background:url('../img/guide/icon_note.png') no-repeat center / contain;}
-.notice.notice_view .content .text{font-family:sandoll-gothicneo3, sans-serif; font-size:22px; color:#000; line-height:1.64; letter-spacing:-1px; padding:20px 0 70px; box-sizing:border-box;}
+.guide.library_view .content .text{font-family:sandoll-gothicneo3, sans-serif; font-size:22px; color:#000; line-height:1.64; letter-spacing:-1px; padding:20px 0 70px; box-sizing:border-box;}
 
 @media (max-width:768px){
   /* guide 공통 */
@@ -140,5 +140,5 @@
   .guide.library_view .content .info h3{font-size:2.43vw; margin-bottom:1.44vw;}
   .guide.library_view .content .info div p{padding-right:0.81vw; margin-left:0.81vw; font-size:1.62vw;}
   .guide.library_view .content .info div .document{width:1.26vw; height:1.62vw;}
-  .notice.notice_view .content .text{font-size:1.98vw; padding:1.8vw 0 6.3vw;}
+  .guide.library_view .content .text{font-size:1.98vw; padding:1.8vw 0 6.3vw;}
 }
