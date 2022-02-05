@@ -34,4 +34,17 @@
 		AND 	EZ.LOCALDETAIL = #{examZoneDetail};
 	</select>
    
+   	<!-- 고사장 ID로 고사장명 조회 -->
+   	<select id="getExamZoneName" parameterType="String" resultType="String">
+		SELECT 	EXAMZONENAME 
+		FROM 	YS_EXAMZONE
+		WHERE 	EXAMZONEID = #{examZoneId};
+	</select>
+	
+	<!-- 고사장이 등록되어있는 전체 구 조회 -->
+   	<select id="getExamDetailList" resultType="com.yeosin.apply.ExamZoneDto">
+		SELECT 	DISTINCT LOCALDETAIL
+		FROM 	YS_EXAMZONE
+		WHERE	1 = 1;
+	</select>
 </mapper>

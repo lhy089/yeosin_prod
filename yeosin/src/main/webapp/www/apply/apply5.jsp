@@ -60,11 +60,11 @@
         </tr>
         <tr>
           <th>수료번호</th>
-          <td></td>
+          <td><%=request.getParameter("eduNum")%></td>
         </tr>
         <tr>
           <th>시험장명</th>
-          <td>연희초등학교 (선택 시험장 출력)</td>
+          <td>${examZoneName}</td>
         </tr>
         <tr>
           <th>시험일</th>

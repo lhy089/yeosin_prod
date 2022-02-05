@@ -1,25 +1,10 @@
-$(document).ready(function(){
-
-	// 원서접수 클릭시 환불규정동의 체크(apply2.jsp)
-	$('#btn_apply').click(function(){
-		doApplyStart();
-	});
+$(document).ready(function(){  
 	
-	// 작성완료 클릭시 교육과정 및 교육수료증번호 Valid Check(apply3.jsp)
-	$('#btn_completed').click(function(){	
-		doCompleted();		
-	});
-  
 	// 고사장 검색(apply4.jsp)
 	$('#btn_examzoneSearch').click(function(){
 		doExamZoneSearch();
 	});
 	
-	// 접수하기 클릭시 고사장과 시험영역이 선택되었는지 Valid Check(apply4.jsp)
-	$('#btn_receipt').click(function(){
-		doReceipt();
-	});
-
 });
 
 // 원서접수 환불규정동의 체크함수(apply2.jsp)
@@ -29,10 +14,11 @@ function doApplyStart()
 	{
 		alert("위 내용에 동의가 필요합니다.");
 		$('#agreeChk').focus();
+		return false;
 	} 
 	else
 	{
-		$(location).attr("href", "apply3?examId=" + $('#examId').val());
+		return true;
 	}	
 }
 
@@ -42,6 +28,7 @@ function doCompleted()
 	var productType = $('#productType').val();	
 	var eduNum = $('#eduNum').val();
 	var examId = $('#examId').val();
+	var isPassEdu = "N";
 
 	if (productType == "*")
 	{
@@ -57,6 +44,7 @@ function doCompleted()
 	$.ajax({
 		url: "/isCompleteEdu",
         type: "GET",
+        async: false,
         data: {
 				eduNum : eduNum,
 		   		examId : examId
@@ -64,24 +52,24 @@ function doCompleted()
         success: function(data) 
 		{
 			console.log("AJAX Request 성공");
-			if (data.isPassEdu == "Y") 
-			{
-				// apply4.jsp로 링크를 이동시킴과 동시에 교육수료번호, 시험ID를 넘겨야함
-				$(location).attr("href", "/www/apply/apply4.jsp?examId=" + examId + "&eduNum=" + eduNum);
-			} 
-			else 
-			{
-				alert("등록되어있는 교육수료증번호가 아닙니다.");
-			}
+			isPassEdu = data.isPassEdu;
         },
         error: function() 
 		{
            console.log("AJAX Request 실패");
-        },
-        complete: function()
-		{
-        }	
-	});   
+           isPassEdu = "N";
+        }
+	});  
+	
+	if (isPassEdu == "Y") 
+	{
+		return true;	
+	} 
+	else 
+	{
+		alert("등록되어있는 교육증 수료번호가 아닙니다.");
+		return false;
+	}
 }
 
 // 고사장 검색함수(apply4.jsp)
@@ -108,7 +96,7 @@ function doExamZoneSearch()
 			$.each(examZoneList, function(index, value)
 			{	
 				createHtml += '<tr class="examZoneListRowAjax">';
-				createHtml += '<td><input style="width:20px; height:20px;" type="radio" name="radio" value="' + value.examZoneId + '"></td>';
+				createHtml += '<td><input style="width:20px; height:20px;" type="radio" name="exmaZoneRadio" value="' + value.examZoneId + '"></td>';
 				createHtml += '<td>' + value.examZoneName + '</td>';
 				createHtml += '<td>' + value.localCenterDto.localCenterName + '</td>';
 				createHtml += '<td>' + value.leftOverSeat + '</td>';
@@ -133,8 +121,8 @@ function doExamZoneSearch()
 // 접수하기 체크함수(apply4.jsp)
 function doReceipt() 
 {		 
-	var isExamZoneChecked = $('input:radio[name=radio]').is(':checked');
-	var isExamAreaChecked = $('input:checkbox[name=check]').is(':checked');
+	var isExamZoneChecked = $('input:radio[type=radio]').is(':checked');
+	var isExamAreaChecked = $('input:checkbox[type=checkbox]').is(':checked');
 	
 	if (!isExamZoneChecked || !isExamAreaChecked)
 	{

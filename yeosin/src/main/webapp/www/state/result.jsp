@@ -55,7 +55,17 @@
         <td>${result.examDto.examName}</td>
         <td>${result.gradeDto.isPass}</td>
         <td>${result.gradeDto.allScore}</td>
-        <td><a href="/certificate" class="btn_apply">출력하기</a></td>
+		<td>
+         <c:set var = "result"  value = "${result.gradeDto.isPass}"/>
+            <c:choose> 
+            <c:when test="${result eq '합격'}">
+            	<a href="/certificate" class="btn_apply">출력하기</a>
+            </c:when>   
+            <c:otherwise>
+                <p>출력 불가</p>
+            </c:otherwise>
+         </c:choose>     
+        </td>
       </tr>
       </c:forEach>
     </table>

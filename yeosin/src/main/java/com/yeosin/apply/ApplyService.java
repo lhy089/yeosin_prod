@@ -59,7 +59,15 @@ public class ApplyService {
 		return examZoneDao.getExamZoneList(map);
 	}
 	
+	public String getExamZoneName(String examZoneId) throws Exception {
+		return examZoneDao.getExamZoneName(examZoneId);
+	}
+	
 	public int countApplyListTotal(String userId) throws Exception{
 		return applyDao.countApplyListTotal(userId);
+	}
+	
+	public List<ExamZoneDto> getExamDetailList() throws Exception{
+		return examZoneDao.getExamDetailList();
 	}
 }

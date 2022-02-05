@@ -65,31 +65,33 @@
       <a href="/change" class="btn_change">개인정보 변경</a>
 
       <h2>교육수료정보</h2>
-      <table>
-        <colgroup>
-          <col width="20.5%">
-          <col width="*">
-        </colgroup>
-        <tr>
-          <th>교육과정</th>
-          <td>
-            <select id="productType" name="">
-              <option value="*">선택</option>
-              <option value="productType_1">대출•기타 대출성 상품</option>
-              <option value="productType_2">리스 •할부 상품</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <th>교육수료증번호</th>
-          <td>
-            <input type="text" name="" value="" id="eduNum">
-            <span>※ 필수입력항목</span>
-          </td>
-        </tr>
-      </table>
-      <input type="hidden" value="${examInfo.examId}" id="examId"/>
-      <a class="btn_apply" id="btn_completed">작성완료</a>
+      <form action="/apply4" method="get" onsubmit="return doCompleted();">
+	      <table>
+	        <colgroup>
+	          <col width="20.5%">
+	          <col width="*">
+	        </colgroup>
+	        <tr>
+	          <th>교육과정</th>
+	          <td>
+	            <select id="productType" name="productType">
+	              <option value="*">선택</option>
+	              <option value="productType_1">대출•기타 대출성 상품</option>
+	              <option value="productType_2">리스 •할부 상품</option>
+	            </select>
+	          </td>
+	        </tr>
+	        <tr>
+	          <th>교육수료증번호</th>
+	          <td>
+	            <input type="text" value="" id="eduNum" name="eduNum" >
+	            <span>※ 필수입력항목</span>
+	          </td>
+	        </tr>
+	      </table>
+	      <input type="hidden" value="${examInfo.examId}" id="examId" name="examId"/>
+	      <input style="border:none;" class="btn_apply" type="submit" value="작성완료"/>
+      </form>
     </section>
   </div>
 </div>

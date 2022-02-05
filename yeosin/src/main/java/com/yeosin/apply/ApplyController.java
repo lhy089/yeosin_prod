@@ -34,7 +34,7 @@ public class ApplyController {
 	// 원서접수(접수가능한 시험 리스트 View)
 	@RequestMapping(value="/apply", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView ExamListByApply(HttpSession session, HttpServletResponse response) throws Exception 
+	public ModelAndView ExamListByApplyView(HttpSession session, HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
@@ -62,7 +62,7 @@ public class ApplyController {
 	// 원서접수2(환불규정에 대한 동의 View)
 	@RequestMapping(value="/apply2", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView AgreeRefundByApply(@RequestParam("examId") String examId, HttpSession session, HttpServletResponse response) throws Exception 
+	public ModelAndView AgreeRefundByApplyView(@RequestParam("examId") String examId, HttpSession session, HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
@@ -85,7 +85,7 @@ public class ApplyController {
 	// 원서접수3(개인정보 및 교육수료정보 입력 View)
 	@RequestMapping(value="/apply3", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView EduInfoByApply(@RequestParam("examId") String examId, HttpSession session, HttpServletResponse response) throws Exception 
+	public ModelAndView EduInfoByApplyView(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
@@ -95,7 +95,7 @@ public class ApplyController {
 		
 		if (userInfo != null) 
 		{
-			ExamDto examInfo = applyService.getExamInfo(examId);
+			ExamDto examInfo = applyService.getExamInfo(request.getParameter("examId"));
 			mav.addObject("examInfo", examInfo);
 			mav.addObject("userInfo", userInfo);
 			mav.setViewName("apply/apply3");
@@ -149,10 +149,38 @@ public class ApplyController {
 		return examZoneList;
 	}
 	
+	// 원서접수4(고사장 및 시험영역 선택 View)
+	@RequestMapping(value="/apply4", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView ExamZoneAndSubjectView(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+			
+		userInfo = userService.getLoginUserInfo(userInfo);
+		if (userInfo != null) 
+		{
+			ExamDto examInfo = applyService.getExamInfo(request.getParameter("examId"));
+			List<ExamZoneDto> examZoneDetailList = applyService.getExamDetailList();
+			mav.addObject("examZoneDtailList", examZoneDetailList);
+			mav.addObject("examInfo", examInfo);
+			mav.addObject("userInfo", userInfo);
+			mav.setViewName("apply/apply4");
+		}
+		else 
+		{
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		}
+		
+		return mav;
+	}
+	
 	// 원서접수5(접수최종확인 및 결제직전 View)
 	@RequestMapping(value="/apply5", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView ApplyResultCheck(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
+	public ModelAndView ApplyResultCheckView(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");	
 		ModelAndView mav = new ModelAndView();
@@ -160,7 +188,9 @@ public class ApplyController {
 		
 		if (userInfo != null) 
 		{
-			ExamDto examInfo = applyService.getExamInfo(requestMap.get("examId").toString());
+			ExamDto examInfo = applyService.getExamInfo(request.getParameter("examId"));
+			String examZoneName = applyService.getExamZoneName(request.getParameter("exmaZoneRadio"));
+			mav.addObject("examZoneName", examZoneName);
 			mav.addObject("examInfo", examInfo);
 			mav.addObject("userInfo", userInfo);
 			mav.setViewName("apply/apply5");
@@ -174,7 +204,7 @@ public class ApplyController {
 		return mav;
 	}
 	
-	// 원서확인 및 취소
+	// 원서접수 확인 및 취소
 	@RequestMapping(value="/accept", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView accept(ApplyDto applyDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
@@ -182,9 +212,9 @@ public class ApplyController {
 		response.setCharacterEncoding("UTF-8");
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		ModelAndView mav = new ModelAndView();
-		
 
-		if(userInfo != null) {
+		if (userInfo != null) 
+		{
 			ApplyPageMaker pageMaker = new ApplyPageMaker();
 			pageMaker.setApplyDto(applyDto);
 			pageMaker.setTotalCount(applyService.countApplyListTotal(userInfo.getUserId()));
@@ -196,7 +226,8 @@ public class ApplyController {
 			mav.addObject("applyList", applyList);
 			mav.addObject("applyDto", applyDto);
 			mav.setViewName("apply/accept");
-		}else {
+		} else 
+		{
 			mav.addObject("isAlert", true);
 			mav.setViewName("member/login");
 		}
@@ -335,15 +366,35 @@ public class ApplyController {
 		return mav;
 	}
 	
+	// 원서접수 현황
 	@RequestMapping(value="/receipt", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView receipt(HttpSession session, HttpServletResponse response) throws Exception {
+	public ModelAndView receipt(HttpSession session, HttpServletResponse response) throws Exception 
+	{
 		response.setCharacterEncoding("UTF-8");
-		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
-	
-//		mav.addObject("result", "");
-		mav.setViewName("state/receipt");
+		ModelAndView mav = new ModelAndView();
+
+		if (userInfo != null) 
+		{
+			/*
+			 * ApplyPageMaker pageMaker = new ApplyPageMaker();
+			 * pageMaker.setApplyDto(applyDto);
+			 * pageMaker.setTotalCount(applyService.countApplyListTotal(userInfo.getUserId()
+			 * )); applyDto.setUserId(userInfo.getUserId());
+			 * 
+			 * List<ApplyDto> applyList = new ArrayList<>(); applyList =
+			 * applyService.getApplyList(applyDto); mav.addObject("pageMaker", pageMaker);
+			 * mav.addObject("applyList", applyList); mav.addObject("applyDto", applyDto);
+			 */
+			mav.setViewName("state/receipt");
+		} 
+		else 
+		{
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		}
+		
 		return mav;
 	}
 	

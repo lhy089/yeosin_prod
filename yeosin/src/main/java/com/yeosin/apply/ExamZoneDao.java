@@ -18,4 +18,11 @@ public class ExamZoneDao {
 		return this.sqlSession.selectList(nameSpace + "getExamZoneList", map);
 	}
 
+	public String getExamZoneName(String examZoneId) {
+		return this.sqlSession.selectOne(nameSpace + "getExamZoneName", examZoneId);
+	}
+	
+	public List<ExamZoneDto> getExamDetailList() {
+		return this.sqlSession.selectList(nameSpace + "getExamDetailList");
+	}
 }
