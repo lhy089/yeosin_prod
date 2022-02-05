@@ -23,11 +23,14 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
   <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-  <link rel="stylesheet" href="/www/inc/css/notice.css">
+  <link rel="stylesheet" href="/www/inc/css/notice.css?a=1">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+
 $(document).ready(function() {
+	$("li[value='${pageMaker.boardDto.page}']").attr("class","on");
+	
 	   $("#btn_search").click(function() {
 	      $("#boardType").val('1');
 	      $("#category").val('');
@@ -82,7 +85,7 @@ $(document).ready(function() {
   		</li>
  	</c:if>
   	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
-    	<li>
+    	<li value="${pageNum}"> 
        		<a href='<c:url value="/notice?page=${pageNum}&boardType=1&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}"/>'><i class="fa">${pageNum}</i></a>
     	</li>
     </c:forEach>

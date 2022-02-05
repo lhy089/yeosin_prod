@@ -27,7 +27,11 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+$("li[value='${pageMaker.boardDto.page}']").attr("class","on");
+
 $(document).ready(function() {
+	$("li[value='${pageMaker.boardDto.page}']").attr("class","on");
+		
 	   $("#btn_search").click(function() {
 	      $("#boardType").val('3');
 	      $("#category").val('');
@@ -82,7 +86,7 @@ $(document).ready(function() {
   		</li>
  	</c:if>
   	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
-    	<li>
+    	<li value="${pageNum}"> 
        		<a href='<c:url value="/library?page=${pageNum}&boardType=3&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}"/>'><i class="fa">${pageNum}</i></a>
     	</li>
     </c:forEach>

@@ -5,10 +5,21 @@
 *{--font-title:SBAggroM; /*어그로체*/}
 
 .contentBox{width:1000px; margin:0 auto;}
-.contentBoxAd{width:1400px;}
+.contentBoxAd{width:1400px; margin:0 auto;}
 
 .pc{display:block;}
 .mo{display:none;}
+
+/*페이징*/
+.btn-group.pagination{text-align:center;}
+.btn-group.pagination li{display:inline-block; font-size:0;}
+.btn-group.pagination li a{display:inline-block;}
+.btn-group.pagination li i{width:35px; line-height:35px; display:inline-block; border:1px solid #58585b; border-radius:5px; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; font-style:normal; margin:0 3px;}
+.btn-group.pagination li:hover i{background:#cdcdcd;}
+.btn-group.pagination li.on i{background:#58585b; color:#fff;}
+.btn-group.pagination li i.fa-chevron-right,.btn-group.pagination li i.fa-chevron-left{width:auto; border:none; font-size:21px;}
+.btn-group.pagination li:hover i.fa-chevron-right,.btn-group.pagination li:hover i.fa-chevron-left{background:none; color:#0074dd;}
+.btn-group.pagination li.on i.fa-chevron-right,.btn-group.pagination li.on i.fa-chevron-left{background:none; color:#58585b;}
 
 @media (max-width:768px){
 .contentBox{width:90%; /*padding:0 2.5%; box-sizing:border-box;*/ margin:0 auto;}

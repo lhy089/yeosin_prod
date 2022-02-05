@@ -28,6 +28,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
+	$("li[value='${pageMaker.boardDto.page}']").attr("class","on");
+		
 	   $("#btn_search").click(function() {
 	      $("#boardType").val('2');
 	      $("#category").val($("#category").val());
@@ -91,7 +93,7 @@ $(document).ready(function() {
   		</li>
  	</c:if>
   	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
-    	<li>
+    	<li value="${pageNum}"> 
        		<a href='<c:url value="/question?page=${pageNum}&boardType=2&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}&category=${boardDto.category}"/>'><i class="fa">${pageNum}</i></a>
     	</li>
     </c:forEach>
