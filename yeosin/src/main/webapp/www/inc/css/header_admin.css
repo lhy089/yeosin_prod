@@ -21,7 +21,7 @@ header .autoLogout .btn_header{padding:6px 7px;}
 
 /* lnb */
 .lnb{width:260px; position:absolute; left:0;}
-.lnb .logo{height:100px; background:#eaf7fd url('../img/admin/logo.png') no-repeat center / 180px;}
+.lnb .logoLnb{height:100px; background:#eaf7fd url('../img/admin/logo.png') no-repeat center / 180px;}
 .lnb dl dt,.lnb dl dd{height:49px; padding-left:42px; border-bottom:1px solid #fff; box-sizing:border-box; line-height:49px; font-family:sandoll-gothicneo3, sans-serif; font-size:25px; letter-spacing:-1px;}
 .lnb dl dt a,.lnb dl dd a{display:block;}
 .lnb dl dt{background:#5e7bb2 url('../img/admin/element_lnb.png') no-repeat right 23px center / 17px;}
@@ -30,3 +30,4 @@ header .autoLogout .btn_header{padding:6px 7px;}
 .lnb dl dd:last-child{border-bottom:0;}
 .lnb dl dd.on{background:#c1d6ff;}
 .lnb dl dd a{color:#58585b;}
+.lnb dl dd a:hover{color:#5e7bb2;}
