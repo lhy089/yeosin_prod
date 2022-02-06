@@ -25,13 +25,22 @@ public class BoardService {
 	public List<BoardDto> getBoardList(BoardDto boardDto) throws Exception {
 		
 		boardDto = changeNullToEmpty(boardDto);
-		return boardDao.getBoardList(boardDto);
+		List<BoardDto> getBoardList = boardDao.getBoardList(boardDto);
+		
+		for(int i = 0 ; i < getBoardList.size(); i++)
+			getBoardList.get(i).setContents(getBoardList.get(i).getContents().replaceAll("\r\n", "<br>").replaceAll(" ","&nbsp"));
+		
+		return getBoardList;
+
 	}
 	
 	
 	public BoardDto getBoardInfo(BoardDto boardDto) throws Exception{
 		boardDao.updateHitCnt(boardDto);
-		return boardDao.getBoardInfo(boardDto);
+		BoardDto getBoardDto = boardDao.getBoardInfo(boardDto);
+		getBoardDto.setContents(getBoardDto.getContents().replaceAll("\r\n", "<br>").replaceAll(" ","&nbsp"));
+		
+		return getBoardDto;
 	}
 	
 	public List<BoardDto> getNoticeListForMain() throws Exception{

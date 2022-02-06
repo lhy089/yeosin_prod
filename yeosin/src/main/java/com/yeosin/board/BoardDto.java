@@ -25,7 +25,7 @@ public class BoardDto {
 	
 	public BoardDto() {
 		this.page = 1;
-		this.perPageNum  = 3;
+		this.perPageNum  = 10;
 	}
 	
 	public String getBoardId() {
