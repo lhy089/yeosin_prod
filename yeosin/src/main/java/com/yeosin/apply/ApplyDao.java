@@ -34,6 +34,12 @@ public class ApplyDao {
 		return sqlSession.selectList(nameSpace + "getExamResult", userId);
 	}
 	
+	public int countApplyReceptionStatusListTotal(String userId) throws Exception{
+		return sqlSession.selectOne(nameSpace + "countApplyReceptionStatusListTotal", userId);
+	}
 	
+	public List<ApplyDto> getApplyReceptionStatusList(ApplyDto applyDto) throws Exception {
+		return sqlSession.selectList(nameSpace + "getApplyReceptionStatusList", applyDto);
+	}
 	
 }

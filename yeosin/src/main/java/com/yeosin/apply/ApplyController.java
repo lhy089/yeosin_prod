@@ -375,7 +375,7 @@ public class ApplyController {
 	// 원서접수 현황
 	@RequestMapping(value="/receipt", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView receipt(HttpSession session, HttpServletResponse response) throws Exception 
+	public ModelAndView receipt(ApplyDto applyDto, HttpSession session, HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
@@ -383,16 +383,16 @@ public class ApplyController {
 
 		if (userInfo != null) 
 		{
-			/*
-			 * ApplyPageMaker pageMaker = new ApplyPageMaker();
-			 * pageMaker.setApplyDto(applyDto);
-			 * pageMaker.setTotalCount(applyService.countApplyListTotal(userInfo.getUserId()
-			 * )); applyDto.setUserId(userInfo.getUserId());
-			 * 
-			 * List<ApplyDto> applyList = new ArrayList<>(); applyList =
-			 * applyService.getApplyList(applyDto); mav.addObject("pageMaker", pageMaker);
-			 * mav.addObject("applyList", applyList); mav.addObject("applyDto", applyDto);
-			 */
+			ApplyPageMaker pageMaker = new ApplyPageMaker();
+			pageMaker.setApplyDto(applyDto);
+			pageMaker.setTotalCount(applyService.countApplyReceptionStatusListTotal(userInfo.getUserId()));
+			applyDto.setUserId(userInfo.getUserId());
+			
+			List<ApplyDto> applyList = new ArrayList<>();
+			applyList = applyService.getApplyReceptionStatusList(applyDto);
+			mav.addObject("pageMaker", pageMaker);
+			mav.addObject("applyList", applyList);
+			mav.addObject("applyDto", applyDto);
 			mav.setViewName("state/receipt");
 		} 
 		else 

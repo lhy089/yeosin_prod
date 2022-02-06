@@ -8,8 +8,10 @@
 		<result column="RECEIPTID" property="receiptId" />
 		<result column="USERID" property="userId" />
 		<result column="EXAMID" property="examId" />
+		<result column="ISCANCEL" property="isCancel"/>
  		<association property="examDto" javaType="com.yeosin.apply.ExamDto">
 			<result column="EXAMNAME" property="examName" />
+			<result column="EXAMDEGREE" property="examDegree"/>
 			<result column="RECEIPTSTARTDATE" property="receiptStartDate" />
 			<result column="RECEIPTENDDATE" property="receiptEndDate" />
 			<result column="EXAMDATE" property="examDate" />
@@ -21,6 +23,7 @@
 				R.RECEIPTID 				-- 접수 ID
 			,	R.USERID 					-- 유저 ID
 			,	R.EXAMID					-- 시험 ID
+			,   R.ISCANCEL					-- 취소여부
 			,	E.EXAMNAME 					-- 시험명
 			,   DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d')    	AS RECEIPTSTARTDATE 	-- 접수시작일
          	,   DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d')       AS RECEIPTENDDATE    	-- 접수마감일
@@ -156,6 +159,37 @@
 		INNER JOIN YS_GRADE 		G 	ON	G.RECEIPTID = R.RECEIPTID 
 		WHERE 	1 = 1
 		AND 	R.USERID = #{userId}
+   </select>
+   
+    <!-- 로그인 유저의 원서접수 현황 총 갯수 조회 -->
+   <select id="countApplyReceptionStatusListTotal"  parameterType="String" resultType="Integer">
+   		SELECT 	count(*)
+ 		FROM   	YS_RECEIPT	R
+ 		INNER JOIN YS_EXAM	E	ON	E.EXAMID = R.EXAMID
+ 		WHERE	1 = 1
+ 		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
+ 		AND 	R.ISCANCEL = 'N'
+	</select>
+	
+	<select id="getApplyReceptionStatusList" parameterType="com.yeosin.apply.ApplyDto" resultMap="ApplyListResultMap">
+		SELECT 	
+				R.RECEIPTID 				-- 접수 ID
+			,	R.USERID 					-- 유저 ID
+			,	R.EXAMID					-- 시험 ID
+			,   R.ISCANCEL					-- 취소여부
+			,	E.EXAMNAME 					-- 시험명
+			, 	E.EXAMDEGREE				-- 시험회차
+			,   DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d')    	AS RECEIPTSTARTDATE 	-- 접수시작일
+         	,   DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d')       AS RECEIPTENDDATE    	-- 접수마감일
+			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d')				AS EXAMDATE				-- 시험일
+			,	E.EXAMLOCAL 				-- 시험지역
+		FROM 	YS_RECEIPT					R 	
+		INNER JOIN YS_EXAM 					E	ON 	E.EXAMID = R.EXAMID 	
+		WHERE 	1 = 1
+		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
+		AND 	R.ISCANCEL = 'N'
+		ORDER BY E.EXAMDATE DESC
+		LIMIT #{pageStart}, #{perPageNum};
    </select>
    
 </mapper>

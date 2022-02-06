@@ -70,4 +70,12 @@ public class ApplyService {
 	public List<ExamZoneDto> getExamDetailList(String examId) throws Exception{
 		return examZoneDao.getExamDetailList(examId);
 	}
+	
+	public int countApplyReceptionStatusListTotal(String userId) throws Exception{
+		return applyDao.countApplyReceptionStatusListTotal(userId);
+	}
+	
+	public List<ApplyDto> getApplyReceptionStatusList(ApplyDto applyDto) throws Exception{
+		return applyDao.getApplyReceptionStatusList(applyDto);
+	}
 }
