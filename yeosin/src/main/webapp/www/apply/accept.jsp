@@ -25,7 +25,12 @@
 
   <link rel="stylesheet" href="/www/inc/css/apply.css">
 </head>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+	$("li[value='${pageMaker.applyDto.page}']").attr("class","on");
+});
+</script>
 <body>
 
 <!--?php include_once "../common/header.php";?-->
@@ -69,7 +74,7 @@
   		</li>
  	</c:if>
   	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
-    	<li>
+    	<li value="${pageNum}">
        		<a href='<c:url value="/accept?page=${pageNum}&userId=${applyDto.userId}"/>'><i class="fa">${pageNum}</i></a>
     	</li>
     </c:forEach>

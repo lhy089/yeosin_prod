@@ -38,6 +38,7 @@ public class BoardController {
 			noticeList.get(i).setPage(pageMaker.getBoardDto().getPage());
 			noticeList.get(i).setSearchType(boardDto.getSearchType());
 			noticeList.get(i).setSearchWord(boardDto.getSearchWord());
+			noticeList.get(i).setFileDto(boardService.getFileInfo(noticeList.get(i).getBoardId()));
 		}
 
 		mav.addObject("pageMaker", pageMaker);
@@ -61,6 +62,7 @@ public class BoardController {
 		noticeInfo.setPage(boardDto.getPage());
 		noticeInfo.setSearchType(boardDto.getSearchType());
 		noticeInfo.setSearchWord(boardDto.getSearchWord());
+		noticeInfo.setFileDto(boardService.getFileInfo(noticeInfo.getBoardId()));
 		
 		mav.addObject("noticeInfo", noticeInfo);
 		mav.addObject("noticeSequence",noticeSequence);
@@ -84,6 +86,7 @@ public class BoardController {
 		noticeInfo.setPage(boardDto.getPage());
 		noticeInfo.setSearchType(boardDto.getSearchType());
 		noticeInfo.setSearchWord(boardDto.getSearchWord());
+		noticeInfo.setFileDto(boardService.getFileInfo(noticeInfo.getBoardId()));
 		
 		mav.addObject("noticeInfo", noticeInfo);
 		mav.addObject("noticeSequence",noticeSequence);
@@ -107,6 +110,7 @@ public class BoardController {
 		noticeInfo.setPage(boardDto.getPage());
 		noticeInfo.setSearchType(boardDto.getSearchType());
 		noticeInfo.setSearchWord(boardDto.getSearchWord());
+		noticeInfo.setFileDto(boardService.getFileInfo(noticeInfo.getBoardId()));
 		
 		mav.addObject("noticeInfo", noticeInfo);
 		mav.addObject("noticeSequence",noticeSequence);
@@ -159,6 +163,7 @@ public class BoardController {
 			libraryList.get(i).setPage(pageMaker.getBoardDto().getPage());
 			libraryList.get(i).setSearchType(boardDto.getSearchType());
 			libraryList.get(i).setSearchWord(boardDto.getSearchWord());
+			libraryList.get(i).setFileDto(boardService.getFileInfo(libraryList.get(i).getBoardId()));
 		}
 			
 		mav.addObject("pageMaker", pageMaker);
@@ -183,6 +188,7 @@ public class BoardController {
 		libraryInfo.setPage(boardDto.getPage());
 		libraryInfo.setSearchType(boardDto.getSearchType());
 		libraryInfo.setSearchWord(boardDto.getSearchWord());
+		libraryInfo.setFileDto(boardService.getFileInfo(libraryInfo.getBoardId()));
 			
 		
 		mav.addObject("libraryInfo", libraryInfo);
@@ -207,6 +213,7 @@ public class BoardController {
 		libraryInfo.setPage(boardDto.getPage());
 		libraryInfo.setSearchType(boardDto.getSearchType());
 		libraryInfo.setSearchWord(boardDto.getSearchWord());
+		libraryInfo.setFileDto(boardService.getFileInfo(libraryInfo.getBoardId()));
 		
 		mav.addObject("libraryInfo", libraryInfo);
 		mav.addObject("librarySequence",librarySequence);
@@ -230,6 +237,7 @@ public class BoardController {
 		libraryInfo.setPage(boardDto.getPage());
 		libraryInfo.setSearchType(boardDto.getSearchType());
 		libraryInfo.setSearchWord(boardDto.getSearchWord());
+		libraryInfo.setFileDto(boardService.getFileInfo(libraryInfo.getBoardId()));
 		
 		mav.addObject("libraryInfo", libraryInfo);
 		mav.addObject("librarySequence", librarySequence);

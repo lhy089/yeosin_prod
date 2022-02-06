@@ -72,7 +72,9 @@ $(document).ready(function() {
         	<div>
           		<p class="num">No.${notice.boardSequence}</p>
          	 	<p class="viewCount">조회수 : ${notice.hitCnt}</p>
+         	 	<c:if test="${not empty notice.fileDto}">
          	 	 <p class="document"></p>
+         	 	 </c:if>
        		</div>
       	</li>
       </c:forEach>

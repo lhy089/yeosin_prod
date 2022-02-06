@@ -73,7 +73,9 @@ $(document).ready(function() {
         	<div>
           		<p class="num">No.${library.boardSequence}</p>
          	 	<p class="viewCount">조회수 : ${library.hitCnt}</p>
+         	 	<c:if test="${not empty library.fileDto}">
          	 	<p class="document"></p>
+         	 	</c:if>
        		</div>
       	</li>
       </c:forEach>

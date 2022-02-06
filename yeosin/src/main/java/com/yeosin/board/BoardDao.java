@@ -32,4 +32,8 @@ public class BoardDao {
 	public int countBoardListTotal(BoardDto boardDto) {
 		return this.sqlSession.selectOne(nameSpace + "countBoardListTotal", boardDto);
 	}	
+	
+	public FileDto getFileInfo(String fileId) {
+		return this.sqlSession.selectOne(nameSpace + "getFileInfo", fileId);
+	}
 }
