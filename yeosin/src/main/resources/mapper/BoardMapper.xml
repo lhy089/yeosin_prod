@@ -28,7 +28,7 @@
 		<if test='category!=""'>
 			AND CATEGORY = #{category}
 		</if>
-		ORDER BY BOARDSEQUENCE
+		ORDER BY WRITETIME DESC
 		LIMIT #{pageStart}, #{perPageNum}
    </select>
    
@@ -90,7 +90,22 @@
 		<if test='category!=""'>
 			AND CATEGORY = #{category}
 		</if>
-		ORDER BY BOARDSEQUENCE
+		ORDER BY WRITETIME DESC
+	</select>
+	
+	
+	<select id="getFileInfo" resultType="com.yeosin.board.FileDto" parameterType="String">
+	SELECT
+			FILEID
+		,	REALFILENAME
+		, 	LOCALFILENAME
+		,	FILESIZE
+		,	FILEURL
+		,	BOARDID
+	FROM
+		YS_FILE
+	WHERE
+		BOARDID = #{boardId}
 	</select>
 	
 </mapper>

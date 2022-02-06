@@ -100,4 +100,8 @@ public class BoardService {
 		return boardDto;
 		
 	}
+	
+	public FileDto getFileInfo(String fileId){
+		return boardDao.getFileInfo(fileId);
+	}
 }

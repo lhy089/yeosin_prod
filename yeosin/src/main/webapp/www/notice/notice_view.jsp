@@ -47,7 +47,9 @@
           <p class="num">No.${noticeInfo.boardSequence}</p>
           <p class="date">${noticeInfo.writeTime}</p>
           <p class="viewCount">조회수 : ${noticeInfo.hitCnt}</p>
-          <p class="document"></p> <!--문서표시 있을때 'document'클래스명 추가-->
+          <c:if test="${not empty noticeInfo.fileDto}">
+         	<p class="document"></p>
+          </c:if>
         </div>
       </div>
       <!-- 내용 영역// -->

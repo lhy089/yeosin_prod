@@ -1,5 +1,7 @@
 package com.yeosin.board;
 
+import com.yeosin.apply.ExamDto;
+
 public class BoardDto {
 	
 	private String boardId;		//게시글 ID (PK)
@@ -18,6 +20,8 @@ public class BoardDto {
 	
 	private int page;  		//현재 페이지 번호
 	private int perPageNum; //현 페이지당 보여줄 게시글의 갯수
+	
+	private FileDto FileDto; // 파일 DTO
 	
 	public BoardDto() {
 		this.page = 1;
@@ -111,6 +115,14 @@ public class BoardDto {
 		} else {
 			this.page = page;
 		}
+	}
+	
+	public FileDto getFileDto() {
+		return FileDto;
+	}
+
+	public void setFileDto(FileDto fileDto) {
+		FileDto = fileDto;
 	}
 	
 	public int getPerPageNum() {

@@ -48,7 +48,9 @@
           <p class="num">No. ${libraryInfo.boardSequence}</p>
           <p class="date"> ${libraryInfo.writeTime}</p>
           <p class="viewCount">조회수 :  ${libraryInfo.hitCnt}</p>
+          <c:if test="${not empty libraryInfo.fileDto}">
           <p class="document"></p> <!--문서표시 있을때 'document'클래스명 추가-->
+          </c:if>
         </div>
       </div>
       <!-- 내용 영역// -->

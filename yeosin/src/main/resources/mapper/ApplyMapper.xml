@@ -34,7 +34,7 @@
 		<![CDATA[
 		AND 	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') >= DATE_FORMAT(NOW(), '%Y-%m-%d')
 		]]>
-		ORDER BY E.EXAMDATE
+		ORDER BY E.EXAMDATE DESC
 		LIMIT #{pageStart}, #{perPageNum};
    </select>
    
