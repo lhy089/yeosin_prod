@@ -138,6 +138,7 @@ public class ApplyController {
 		
 		// JSP에서 넘어온 데이터
 		Map<String, Object> paremterMap = new HashMap<String, Object>();
+		paremterMap.put("examId", requestMap.get("examId"));
 		paremterMap.put("examZoneDetail", requestMap.get("examZoneDetail"));
 		
 		// AJAX로 넘겨줄 데이터
@@ -160,7 +161,7 @@ public class ApplyController {
 		if (userInfo != null) 
 		{
 			ExamDto examInfo = applyService.getExamInfo(request.getParameter("examId"));
-			List<ExamZoneDto> examZoneDetailList = applyService.getExamDetailList();
+			List<ExamZoneDto> examZoneDetailList = applyService.getExamDetailList(examInfo.getExamId());
 			mav.addObject("examZoneDtailList", examZoneDetailList);
 			mav.addObject("examInfo", examInfo);
 			mav.addObject("userInfo", userInfo);
@@ -264,7 +265,7 @@ public class ApplyController {
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		
-		if(userInfo != null) {
+		if (userInfo != null) {
 			ApplyPageMaker pageMaker = new ApplyPageMaker();
 			pageMaker.setApplyDto(applyDto);
 			pageMaker.setTotalCount(applyService.countApplyListTotal(userInfo.getUserId()));
@@ -277,7 +278,9 @@ public class ApplyController {
 			mav.addObject("applyListCnt", applyList.size());
 			mav.addObject("applyDto", applyDto);
 			mav.setViewName("apply/ticket");
-		}else {
+		} 
+		else 
+		{
 			mav.addObject("isAlert", true);
 			mav.setViewName("member/login");
 		}
@@ -285,21 +288,11 @@ public class ApplyController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/refund", method=RequestMethod.GET)
-	@ResponseBody
-	public ModelAndView refund(HttpSession session, HttpServletResponse response) throws Exception {
-		response.setCharacterEncoding("UTF-8");
-		ModelAndView mav = new ModelAndView();
-		String sessionid= (String)session.getAttribute("loginId");
-	
-		mav.addObject("result", "");
-		mav.setViewName("redirect:/www/apply/refund.jsp");
-		return mav;
-	}
-	
+	// 수험표 출력 상세
 	@RequestMapping(value="/ticket_view", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView ticket_view(@RequestParam("receiptId") String receiptId, HttpSession session, HttpServletResponse response) throws Exception {
+	public ModelAndView ticket_view(@RequestParam("receiptId") String receiptId, HttpSession session, HttpServletResponse response) throws Exception 
+	{
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
@@ -315,20 +308,35 @@ public class ApplyController {
 		return mav;
 	}
 	
+	// 수험표 출력 프린트
 	@RequestMapping(value="/ticket_print", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView ticket_print(@RequestParam("receiptId") String receiptId, HttpSession session, HttpServletResponse response) throws Exception {
+	public ModelAndView ticket_print(@RequestParam("receiptId") String receiptId, HttpSession session, HttpServletResponse response) throws Exception 
+	{
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userId", userInfo.getUserId());
 		map.put("receiptId", receiptId);
 		
-		ApplyDto applyInfo = applyService.getDetailApplyInfo(map); // TODO : UserId Session에서 가져올 수 있도록 수정예정
+		ApplyDto applyInfo = applyService.getDetailApplyInfo(map);
 		
 		mav.addObject("applyInfo", applyInfo);
 		mav.setViewName("apply/ticket_print");
+		return mav;
+	}
+	
+	@RequestMapping(value="/refund", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView refund(HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+		String sessionid= (String)session.getAttribute("loginId");
+	
+		mav.addObject("result", "");
+		mav.setViewName("redirect:/www/apply/refund.jsp");
 		return mav;
 	}
 	

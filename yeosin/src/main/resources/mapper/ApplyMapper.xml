@@ -56,7 +56,9 @@
 		<result column="RECEIPTDATE" property="receiptDate" />
 		<result column="PAYMENTMETHOD" property="paymentMethod" />
 		<result column="RECEIPTID" property="receiptId" />
+		<result column="STUDENTCODE" property="studentCode" />
 		<result column="EXAMFEE" property="examFee" />
+		<result column="CERTID" property="certId" />
  		<association property="examDto" javaType="com.yeosin.apply.ExamDto">
 			<result column="EXAMID" property="examId" />
 			<result column="EXAMNAME" property="examName" />
@@ -121,10 +123,12 @@
 			,	DATE_FORMAT(R.RECEIPTDATE, '%Y-%m-%d') 	AS RECEIPTDATE
 			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') 	AS EXAMDATE
 			,	R.PAYMENTMETHOD 	-- 결제정보
-			, 	R.RECEIPTID
-			,	R.EXAMFEE
+			, 	R.RECEIPTID			-- 접수번호
+			,	R.STUDENTCODE		-- 수험번호
+			,	R.EXAMFEE			-- 응시료
 			,	DATE_FORMAT(E.GRADESTARTDATE, '%Y-%m-%d') 	AS GRADESTARTDATE
 			,	DATE_FORMAT(E.GRADEENDDATE, '%Y-%m-%d') 	AS GRADEENDDATE
+			,	R.CERTID 			-- 교육수료증 번호
 		FROM 	YS_RECEIPT			R 
 		INNER JOIN YS_EXAM  		E 	ON	E.EXAMID = R.EXAMID 
 		INNER JOIN YS_USER  		U 	ON 	U.USERID = R.USERID 

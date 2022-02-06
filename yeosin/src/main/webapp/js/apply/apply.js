@@ -32,12 +32,12 @@ function doApplyStart()
 // 교육증수료번호 체크함수(apply3.jsp)
 function doCompleted() 
 {
-	var productType = $('#productType').val();	
+	var subjectType = $('#subjectType').val();	
 	var eduNum = $('#eduNum').val();
 	var examId = $('#examId').val();
 	var isPassEdu = "N";
 
-	if (productType == "*")
+	if (subjectType == "*")
 	{
 		alert("교육과정이 선택되지 않았습니다.");
 		return false;	

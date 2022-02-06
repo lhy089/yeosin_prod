@@ -69,11 +69,11 @@
       </tr>
       <tr>
         <th>수료번호</th>
-        <td></td>
+        <td>${applyInfo.certId}</td>
       </tr>
       <tr>
         <th>수험번호</th>
-        <td>${applyInfo.receiptId}</td>
+        <td>${applyInfo.studentCode}</td>
       </tr>
       <tr>
         <th>시험장명</th>
@@ -85,7 +85,7 @@
       </tr>
       <tr>
         <th>결제금액</th>
-        <td>${applyInfo.examFee}</td>
+        <td>${applyInfo.examFee}원</td>
       </tr>
     </table>
     </c:when>

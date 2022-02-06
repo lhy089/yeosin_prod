@@ -18,10 +18,14 @@ public class ApplyDto {
 	private String cardName; // 카드이름
 	private String bankName; // 은행이름
 	private String paymentDate; // 결제날짜
-	private Double examFee; // 응시료
-	private Double saleRate; // 할인률
-	private Double fees; // 수수료
-	
+	private String examFee; // 응시료
+	private String saleRate; // 할인률
+	private String fees; // 수수료
+	private String certId; // 교육수료증 번호
+	private String studentCode; // 수험번호
+	private String seatNumber; // 좌석번호
+	private String examZoneId; // 고사장 ID
+
 	private int page;  		//현재 페이지 번호	
 	private int perPageNum; //현 페이지당 보여줄 게시글의 갯수
 	
@@ -30,9 +34,35 @@ public class ApplyDto {
 	private SubjectDto subjectDto; // 종목 DTO
 	private GradeDto gradeDto; // 성적 DTO
 		
-	public ApplyDto() {
+	public ApplyDto() 
+	{
 		this.page = 1;
 		this.perPageNum  = 3;
+	}
+	
+	public String getCertId() {
+		return certId;
+	}
+	public void setCertId(String certId) {
+		this.certId = certId;
+	}
+	public String getStudentCode() {
+		return studentCode;
+	}
+	public void setStudentCode(String studentCode) {
+		this.studentCode = studentCode;
+	}
+	public String getSeatNumber() {
+		return seatNumber;
+	}
+	public void setSeatNumber(String seatNumber) {
+		this.seatNumber = seatNumber;
+	}
+	public String getExamZoneId() {
+		return examZoneId;
+	}
+	public void setExamZoneId(String examZoneId) {
+		this.examZoneId = examZoneId;
 	}
 	public String getReceiptId() {
 		return receiptId;
@@ -88,22 +118,22 @@ public class ApplyDto {
 	public void setPaymentDate(String paymentDate) {
 		this.paymentDate = paymentDate;
 	}
-	public Double getExamFee() {
+	public String getExamFee() {
 		return examFee;
 	}
-	public void setExamFee(Double examFee) {
+	public void setExamFee(String examFee) {
 		this.examFee = examFee;
 	}
-	public Double getSaleRate() {
+	public String getSaleRate() {
 		return saleRate;
 	}
-	public void setSaleRate(Double saleRate) {
+	public void setSaleRate(String saleRate) {
 		this.saleRate = saleRate;
 	}
-	public Double getFees() {
+	public String getFees() {
 		return fees;
 	}
-	public void setFees(Double fees) {
+	public void setFees(String fees) {
 		this.fees = fees;
 	}
 	public ExamDto getExamDto() {

@@ -29,8 +29,10 @@
 			,	EZ.EXAMROOMCNT * EZ.EXAMROOMUSERCNT 		AS	LEFTOVERSEAT	-- 잔여좌석(TODO : 현재는 전체좌석, 추후에는 전체좌석 - 해당 고사장에 접수된 숫자만큼 마이너스해야함)	
 			,	EZ.EXAMZONEMAP 													-- 약도
 		FROM 	YS_EXAMZONE					EZ 	
+		INNER JOIN YS_EXAMANDEXAMZONEREL 	EZR ON	EZR.EXAMZONEID = EZ.EXAMZONEID 
 		LEFT JOIN YS_LOCALCENTER			LC	ON 	EZ.LOCALCENTERID = LC.LOCALCENTERID 
 		WHERE 	1 = 1
+		AND 	EZR.EXAMID = '#{examId}'
 		AND 	EZ.LOCALDETAIL = #{examZoneDetail};
 	</select>
    
@@ -42,9 +44,10 @@
 	</select>
 	
 	<!-- 고사장이 등록되어있는 전체 구 조회 -->
-   	<select id="getExamDetailList" resultType="com.yeosin.apply.ExamZoneDto">
-		SELECT 	DISTINCT LOCALDETAIL
-		FROM 	YS_EXAMZONE
-		WHERE	1 = 1;
+   	<select id="getExamDetailList" parameterType="String" resultType="com.yeosin.apply.ExamZoneDto">
+		SELECT 	DISTINCT EZ.LOCALDETAIL 
+		FROM 	YS_EXAMZONE					EZ 
+		INNER JOIN YS_EXAMANDEXAMZONEREL 	EZR ON	EZR.EXAMZONEID = EZ.EXAMZONEID 
+		WHERE	EZR.EXAMID = #{examId};
 	</select>
 </mapper>

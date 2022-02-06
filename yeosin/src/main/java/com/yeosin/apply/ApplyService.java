@@ -67,7 +67,7 @@ public class ApplyService {
 		return applyDao.countApplyListTotal(userId);
 	}
 	
-	public List<ExamZoneDto> getExamDetailList() throws Exception{
-		return examZoneDao.getExamDetailList();
+	public List<ExamZoneDto> getExamDetailList(String examId) throws Exception{
+		return examZoneDao.getExamDetailList(examId);
 	}
 }

@@ -22,7 +22,7 @@ public class ExamZoneDao {
 		return this.sqlSession.selectOne(nameSpace + "getExamZoneName", examZoneId);
 	}
 	
-	public List<ExamZoneDto> getExamDetailList() {
-		return this.sqlSession.selectList(nameSpace + "getExamDetailList");
+	public List<ExamZoneDto> getExamDetailList(String examId) {
+		return this.sqlSession.selectList(nameSpace + "getExamDetailList", examId);
 	}
 }
