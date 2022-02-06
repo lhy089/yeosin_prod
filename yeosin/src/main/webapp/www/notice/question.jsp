@@ -59,13 +59,13 @@ $(document).ready(function() {
     <div class="searchBox">
        <select id="category" name="category">
        	<option value="">전체</option>
-        <option value="원서접수 및 취소" <c:if test="${boardDto.category eq '원서접수 및 취소'}">selected="selected"</c:if>>원서접수 및 취소</option>
+         <option value="원서접수 및 취소" <c:if test="${boardDto.category eq '원서접수 및 취소'}">selected="selected"</c:if>>원서접수 및 취소</option>
         <option value="시험안내" <c:if test="${boardDto.category eq '시험안내'}">selected="selected"</c:if>>시험안내</option>
         <option value="결제 및 환불" <c:if test="${boardDto.category eq '결제 및 환불'}">selected="selected"</c:if>>결제 및 환불</option>
-        <option value="자격증 관련" <c:if test="${boardDto.category eq '자격증 관련'}">selected="selected"</c:if>>자격증 관련</option>
-        <option value="응시관련" <c:if test="${boardDto.category eq '응시관련'}">selected="selected"</c:if>>응시관련</option>
-        <option value="회원가입(로그인)" <c:if test="${boardDto.category eq '회원가입(로그인)'}">selected="selected"</c:if>>회원가입(로그인)</option>
-        <option value="시험결과관련" <c:if test="${boardDto.category eq '시험결과관련'}">selected="selected"</c:if>>시험결과관련</option>
+        <option value="자격인증서 발급" <c:if test="${boardDto.category eq '자격인증서 발급'}">selected="selected"</c:if>>자격인증서 발급</option>
+        <option value="응시 관련 " <c:if test="${boardDto.category eq '응시 관련 '}">selected="selected"</c:if>>응시 관련</option>
+        <option value="회원가입 및 이용" <c:if test="${boardDto.category eq '회원가입 및 이용'}">selected="selected"</c:if>>회원가입 및 이용</option>
+        <option value="시험 결과 관련 " <c:if test="${boardDto.category eq '시험 결과 관련 '}">selected="selected"</c:if>>시험 결과 관련</option>
         <option value="기타" <c:if test="${boardDto.category eq '기타'}">selected="selected"</c:if>>기타</option>
       </select>
        <select id="searchType" name="searchType">
