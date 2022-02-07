@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yeosin.apply.ExamDao" >
+
+	<!-- 메인화면의 최신회차의 시험일정 -->
 	<select id="getExamInfoForMain" resultType="com.yeosin.apply.ExamDto">
 		SELECT 
 				EXAMNAME as examName
@@ -17,6 +19,7 @@
 		LIMIT 1
 	</select>
 	
+	<!-- 시험 1개에 대한 정보 -->
 	<select id="getExamInfo" parameterType="String" resultType="com.yeosin.apply.ExamDto">
 		SELECT 
 				EXAMID
@@ -38,11 +41,14 @@
 			,	DATE_FORMAT(GRADESTARTDATE, '%Y/%m/%d') AS gradeStartDate
 			,	DATE_FORMAT(GRADEENDDATE, '%Y/%m/%d') AS gradeEndDate
 			,	EXAMCOST
-		FROM YS_EXAM
-		WHERE EXAMID = #{examId} 
-		ORDER BY EXAMDEGREE DESC
+		FROM 	YS_EXAM
+		WHERE 	1 = 1
+		AND 	EXAMID = #{examId} 
+		ORDER BY 
+				EXAMDEGREE DESC;
 	</select>
 	
+	<!-- 여러개의 시험 리스트 -->
 	<select id="getExamList" resultType="com.yeosin.apply.ExamDto">
 		SELECT 
 				EXAMID
@@ -53,8 +59,6 @@
 			,	ISAPPROVAL
 			,	EXAMDEGREE
 			, 	DATE_FORMAT(EXAMDATE, '%Y/%m/%d') AS examDate
-			,	EXAMLOCAL
-			,	EXAMAREA
 			,	DATE_FORMAT(RECEIPTSTARTDATE, '%Y/%m/%d') AS receiptstartDate
 			, 	DATE_FORMAT(RECEIPTENDDATE, '%Y/%m/%d') AS receiptEndDate
 			,	DATE_FORMAT(ALLREFUNDEXITDATE, '%Y/%m/%d') AS allRefundExitDate
@@ -63,7 +67,10 @@
 			,	DATE_FORMAT(CERTPRINTENDDATE, '%Y/%m/%d') AS certPrintEndDate
 			,	DATE_FORMAT(GRADESTARTDATE, '%Y/%m/%d') AS gradeStartDate
 			,	DATE_FORMAT(GRADEENDDATE, '%Y/%m/%d') AS gradeEndDate
-		FROM YS_EXAM
-		ORDER BY EXAMDEGREE DESC
+		FROM 	YS_EXAM
+		WHERE 	1 = 1
+		AND 	EXAMDATE > NOW()
+		ORDER BY 
+				EXAMDEGREE DESC;
 	</select>
 </mapper>

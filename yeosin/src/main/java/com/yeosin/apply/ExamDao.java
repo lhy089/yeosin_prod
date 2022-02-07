@@ -21,7 +21,6 @@ public class ExamDao {
 		return this.sqlSession.selectList(nameSpace + "getExamList");
 	}
 	
-	
 	public ExamDto getExamInfo(String examId) {
 		return this.sqlSession.selectOne(nameSpace + "getExamInfo", examId);
 	}

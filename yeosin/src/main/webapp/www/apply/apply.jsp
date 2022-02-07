@@ -56,10 +56,6 @@
         <td>${exam.examDate}</td>
       </tr>
       <tr>
-        <th>시험지역</th>
-        <td>${exam.examLocal}</td>
-      </tr>
-      <tr>
         <th>원서접수</th>
         <td><a href="/apply2?examId=${exam.examId}" class="btn_apply">접수하기</a></td>
       </tr>

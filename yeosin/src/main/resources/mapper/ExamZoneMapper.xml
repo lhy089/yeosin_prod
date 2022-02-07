@@ -32,8 +32,8 @@
 		INNER JOIN YS_EXAMANDEXAMZONEREL 	EZR ON	EZR.EXAMZONEID = EZ.EXAMZONEID 
 		LEFT JOIN YS_LOCALCENTER			LC	ON 	EZ.LOCALCENTERID = LC.LOCALCENTERID 
 		WHERE 	1 = 1
-		AND 	EZR.EXAMID = '#{examId}'
-		AND 	EZ.LOCALDETAIL = #{examZoneDetail};
+		AND 	EZR.EXAMID = #{examId, jdbcType=VARCHAR}
+		AND 	EZ.LOCALDETAIL = #{examZoneDetail, jdbcType=VARCHAR};
 	</select>
    
    	<!-- 고사장 ID로 고사장명 조회 -->
