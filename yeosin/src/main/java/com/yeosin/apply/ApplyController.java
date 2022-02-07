@@ -265,11 +265,11 @@ public class ApplyController {
 		{
 			ApplyPageMaker pageMaker = new ApplyPageMaker();
 			pageMaker.setApplyDto(applyDto);
-			pageMaker.setTotalCount(applyService.countApplyListTotal(userInfo.getUserId()));
+			pageMaker.setTotalCount(applyService.countAcceptListTotal(userInfo.getUserId()));
 			applyDto.setUserId(userInfo.getUserId());
 			
 			List<ApplyDto> applyList = new ArrayList<>();
-			applyList = applyService.getApplyList(applyDto);
+			applyList = applyService.getAcceptList(applyDto);
 			mav.addObject("pageMaker", pageMaker);
 			mav.addObject("applyList", applyList);
 			mav.addObject("applyDto", applyDto);
@@ -318,11 +318,11 @@ public class ApplyController {
 		{
 			ApplyPageMaker pageMaker = new ApplyPageMaker();
 			pageMaker.setApplyDto(applyDto);
-			pageMaker.setTotalCount(applyService.countApplyListTotal(userInfo.getUserId()));
+			pageMaker.setTotalCount(applyService.countTicketListTotal(userInfo.getUserId()));
 			applyDto.setUserId(userInfo.getUserId());
 			
 			List<ApplyDto> applyList = new ArrayList<>();
-			applyList = applyService.getApplyList(applyDto);
+			applyList = applyService.getTicketList(applyDto);
 			mav.addObject("pageMaker", pageMaker);
 			mav.addObject("applyList", applyList);
 			mav.addObject("applyListCnt", applyList.size());

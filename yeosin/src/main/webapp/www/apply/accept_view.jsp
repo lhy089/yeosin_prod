@@ -79,7 +79,7 @@
       </tr>
       <tr>
         <th>시험장명</th>
-        <td>${applyInfo.examDto.examLocal}</td>
+        <td>${applyInfo.examZoneDto.examZoneName}</td>
       </tr>
       <tr>
         <th>자격종별</th>

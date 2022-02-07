@@ -14,12 +14,20 @@ public class ApplyDao {
 	private SqlSessionTemplate sqlSession;
 	private String nameSpace = "com.yeosin.apply.ApplyDao.";
 
-	public List<ApplyDto> getApplyList(ApplyDto applyDto) throws Exception {
-		return sqlSession.selectList(nameSpace + "GetApplyList", applyDto);
+	public List<ApplyDto> getAcceptList(ApplyDto applyDto) throws Exception {
+		return sqlSession.selectList(nameSpace + "getAcceptList", applyDto);
 	}
 	
-	public int countApplyListTotal(String userId) throws Exception{
-		return sqlSession.selectOne(nameSpace + "countApplyListTotal", userId);
+	public int countAcceptListTotal(String userId) throws Exception{
+		return sqlSession.selectOne(nameSpace + "countAcceptListTotal", userId);
+	}
+	
+	public List<ApplyDto> getTicketList(ApplyDto applyDto) throws Exception {
+		return sqlSession.selectList(nameSpace + "getTicketList", applyDto);
+	}
+	
+	public int countTicketListTotal(String userId) throws Exception{
+		return sqlSession.selectOne(nameSpace + "countTicketListTotal", userId);
 	}
 	
 	public List<ApplyDto> getDetailApplyList(Map<String, Object> map) throws Exception {

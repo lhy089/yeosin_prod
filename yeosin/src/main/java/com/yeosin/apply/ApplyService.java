@@ -23,8 +23,12 @@ public class ApplyService {
 	@Autowired
 	private EduCompletionDao eduDao;
 	
-	public List<ApplyDto> getApplyList(ApplyDto applyDto) throws Exception {
-		return applyDao.getApplyList(applyDto);
+	public List<ApplyDto> getAcceptList(ApplyDto applyDto) throws Exception {
+		return applyDao.getAcceptList(applyDto);
+	}
+	
+	public List<ApplyDto> getTicketList(ApplyDto applyDto) throws Exception {
+		return applyDao.getTicketList(applyDto);
 	}
 	
 	public List<ApplyDto> getDetailApplyList(Map<String, Object> map) throws Exception {
@@ -63,8 +67,12 @@ public class ApplyService {
 		return examZoneDao.getExamZoneName(examZoneId);
 	}
 	
-	public int countApplyListTotal(String userId) throws Exception{
-		return applyDao.countApplyListTotal(userId);
+	public int countAcceptListTotal(String userId) throws Exception{
+		return applyDao.countAcceptListTotal(userId);
+	}
+	
+	public int countTicketListTotal(String userId) throws Exception{
+		return applyDao.countTicketListTotal(userId);
 	}
 	
 	public List<ExamZoneDto> getExamDetailList(String examId) throws Exception{

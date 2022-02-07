@@ -64,7 +64,7 @@ $(document).ready(function() {
 			<td>${apply.examDto.examName}</td>
 	        <td>${apply.examDto.receiptStartDate} ~ ${apply.examDto.receiptEndDate}</td>
 	        <td>${apply.examDto.examDate}</td>
-	        <td>${apply.examDto.examLocal}</td>
+	        <td>${apply.examZoneDto.localDetail}</td>
 	        <td><a href="/ticket_view?receiptId=${apply.receiptId}" class="btn_apply">자세히 보기</a></td>
       	</tr>
       </c:forEach>

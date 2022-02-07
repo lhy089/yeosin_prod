@@ -58,20 +58,20 @@ $(document).ready(function() {
         <th>시험회차</th>
       </tr>
       <c:set var="now" value="<%=new java.util.Date()%>" />
-      <c:set var="sysYear"><fmt:formatDate value="${now}" pattern="yyyy-mm-dd" /></c:set> 
+      <c:set var="sysTime"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss" /></c:set> 
       <c:forEach var="apply" items="${applyList}">
       	<tr>
 			<td>${apply.examDto.examName}</td>
 			<c:choose>
-			<c:when test="${apply.isCancel eq 'N' && sysYear le apply.examDto.examDate}">
+			<c:when test="${apply.isCancel eq 'N' && sysTime lt apply.examDto.receiptEndDate}">
 	        <td>접수중</td>
 	        </c:when>
-	        <c:when test="${apply.isCancel eq 'N' && sysYear gt apply.examDto.examDate}">
+	        <c:when test="${apply.isCancel eq 'N' && sysTime ge apply.examDto.receiptEndDate}">
 	        <td>진행완료</td>
 	        </c:when>
 	        </c:choose>
 	        <td>${apply.examDto.examDate}</td>
-	        <td>${apply.examDto.examLocal}</td>
+	        <td>${apply.examZoneDto.localDetail}</td>
 	        <td>${apply.examDto.examDegree}</td>
       	</tr>
       </c:forEach>

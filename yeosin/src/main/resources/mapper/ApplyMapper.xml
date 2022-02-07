@@ -17,8 +17,11 @@
 			<result column="EXAMDATE" property="examDate" />
 			<result column="EXAMLOCAL" property="examLocal" />
 		</association>
+		<association property="examZoneDto" javaType="com.yeosin.apply.ExamZoneDto">
+			<result column="LOCALDETAIL" property="localDetail" />
+		</association>
 	</resultMap>
-	<select id="GetApplyList" parameterType="com.yeosin.apply.ApplyDto" resultMap="ApplyListResultMap">
+	<select id="getAcceptList" parameterType="com.yeosin.apply.ApplyDto" resultMap="ApplyListResultMap">
 		SELECT 	
 				R.RECEIPTID 				-- 접수 ID
 			,	R.USERID 					-- 유저 ID
@@ -28,9 +31,10 @@
 			,   DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d')    	AS RECEIPTSTARTDATE 	-- 접수시작일
          	,   DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d')       AS RECEIPTENDDATE    	-- 접수마감일
 			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d')				AS EXAMDATE				-- 시험일
-			,	E.EXAMLOCAL 				-- 시험지역
+			,	EZ.LOCALDETAIL 				-- 시험지역
 		FROM 	YS_RECEIPT					R 	
 		INNER JOIN YS_EXAM 					E	ON 	E.EXAMID = R.EXAMID 	
+		INNER JOIN YS_EXAMZONE				EZ 	ON 	EZ.EXAMZONEID = R.EXAMZONEID
 		WHERE 	1 = 1
 		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
 		AND 	R.ISCANCEL = 'N'
@@ -42,16 +46,50 @@
    </select>
    
    <!-- 로그인 유저의 원서접수 총 갯수 조회 -->
-   <select id="countApplyListTotal"  parameterType="String" resultType="Integer">
+   <select id="countAcceptListTotal"  parameterType="String" resultType="Integer">
    		SELECT 	count(*)
  		FROM   	YS_RECEIPT	R
  		INNER JOIN YS_EXAM	E	ON	E.EXAMID = R.EXAMID
+ 		INNER JOIN YS_EXAMZONE EZ ON EZ.EXAMZONEID = R.EXAMZONEID
  		WHERE	1 = 1
  		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
  		AND 	R.ISCANCEL = 'N'
 		<![CDATA[
 		AND 	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') >= DATE_FORMAT(NOW(), '%Y-%m-%d');
 		]]> 
+	</select>
+	
+	<select id="getTicketList" parameterType="com.yeosin.apply.ApplyDto" resultMap="ApplyListResultMap">
+		SELECT 	
+				R.RECEIPTID 				-- 접수 ID
+			,	R.USERID 					-- 유저 ID
+			,	R.EXAMID					-- 시험 ID
+			,   R.ISCANCEL					-- 취소여부
+			,	E.EXAMNAME 					-- 시험명
+			,   DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d')    	AS RECEIPTSTARTDATE 	-- 접수시작일
+         	,   DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d')       AS RECEIPTENDDATE    	-- 접수마감일
+			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d')				AS EXAMDATE				-- 시험일
+			,	EZ.LOCALDETAIL 				-- 시험지역
+		FROM 	YS_RECEIPT					R 	
+		INNER JOIN YS_EXAM 					E	ON 	E.EXAMID = R.EXAMID 	
+		INNER JOIN YS_EXAMZONE				EZ 	ON 	EZ.EXAMZONEID = R.EXAMZONEID
+		WHERE 	1 = 1
+		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
+		AND 	R.ISCANCEL = 'N'
+		AND  	NOW() between E.CERTPRINTSTARTDATE AND E.CERTPRINTENDDATE
+		ORDER BY E.EXAMDATE DESC
+		LIMIT #{pageStart}, #{perPageNum};
+   </select>
+   
+   <select id="countTicketListTotal"  parameterType="String" resultType="Integer">
+   		SELECT 	count(*)
+ 		FROM   	YS_RECEIPT	R
+ 		INNER JOIN YS_EXAM	E	ON	E.EXAMID = R.EXAMID
+ 		INNER JOIN YS_EXAMZONE EZ ON EZ.EXAMZONEID = R.EXAMZONEID
+ 		WHERE	1 = 1
+ 		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
+ 		AND 	R.ISCANCEL = 'N'
+		AND  	NOW() between E.CERTPRINTSTARTDATE AND E.CERTPRINTENDDATE
 	</select>
    
    	<!-- 로그인 유저의 접수별 상세현황 조회 -->
@@ -86,6 +124,9 @@
 			<result column="ALLSCORE" property="allScore" />
 			<result column="ISPASS" property="isPass" />
 		</association>
+		<association property="examZoneDto" javaType="com.yeosin.apply.ExamZoneDto">
+			<result column="EXAMZONENAME" property="examZoneName" />
+		</association>
 	</resultMap>
 	<select id="GetDetailApplyList" parameterType="map" resultMap="DetailApplyListResultMap">
 		SELECT 	
@@ -105,6 +146,7 @@
 		INNER JOIN YS_EXAM  		E 	ON	E.EXAMID = R.EXAMID 
 		INNER JOIN YS_USER  		U 	ON 	U.USERID = R.USERID 
 		INNER JOIN YS_SUBJECT  	 	S 	ON 	S.SUBJECTID = E.SUBJECTID 
+		INNER JOIN YS_EXAMZONE		EZ	ON	EZ.EXAMZONEID = R.EXAMZONEID
 		WHERE 	1 = 1
 		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
 		AND 	R.RECEIPTID = #{receiptId, jdbcType=VARCHAR};
@@ -115,7 +157,7 @@
 		SELECT 	
 				E.EXAMID 			-- 시험 ID 
 			,	E.EXAMNAME 			-- 시험명
-			,	E.EXAMLOCAL 		-- 시험장명
+			,	EZ.EXAMZONENAME 	-- 시험장명
 			,	E.EXAMDEGREE 		-- 시험차수
 			,	U.USERID 			-- 유저 ID
 			,	U.USERNAME 			-- 유저명 
@@ -137,6 +179,7 @@
 		INNER JOIN YS_EXAM  		E 	ON	E.EXAMID = R.EXAMID 
 		INNER JOIN YS_USER  		U 	ON 	U.USERID = R.USERID 
 		INNER JOIN YS_SUBJECT  	 	S 	ON 	S.SUBJECTID = E.SUBJECTID 
+		INNER JOIN YS_EXAMZONE		EZ 	ON 	EZ.EXAMZONEID = R.EXAMZONEID
 		WHERE 	1 = 1
 		AND 	R.USERID = #{userId}
 		AND 	R.RECEIPTID = #{receiptId};
@@ -169,9 +212,13 @@
    		SELECT 	count(*)
  		FROM   	YS_RECEIPT	R
  		INNER JOIN YS_EXAM	E	ON	E.EXAMID = R.EXAMID
+ 		INNER JOIN YS_EXAMZONE EZ ON EZ.EXAMZONEID = R.EXAMZONEID
  		WHERE	1 = 1
  		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
  		AND 	R.ISCANCEL = 'N'
+ 		<![CDATA[
+		AND 	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') >= DATE_FORMAT(NOW(), '%Y-%m-%d')
+		]]> 
 	</select>
 	
 	<!-- 로그인 유저의 원서접수 리스트 조회(LIMIT 페이징) -->
@@ -183,15 +230,18 @@
 			,   R.ISCANCEL					-- 취소여부
 			,	E.EXAMNAME 					-- 시험명
 			, 	E.EXAMDEGREE				-- 시험회차
-			,   DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d')    	AS RECEIPTSTARTDATE 	-- 접수시작일
-         	,   DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d')       AS RECEIPTENDDATE    	-- 접수마감일
+         	,   DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d %H:%i:%S')       AS RECEIPTENDDATE    	-- 접수마감일
 			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d')				AS EXAMDATE				-- 시험일
-			,	E.EXAMLOCAL 				-- 시험지역
+			,	EZ.LOCALDETAIL 				-- 시험지역
 		FROM 	YS_RECEIPT					R 	
 		INNER JOIN YS_EXAM 					E	ON 	E.EXAMID = R.EXAMID 	
+		INNER JOIN YS_EXAMZONE				EZ 	ON 	EZ.EXAMZONEID = R.EXAMZONEID
 		WHERE 	1 = 1
 		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
 		AND 	R.ISCANCEL = 'N'
+		<![CDATA[
+		AND 	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') >= DATE_FORMAT(NOW(), '%Y-%m-%d')
+		]]> 
 		ORDER BY E.EXAMDATE DESC
 		LIMIT #{pageStart}, #{perPageNum};
    </select>

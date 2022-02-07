@@ -33,6 +33,7 @@ public class ApplyDto {
 	private UserDto userDto; // 유저 DTO
 	private SubjectDto subjectDto; // 종목 DTO
 	private GradeDto gradeDto; // 성적 DTO
+	private ExamZoneDto examZoneDto; // 고사장 DTO
 		
 	public ApplyDto() 
 	{
@@ -160,6 +161,13 @@ public class ApplyDto {
 	public void setGradeDto(GradeDto gradeDto) {
 		this.gradeDto = gradeDto;
 	}
+	public ExamZoneDto getExamZoneDto() {
+		return examZoneDto;
+	}
+
+	public void setExamZoneDto(ExamZoneDto examZoneDto) {
+		this.examZoneDto = examZoneDto;
+	}
 	
 	public int getPageStart() {
 		return (this.page-1) * perPageNum;
@@ -187,5 +195,4 @@ public class ApplyDto {
 			this.perPageNum = pageCount;
 		}
 	}
-	
 }
