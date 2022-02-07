@@ -159,6 +159,7 @@
 		INNER JOIN YS_GRADE 		G 	ON	G.RECEIPTID = R.RECEIPTID 
 		WHERE 	1 = 1
 		AND 	R.USERID = #{userId}
+		AND     E.EXAMDATE >= DATE_ADD(NOW(), INTERVAL -36 MONTH);
    </select>
    
     <!-- 로그인 유저의 원서접수 현황 총 갯수 조회 -->

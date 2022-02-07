@@ -64,7 +64,7 @@ $(document).ready(function() {
 			<td>${apply.examDto.examName}</td>
 			<c:choose>
 			<c:when test="${apply.isCancel eq 'N' && sysYear le apply.examDto.examDate}">
-	        <td>접수중</td> //진행상태
+	        <td>접수중</td>
 	        </c:when>
 	        <c:when test="${apply.isCancel eq 'N' && sysYear gt apply.examDto.examDate}">
 	        <td>진행완료</td>
