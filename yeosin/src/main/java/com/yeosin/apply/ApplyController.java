@@ -1,6 +1,9 @@
 package com.yeosin.apply;
 
+import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -189,9 +193,19 @@ public class ApplyController {
 		{
 			ExamDto examInfo = applyService.getExamInfo(request.getParameter("examId"));
 			String examZoneName = applyService.getExamZoneName(request.getParameter("exmaZoneRadio"));
+			
+			String merchantKey 		= "1q8Rl7lwsYz1YaneFJ/mUIwNgh9y/12OcHoMVtR0CqnVnUf5WAPGxF95+jOo29PhSl1RGjSxnzhRB3xvmFEK7w=="; // 상점키
+			String merchantID 		= "kmama0001m"; 				// 상점아이디
+			String price 			= examInfo.getExamCost(); 						// 결제상품금액
+			
+			String ediDate 			= getyyyyMMddHHmmss();	
+			String hashString 		= this.encrypt(ediDate + merchantID + price + merchantKey);
+			
 			mav.addObject("examZoneName", examZoneName);
 			mav.addObject("examInfo", examInfo);
 			mav.addObject("userInfo", userInfo);
+			mav.addObject("ediDate", ediDate);
+			mav.addObject("hashString", hashString);
 			mav.setViewName("apply/apply5");
 		}
 		else 
@@ -225,7 +239,7 @@ public class ApplyController {
 			insertApplyDto.setUserId(userInfo.getUserId());
 			insertApplyDto.setExamId(request.getParameter("examId"));
 			insertApplyDto.setCertId(request.getParameter("eduNum"));
-			insertApplyDto.setExamZoneId(request.getParameter("eduNum"));
+			insertApplyDto.setExamZoneId(request.getParameter("exmaZoneId"));
 			insertApplyDto.setStudentCode(newStudentCode);
 			
 			int result = applyService.setReceiptInfo(insertApplyDto);
@@ -513,5 +527,30 @@ public class ApplyController {
 //		mav.addObject("result", "");
 		mav.setViewName("state/certificate");
 		return mav;
+	}
+	
+	public String encrypt(String strData){
+		String passACL = null;
+		MessageDigest md = null;
+		try{
+			md = MessageDigest.getInstance("SHA-256");
+			md.reset();
+			md.update(strData.getBytes());
+			byte[] raw = md.digest();
+			passACL = encodeHex(raw);
+		}catch(Exception e){
+			System.out.print("암호화 에러" + e.toString());
+		}
+		return passACL;
+	}
+	
+	public final synchronized String getyyyyMMddHHmmss(){
+		SimpleDateFormat yyyyMMddHHmmss = new SimpleDateFormat("yyyyMMddHHmmss");
+		return yyyyMMddHHmmss.format(new Date());
+	}
+	
+	public String encodeHex(byte [] b){
+		char [] c = Hex.encodeHex(b);
+		return new String(c);
 	}
 }
