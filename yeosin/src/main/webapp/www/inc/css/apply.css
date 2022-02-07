@@ -14,6 +14,11 @@
 .apply h2::before{content:''; width:7px; height:100%; display:inline-block; margin-right:8px; background:linear-gradient(#6a7bc3, #00c9ee 26%, #82d103 55%, #ff970a 81%, #ffe200); vertical-align:middle; letter-spacing:-1px;}
 .apply .btn_apply{width:200px; height:50px; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; background:#0074dd; color:#fff; line-height:50px; text-align:center; margin:0 auto; transition:0.6s;}
 .apply .btn_apply:hover{opacity:0.8;}
+.apply .guide{font-size:19px; line-height:35px; padding:20px 0 20px 20px; box-sizing:border-box; border:1px solid #c7c6c6; border-radius:10px; background:#f8f8f8; color:#58585b; font-family:sandoll-gothicneo3, sans-serif; margin-bottom:25px; letter-spacing:-1px;}
+.apply .guide:last-of-type{margin-bottom:0;}
+.apply .guide p{display:inline;}
+.apply .guide .red{color:#ff334c; text-decoration:underline;}
+.apply .guide .blue{color:#0074dd;}
 
 /* apply 리스트 */
 .apply.list table{width:100%; border-top:2px solid #58585b; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif;}
@@ -59,7 +64,7 @@
 .apply.third .announcement{width:100%; border:1px solid #c7c6c6; border-radius:10px; box-sizing:border-box; background:#f8f8f8; padding:18px 20px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; line-height:1.4; color:#0074dd; letter-spacing:-1px; margin-bottom:45px;}
 .apply.third .announcement span{font-size:23px;}
 .apply.third h2{clear:both;}
-.apply.third table{width:100%; border-top:3px solid #0074dd; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; margin-bottom:70px;}
+.apply.third table{width:100%; border-top:3px solid #0074dd; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; margin-bottom:20px/*70px*/;}
 .apply.third table:first-of-type{margin-bottom:18px;}
 .apply.third table th,.apply.third table td{padding:28px 0; border-bottom:1px solid #c7c6c6; box-sizing:border-box;}
 .apply.third table:nth-of-type(2) th,.apply.third table:nth-of-type(2) td{padding:15px 0;}
@@ -70,6 +75,7 @@
 .apply.third table td span{font-size:20px; color:#58585b;}
 .apply.third .btn_change{height:50px; line-height:50px; display:inline-block; border:1px solid #c7c6c6; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; border-radius:5px; background:#f8f8f8; padding:0 12px; box-sizing:border-box; color:#58585b; float:right; margin-bottom:95px; transition:0.6s;}
 .apply.third .btn_change:hover{background:#c7c6c6;}
+.apply.third .guide{margin-bottom:70px;}
 
 /* 4단계 */
 .apply.fourth{}
@@ -174,6 +180,7 @@
   .apply h2{height:2.16vw; font-size:2.16vw; line-height:2.16vw; margin-bottom:3.6vw;}
   .apply h2::before{width:0.63vw; margin-right:0.72vw;}
   .apply .btn_apply{width:18vw; height:4.5vw; font-size:2.07vw; line-height:4.5vw;}
+  .apply .guide{font-size:1.71vw; line-height:3.15vw; padding:1.8vw 0 20px 1.8vw; border-radius:0.9vw; margin-bottom:2.25vw;}
 
   /* apply 리스트 */
   .apply.list table{border-top:0.18vw solid #58585b;}
@@ -208,7 +215,7 @@
   /* 3단계 */
   .apply.third .announcement{border-radius:0.9vw; padding:1.62vw 1.8vw; font-size:2.07vw; margin-bottom:4.05vw;}
   .apply.third .announcement span{font-size:2.07vw;}
-  .apply.third table{border-top:0.27vw solid #0074dd; margin-bottom:6.3vw;}
+  .apply.third table{border-top:0.27vw solid #0074dd; margin-bottom:1.8vw/*6.3vw*/;}
   .apply.third table:first-of-type{margin-bottom:1.62vw;}
   .apply.third table th,.apply.third table td{padding:2.52vw 0;}
   .apply.third table:nth-of-type(2) th,.apply.third table:nth-of-type(2) td{padding:1.35vw 0;}
@@ -218,6 +225,7 @@
   .apply.third table td input{width:44.28vw; height:4.5vw; margin-right:0.81vw; font-size:2.07vw; text-indent:1.08vw;}
   .apply.third table td span{font-size:1.8vw;}
   .apply.third .btn_change{height:4.5vw; line-height:4.5vw; font-size:2.07vw; border-radius:0.45vw; padding:0 1.08vw; margin-bottom:8.55vw;}
+  .apply.third .guide{margin-bottom:6.3vw;}
 
   /* 4단계 */
   .apply.fourth .announcement{margin-bottom:3.42vw;}

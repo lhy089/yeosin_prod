@@ -39,7 +39,8 @@
     <div class="section">
       <h2>평가소개</h2>
       <p>
-        「금융소비자보호에 관한 법률」, 같은 법 시행령 및 감독규정에 따라 대출성 상품 판매대리 · 중개업자로 등록하고자 하는 자를 대상으로 실시하는 자격인증 평가
+        「금융소비자보호에 관한 법률」, 같은 법 시행령 및 감독규정에 따라<br/>
+        대출성 상품 판매대리 · 중개업자로 등록하고자 하는 자를 대상으로 실시하는 자격인증 평가
       </p>
       <p class="sequence">가. 평가정보</p>
       <table>
@@ -75,7 +76,7 @@
       <p class="sequence">나. 시행기관 : (사)한국여신전문금융업협회</p>
     </div>
 
-    <div class="section">
+   <div class="section">
       <h2>시험영역 및 평가내용</h2>
       <table class="broad">
         <colgroup>
@@ -111,13 +112,12 @@
           <td class="center">금융소비자보호</td>
           <td colspan="2">
             &middot; 금융소비자보호법<br/>
-            &middot; 금융상품판매대리 ‧ 중개업자의 영업행위 준수사항<br/>
             &middot; 금융소비자 권익 보호 제도<br/>
+            &middot; 금융상품 판매대리·중개업자의 영업행위 관련 준수사항<br/>
             &middot; 개인정보/신용정보 보호<br/>
             &middot; 내부통제 및 준법<br/>
             &middot; 윤리경영 및 직무윤리<br/>
-            &middot; 금융소비자보호 정책 ‧ 감독방향 및 분쟁사례<br/>
-            &middot; 불건전영업행위
+            &middot; 금융소비자보호 정책 ·감독방향 및 분쟁사례
           </td>
           <td class="center">15</td>
           <td class="center">30</td>
@@ -144,16 +144,16 @@
         <tr>
           <td class="center">금융소비자보호</td>
           <td colspan="2">
-            &middot; 고객 신용관리<br/>
-            &middot; 금융기관 신용평가제도<br/>
-            &middot; 신용점수(개인CB) 관리<br/>
+            &middot; 신용관리 ·신용정보<br/>
+            &middot; 금융기관 신용관리<br/>
+            &middot; 신용점수(개인CB) 개요<br/>
             &middot; 고객상담 실무<br/>
             &middot; 재무관리 실무<br/>
             &middot; 재무제표<br/>
             &middot; 스마트기기를 활용한 상담
           </td>
           <td class="center">10</td>
-          <td class="center">30</td>
+          <td class="center">20</td>
         </tr>
         <tr>
           <td colspan="3" class="center">합계</td>

@@ -1,8 +1,3 @@
-<script src="/www/inc/js/jquery-3.4.1.min.js"></script>
-<link href="/www/inc/css/reset.css" rel="stylesheet" type="text/css" media="screen">
-<link href="/www/inc/css/common.css" rel="stylesheet" type="text/css" media="screen">
-<link href="/www/inc/css/header_footer.css" rel="stylesheet" type="text/css" media="screen">
-<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"> <!--나눔스퀘어 font-->
 <script>
 /* 고딕neo2,고딕neo3 font */
 (function(d) {
@@ -14,6 +9,13 @@
   h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
 })(document);
 </script>
+<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"> <!--나눔스퀘어 font-->
+<link href="/www/inc/css/font.css" rel="stylesheet" type="text/css" media="screen">
+<script src="/www/inc/js/jquery-3.4.1.min.js"></script>
+<link href="/www/inc/css/reset.css" rel="stylesheet" type="text/css" media="screen">
+<link href="/www/inc/css/common.css" rel="stylesheet" type="text/css" media="screen">
+<link href="/www/inc/css/header_footer.css" rel="stylesheet" type="text/css" media="screen">
+
 
 <!--header-->
 <header class="pc">
@@ -119,6 +121,13 @@
       </dd> -->
     </dl>
   </div>
+
+  <!-- 로그인전 노출 버튼// -->
+  <div class="btnWrap">
+    <a href="/www/member/login.html">로그인</a>
+    <a href="/www/member/join.html">회원가입</a>
+  </div>
+  <!-- //로그인전 노출 버튼 -->
 </div>
 <!-- //mo -->
 

@@ -18,6 +18,8 @@
 
 /* 회원정보수정 */
 .myroom.change{}
+.myroom.change h3{margin-bottom:20px; font-family:sandoll-gothicneo3, sans-serif; font-size:21px; line-height:1.3; color:#0074dd;}
+.myroom.change h3 p{color:#58585b;}
 .myroom.change table{width:100%; border-top:3px solid #0074dd; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; margin-bottom:70px;}
 .myroom.change table th,.myroom.change table td{padding:28px 0; border-bottom:1px solid #c7c6c6; box-sizing:border-box; letter-spacing:-0.5px;}
 .myroom.change table th{text-align:left; font-size:23px; color:#0074dd; font-weight:600;}
@@ -62,6 +64,7 @@
   .myroom .btn_apply{width:18vw; height:4.5vw; font-size:2.07vw; line-height:4.5vw;}
 
   /* 회원정보수정 */
+  .myroom.change h3{margin-bottom:1.8vw; font-size:1.89vw;}
   .myroom.change table{border-top:0.27vw solid #0074dd; margin-bottom:6.3vw;}
   .myroom.change table th,.myroom.change table td{padding:2.52vw 0;}
   .myroom.change table th{font-size:2.07vw;}

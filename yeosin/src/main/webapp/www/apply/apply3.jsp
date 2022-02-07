@@ -89,6 +89,13 @@
 	          </td>
 	        </tr>
 	      </table>
+	      <div class="guide">
+        <p>
+          <strong class="blue">교육 수료증 번호 입력 시, 각 교육 운영기관에서 발급받은 번호 부분을 그대로 입력하여야 합니다.</strong><br/>
+          1) 제 ____ 호 → '제', '호' 를 제외하고 ____에 해당하는 번호를 공백 없이 입력<br/>
+          2) 영문, 숫자, 바( _ , -) 등이 포함된 경우, 누락 없이 기입 (영문은 대소문자 구분)
+        </p>
+      </div>
 	      <input type="hidden" value="${examInfo.examId}" id="examId" name="examId"/>
 	      <input style="border:none;" class="btn_apply" type="submit" value="작성완료"/>
       </form>

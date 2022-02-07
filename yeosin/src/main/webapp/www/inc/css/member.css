@@ -50,6 +50,14 @@
 .join .provision .btnWrap .btn_join{width:490px; background:#0074dd; color:#fff; float:right; transition:0.6s;}
 .join .provision .btnWrap .btn_join:hover{opacity:0.8;}
 .join .provision .announcement{padding:20px; border:1px solid #c7c6c6; border-radius:10px; box-sizing:border-box; background:#f8f8f8; font-family:sandoll-gothicneo3, sans-serif; font-size:19px; line-height:35px; color:#58585b; letter-spacing:-1px;}
+.join .lawTable{width:90%; border-top:1px solid #c7c6c6; margin:20px auto; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif;}
+.join .lawTable th,.join .lawTable td{border-right:1px solid #c7c6c6; border-bottom:1px solid #c7c6c6; box-sizing:border-box;}
+.join .lawTable th:last-of-type,.join .lawTable td:last-of-type{border-right:0;}
+.join .lawTable th{color:#58585b; font-size:23px; padding:13px 0; letter-spacing:-0.5px; background:#f8f8f8; vertical-align:middle;}
+.join .lawTable td{color:#000; font-size:22px; line-height:35px; text-align:left; letter-spacing:-1px; padding:13px 0 13px 15px;}
+.join .lawTable td.center{text-align:center; padding-left:0; vertical-align:middle;}
+.join .provision .rawBold{font-weight:bold; color:#000; font-size:21px;}
+.join .provision .red{color:#ff334c;}
 
 .join .certification{}
 .join .certification ul{display:flex; justify-content:space-between; margin-bottom:70px;}
@@ -197,6 +205,11 @@
   .join .provision .btnWrap .btn_cancel{width:44.1vw;}
   .join .provision .btnWrap .btn_join{width:44.1vw;}
   .join .provision .announcement{padding:1.8vw; border-radius:0.9vw; font-size:1.71vw; line-height:3.15vw;}
+
+  .join .lawTable{margin:1.8vw auto;}
+  .join .lawTable th{font-size:2.07vw; padding:1.17vw 0;}
+  .join .lawTable td{font-size:1.98vw; line-height:3.15vw; padding:1.17vw 0 1.17vw 1.35vw;}
+  .join .provision .rawBold{font-size:1.89vw;}
 
   .join .certification ul{margin-bottom:6.3vw;}
   .join .certification ul li{width:27.18vw; height:36.9vw; padding-top:13.5vw; background:url('../img/common/icon_personal_phone.png') no-repeat center 5.04vw;}

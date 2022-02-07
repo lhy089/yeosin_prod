@@ -80,14 +80,11 @@
   .state.result table td .btn_apply{width:10.35vw; height:3.15vw; line-height:3.15vw; border-radius:0.45vw; font-size:1.89vw;}
 
   /* 자격인증서발급 */
-  .state.certificate .document{padding:3.15vw; margin-bottom:6.3vw;}
-  .state.certificate .document .docNum{font-size:1.8vw; line-height:2.43vw;}
-  .state.certificate .document h3{height:25.92vw; font-size:7.2vw; line-height:7.92vw; margin-bottom:3.78vw;}
-  .state.certificate .document table{border-top:0.18vw solid #58585b; margin-bottom:8.1vw;}
-  .state.certificate .document table th,.state.certificate .document table td{font-size:2.25vw; padding:1.98vw 0;}
-  .state.certificate .document table tr:last-of-type th,.state.certificate .document table tr:last-of-type td{border-bottom:0.18vw solid #58585b;}
-  .state.certificate .document table td{padding-left:1.08vw;}
-  .state.certificate .document .evidence{height:37.8vw; font-size:2.88vw; line-height:5.4vw; margin-bottom:2.7vw;}
-  .state.certificate .document .date{font-size:2.25vw; line-height:2.25vw; margin-bottom:6.3vw;}
-  .state.certificate .document .institution{font-size:3.6vw; line-height:3.6vw; margin-bottom:4.05vw;}
+  .state.certificate .document{height:124.2vw; padding-top:12.06vw; margin-bottom:6.3vw;}
+  .state.certificate .document .docNum{font-size:1.8vw; text-indent:12.06vw; margin-bottom:1.8vw;}
+  .state.certificate .document h3{height:20.7vw; font-size:8.1vw; line-height:9vw;}
+  .state.certificate .document table th,.state.certificate .document table td{font-size:2.25vw; padding-bottom:2.25vw;}
+  .state.certificate .document table td{padding-left:1.44vw; background:url('../img/state/element_dot.png') no-repeat left 1.08vw / 0.27vw;}
+  .state.certificate .document .evidence{height:33.84vw; font-size:3.42vw; margin:0 auto 5.4vw;}
+  .state.certificate .document .date{font-size:2.88vw;}
 }

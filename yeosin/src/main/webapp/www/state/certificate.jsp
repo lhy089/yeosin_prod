@@ -44,7 +44,7 @@
 	          <col width="">
 	        </colgroup>
 	        <tr>
-	          <th>성명</th>
+	          <th>성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</th>
 	          <td>홍길동</td>
 	        </tr>
 	        <tr>
@@ -52,7 +52,7 @@
 	          <td>대출성 상품 판매대리 · 중개업자 등록<br/>자격인증 평가(대출 · 기타 대출성 상품)</td>
 	        </tr>
 	        <tr>
-	          <th>인증일</th>
+	          <th>인&nbsp;&nbsp;증&nbsp;&nbsp;일</th>
 	          <td>2021-06-24</td>
 	        </tr>
 	      </table>
