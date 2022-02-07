@@ -232,6 +232,7 @@ public class ApplyController {
 			
 			if (result > 0)
 			{
+				mav.addObject("isSuccess", "Y");
 				mav.addObject("examId", request.getParameter("examId"));
 				mav.addObject("receiptId", newMaxReceiptNumberStr);
 				mav.addObject("studentCode", newStudentCode);
@@ -240,6 +241,7 @@ public class ApplyController {
 			}
 			else 
 			{
+				mav.addObject("isSuccess", "N");
 				mav.setViewName("apply/apply6");
 			}
 		}

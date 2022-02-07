@@ -22,9 +22,16 @@
 	<link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
 	<link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 	<link rel="stylesheet" href="/www/inc/css/apply.css">
+	<script type="text/javascript">
+	window.history.forward();
+	function noBack()
+	{
+		window.history.forward();
+	}
+	</script>
 </head>
 
-<body>
+<body onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
 
 <!--?php include_once "../common/header.php";?-->
 <%@ include file="/www/common/header.jsp"%>
@@ -37,10 +44,20 @@
     <h2>4단계 접수완료</h2>
     <form action="/ticket_view" method="get" onsubmit="return true">
 	    <div class="doneBox">
-	      수험번호 : ${studentCode}
-	      <p>접수가 정상적으로 완료되었습니다.</p>
-	      <input type="hidden" value="${receiptId}" id="receiptId" name="receiptId"/>
-	      <input style="border:none;" class="btn_apply" type="submit" value="수험표 출력"/>
+	    <c:set var="isSuccess" value="${isSuccess}"/>
+	    <c:choose>
+	    	<c:when test="${isSuccess eq 'Y'}">
+		    	수험번호 : ${studentCode}
+		      <p>접수가 정상적으로 완료되었습니다.</p>
+		      <input type="hidden" value="${receiptId}" id="receiptId" name="receiptId"/>
+		      <input style="border:none;" class="btn_apply" type="submit" value="수험표 출력"/>
+	    	</c:when>
+	    	<c:otherwise>
+	    		수험번호 : 결제실패
+				<p>접수가 실패하였습니다.</p>
+				<p>출력 불가</p>
+	    	</c:otherwise>
+	    </c:choose>
 	    </div>
     </form>
   </div>

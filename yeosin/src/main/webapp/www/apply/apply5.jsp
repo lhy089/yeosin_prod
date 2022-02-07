@@ -21,8 +21,7 @@
 	<meta property="og:image" content="/www/inc/img/openGraph.jpg">
 	<link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
 	<link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
-	<link rel="stylesheet" href="/www/inc/css/apply.css">
-	
+	<link rel="stylesheet" href="/www/inc/css/apply.css">	
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=1"></script>
