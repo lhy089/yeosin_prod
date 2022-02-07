@@ -228,5 +228,17 @@ public class UserController {
 			mav.setViewName("member/join2");
 			return mav;
 		}
+		
+		// 인증
+		@RequestMapping(value = "/doOpenCertForIpin")
+		@ResponseBody
+		public void doOpenCertForIpin(HttpSession session, HttpServletResponse response) throws Exception {
+			response.setCharacterEncoding("UTF-8");
+			CheckPlus certUtil = new CheckPlus();
+			String result = certUtil.getEncDataForIpin(session);
+			response.getWriter().print(result);
+			response.getWriter().flush();
+			response.getWriter().close();
+		}
 
 }

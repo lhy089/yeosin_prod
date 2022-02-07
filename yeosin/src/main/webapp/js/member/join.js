@@ -1,20 +1,10 @@
 $(document).ready(function(){
-	
-    console.log("index.js");
-   $('#btn_doJoinProvision').click(function(){
-   		$(".intro").hide();
-   		$(".provision").show();
-   		$(".certification").hide();
-   		$(".entry").hide();
-   		$(".finish").hide();
-       
-   });
+
    $('#btn_doJoinCertification').click(function(){
    		var isNotChecked = $("input:checkbox[name=check]:not(:checked)").length;
    		if(isNotChecked > 1) {
    			alert("회원가입 약관 동의가 필요합니다.")
    		}else {
-   			$(".intro").hide();
    	   		$(".provision").hide();
    	   		$(".certification").show();
    	   		$(".entry").hide();

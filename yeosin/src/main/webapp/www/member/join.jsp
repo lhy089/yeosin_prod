@@ -25,7 +25,7 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="www/inc/css/member.css?t=1">
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=2"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=1"></script>
   <script language='javascript'>
 	window.name ="Parent_window";
 	
@@ -46,25 +46,55 @@
 	      });
 		
 	}
-	window.addEventListener('message', function(e) { debugger;
-	     var data = e.data;
-	     var birtDate = data.birth.substring(0,4)+"-"+data.birth.substring(4,6)+"-"+data.birth.substring(6,8);
-	     var gender = data.gender==0?"여":"남"
-	     $("#userName").val(data.name);
-	     $("#birth").text(birtDate);
-	     $("#birth").attr("value",data.birth)
-	     $("#gender").text(gender);
-	     $("#gender").attr("value",data.gender)
-	     
-	     alert("인증 되었습니다.");
-	     
-	    $(".intro").hide();
-   		$(".provision").hide();
-   		$(".certification").hide();
-   		$(".entry").show();
-   		$(".finish").hide();
-	});
-	</script>
+	
+	function fnPopupIpin(){
+		$.ajax({
+	        type: "POST",
+	        url: "/doOpenCertForIpin",
+	        sendDataType : 'string',
+	        success: function(data) { debugger;
+	        	$("#encodeDataForIpin").val(data);
+	        	window.open('', 'popupIPIN2', 'width=450, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+				document.form_chk.target = "popupIPIN2";
+				document.form_chk.action = "https://cert.vno.co.kr/ipin.cb";
+				document.form_chk.submit();
+	        }
+	      });
+	}
+	
+	
+	
+			window.addEventListener('message', function(e) {
+				debugger;
+				var data = e.data;
+				if (data.module == "ipin") {
+					document.vnoform.enc_data.value = data.enc_data;
+					document.vnoform.target = data.target;
+					document.vnoform.action = data.action;
+					document.vnoform.submit();
+				} else {
+
+					var birtDate = data.birth.substring(0, 4) + "-"
+							+ data.birth.substring(4, 6) + "-"
+							+ data.birth.substring(6, 8);
+					var gender = data.gender == 0 ? "여" : "남"
+					$("#userName").val(data.name);
+					$("#birth").text(birtDate);
+					$("#birth").attr("value", data.birth)
+					$("#gender").text(gender);
+					$("#gender").attr("value", data.gender)
+
+					alert("인증 되었습니다.");
+
+					// 	    $(".intro").hide();
+					$(".provision").hide();
+					$(".certification").hide();
+					$(".entry").show();
+					$(".finish").hide();
+
+				}
+			});
+		</script>
 </head>
 
 <body>
@@ -75,12 +105,6 @@
   <div class="contentBox">
     <h1 class="commonTop">회원가입</h1>
     <div class="joinBox">
-      <!-- (1단계)인트로// -->
-      <section class="intro">
-        개인회원가입
-        <a class="btn_next" id="btn_doJoinProvision" onclick="return false;">만14세이상</a>
-      </section>
-      <!-- //(1단계)인트로 -->
 
       <!-- (2단계)약관// -->
       <section class="provision">
@@ -384,9 +408,10 @@
             <div>
               <p>
               
-		<input type="hidden" name="m" value="checkplusService">						<!-- 필수 데이타로, 누락하시면 안됩니다. -->
-		<input type="hidden" name="EncodeData" id="encodeData" value="">		<!-- 위에서 업체정보를 암호화 한 데이타입니다. -->
-	    
+		<input type="hidden" name="m" value="checkplusService">						<!-- 필수 데이타로, 누락하시면 안됩니다.휴대폰,공동 -->
+		<input type="hidden" name="m" value="pubmain">						<!-- 필수 데이타로, 누락하시면 안됩니다. i-pin--> 
+		<input type="hidden" name="EncodeData" id="encodeData" value="">		<!-- 위에서 업체정보를 암호화 한 데이타입니다.휴대폰,공동 -->
+	    <input type="hidden" name="enc_data" id="encodeDataForIpin" value="">	<!-- 위에서 업체정보를 암호화 한 데이타입니다. i-pin-->
 		<a href="javascript:fnPopup('M');"> 휴대폰 본인인증</a>
 	
               </p>
@@ -406,8 +431,8 @@
             <span>주민번호 대체 서비스</span>
             <div>
               <p>
-                <a href="javascript:fnPopup('P');">I-PIN 인증</a>
-                <a href="#">I-PIN 발급신청</a>
+				<!-- 인증요청 암호화 데이터 -->
+                <a href="javascript:fnPopupIpin();">I-PIN 인증</a>
               </p>
             </div>
           </li>
@@ -426,6 +451,11 @@
         </div>
       </section>
       </form>
+      <!-- 아이핀 가상주민번호 서비스 팝업 인증결과 전달 form -->
+	<form name="vnoform" method="post">
+		<!-- 인증결과 암호화 데이터 -->
+		<input type="hidden" name="enc_data">								
+	</form>
       <!-- //(3단계)본인인증 -->
 
       <!-- (4단계)기입// -->
@@ -572,7 +602,7 @@
 <script>
 $(function(){
   /* 인트로 제외 회원가입 순서 숨기기 */
-  $('.joinBox section').not('.intro').hide();
+  $('.joinBox section').not('.provision').hide();
 
   /* 전체 선택 */
   $('.btn_all').click(function() {

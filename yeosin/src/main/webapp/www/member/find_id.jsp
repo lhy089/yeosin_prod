@@ -22,7 +22,8 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="/www/inc/css/member.css">
+<link rel="stylesheet" href="/www/inc/css/member.css">
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/checkPlus.js?t=1"></script>
 </head>
 
 <body>
@@ -43,7 +44,8 @@
         <li>
           <h4><a href="#none">회원정보에 등록 된 휴대폰으로 찾기</a></h4>
           <div class="proveBox">
-            <p>회원정보에 등록한 휴대폰 번호와 입력한 휴대폰 번호가 같아야 인증번호를 받을 수 있습니다.</p>
+            <p>서비스 준비 중입니다.</p>
+			<!--<p>회원정보에 등록한 휴대폰 번호와 입력한 휴대폰 번호가 같아야 인증번호를 받을 수 있습니다.</p>
             <table>
               <colgroup>
                 <col width="20.5%">
@@ -68,7 +70,7 @@
                   <a href="#" class="btn_guide phone">인증번호가 오지 않을 경우</a>
                 </td>
               </tr>
-            </table>
+            </table>-->
           </div>
         </li>
         <!-- 휴대폰으로 찾기// -->
@@ -77,7 +79,8 @@
         <li>
           <h4><a href="#none">회원정보에 등록 된 이메일로 인증</a></h4>
           <div class="proveBox">
-            <p>회원정보에 등록한 이메일 주소와 입력한 이메일 주소가 같아야 인증번호를 받을 수 있습니다.</p>
+            <p>서비스 준비 중입니다.</p>
+			<!--  <p>회원정보에 등록한 이메일 주소와 입력한 이메일 주소가 같아야 인증번호를 받을 수 있습니다.</p>
             <table>
               <colgroup>
                 <col width="20.5%">
@@ -102,7 +105,7 @@
                   <a href="#" class="btn_guide email">인증번호가 오지 않을 경우</a>
                 </td>
               </tr>
-            </table>
+            </table>-->
           </div>
         </li>
         <!-- //이메일로 인증 -->
@@ -113,7 +116,7 @@
           <div class="proveBox">
             <p>아이핀 인증이 완료된 후, 해당 명의(이름)로 가입된 아이디를 찾습니다.</p>
             <p>아이핀이 없다면, 신규로 발급 받아 사용할 수 있습니다.</p>
-            <a href="#none" class="btn_apply">아이핀 인증하기</a>
+			<a href="javascript:fnPopupIpin();" class="btn_apply">아이핀 인증하기</a>
           </div>
         </li>
         <!-- //아이핀 본인 인증 -->
@@ -123,7 +126,7 @@
           <h4><a href="#none">본인 명의(이름)로 가입 된 휴대전화 본인 인증</a></h4>
           <div class="proveBox">
             <p>휴대전화로 본인 인증 후, 해당 명의(이름)로 가입된 아이디를 찾습니다.</p>
-            <a href="#none" class="btn_apply">휴대전화 인증하기</a>
+			<a href="javascript:fnPopup('M');" class="btn_apply">휴대전화 인증하기</a>
           </div>
         </li>
         <!-- //휴대전화 본인 인증 -->
@@ -174,7 +177,17 @@
     </div>
   </div>
 </div>
-
+	<<form name="form_chk" method="post">
+		<input type="hidden" name="m" value="checkplusService">						<!-- 필수 데이타로, 누락하시면 안됩니다.휴대폰,공동 -->
+		<input type="hidden" name="m" value="pubmain">						<!-- 필수 데이타로, 누락하시면 안됩니다. i-pin--> 
+		<input type="hidden" name="EncodeData" id="encodeData" value="">		<!-- 위에서 업체정보를 암호화 한 데이타입니다.휴대폰,공동 -->
+	    <input type="hidden" name="enc_data" id="encodeDataForIpin" value="">	<!-- 위에서 업체정보를 암호화 한 데이타입니다. i-pin-->
+	</form>
+	 <!-- 아이핀 가상주민번호 서비스 팝업 인증결과 전달 form -->
+	<form name="vnoform" method="post">
+		<!-- 인증결과 암호화 데이터 -->
+		<input type="hidden" name="enc_data">								
+	</form>
 <!-- 팝업// -->
 <div class="popWrap">
   <div class="pop">
