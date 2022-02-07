@@ -25,8 +25,9 @@ public class NicePay {
 	   String buyerTel 			= "01000000000"; 				// 구매자연락처
 	   String buyerEmail 		= "happy@day.co.kr"; 			// 구매자메일주소
 	   String moid 				= "mnoid1234567890"; 			// 상품주문번호	
-	   String returnURL 		= "http://127.0.0.1/www/apply/pay/payResult_utf.jsp"; // 결과페이지(절대경로) - 모바일 결제창 전용
-
+//	   String returnURL 		= "http://127.0.0.1/www/apply/pay/payResult_utf.jsp"; // 결과페이지(절대경로) - 모바일 결제창 전용
+	   String returnURL 		= "http://119.205.221.175/www/apply/pay/payResult_utf.jsp"; // 결과페이지(절대경로) - 모바일 결제창 전용
+	   
 	   /*
 	   *******************************************************
 	   * <해쉬암호화> (수정하지 마세요)

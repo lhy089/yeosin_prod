@@ -28,7 +28,8 @@
 				module:"ipin",
 				enc_data :  "<%= sResponseData %>", 
 				target : "popupIPIN2", 
-				action : "http://127.0.0.1/www/member/ipin_result.jsp"
+// 				action : "http://127.0.0.1/www/member/ipin_result.jsp"
+				action : "http://119.205.221.175/www/member/ipin_result.jsp"
 			}
 	    window.opener.postMessage(childData, '*');
 			// 당사에서는 최상위를 'parent.opener.parent.document.'로 정의하였습니다

@@ -140,8 +140,8 @@
   </div>
   <!-- 로그인전 노출 버튼// -->
   <div class="btnWrap">
-    <a href="/www/member/login.html">로그인</a>
-    <a href="/www/member/join.html">회원가입</a>
+    <a href="/www/member/login.jsp">로그인</a>
+    <a href="/join">회원가입</a>
   </div>
   <!-- //로그인전 노출 버튼 -->
 </div>
