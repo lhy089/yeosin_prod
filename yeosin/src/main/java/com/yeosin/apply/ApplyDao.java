@@ -42,4 +42,11 @@ public class ApplyDao {
 		return sqlSession.selectList(nameSpace + "getApplyReceptionStatusList", applyDto);
 	}
 	
+	public String getMaxReceiptNumber() throws Exception {
+		return sqlSession.selectOne(nameSpace + "getMaxReceiptNumber");
+	}
+	
+	public int setReceiptInfo(ApplyDto applyDto) throws Exception {
+		return sqlSession.insert(nameSpace + "setReceiptInfo", applyDto);
+	}
 }

@@ -78,4 +78,12 @@ public class ApplyService {
 	public List<ApplyDto> getApplyReceptionStatusList(ApplyDto applyDto) throws Exception{
 		return applyDao.getApplyReceptionStatusList(applyDto);
 	}
+	
+	public String getMaxReceiptNumber() throws Exception{
+		return applyDao.getMaxReceiptNumber();
+	}
+	
+	public int setReceiptInfo(ApplyDto applyDto) throws Exception{
+		return applyDao.setReceiptInfo(applyDto);
+	}
 }

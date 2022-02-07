@@ -214,10 +214,34 @@ public class ApplyController {
 		
 		if (userInfo != null) 
 		{
-			ExamDto examInfo = applyService.getExamInfo(request.getParameter("examId"));
-			mav.addObject("examInfo", examInfo);
-			mav.addObject("userInfo", userInfo);
-			mav.setViewName("apply/apply6");
+			// 1. 접수번호를 생성하기 위해 MAX값을 가져온다.
+			long newMaxReceiptNumber = Long.parseLong(applyService.getMaxReceiptNumber()) + 1;
+			String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);
+			String newStudentCode = String.valueOf(newMaxReceiptNumber);
+					
+			// 2. 접수테이블에 저장될 값을 ApplyDto에 넣는다.(TODO : 결제정보 추가 Insert 필요)
+			ApplyDto insertApplyDto = new ApplyDto();
+			insertApplyDto.setReceiptId(newMaxReceiptNumberStr);
+			insertApplyDto.setUserId(userInfo.getUserId());
+			insertApplyDto.setExamId(request.getParameter("examId"));
+			insertApplyDto.setCertId(request.getParameter("eduNum"));
+			insertApplyDto.setExamZoneId(request.getParameter("eduNum"));
+			insertApplyDto.setStudentCode(newStudentCode);
+			
+			int result = applyService.setReceiptInfo(insertApplyDto);
+			
+			if (result > 0)
+			{
+				mav.addObject("examId", request.getParameter("examId"));
+				mav.addObject("receiptId", newMaxReceiptNumberStr);
+				mav.addObject("studentCode", newStudentCode);
+				mav.addObject("userInfo", userInfo);
+				mav.setViewName("apply/apply6");	
+			}
+			else 
+			{
+				mav.setViewName("apply/apply6");
+			}
 		}
 		else 
 		{

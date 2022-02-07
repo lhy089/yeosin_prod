@@ -35,11 +35,14 @@
       인터넷접수 첫날의 접수 시작 시간은 10:00 부터입니다.
     </div>
     <h2>4단계 접수완료</h2>
-    <div class="doneBox">
-      수험번호: 10150001
-      <p>접수가 정상적으로 완료되었습니다.</p>
-      <a href="#" class="btn_apply">수험표 출력</a>
-    </div>
+    <form action="/ticket_view" method="get" onsubmit="return true">
+	    <div class="doneBox">
+	      수험번호 : ${studentCode}
+	      <p>접수가 정상적으로 완료되었습니다.</p>
+	      <input type="hidden" value="${receiptId}" id="receiptId" name="receiptId"/>
+	      <input style="border:none;" class="btn_apply" type="submit" value="수험표 출력"/>
+	    </div>
+    </form>
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>

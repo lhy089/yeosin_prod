@@ -110,6 +110,7 @@
 		AND 	R.RECEIPTID = #{receiptId, jdbcType=VARCHAR};
    </select>
    
+   <!-- 로그인 유저의 접수결과 조회 -->
    <select id="getDetailApplyInfo" parameterType="map" resultMap="DetailApplyListResultMap">
 		SELECT 	
 				E.EXAMID 			-- 시험 ID 
@@ -141,6 +142,7 @@
 		AND 	R.RECEIPTID = #{receiptId};
    </select>
    
+   <!-- 응시결과 조회 -->
    <select id="getExamResult" parameterType="String" resultMap="DetailApplyListResultMap">
 		SELECT 	
 				E.EXAMID 			-- 시험 ID 
@@ -172,6 +174,7 @@
  		AND 	R.ISCANCEL = 'N'
 	</select>
 	
+	<!-- 로그인 유저의 원서접수 리스트 조회(LIMIT 페이징) -->
 	<select id="getApplyReceptionStatusList" parameterType="com.yeosin.apply.ApplyDto" resultMap="ApplyListResultMap">
 		SELECT 	
 				R.RECEIPTID 				-- 접수 ID
@@ -193,4 +196,21 @@
 		LIMIT #{pageStart}, #{perPageNum};
    </select>
    
+   <!-- 접수번호의 MAX값 조회 -->
+   <select id="getMaxReceiptNumber" resultType="String">
+		SELECT	RIGHT(R.RECEIPTID, 13)		AS	MAXRECEIPTID
+		FROM 	YS_RECEIPT					R
+		WHERE 	1 = 1
+		ORDER BY 
+				CONVERT(RIGHT(R.RECEIPTID, 13), UNSIGNED) DESC
+		LIMIT 	1;
+	</select>
+	
+	<!-- 새로운 접수 Insert (결제 완료건에 대해) -->
+	<insert id="setReceiptInfo" parameterType="com.yeosin.apply.ApplyDto">
+		INSERT INTO YS_RECEIPT (RECEIPTID, USERID, EXAMID, CERTID, RECEIPTDATE, ISCANCEL
+								, STUDENTCODE, SEATNUMBER, EXAMZONEID)
+		VALUES (#{receiptId}, #{userId}, #{examId}, #{certId}, NOW(), 'N'
+				, #{studentCode}, '임시1', #{examZoneId});
+	</insert>
 </mapper>
