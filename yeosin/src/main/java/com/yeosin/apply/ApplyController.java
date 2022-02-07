@@ -203,6 +203,31 @@ public class ApplyController {
 		return mav;
 	}
 	
+	// 원서접수6(최종접수 및 결제 View)
+	@RequestMapping(value="/apply6", method=RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView ReceiptAndPaymentView(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");	
+		ModelAndView mav = new ModelAndView();
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		
+		if (userInfo != null) 
+		{
+			ExamDto examInfo = applyService.getExamInfo(request.getParameter("examId"));
+			mav.addObject("examInfo", examInfo);
+			mav.addObject("userInfo", userInfo);
+			mav.setViewName("apply/apply6");
+		}
+		else 
+		{
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		}
+		
+		return mav;
+	}
+	
 	// 원서접수 확인 및 취소
 	@RequestMapping(value="/accept", method=RequestMethod.GET)
 	@ResponseBody
@@ -453,7 +478,8 @@ public class ApplyController {
 	// 자격인증서 발급(TODO : 화면 필요여부 회의필요)
 	@RequestMapping(value="/certificate", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView certificate(HttpSession session, HttpServletResponse response) throws Exception {
+	public ModelAndView certificate(HttpSession session, HttpServletResponse response) throws Exception 
+	{
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");

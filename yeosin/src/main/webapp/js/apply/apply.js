@@ -5,6 +5,7 @@ $(document).ready(function(){
 		doExamZoneSearch();
 	});
 	
+	// 접수취소(cancel.jsp)
 	$('#btn_cancel').click(function(){
 		if (confirm("환불규정을 확인하셨습니까?\n환불규정에 동의 후 취소가 가능합니다.")) 
 		{
@@ -128,8 +129,8 @@ function doExamZoneSearch()
 // 접수하기 체크함수(apply4.jsp)
 function doReceipt() 
 {		 
-	var isExamZoneChecked = $('input:radio[type=radio]').is(':checked');
-	var isExamAreaChecked = $('input:checkbox[type=checkbox]').is(':checked');
+	var isExamZoneChecked = $('input:radio[name=exmaZoneRadio]').is(':checked');
+	var isExamAreaChecked = $('input:radio[name=subjectRadio]').is(':checked');
 	
 	if (!isExamZoneChecked || !isExamAreaChecked)
 	{
@@ -138,10 +139,24 @@ function doReceipt()
 	}
 	else 
 	{
-		var examZoneId = $('input:radio[name=radio]').val();
-		var subjectId = $('input:checkbox[name=check]').val();
-		$('input[id=examZoneId]').attr('value', examZoneId);
-		$('input[id=examSubjectId]').attr('value', subjectId);
 		return true;	
+	}
+}
+
+// 결제하기 체크함수(apply5.jsp)
+function doPayment()
+{	
+	var isPaymentChecked = $('input:radio[name=payRadio]').is(':checked');
+	
+	if (!isPaymentChecked)
+	{
+		alert("결제방법은 필수체크입니다.");
+		return false;
+	}
+	else 
+	{
+		var result = confirm('위 내용으로 결제를 진행하시겠습니까?'); 
+		if (result) return true;
+		else return false;
 	}
 }

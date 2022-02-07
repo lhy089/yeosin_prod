@@ -86,11 +86,11 @@
 	        <th>과목</th>
 	      </tr>
 	      <tr>
-	        <td><input type="checkbox" name="subject1" value="subject1"></td>
+	        <td><input style="width:20px; height:20px;" type="radio" name="subjectRadio" value="subject1"></td>
 	        <td>대출 · 기타 대출성 상품</td>
 	      </tr>
 	      <tr>
-	        <td><input type="checkbox" name="subject2" value="subject2"></td>
+	        <td><input style="width:20px; height:20px;" type="radio" name="subjectRadio" value="subject2"></td>
 	        <td>리스 · 할부 상품</td>
 	      </tr>
 	    </table>

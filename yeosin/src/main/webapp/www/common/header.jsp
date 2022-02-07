@@ -70,7 +70,7 @@
       <ul>
         <li><a href="/receipt">원서접수 현황</a></li>
         <li><a href="/result">응시결과</a></li>
-        <li><a href="/certificate">자격인증서발급</a></li>
+        <!-- <li><a href="/certificate">자격인증서발급</a></li> -->
       </ul>
       <ul>
         <li><a href="/examGuide">평가 소개</a></li>
@@ -112,7 +112,7 @@
       <dd>
         <p><a href="/accept">원서접수 현황</a></p>
         <p><a href="/result">응시결과</a></p>
-        <p><a href="/certificate">자격인증서발급</a></p>
+        <!-- <p><a href="/certificate">자격인증서발급</a></p> -->
       </dd>
     </dl>
     <dl>
