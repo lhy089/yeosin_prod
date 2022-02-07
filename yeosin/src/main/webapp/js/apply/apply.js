@@ -143,6 +143,25 @@ function doReceipt()
 	}
 }
 
+//결제하기 체크함수(apply5.jsp)
+function doPayment()
+{	
+	var isPaymentChecked = $('input:radio[name=paymentMethod]').is(':checked');
+	
+	if (!isPaymentChecked)
+	{
+		alert("결제방법은 필수체크입니다.");
+		return false;
+	}
+	else 
+	{
+		var result = confirm('위 내용으로 결제를 진행하시겠습니까?'); 
+		if (result) return true;
+		else return false;
+	}
+}
+
+/*
 // 결제하기 체크함수(apply5.jsp)
 function doPayment()
 {	
@@ -222,3 +241,4 @@ if(platform.cros || platform.mac || platform.linux || platform.win) {
 
 return userPlatform;
 }
+*/

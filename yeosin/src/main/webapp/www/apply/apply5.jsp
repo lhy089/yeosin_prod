@@ -40,7 +40,8 @@
       인터넷접수 첫날의 접수 시작 시간은 10:00 부터입니다.
     </div>
     <h2>3단계 접수확인 및 결제선택</h2>
-    <form action="/apply6" method="post" name="doApplyInfoIForm">
+    <form action="/apply6" method="post" onsubmit="return doPayment();">
+<!--     <form action="/apply6" method="post" name="doApplyInfoIForm"> -->
 	    <section>
 	      <table>
 	        <colgroup>
@@ -92,10 +93,12 @@
 			<input type="hidden" value="<%=request.getParameter("eduNum")%>" id="eduNum" name="eduNum"/>
 			<input type="hidden" value="<%=request.getParameter("exmaZoneRadio")%>" id="exmaZoneId" name="exmaZoneId"/>
 			<input type="hidden" value="<%=request.getParameter("subjectRadio")%>" id="subjectId" name="subjectId"/>
-	      	<input style="border:none;" class="btn_apply" onclick="doPayment()" value="결제하기"/>
+			<input style="border:none;" class="btn_apply" type="submit" value="결제하기"/>
+<!-- 	      	<input style="border:none;" class="btn_apply" onclick="doPayment()" value="결제하기"/> -->
 	    </section>
     </form>
-   	<form name="payForm" method="post" action="payResult_utf.jsp">
+    <!-- 
+  	<form name="payForm" method="post" action="payResult_utf.jsp">
 		<input type="hidden" value="" id="PayMethod" name="PayMethod"/>
 		<input type="hidden" value="나이스페이" id="GoodsName" name="GoodsName"/>
 		<input type="hidden" value="${examInfo.examCost}" id="Amt" name="Amt"/>
@@ -106,9 +109,10 @@
 		<input type="hidden" value="${userInfo.phoneNumber}" id="BuyerTel" name="BuyerTel"/>
 		<input type="hidden" value=http://127.0.0.1/www/apply/pay/payResult_utf.jsp" id="ReturnURL" name="ReturnURL"/>
 		<input type="hidden" value="" id="VbankExpDate" name="VbankExpDate"/>
- 		<input type="hidden" name="EdiDate" value="${ediDate}"/>			<!-- 전문 생성일시 -->
-		<input type="hidden" name="SignData" value="${hashString}>"/>	<!-- 해쉬값 -->
-	</form>
+ 		<input type="hidden" name="EdiDate" value="${ediDate}"/>			
+		<input type="hidden" name="SignData" value="${hashString}>"/>	
+	</form>  -->
+	
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>

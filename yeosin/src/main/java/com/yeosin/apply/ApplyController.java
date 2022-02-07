@@ -193,7 +193,7 @@ public class ApplyController {
 		{
 			ExamDto examInfo = applyService.getExamInfo(request.getParameter("examId"));
 			String examZoneName = applyService.getExamZoneName(request.getParameter("exmaZoneRadio"));
-			
+			/*
 			String merchantKey 		= "1q8Rl7lwsYz1YaneFJ/mUIwNgh9y/12OcHoMVtR0CqnVnUf5WAPGxF95+jOo29PhSl1RGjSxnzhRB3xvmFEK7w=="; // 상점키
 			String merchantID 		= "kmama0001m"; 				// 상점아이디
 			String price 			= examInfo.getExamCost(); 						// 결제상품금액
@@ -201,11 +201,13 @@ public class ApplyController {
 			String ediDate 			= getyyyyMMddHHmmss();	
 			String hashString 		= this.encrypt(ediDate + merchantID + price + merchantKey);
 			
+			mav.addObject("ediDate", ediDate);
+			mav.addObject("hashString", hashString);
+			*/
+			
 			mav.addObject("examZoneName", examZoneName);
 			mav.addObject("examInfo", examInfo);
 			mav.addObject("userInfo", userInfo);
-			mav.addObject("ediDate", ediDate);
-			mav.addObject("hashString", hashString);
 			mav.setViewName("apply/apply5");
 		}
 		else 
