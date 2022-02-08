@@ -13,8 +13,8 @@ public class ExamAndExamzoneRelDao {
 	private SqlSessionTemplate sqlSession;
 	private String nameSpace = "com.yeosin.apply.ExamAndExamzoneRelDao.";
 	
-	/*public List<ApplyDto> getApplyList(String userId) throws Exception {
-		return sqlSession.selectList(nameSpace + "GetApplyList", userId);
-	}*/
-
+	public List<ExamAndExamzoneRelDto> getExamLocalList() {
+	      return this.sqlSession.selectList(nameSpace + "getExamLocalList");
+	}
+	
 }

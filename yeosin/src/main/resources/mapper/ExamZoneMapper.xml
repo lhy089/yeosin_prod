@@ -51,4 +51,13 @@
 		INNER JOIN YS_EXAMANDEXAMZONEREL 	EZR ON	EZR.EXAMZONEID = EZ.EXAMZONEID 
 		WHERE	EZR.EXAMID = #{examId};
 	</select>
+	
+	<!--local로 고사장이 등록되어있는 전체 구 조회 -->
+	<select id="getExamDetailListByLocal" parameterType="map" resultType="com.yeosin.apply.ExamZoneDto">
+		SELECT	DISTINCT EZ.LOCALDETAIL 
+		FROM    YS_EXAMZONE               	EZ 
+		INNER JOIN YS_EXAMANDEXAMZONEREL    EZR ON   EZR.EXAMZONEID = EZ.EXAMZONEID 
+		WHERE   EZR.EXAMID = #{examId, jdbcType=VARCHAR}
+		AND    	EZ.LOCAL = #{local, jdbcType=VARCHAR};
+	</select>
 </mapper>

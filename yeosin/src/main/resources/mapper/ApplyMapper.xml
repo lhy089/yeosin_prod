@@ -263,4 +263,14 @@
 		VALUES (#{receiptId}, #{userId}, #{examId}, #{certId}, NOW(), 'N'
 				, #{studentCode}, '임시1', #{examZoneId});
 	</insert>
+	
+   <!-- 해당시험에 이미 접수된 건이 있는지 확인 -->
+   <select id="getIsReceipt"  parameterType="map" resultType="Integer">
+		SELECT 	COUNT(*)
+		FROM 	YS_RECEIPT
+		WHERE 	1 = 1
+		AND 	USERID = #{userId}
+		AND 	EXAMID = #{examId}
+		AND 	ISCANCEL = 'N'
+	</select>
 </mapper>

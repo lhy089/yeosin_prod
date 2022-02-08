@@ -3,5 +3,21 @@
 
 <mapper namespace="com.yeosin.apply.ExamAndExamzoneRelDao" >
 	
-
+	<resultMap id="LocalListResultMap" type="com.yeosin.apply.ExamAndExamzoneRelDto">
+		<result column="KEYID" property="keyId" />
+      	<result column="EXAMZONEID" property="examZoneId" />
+      	<result column="EXAMID" property="examId" />   
+      	<association property="examZoneDto" javaType="com.yeosin.apply.ExamZoneDto">
+			<result column="LOCAL" property="local" />
+      	</association>
+   	</resultMap>
+	<select id="getExamLocalList" resultMap="LocalListResultMap">
+		SELECT 
+		      DISTINCT 
+				CONCAT(EZR.EXAMID , EZ.LOCAL)  AS KEYID
+		   ,   	EZR.EXAMID  
+		   ,   	EZ.LOCAL
+		FROM    YS_EXAMANDEXAMZONEREL          	EZR 
+		INNER JOIN YS_EXAMZONE                	EZ  ON EZR.EXAMZONEID = EZ.EXAMZONEID;
+	</select>
 </mapper>

@@ -57,4 +57,8 @@ public class ApplyDao {
 	public int setReceiptInfo(ApplyDto applyDto) throws Exception {
 		return sqlSession.insert(nameSpace + "setReceiptInfo", applyDto);
 	}
+	
+	public int getIsReceipt(Map<String, Object> map) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getIsReceipt", map);
+	}
 }

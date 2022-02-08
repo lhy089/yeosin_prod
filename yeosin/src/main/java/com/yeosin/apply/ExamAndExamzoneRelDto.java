@@ -5,9 +5,17 @@ package com.yeosin.apply;
  */
 public class ExamAndExamzoneRelDto {
 	
+	private String keyId; // 시험코드 + local
 	private String examzoneId; // 고사장 ID
 	private String examId; // 시험코드
-	
+	private ExamZoneDto examZoneDto; // 시험Zone DTO
+	   
+	public String getKeyId() {
+		return keyId;
+	}
+	public void setKeyId(String keyId) {
+		this.keyId = keyId;
+	}	
 	public String getExamzoneId() {
 		return examzoneId;
 	}
@@ -20,5 +28,10 @@ public class ExamAndExamzoneRelDto {
 	public void setExamId(String examId) {
 		this.examId = examId;
 	} 
-
+	public ExamZoneDto getExamZoneDto() {
+		return examZoneDto;
+	}
+	public void setExamZoneDto(ExamZoneDto examZoneDto) {
+		this.examZoneDto = examZoneDto;
+	}
 }

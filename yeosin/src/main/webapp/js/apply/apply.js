@@ -161,6 +161,22 @@ function doPayment()
 	}
 }
 
+//지역선택 여부 체크함수(apply.jsp)
+function localChk(examId)
+{
+	var local = $("#"+examId+" option:selected").val();
+   
+   	if (!local)
+   	{
+      	alert("시험지역을 선택 해 주세요.");
+      	//location.href = "/apply";
+   	} 
+   	else
+   	{
+      	location.href="/apply2?examId="+examId+"&local="+local;
+   	}   
+}
+
 /*
 // 결제하기 체크함수(apply5.jsp)
 function doPayment()

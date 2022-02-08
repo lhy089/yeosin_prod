@@ -30,8 +30,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/www/inc/css/main.css">
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js?t=1"></script>
   <script>
-  location.href = "/index";
-  
+  	location.href = "/index"; 
   </script>
 </head>
 

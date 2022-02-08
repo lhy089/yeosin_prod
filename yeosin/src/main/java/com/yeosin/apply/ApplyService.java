@@ -23,6 +23,9 @@ public class ApplyService {
 	@Autowired
 	private EduCompletionDao eduDao;
 	
+	@Autowired
+	private ExamAndExamzoneRelDao examAndExamzoneRelDao;
+	
 	public List<ApplyDto> getAcceptList(ApplyDto applyDto) throws Exception {
 		return applyDao.getAcceptList(applyDto);
 	}
@@ -93,5 +96,17 @@ public class ApplyService {
 	
 	public int setReceiptInfo(ApplyDto applyDto) throws Exception{
 		return applyDao.setReceiptInfo(applyDto);
+	}
+	
+	public int getIsReceipt(Map<String, Object> map) throws Exception{
+		return applyDao.getIsReceipt(map);
+	}
+	
+	public List<ExamAndExamzoneRelDto> getExamLocalList() throws Exception{
+	    return examAndExamzoneRelDao.getExamLocalList();
+	}
+	   
+	public List<ExamZoneDto> getExamDetailListByLocal(Map<String, Object> map) throws Exception{
+		return examZoneDao.getExamDetailListByLocal(map);
 	}
 }

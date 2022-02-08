@@ -25,4 +25,8 @@ public class ExamZoneDao {
 	public List<ExamZoneDto> getExamDetailList(String examId) {
 		return this.sqlSession.selectList(nameSpace + "getExamDetailList", examId);
 	}
+	
+	public List<ExamZoneDto> getExamDetailListByLocal(Map<String, Object> map) {
+	    return this.sqlSession.selectList(nameSpace + "getExamDetailListByLocal", map);
+	}
 }

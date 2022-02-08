@@ -115,6 +115,7 @@
       </table>
       <form action="/apply3" method="get" onsubmit="return doApplyStart();">
 		<input type="hidden" value="${examId}" id="examId" name="examId"/>
+		<input type="hidden" value="${local}" id="local" name="local"/>
       	<label><input type="checkbox" id="agreeChk" name="agreeChk"/> 위의 내용을 모두 인지하였고 이에 동의합니다.</label>
       	<input style="border:none;" class="btn_apply" type="submit" value="원서접수하기"/>
       </form>

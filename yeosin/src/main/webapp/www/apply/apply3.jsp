@@ -97,6 +97,7 @@
         </p>
       </div>
 	      <input type="hidden" value="${examInfo.examId}" id="examId" name="examId"/>
+	      <input type="hidden" value="${local}" id="local" name="local"/>
 	      <input style="border:none;" class="btn_apply" type="submit" value="작성완료"/>
       </form>
     </section>

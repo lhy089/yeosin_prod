@@ -1,5 +1,6 @@
 package com.yeosin.apply;
 
+import java.net.http.HttpRequest;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,18 +38,22 @@ public class ApplyController {
 	@RequestMapping(value="/apply", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView ExamListByApplyView(HttpSession session, HttpServletResponse response) throws Exception 
-	{
+	{		
 		response.setCharacterEncoding("UTF-8");
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		ModelAndView mav = new ModelAndView();
 		List<ExamDto> examList = new ArrayList<>();
-		
+		List<ExamAndExamzoneRelDto> examLocalList = new ArrayList<ExamAndExamzoneRelDto>();
+	  
 		// 로그인 정보 있을 때
 		if (userInfo != null) 
 		{
 			examList = applyService.getExamList();
+			examLocalList = applyService.getExamLocalList();
+	     
 			mav.addObject("examListCnt", examList.size());
 			mav.addObject("examList", examList);
+			mav.addObject("examLocalList", examLocalList);
 			mav.setViewName("apply/apply");
 		} 
 		// 로그인 정보 없을 때
@@ -57,14 +62,14 @@ public class ApplyController {
 			mav.addObject("isAlert", true);
 			mav.setViewName("member/login");
 		}
-		
+	  
 		return mav;
 	}
 	
 	// 원서접수2(환불규정에 대한 동의 View)
 	@RequestMapping(value="/apply2", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView AgreeRefundByApplyView(@RequestParam("examId") String examId, HttpSession session, HttpServletResponse response) throws Exception 
+	public ModelAndView AgreeRefundByApplyView(@RequestParam("examId") String examId, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
@@ -73,6 +78,7 @@ public class ApplyController {
 		if (userInfo != null) 
 		{
 			mav.addObject("examId", examId);
+			mav.addObject("local", request.getParameter("local"));
 			mav.setViewName("apply/apply2");
 		}
 		else 
@@ -100,6 +106,7 @@ public class ApplyController {
 			ExamDto examInfo = applyService.getExamInfo(request.getParameter("examId"));
 			mav.addObject("examInfo", examInfo);
 			mav.addObject("userInfo", userInfo);
+			mav.addObject("local", request.getParameter("local"));
 			mav.setViewName("apply/apply3");
 		}
 		else 
@@ -165,11 +172,17 @@ public class ApplyController {
 		if (userInfo != null) 
 		{
 			ExamDto examInfo = applyService.getExamInfo(request.getParameter("examId"));
-			List<ExamZoneDto> examZoneDetailList = applyService.getExamDetailList(examInfo.getExamId());
-			mav.addObject("examZoneDtailList", examZoneDetailList);
-			mav.addObject("examInfo", examInfo);
-			mav.addObject("userInfo", userInfo);
-			mav.setViewName("apply/apply4");
+	         
+	         Map<String, Object> paremterMap = new HashMap<String, Object>();
+	         paremterMap.put("examId", request.getParameter("examId"));
+	         paremterMap.put("local", request.getParameter("local"));
+	         
+	         //List<ExamZoneDto> examZoneDetailList = applyService.getExamDetailList(examInfo.getExamId());
+	         List<ExamZoneDto> examZoneDetailList = applyService.getExamDetailListByLocal(paremterMap);
+	         mav.addObject("examZoneDtailList", examZoneDetailList);
+	         mav.addObject("examInfo", examInfo);
+	         mav.addObject("userInfo", userInfo);
+	         mav.setViewName("apply/apply4");
 		}
 		else 
 		{
@@ -230,35 +243,52 @@ public class ApplyController {
 		
 		if (userInfo != null) 
 		{
-			// 1. 접수번호를 생성하기 위해 MAX값을 가져온다.
-			long newMaxReceiptNumber = Long.parseLong(applyService.getMaxReceiptNumber()) + 1;
-			String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);
-			String newStudentCode = String.valueOf(newMaxReceiptNumber);
-					
-			// 2. 접수테이블에 저장될 값을 ApplyDto에 넣는다.(TODO : 결제정보 추가 Insert 필요)
-			ApplyDto insertApplyDto = new ApplyDto();
-			insertApplyDto.setReceiptId(newMaxReceiptNumberStr);
-			insertApplyDto.setUserId(userInfo.getUserId());
-			insertApplyDto.setExamId(request.getParameter("examId"));
-			insertApplyDto.setCertId(request.getParameter("eduNum"));
-			insertApplyDto.setExamZoneId(request.getParameter("exmaZoneId"));
-			insertApplyDto.setStudentCode(newStudentCode);
+			// 1. 결제하기 전 해당 시험에 결제한 이력이 있으면 저장을 막는다.
+			Map<String, Object> parameterMap = new HashMap<String, Object>();
+			parameterMap.put("userId", userInfo.getUserId());
+			parameterMap.put("examId", request.getParameter("examId"));
+			int receiptCount = applyService.getIsReceipt(parameterMap);
 			
-			int result = applyService.setReceiptInfo(insertApplyDto);
-			
-			if (result > 0)
+			if (receiptCount > 0)
 			{
-				mav.addObject("isSuccess", "Y");
-				mav.addObject("examId", request.getParameter("examId"));
-				mav.addObject("receiptId", newMaxReceiptNumberStr);
-				mav.addObject("studentCode", newStudentCode);
-				mav.addObject("userInfo", userInfo);
-				mav.setViewName("apply/apply6");	
+				mav.addObject("isReceipt", true);
+				mav.addObject("examListCnt", applyService.getExamList().size());
+				mav.addObject("examList", applyService.getExamList());
+				mav.addObject("examLocalList", applyService.getExamLocalList());
+				mav.setViewName("apply/apply");	
 			}
 			else 
 			{
-				mav.addObject("isSuccess", "N");
-				mav.setViewName("apply/apply6");
+				// 2. 접수번호를 생성하기 위해 MAX값을 가져온다.
+				long newMaxReceiptNumber = Long.parseLong(applyService.getMaxReceiptNumber()) + 1;
+				String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);
+				String newStudentCode = String.valueOf(newMaxReceiptNumber);
+						
+				// 3. 접수테이블에 저장될 값을 ApplyDto에 넣는다.(TODO : 결제정보 추가 Insert 필요)
+				ApplyDto insertApplyDto = new ApplyDto();
+				insertApplyDto.setReceiptId(newMaxReceiptNumberStr);
+				insertApplyDto.setUserId(userInfo.getUserId());
+				insertApplyDto.setExamId(request.getParameter("examId"));
+				insertApplyDto.setCertId(request.getParameter("eduNum"));
+				insertApplyDto.setExamZoneId(request.getParameter("exmaZoneId"));
+				insertApplyDto.setStudentCode(newStudentCode);
+				
+				int result = applyService.setReceiptInfo(insertApplyDto);
+				
+				if (result > 0)
+				{
+					mav.addObject("isSuccess", "Y");
+					mav.addObject("examId", request.getParameter("examId"));
+					mav.addObject("receiptId", newMaxReceiptNumberStr);
+					mav.addObject("studentCode", newStudentCode);
+					mav.addObject("userInfo", userInfo);
+					mav.setViewName("apply/apply6");	
+				}
+				else 
+				{
+					mav.addObject("isSuccess", "N");
+					mav.setViewName("apply/apply6");
+				}	
 			}
 		}
 		else 
