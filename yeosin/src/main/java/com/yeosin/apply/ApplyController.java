@@ -1,6 +1,5 @@
 package com.yeosin.apply;
 
-import java.net.http.HttpRequest;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
