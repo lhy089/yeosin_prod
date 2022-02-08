@@ -38,7 +38,7 @@
       <div class="schedule">
         <h2>시험일정 안내</h2>
         <ul>
-          <li>제목 : <span id="examSubject">${examInfo.examName}</span></li>
+          <li>제목 : <span id="examSubject">제${examInfo.examYear}-${examInfo.examDegree}차 ${examInfo.examName}</span></li>
           <li>원서접수 : <span id="receiptDate">${examInfo.receiptStartDate} ~ ${examInfo.receiptEndDate}</span></li>
           <li>수험표발급기간 : <span id="certPrintDate">${examInfo.certPrintStartDate} ~ ${examInfo.certPrintEndDate}</span></li>
           <li>평가일 : <span id="examDate">${examInfo.examDate}</span></li>
