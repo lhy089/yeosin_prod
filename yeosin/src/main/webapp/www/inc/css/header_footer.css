@@ -74,4 +74,8 @@ footer .corporate p{height:100%; display:table-cell; vertical-align:middle; font
 	.menuWrap .menu dd>p:last-child{border-bottom:none;}
 	.menuWrap .menu dd>p>a{color:#888; display:inline-block;}
 	.menuWrap .menu dd>p>a:hover{color:#17538e;}
+
+	.menuWrap .btnWrap{padding-left:10%; margin-top:5%; font-size:0;}
+	.menuWrap .btnWrap a{padding:1.08vw 1.8vw; box-sizing:border-box; font-family:'NanumSquare'; font-size:3.06vw; color:#fff; background:#8e8c8a; display:inline-block; border-radius:0.9vw; margin-right:3vw;}
+	.menuWrap .btnWrap a:hover{opacity:0.8;}
 }

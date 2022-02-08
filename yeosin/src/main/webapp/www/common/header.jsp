@@ -131,11 +131,11 @@
       </dd>
     </dl>
     <dl>
-      <dt><a onclick="return false;" class="btn_change">회원정보수정</a></dt>
-      <!-- <dd>
-        <p><a href="#">회원 정보 수정</a></p>
-        <p><a href="#">회원 탈퇴</a></p>
-      </dd> -->
+    	<dt>회원정보수정<p>+</p></dt>
+      	<dd>
+        	<p><a onclick="return false;" class="btn_change">회원정보수정</a></p>
+        	<p><a href="/www/myroom/withdrawal.html">회원 탈퇴</a></p>
+      	</dd>
     </dl>
   </div>
   <!-- 로그인전 노출 버튼// -->
