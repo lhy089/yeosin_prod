@@ -82,9 +82,8 @@
         <li><a href="/question?boardType=2">자주하는 질문</a></li>
       </ul>
       <ul>
-        <li></li>
-        <!-- <li><a href="#">회원 정보 수정</a></li>
-        <li><a href="#">회원 탈퇴</a></li> -->
+        <li><a onclick="return false;" class="btn_change">회원 정보 수정</a></li>
+        <li><a href="/www/myroom/withdrawal.html">회원 탈퇴</a></li>
       </ul>
     </div>
   </div>

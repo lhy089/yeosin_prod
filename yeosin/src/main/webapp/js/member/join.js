@@ -2,7 +2,7 @@ $(document).ready(function(){
 
    $('#btn_doJoinCertification').click(function(){
    		var isNotChecked = $("input:checkbox[name=check]:not(:checked)").length;
-   		if(isNotChecked > 1) {
+   		if(isNotChecked > 0) {
    			alert("회원가입 약관 동의가 필요합니다.")
    		}else {
    	   		$(".provision").hide();
