@@ -1,4 +1,4 @@
-package com.yeosin.prod;
+package com.yeosin.util;
 
 import java.text.DateFormat;
 import java.util.Date;
