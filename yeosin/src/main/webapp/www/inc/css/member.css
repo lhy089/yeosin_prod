@@ -41,13 +41,13 @@
 .join .provision label{vertical-align:middle; padding-left:12px; box-sizing:border-box;}
 .join .provision input[type="checkbox"]{width:20px; height:20px; border:1px solid #707070; box-sizing:border-box; border-radius:0; margin-right:8px;}
 .join .provision .content{width:100%; height:165px; border:1px solid #c7c6c6; box-sizing:border-box; padding:12px; overflow-y:auto; font-size:19px; line-height:35px;}
-.join .provision .btnWrap{font-size:0; border-top:none; overflow:hidden; margin-bottom:70px;}
+.join .provision .btnWrap{font-size:0; border-top:none; overflow:hidden; margin-top:38px; margin-bottom:70px;}
 .join .provision .btnWrap a{height:50px; display:inline-block; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; text-align:center; line-height:50px; letter-spacing:-0.5px;}
 .join .provision .btnWrap .btn_all{width:100%; height:50px; background:#f8f8f8; color:#58585b; border:1px solid #c7c6c6; box-sizing:border-box; margin-bottom:30px; display:inline-block; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; text-align:center; line-height:50px; letter-spacing:-0.5px;}
 .join .provision .btnWrap .btn_all.all_chk{background:#c7c6c6;}
 .join .provision .btnWrap .btn_cancel{width:490px; border:1px solid #c7c6c6; box-sizing:border-box; float:left; transition:0.6s;}
 .join .provision .btnWrap .btn_cancel:hover{background:#c7c6c6;}
-.join .provision .btnWrap .btn_join{width:490px; background:#0074dd; color:#fff; float:right; transition:0.6s;}
+.join .provision .btnWrap .btn_join{width:490px; background:#0074dd; color:#fff; float:right; cursor:pointer; transition:0.6s;}
 .join .provision .btnWrap .btn_join:hover{opacity:0.8;}
 .join .provision .announcement{padding:20px; border:1px solid #c7c6c6; border-radius:10px; box-sizing:border-box; background:#f8f8f8; font-family:sandoll-gothicneo3, sans-serif; font-size:19px; line-height:35px; color:#58585b; letter-spacing:-1px;}
 .join .lawTable{width:90%; border-top:1px solid #c7c6c6; margin:20px auto; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif;}
@@ -199,7 +199,7 @@
   .join .provision label{padding-left:1.08vw;}
   .join .provision input[type="checkbox"]{width:1.8vw; height:1.8vw; margin-right:0.72vw;}
   .join .provision .content{height:14.85vw; padding:1.08vw; font-size:1.71vw; line-height:3.15vw;}
-  .join .provision .btnWrap{margin-bottom:6.3vw;}
+  .join .provision .btnWrap{margin-top:3.42vw; margin-bottom:6.3vw;}
   .join .provision .btnWrap a{height:4.5vw; font-size:2.07vw; line-height:4.5vw;}
   .join .provision .btnWrap .btn_all{height:4.5vw; margin-bottom:2.7vw; font-size:2.07vw; line-height:4.5vw;}
   .join .provision .btnWrap .btn_cancel{width:44.1vw;}
@@ -211,17 +211,17 @@
   .join .lawTable td{font-size:1.98vw; line-height:3.15vw; padding:1.17vw 0 1.17vw 1.35vw;}
   .join .provision .rawBold{font-size:1.89vw;}
 
-  .join .certification ul{margin-bottom:6.3vw;}
+  .join .certification ul{margin-bottom:6.3vw; justify-content:space-evenly;}
   .join .certification ul li{width:27.18vw; height:36.9vw; padding-top:13.5vw; background:url('../img/common/icon_personal_phone.png') no-repeat center 5.04vw;}
   .join .certification ul li.phone{background-size:6.75vw;}
-  .join .certification ul li.public{background-size:5.85vw;}
+  .join .certification ul li.public{background-size:5.85vw; display:none;}
   .join .certification ul li.ipin{background-size:7.83vw;}
   .join .certification ul li h3{font-size:2.25vw; line-height:3.42vw;}
   .join .certification ul li span{font-size:1.62vw; line-height:3.06vw;}
   .join .certification ul li div{height:12.42vw;}
   .join .certification ul li p a{width:16.2vw; height:4.05vw; border-radius:0.45vw; font-size:1.89vw; line-height:4.05vw;}
   .join .certification ul li p a:nth-child(2){margin-top:1.35vw;}
-  .join .certification h2{font-size:2.25vw; line-height:3.78vw; padding-left:5.22vw; margin-bottom:0.9vw;}
+  .join .certification h2{font-size:2.25vw; line-height:3.78vw; padding-left:5.22vw; margin-bottom:0.9vw; background-size:4.05vw;}
   .join .certification .guide{font-size:1.71vw; line-height:3.15vw; padding:1.8vw 0 1.8vw 1.8vw; border-radius:0.9vw;}
   .join .certification .guide p{margin-top:1.08vw;}
   .join .certification .guide a{padding:0 1.08vw; border-radius:0.45vw; margin-right:1.08vw; font-size:1.35vw; line-height:2.7vw;}
