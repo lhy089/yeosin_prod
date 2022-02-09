@@ -108,6 +108,7 @@
   .guide.exam table td{font-size:1.98vw; line-height:3.15vw; padding:1.17vw 0 1.17vw 1.35vw;}
   .guide.exam table.broad th{padding:1.8vw 0;}
   .guide.exam table.broad td{padding:1.8vw 0 1.8vw 1.35vw;}
+  .guide.exam table.broad td.center{padding-left:0;}
   .guide.exam table td .btn_apply{font-size:1.89vw; padding:0 0.63vw; border-radius:0.45vw;}
 
   /* register */

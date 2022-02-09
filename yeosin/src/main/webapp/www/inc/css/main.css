@@ -2,9 +2,6 @@
 /* CSS Document */
 
 *{--font-title:SBAggroM; /*어그로체*/}
-/* h1{ font-weight: 400; font-family:sandoll-gothicneo2, sans-serif;}
-h2{ font-weight: 200; font-family:sandoll-gothicneo3, sans-serif;}
-p{font-family:'NanumSquare'; font-size:32px;} */
 
 /* main */
 .main{padding-bottom:150px; box-sizing:border-box;}
@@ -69,6 +66,7 @@ p{font-family:'NanumSquare'; font-size:32px;} */
   .main .cont03 .crm ul{margin-top:2.07vw; padding-bottom:1.53vw; border-bottom:.18vw solid #f0f0f0; margin-bottom:1.8vw;}
   .main .cont03 .crm li{height:2.97vw; line-height:2.97vw; font-size:1.98vw;}
   .main .cont03 .crm li::before{width:.9vw; height:.9vw; margin-right:.9vw;}
+  .main .cont03 .crm li span a{color:#58585b;}
   .main .cont03 .crm h3{width:8.1vw; height:2.88vw; border-radius:1.17vw; line-height:3.06vw; font-size:1.62vw; margin-bottom:1.26vw;}
   .main .cont03 .crm p{font-size:1.62vw; line-height:1.98vw; margin-bottom:.45vw;}
   .main .cont03 .crm p em{margin-right:.9vw; border-right:.18vw solid #78b5ed;}
