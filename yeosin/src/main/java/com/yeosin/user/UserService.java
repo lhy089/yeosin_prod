@@ -9,31 +9,34 @@ public class UserService {
 	@Autowired	
 	private UserDao userDao;
 	
-	public String getLoginUser(String userId) {
+	@Autowired
+	private EduCompletionDao eduCompletionDao;
+	
+	public String getLoginUser(String userId) throws Exception  {
 		return userDao.getLoginUser(userId);
 	}
 	
-	public UserDto getLoginUserInfo(UserDto user) {
+	public UserDto getLoginUserInfo(UserDto user) throws Exception  {
 		return userDao.getLoginUserInfo(user);
 	}
 	
-	public UserDto getLoginUserInfo1(UserDto user) {
+	public UserDto getLoginUserInfo1(UserDto user) throws Exception  {
 		return userDao.getLoginUserInfo1(user);
 	}
 	
-	public int insertUserInfo(UserDto user) {
+	public int insertUserInfo(UserDto user) throws Exception  {
 		return userDao.insertUserInfo(user);
 	}
 	
-	public int updateUserInfo(UserDto user) {
+	public int updateUserInfo(UserDto user) throws Exception  {
 		return userDao.updateUserInfo(user);
 	}
 	
-	public int withdrawUser(String userId) {
+	public int withdrawUser(String userId) throws Exception  {
 		return userDao.withdrawUser(userId);
 	}
 	
-	public String findUserId(UserDto userDto) {
+	public String findUserId(UserDto userDto) throws Exception   {
 		
 		String userId = userDao.findUserId(userDto);
 		
@@ -48,5 +51,17 @@ public class UserService {
 		}
 		
 		return userId;
+	}
+	
+	public String getEduCompletionInfo(EduCompletionDto eduCompletionInfo) throws Exception {
+		return eduCompletionDao.getEduCompletionInfo(eduCompletionInfo);
+	}
+	
+	public int updateEduComepletionInfo(EduCompletionDto eduCompletionInfo) throws Exception {
+		return eduCompletionDao.updateEduComepletionInfo(eduCompletionInfo);
+	}
+	
+	public int insertEduComepletionInfo(EduCompletionDto eduCompletionInfo) throws Exception {
+		return eduCompletionDao.insertEduComepletionInfo(eduCompletionInfo);
 	}
 }

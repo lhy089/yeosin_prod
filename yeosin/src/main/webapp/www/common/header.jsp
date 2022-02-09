@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js?t=5"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js?t=2"></script>
   
  <c:set var="root" value="${pageContext.request.contextPath}"/>
 <link href="/www/inc/css/reset.css" rel="stylesheet" type="text/css" media="screen">
@@ -33,7 +33,12 @@
     <c:when test="${loginUserInfo.userId != null}">
     <div class="btnWrap">
     	<a href="/logout" id="btn_logout">로그아웃</a>
-    	</div>
+		<c:choose>
+      		<c:when test="${loginUserInfo.userStatus == 'S'}">
+      			<a href="/www/manage/syncCert.jsp" id="goSyncCertIdMng">수료번호API호출</a>
+      		</c:when>
+      	</c:choose>
+    </div>
     </c:when>
     <c:otherwise>
     <div class="btnWrap">

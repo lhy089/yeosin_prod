@@ -1,13 +1,24 @@
 package com.yeosin.user;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,9 +32,13 @@ import com.yeosin.board.BoardDto;
 import com.yeosin.board.BoardService;
 import com.yeosin.util.CheckPlus;
 import com.yeosin.util.EncryptUtils;
+import com.yeosin.util.StringEncrypter;
 
 @Controller
 public class UserController {
+	
+	private static final String key = "475650367892931796908kpc#$174122";
+	private static final String vector = "8322400710346kpc";
 	
 	@Autowired	
 	private UserService userService;
@@ -287,6 +302,126 @@ public class UserController {
 			response.getWriter().print(cnt);
 			response.getWriter().flush();
 			response.getWriter().close();
+		}
+		
+		// 수료번호 api 호출
+		@RequestMapping(value = "/callSyncCertIdApi")
+		@ResponseBody
+		public void callSyncCertIdApi(String startDate, String endDate, HttpSession session, HttpServletResponse response) throws Exception {
+			response.setCharacterEncoding("UTF-8");
+			UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+			if(!"S".equals(userInfo.getUserStatus())) return;
+			String rst = "";
+			String url = "https://www.educrefia.or.kr/restapi/PassUsers?passStartDate=" + startDate + "&passEndDate=" + endDate;
+			try
+			{
+				URL clsUrl = new URL(url);
+				HttpURLConnection clsConn = (HttpURLConnection)clsUrl.openConnection();
+				clsConn.setRequestMethod("GET"); clsConn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+				clsConn.setDoOutput(true);
+				clsConn.connect();
+				BufferedReader clsInput = new BufferedReader(new InputStreamReader(clsConn.getInputStream()));
+				
+				String inputLine = ""; 
+				while((inputLine=clsInput.readLine())!=null){
+					rst+=inputLine;
+				}
+				clsInput.close();
+				JSONObject jo=new JSONObject(rst);
+				rst=jo.getString("result");
+			}catch(Exception e){ System.out.println(e);
+			}
+			System.out.println("aaa");
+			JSONObject resultObj=new JSONObject(rst);
+			String status = (String) resultObj.get("status");
+			String statusMsg = (String) resultObj.get("statusMsg");
+			String totalCount = resultObj.get("totalCount").toString();
+			JSONArray items = (JSONArray) resultObj.get("items");
+			
+			StringEncrypter ecvrypterAES256 = new StringEncrypter(key, vector);
+
+			for(int i=0; i<items.length(); i++){            
+                JSONObject item = (JSONObject) items.get(i);
+                EduCompletionDto eduCompletionInfo = new EduCompletionDto();
+
+                eduCompletionInfo.setUserId("");
+                eduCompletionInfo.setEduUserId((String)item.get("user_id"));
+                eduCompletionInfo.setUserName(ecvrypterAES256.decrypt((String)item.get("user_name")));
+                eduCompletionInfo.setBirthDate(ecvrypterAES256.decrypt((String)item.get("user_birth")));
+                eduCompletionInfo.setGender(ecvrypterAES256.decrypt((String)item.get("user_sex")));
+                eduCompletionInfo.setCertId((String)item.get("diploma_no"));
+                eduCompletionInfo.setSubject((String)item.get("process_cd"));
+                
+                if("Y".equals(userService.getEduCompletionInfo(eduCompletionInfo))) {
+                	userService.updateEduComepletionInfo(eduCompletionInfo);
+                }else {
+                	userService.insertEduComepletionInfo(eduCompletionInfo);
+                }
+            }
+			
+			response.getWriter().print(totalCount);
+			response.getWriter().flush();
+			response.getWriter().close();
+		}
+		
+		// 수료번호 api 호출
+		@Scheduled(cron = "0 10 01 * * *")
+		public void callSyncCertIdApi111() throws Exception {
+			Calendar calToday = Calendar.getInstance();
+			calToday.setTime(new Date());
+	        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	        String endDate = format.format(calToday.getTime());
+	        calToday.add(Calendar.DATE, -3);
+	        String startDate = format.format(calToday.getTime());
+	        
+			String rst = "";
+			
+			String url = "https://www.educrefia.or.kr/restapi/PassUsers?passStartDate=" + startDate + "&passEndDate=" + endDate;
+			try
+			{
+				URL clsUrl = new URL(url);
+				HttpURLConnection clsConn = (HttpURLConnection)clsUrl.openConnection();
+				clsConn.setRequestMethod("GET"); clsConn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+				clsConn.setDoOutput(true);
+				clsConn.connect();
+				BufferedReader clsInput = new BufferedReader(new InputStreamReader(clsConn.getInputStream()));
+
+				String inputLine = ""; 
+				while((inputLine=clsInput.readLine())!=null){
+					rst+=inputLine;
+				}
+				clsInput.close();
+				JSONObject jo=new JSONObject(rst);
+				rst=jo.getString("result");
+			}catch(Exception e){ System.out.println(e);
+			}
+			System.out.println("aaa");
+			JSONObject resultObj=new JSONObject(rst);
+			String status = (String) resultObj.get("status");
+			String statusMsg = (String) resultObj.get("statusMsg");
+			String totalCount = resultObj.get("totalCount").toString();
+			JSONArray items = (JSONArray) resultObj.get("items");
+
+			StringEncrypter ecvrypterAES256 = new StringEncrypter(key, vector);
+
+			for(int i=0; i<items.length(); i++){            
+				JSONObject item = (JSONObject) items.get(i);
+				EduCompletionDto eduCompletionInfo = new EduCompletionDto();
+
+				eduCompletionInfo.setUserId("");
+				eduCompletionInfo.setEduUserId((String)item.get("user_id"));
+				eduCompletionInfo.setUserName(ecvrypterAES256.decrypt((String)item.get("user_name")));
+				eduCompletionInfo.setBirthDate(ecvrypterAES256.decrypt((String)item.get("user_birth")));
+				eduCompletionInfo.setGender(ecvrypterAES256.decrypt((String)item.get("user_sex")));
+				eduCompletionInfo.setCertId((String)item.get("diploma_no"));
+				eduCompletionInfo.setSubject((String)item.get("process_cd"));
+
+				if("Y".equals(userService.getEduCompletionInfo(eduCompletionInfo))) {
+					userService.updateEduComepletionInfo(eduCompletionInfo);
+				}else {
+					userService.insertEduComepletionInfo(eduCompletionInfo);
+				}
+			}
 		}
 
 }

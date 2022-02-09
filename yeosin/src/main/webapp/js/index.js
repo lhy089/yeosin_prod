@@ -21,6 +21,24 @@ $(document).ready(function(){
         }
         
     });
+
+    $("#callSyncCertIdApi").click(function(){
+    	$.ajax({
+            url: "/callSyncCertIdApi",
+            type: "post",
+            data: {startDate:$("#startDate").val(),endDate:$("#endDate").val()},
+            success: function(data) {
+                console.log("AJAX Request 성공");
+                alert("API 호출 건 수 : " + data);
+                
+            },
+            error: function() {
+               console.log("에러 발생");
+            },
+            complete: function(){
+            }
+        }); 
+    });
    
 
      

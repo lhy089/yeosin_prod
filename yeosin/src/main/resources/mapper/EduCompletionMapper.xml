@@ -10,7 +10,10 @@
 						SELECT 
 							1
 						FROM YS_EDUCOMPLETION EC
-						WHERE EC.USERID = #{userId}
+						WHERE EC.USERNAME = #{userName}
+							AND EC.BIRTHDATE = #{birthDate}
+							AND EC.GENDER = #{gender}
+							AND EC.SUBJECT = #{subject}
 						)
 					THEN 'Y'
 					ELSE 'N'
@@ -31,4 +34,24 @@
 		AND 	BIRTHDATE = #{birthDate, jdbcType=VARCHAR}
 		AND 	CERTID = #{eduNum, jdbcType=VARCHAR};
 	</select>
+	
+	<insert id="insertEduComepletionInfo" parameterType="com.yeosin.user.EduCompletionDto">
+		INSERT INTO YS_EDUCOMPLETION
+			(USERID, EDUUSERID, USERNAME, BIRTHDATE, GENDER, CERTID, SUBJECT)
+		VALUES
+			(#{userId}, #{eduUserId}, #{userName}, #{birthDate}, #{gender}, #{certId}, #{subject})
+	</insert>
+	
+	<update id="updateEduComepletionInfo" parameterType="com.yeosin.user.EduCompletionDto">
+		UPDATE YS_EDUCOMPLETION
+		<set>
+			CERTID = #{certId}
+		</set>
+		WHERE USERNAME = #{userName}
+			AND BIRTHDATE = #{birthDate}
+			AND GENDER = #{gender}
+			AND SUBJECT = #{subject}
+	</update>
+	
+	
 </mapper>
