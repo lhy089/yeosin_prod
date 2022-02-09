@@ -21,12 +21,14 @@
    
 	<!-- 로그인 유저의 교육증 수료여부 조회 -->
 	<select id="getisUserEdu" parameterType="map" resultType="String">
-	SELECT 	CASE WHEN COUNT(*) > 0 
-				 THEN 'Y' 
-				 ELSE 'N' END 		AS ISEDUPASS
-	FROM 	YS_EDUCOMPLETION 
-	WHERE 	1 = 1
-	AND 	USERID = #{userId, jdbcType=VARCHAR}
-	AND 	CERTID = #{eduNum, jdbcType=VARCHAR};
+		SELECT 	CASE WHEN COUNT(*) > 0 
+					 THEN 'Y' 
+					 ELSE 'N' END 		AS ISEDUPASS
+		FROM 	YS_EDUCOMPLETION 
+		WHERE 	1 = 1
+		AND 	USERNAME = #{userName, jdbcType=VARCHAR}
+		AND		GENDER = #{gender, jdbcType=VARCHAR}
+		AND 	BIRTHDATE = #{birthDate, jdbcType=VARCHAR}
+		AND 	CERTID = #{eduNum, jdbcType=VARCHAR};
 	</select>
 </mapper>

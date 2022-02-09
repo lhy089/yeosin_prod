@@ -87,7 +87,7 @@
       </tr>   
       <tr>
         <th>원서접수</th>
-        <td><a href="#" class="btn_apply" onclick="localChk('${exam.examId}');">접수하기</a></td>
+        <td><a href="#" class="btn_apply" onclick="localChk('${exam.examId}', '${userInfo.userId}');">접수하기</a></td>
       </tr>
     </table>
     <br/>

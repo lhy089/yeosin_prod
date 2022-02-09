@@ -248,12 +248,15 @@
    
    <!-- 접수번호의 MAX값 조회 -->
    <select id="getMaxReceiptNumber" resultType="String">
-		SELECT	RIGHT(R.RECEIPTID, 13)		AS	MAXRECEIPTID
-		FROM 	YS_RECEIPT					R
-		WHERE 	1 = 1
-		ORDER BY 
-				CONVERT(RIGHT(R.RECEIPTID, 13), UNSIGNED) DESC
-		LIMIT 	1;
+	   	SELECT 
+	   			<![CDATA[
+				CASE WHEN CONVERT(CONCAT(CONVERT(DATE_FORMAT(NOW(), '%Y%m%d'), CHAR), '00000'), UNSIGNED)	
+						  > MAX(CONVERT(RIGHT(RECEIPTID, 13), UNSIGNED))
+					 THEN CONVERT(CONCAT(CONVERT(DATE_FORMAT(NOW(), '%Y%m%d'), CHAR), '00000'), CHAR)
+					 ELSE CONVERT(MAX(CONVERT(RIGHT(RECEIPTID, 13), UNSIGNED)), CHAR) END	AS  MAXRECEIPTID
+				]]>
+		FROM 	YS_RECEIPT
+		WHERE 	1 = 1;
 	</select>
 	
 	<!-- 새로운 접수 Insert (결제 완료건에 대해) -->
@@ -269,8 +272,8 @@
 		SELECT 	COUNT(*)
 		FROM 	YS_RECEIPT
 		WHERE 	1 = 1
-		AND 	USERID = #{userId}
-		AND 	EXAMID = #{examId}
+		AND 	USERID = #{userId, jdbcType=VARCHAR}
+		AND 	EXAMID = #{examId, jdbcType=VARCHAR}
 		AND 	ISCANCEL = 'N'
 	</select>
 </mapper>

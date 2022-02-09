@@ -98,6 +98,9 @@
       </div>
 	      <input type="hidden" value="${examInfo.examId}" id="examId" name="examId"/>
 	      <input type="hidden" value="${local}" id="local" name="local"/>
+	      <input type="hidden" value="${userInfo.userName}" id="userName" name="userName"/>
+	      <input type="hidden" value="${userInfo.gender}" id="gender" name="gender"/>
+	      <input type="hidden" value="${userInfo.birthDate}" id="birthDate" name="birthDate"/>
 	      <input style="border:none;" class="btn_apply" type="submit" value="작성완료"/>
       </form>
     </section>

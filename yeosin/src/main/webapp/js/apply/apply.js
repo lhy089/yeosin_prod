@@ -33,7 +33,10 @@ function doApplyStart()
 // 교육증수료번호 체크함수(apply3.jsp)
 function doCompleted() 
 {
-	var subjectType = $('#subjectType').val();	
+	var subjectType = $('#subjectType').val();
+	var userName = $('#userName').val();
+	var gender = $('#gender').val();
+	var birthDate = $('#birthDate').val();
 	var eduNum = $('#eduNum').val();
 	var examId = $('#examId').val();
 	var isPassEdu = "N";
@@ -54,7 +57,10 @@ function doCompleted()
         type: "GET",
         async: false,
         data: {
-				eduNum : eduNum,
+				userName : userName,
+		   		gender : gender,
+		   		birthDate : birthDate,
+		   		eduNum : eduNum,
 		   		examId : examId
 			  },
         success: function(data) 
@@ -161,20 +167,49 @@ function doPayment()
 	}
 }
 
-//지역선택 여부 체크함수(apply.jsp)
-function localChk(examId)
+// 지역선택 여부 및 이미 접수한 시험인지 체크함수(apply.jsp)
+function localChk(examId, userId)
 {
-	var local = $("#"+examId+" option:selected").val();
-   
+	var local = $("#" + examId + " option:selected").val();
+	var receiptCount = 0;
+   	
    	if (!local)
    	{
       	alert("시험지역을 선택 해 주세요.");
-      	//location.href = "/apply";
+      	return false;
    	} 
-   	else
+   	
+	// 해당시험에 접수한 이력이 있는지 확인
+	$.ajax({
+		url: "/isReceiptExam",
+	    type: "GET",
+	    async: false,
+	    data: {
+				examId : examId,
+		   		userId : userId
+			  },
+	    success: function(data) 
+		{
+			console.log("AJAX Request 성공");
+			receiptCount = data.receiptCount;
+	    },
+	    error: function() 
+		{
+	       console.log("AJAX Request 실패");
+	       receiptCount = 100;
+	    }
+	});  
+	
+	if (receiptCount > 0)
    	{
-      	location.href="/apply2?examId="+examId+"&local="+local;
-   	}   
+      	alert("이미 접수한 시험입니다.");
+      	return false;
+	}
+	else 
+	{
+		location.href="/apply2?examId=" + examId + "&local=" + local;
+	}
+   	   
 }
 
 /*

@@ -24,7 +24,7 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
   
-   <script src="/www/inc/js/jquery-3.4.1.min.js"></script>
+  <script src="/www/inc/js/jquery-3.4.1.min.js"></script>
   <link href="/www/inc/css/reset.css" rel="stylesheet" type="text/css" media="screen">
   <link href="/www/inc/css/common.css" rel="stylesheet" type="text/css" media="screen">
   <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"> <!--나눔스퀘어 font-->
@@ -61,7 +61,7 @@ $(function(){
     </tr>
     <tr>
       <th>수험번호</th>
-      <td>${applyInfo.receiptId}</td>
+      <td>${applyInfo.studentCode}</td>
     </tr>
     <tr>
       <th>이름</th>
@@ -81,7 +81,7 @@ $(function(){
     </tr>
     <tr>
       <th>시험장소</th>
-      <td>${applyInfo.examDto.examLocal}</td>
+      <td>${applyInfo.examZoneDto.examZoneName}</td>
     </tr>
     <tr>
       <th>입실완료시간</th>
@@ -107,14 +107,15 @@ $(function(){
     </ul>
   </div>
 
-  <h2>
+<!-- 약도 없어서 주석처리 -->
+<!--   <h2>
     고사장 약도
     <p>고사장 주소 : 301 808 대전 중구 목동 96번지 (대전) 대성고등학교 [042-250-3802]</p>
   </h2>
   <div class="content">
-    <!-- 지도 이미지 -->
+    지도 이미지
     <img src="/www/inc/img/apply/test-map.jpg" class="mapImg" alt="지도이미지 예시">
-  </div>
+  </div> -->
 </div>
 <div><a onclick="return false;" id="btn_print" class="btn_apply">출력하기</a></div>
 </body>

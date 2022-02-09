@@ -61,4 +61,5 @@ public class ApplyDao {
 	public int getIsReceipt(Map<String, Object> map) throws Exception {
 		return sqlSession.selectOne(nameSpace + "getIsReceipt", map);
 	}
+	
 }

@@ -50,6 +50,8 @@ public class ApplyController {
 			examList = applyService.getExamList();
 			examLocalList = applyService.getExamLocalList();
 	     
+			mav.addObject("isReceipt", false);
+			mav.addObject("userInfo", userInfo);
 			mav.addObject("examListCnt", examList.size());
 			mav.addObject("examList", examList);
 			mav.addObject("examLocalList", examLocalList);
@@ -63,6 +65,27 @@ public class ApplyController {
 		}
 	  
 		return mav;
+	}
+	
+	// 해당 시험에 접수한 이력이 있는지 확인
+	@RequestMapping(value="/isReceiptExam", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> IsReceiptExam(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");	
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		userInfo = userService.getLoginUserInfo(userInfo);
+		
+		// AJAX에서 넘어온 데이터
+		Map<String, Object> paremterMap = new HashMap<String, Object>();
+		paremterMap.put("userId", requestMap.get("userId"));
+		paremterMap.put("examId", requestMap.get("examId"));
+		
+		// AJAX로 넘겨줄 데이터
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("receiptCount", applyService.getIsReceipt(paremterMap));
+		
+		return resultMap;
 	}
 	
 	// 원서접수2(환불규정에 대한 동의 View)
@@ -126,10 +149,14 @@ public class ApplyController {
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		userInfo = userService.getLoginUserInfo(userInfo);
 		
-		// JSP에서 넘어온 데이터
+		// AJAX에서 넘어온 데이터
 		Map<String, Object> paremterMap = new HashMap<String, Object>();
-		paremterMap.put("userId", userInfo.getUserId());
+		paremterMap.put("userId", userInfo.getUserId());		
+		paremterMap.put("userName", requestMap.get("userName"));
+		paremterMap.put("gender", requestMap.get("gender"));
+		paremterMap.put("birthDate", requestMap.get("birthDate"));
 		paremterMap.put("eduNum", requestMap.get("eduNum"));
+		paremterMap.put("examId", requestMap.get("examId"));
 		
 		// AJAX로 넘겨줄 데이터
 		Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -251,6 +278,7 @@ public class ApplyController {
 			if (receiptCount > 0)
 			{
 				mav.addObject("isReceipt", true);
+				mav.addObject("userInfo", userInfo);
 				mav.addObject("examListCnt", applyService.getExamList().size());
 				mav.addObject("examList", applyService.getExamList());
 				mav.addObject("examLocalList", applyService.getExamLocalList());
