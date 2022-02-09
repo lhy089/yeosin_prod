@@ -114,4 +114,16 @@
 		</set>
 		WHERE USERID = #{userId}
 	</update>
+	
+	<!-- 아이디 찾기 기능 -->	
+	<select id="findUserId" parameterType="com.yeosin.user.UserDto" resultType="String">
+		SELECT
+			USERID	 
+		FROM 
+			YS_USER
+		WHERE
+				USERNAME = #{userName}
+			AND GENDER = #{gender}
+			AND BIRTHDATE = #{birthDate}
+	</select>
 </mapper>

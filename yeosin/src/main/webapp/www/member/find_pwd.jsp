@@ -34,7 +34,7 @@
   <div class="contentBox">
     <h1>아아디 / 비밀번호 확인</h1>
     <div class="tabBox">
-      <a id="btn_findId" onclick="return false;">아이디 확인</a>
+      <a id="btn_findId" href="/find_id">아이디 확인</a>
       <a id="btn_findPwd" onclick="return false;" class="active">비밀번호 확인/변경</a>
     </div>
     <div class="choice">

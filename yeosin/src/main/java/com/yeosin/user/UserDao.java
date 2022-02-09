@@ -36,4 +36,8 @@ public class UserDao {
 	public int withdrawUser(String userId) {
 		return this.sqlSession.insert(namespace + "withdrawUser", userId);
 	}
+	
+	public String findUserId(UserDto userDto) {
+		return this.sqlSession.selectOne(namespace + "findUserId", userDto);
+	}
 }

@@ -82,16 +82,32 @@ public class UserController {
 		mav.setViewName("member/join");
 		return mav;
 	}
+	
 	@RequestMapping(value="/find_id", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView find_id(HttpSession session, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		String sessionid= (String)session.getAttribute("loginId");
-	
+		
 		mav.addObject("result", "");
 		mav.setViewName("member/find_id");
 		return mav;
+	}
+	
+	
+	@RequestMapping(value="/find_id_ok", method=RequestMethod.GET)
+	@ResponseBody
+	public void find_id_ok(UserDto userDto, HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+		String sessionid= (String)session.getAttribute("loginId");
+		
+		String userId = userService.findUserId(userDto);
+	
+		response.getWriter().print(userId);
+		response.getWriter().flush();
+		response.getWriter().close();
 	}
 	
 	@RequestMapping(value="/find_pwd", method=RequestMethod.GET)

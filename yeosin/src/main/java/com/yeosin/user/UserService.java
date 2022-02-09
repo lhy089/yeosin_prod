@@ -32,4 +32,21 @@ public class UserService {
 	public int withdrawUser(String userId) {
 		return userDao.withdrawUser(userId);
 	}
+	
+	public String findUserId(UserDto userDto) {
+		
+		String userId = userDao.findUserId(userDto);
+		
+		if(userId != null)
+		{
+			StringBuilder tempUserId = new StringBuilder(userId);
+		
+			for(int i = 1; userId.length() - 4 < userId.length() - i; i++)
+				tempUserId.setCharAt(userId.length() - i, '*');
+		
+			userId = tempUserId.toString();
+		}
+		
+		return userId;
+	}
 }
