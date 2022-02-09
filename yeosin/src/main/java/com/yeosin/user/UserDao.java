@@ -32,4 +32,8 @@ public class UserDao {
 	public int updateUserInfo(UserDto user) {
 		return this.sqlSession.insert(namespace + "updateUserInfo", user);
 	}
+	
+	public int withdrawUser(String userId) {
+		return this.sqlSession.insert(namespace + "withdrawUser", userId);
+	}
 }

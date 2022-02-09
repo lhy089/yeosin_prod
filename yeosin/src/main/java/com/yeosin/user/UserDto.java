@@ -21,6 +21,7 @@ public class UserDto {
 	private String isReceiveEmail; // 이메일 수신여부
 	private String isReceiveSms; // 문자 수신 여부
 	private String modifyDate; // 수정일
+	private String userStatus;	// 사용자 상태 > U:활성화, C:비밀번호 변경 필요, D:탈퇴
 	
 	private EduCompletionDto eduCompletionDto;
 	
@@ -114,5 +115,10 @@ public class UserDto {
 	public void setEduCompletionDto(EduCompletionDto eduCompletionDto) {
 		this.eduCompletionDto = eduCompletionDto;
 	}
-	
+	public String getUserStatus() {
+		return userStatus;
+	}
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
+	}
 }

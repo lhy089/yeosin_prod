@@ -83,7 +83,7 @@
       </ul>
       <ul>
         <li><a onclick="return false;" class="btn_change">회원 정보 수정</a></li>
-        <li><a href="/www/myroom/withdrawal.html">회원 탈퇴</a></li>
+        <li><a href="/withdrawal">회원 탈퇴</a></li>
       </ul>
     </div>
   </div>
@@ -133,16 +133,23 @@
     	<dt>회원정보수정<p>+</p></dt>
       	<dd>
         	<p><a onclick="return false;" class="btn_change">회원정보수정</a></p>
-        	<p><a href="/www/myroom/withdrawal.html">회원 탈퇴</a></p>
+        	<p><a href="/withdrawal">회원 탈퇴</a></p>
       	</dd>
     </dl>
   </div>
-  <!-- 로그인전 노출 버튼// -->
-  <div class="btnWrap">
-    <a href="/www/member/login.jsp">로그인</a>
-    <a href="/join">회원가입</a>
-  </div>
-  <!-- //로그인전 노출 버튼 -->
+  <c:choose>
+    <c:when test="${loginUserInfo.userId != null}">
+    <div class="btnWrap">
+    	<a href="/logout" id="btn_logout">로그아웃</a>
+    	</div>
+    </c:when>
+    <c:otherwise>
+    <div class="btnWrap">
+      	<a href="/www/member/login.jsp" id="btn_login">로그인</a>
+      	<a href="/join">회원가입</a>
+    </div>
+    </c:otherwise>
+    </c:choose>
 </div>
 <!-- //mo -->
 

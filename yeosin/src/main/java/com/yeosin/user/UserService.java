@@ -28,4 +28,8 @@ public class UserService {
 	public int updateUserInfo(UserDto user) {
 		return userDao.updateUserInfo(user);
 	}
+	
+	public int withdrawUser(String userId) {
+		return userDao.withdrawUser(userId);
+	}
 }

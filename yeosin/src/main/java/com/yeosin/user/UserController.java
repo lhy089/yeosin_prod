@@ -135,6 +135,7 @@ public class UserController {
 		List<Object> userResult = new ArrayList<>();
 		response.setCharacterEncoding("UTF-8");
 		user.setPassword(EncryptUtils.getSha256(user.getPassword()));
+		user.setUserStatus("U");
 		// 사용자 정보 조회
 		int cnt = userService.insertUserInfo(user);
 		if(cnt > 0) userResult.add(userService.getLoginUserInfo(user));
@@ -237,6 +238,37 @@ public class UserController {
 			CheckPlus certUtil = new CheckPlus();
 			String result = certUtil.getEncDataForIpin(session);
 			response.getWriter().print(result);
+			response.getWriter().flush();
+			response.getWriter().close();
+		}
+		
+		@RequestMapping(value="/withdrawal", method=RequestMethod.GET)
+		@ResponseBody
+		public ModelAndView withdrawal(HttpSession session, HttpServletResponse response) throws Exception {
+			response.setCharacterEncoding("UTF-8");
+			ModelAndView mav = new ModelAndView();
+			UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		
+			if(userInfo != null) {
+				mav.addObject("userId", userInfo.getUserId());
+				mav.setViewName("myroom/withdrawal");
+			}else {
+				mav.setViewName("member/login");
+			}
+			
+			return mav;
+		}
+		
+		// 사용자 정보 탈퇴
+		@RequestMapping(value="/doWithdrawal", method=RequestMethod.POST)
+		@ResponseBody
+		public void doWithdrawal(String userId, HttpSession session, HttpServletResponse response) throws Exception {
+			response.setCharacterEncoding("UTF-8");
+			
+			// 사용자 정보 탈퇴
+			int cnt = userService.withdrawUser(userId);
+			if(cnt>0) session.removeAttribute("loginUserInfo");
+			response.getWriter().print(cnt);
 			response.getWriter().flush();
 			response.getWriter().close();
 		}

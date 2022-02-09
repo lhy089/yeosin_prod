@@ -5,6 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
   <meta charset="utf-8">
   <title>대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <meta name="description" content="여신금융협회">
   <meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
   <meta name="viewport" content="user-scalable=no,
@@ -22,7 +24,10 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
   
-  <link rel="stylesheet" href="../inc/css/myroom.css">
+  <link rel="stylesheet" href="/www/inc/css/myroom.css">
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/myroom/withdrawal.js?t=1"></script>
+  <script>
+  </script>
 </head>
 
 <body>
@@ -34,8 +39,9 @@
     <h1>회원탈퇴</h1>
     <h2><srrong class="red">회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해 주세요.</strong></h2>
     <p class="notice">사용하고 계신 아이디는 탈퇴할 경우 재사용 및 복구가 불가능합니다.</p>
-    <p class="userID">회원탈퇴 ID : <span>아이디</span></p>
+    <p class="userID">회원탈퇴 ID : <span>${userId}</span></p>
     <p class="notice">회원탈퇴 후 삭제되는 정보(삭제된 데이터는 복구 되지 않습니다.)</p>
+    <input type="hidden" value="${userId}" id="userId"/>
     <table>
       <colgroup>
         <col width="35%">
@@ -69,10 +75,10 @@
 
     <div class="announcement">
       <p>탈퇴 후에는 아이디 로 다시 가입할 수 없으며 아이디와 데이터는 복구할 수 없습니다.</p>
-      <label><input type="checkbox" id="" name="agreeChk"/> 안내 사항을 모두 확인하였으며, 이에 동의합니다.</label>
+      <label><input type="checkbox" id="agreeChk" name="agreeChk"/> 안내 사항을 모두 확인하였으며, 이에 동의합니다.</label>
     </div>
 
-    <a href="#" class="btn_apply">탈퇴하기</a>
+	<a onclick="return false;" class="btn_apply" id="btn_withdrawal">탈퇴하기</a>
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>
