@@ -205,6 +205,7 @@
 			<!-- 인증결과 암호화 데이터 -->
 			<input type="hidden" name="enc_data">
 		</form>
+		<input type="hidden" id="findType" value="id">
 		<!-- 팝업// -->
 		<div class="popWrap">
 			<div class="pop">

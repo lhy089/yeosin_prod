@@ -35,6 +35,14 @@ public class UserService {
 	public int withdrawUser(String userId) throws Exception  {
 		return userDao.withdrawUser(userId);
 	}
+
+	public String findUserIdByCert(UserDto userDto) throws Exception   {
+		return userDao.findUserId(userDto);
+	}
+	
+	public int updateUserPassword(UserDto userInfo) throws Exception   {
+		return userDao.updateUserPassword(userInfo);
+	}
 	
 	public String findUserId(UserDto userDto) throws Exception   {
 		

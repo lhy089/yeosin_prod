@@ -30,14 +30,17 @@ public class UserDao {
 	}
 	
 	public int updateUserInfo(UserDto user) {
-		return this.sqlSession.insert(namespace + "updateUserInfo", user);
+		return this.sqlSession.update(namespace + "updateUserInfo", user);
 	}
 	
 	public int withdrawUser(String userId) {
-		return this.sqlSession.insert(namespace + "withdrawUser", userId);
+		return this.sqlSession.update(namespace + "withdrawUser", userId);
 	}
 	
 	public String findUserId(UserDto userDto) {
 		return this.sqlSession.selectOne(namespace + "findUserId", userDto);
+	}
+	public int updateUserPassword(UserDto userInfo) {
+		return this.sqlSession.update(namespace + "updateUserPassword", userInfo);
 	}
 }

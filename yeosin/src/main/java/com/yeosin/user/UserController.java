@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -110,6 +111,40 @@ public class UserController {
 		return mav;
 	}
 	
+	// 본인 인증으로 id 찾기
+	@RequestMapping(value="/find_id_cert", method=RequestMethod.GET)
+	@ResponseBody
+	public void find_id_cert(UserDto userDto, HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		
+		String userId = userService.findUserIdByCert(userDto);
+	
+		response.getWriter().print(userId);
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
+	
+	// 본인 인증으로 신규 비밀번호 발급
+	@RequestMapping(value="/find_pwd_cert", method=RequestMethod.GET)
+	@ResponseBody
+	public void find_pwd_cert(UserDto userDto, HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		String result = "null";
+		UserDto userInfo = new UserDto();
+		
+		String userId = userService.findUserIdByCert(userDto);
+		String password = getRamdomPassword(); //랜덤값
+		
+		userInfo.setUserId(userId);
+		userInfo.setPassword(EncryptUtils.getSha256(password));
+		
+		int cnt= userService.updateUserPassword(userInfo);
+	
+		if(cnt>0) result = password;
+		response.getWriter().print(result);
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
 	
 	@RequestMapping(value="/find_id_ok", method=RequestMethod.GET)
 	@ResponseBody
@@ -343,12 +378,13 @@ public class UserController {
 			for(int i=0; i<items.length(); i++){            
                 JSONObject item = (JSONObject) items.get(i);
                 EduCompletionDto eduCompletionInfo = new EduCompletionDto();
+                String gender = ("1".equals(ecvrypterAES256.decrypt((String)item.get("user_sex")))) ? "남":"여";
 
                 eduCompletionInfo.setUserId("");
                 eduCompletionInfo.setEduUserId((String)item.get("user_id"));
                 eduCompletionInfo.setUserName(ecvrypterAES256.decrypt((String)item.get("user_name")));
                 eduCompletionInfo.setBirthDate(ecvrypterAES256.decrypt((String)item.get("user_birth")));
-                eduCompletionInfo.setGender(ecvrypterAES256.decrypt((String)item.get("user_sex")));
+                eduCompletionInfo.setGender(gender);
                 eduCompletionInfo.setCertId((String)item.get("diploma_no"));
                 eduCompletionInfo.setSubject((String)item.get("process_cd"));
                 
@@ -366,7 +402,7 @@ public class UserController {
 		
 		// 수료번호 api 호출
 		@Scheduled(cron = "0 10 01 * * *")
-		public void callSyncCertIdApi111() throws Exception {
+		public void callSyncCertIdApiForSchedule() throws Exception {
 			Calendar calToday = Calendar.getInstance();
 			calToday.setTime(new Date());
 	        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -407,12 +443,13 @@ public class UserController {
 			for(int i=0; i<items.length(); i++){            
 				JSONObject item = (JSONObject) items.get(i);
 				EduCompletionDto eduCompletionInfo = new EduCompletionDto();
+				String gender = ("1".equals(ecvrypterAES256.decrypt((String)item.get("user_sex")))) ? "남":"여";
 
 				eduCompletionInfo.setUserId("");
 				eduCompletionInfo.setEduUserId((String)item.get("user_id"));
 				eduCompletionInfo.setUserName(ecvrypterAES256.decrypt((String)item.get("user_name")));
 				eduCompletionInfo.setBirthDate(ecvrypterAES256.decrypt((String)item.get("user_birth")));
-				eduCompletionInfo.setGender(ecvrypterAES256.decrypt((String)item.get("user_sex")));
+				eduCompletionInfo.setGender(gender);
 				eduCompletionInfo.setCertId((String)item.get("diploma_no"));
 				eduCompletionInfo.setSubject((String)item.get("process_cd"));
 
@@ -423,5 +460,22 @@ public class UserController {
 				}
 			}
 		}
-
+		
+		public String getRamdomPassword() { 
+			char[] charSet = new char[] {'0','1','2','3','4','5','6','7','8','9',
+					'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+					'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+					'!','@','#','$','%','^','&' }; 
+			StringBuffer sb = new StringBuffer(); 
+			SecureRandom sr = new SecureRandom(); 
+			sr.setSeed(new Date().getTime()); 
+			int idx = 0; 
+			int len = charSet.length; 
+			for (int i=0; i<10; i++) {
+				idx = sr.nextInt(len); // 강력한 난수를 발생시키기 위해 SecureRandom을 사용한다. 
+				sb.append(charSet[idx]); 
+			} 
+			return sb.toString(); 
+		}
+	
 }

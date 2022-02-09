@@ -127,4 +127,10 @@
 			AND GENDER = #{gender}
 			AND BIRTHDATE = #{birthDate}
 	</select>
+	
+	<update id="updateUserPassword" parameterType="com.yeosin.user.UserDto">
+		UPDATE YS_USER
+		SET PASSWORD = #{password}
+		WHERE USERID = #{userId}
+	</update>
 </mapper>

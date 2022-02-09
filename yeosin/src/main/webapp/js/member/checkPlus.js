@@ -39,7 +39,38 @@ window.addEventListener('message', function(e) {
 		document.vnoform.action = data.action;
 		document.vnoform.submit();
 	} else {
-		alert("인증 되었습니다.");
+		var findType = $("#findType").val();
+		var url = "";
+		if(findType=="id") {
+			url = "/find_id_cert";
+		}else {
+			url = "/find_pwd_cert";
+		}
+		
+		var inputData = {
+				userName:data.name,
+				birthDate: data.birth.substring(0, 4) + "-" + data.birth.substring(4, 6) + "-" + data.birth.substring(6, 8),
+				gender:(data.gender==0) ? "여":"남"
+		};
 
+		$.ajax({
+	        type: "GET",
+	        url: url,
+	        data: inputData,
+	        sendDataType : 'string',
+	        success: function(data) {
+	        	if(data != "null"){
+	        		if($("#findType").val()=="id") {
+	        			alert("인증  되었습니다.\n회원님의 아이디는 " + data + " 입니다.");
+	        		}else {
+	        			alert("인증  되었습니다.\n임시 비밀번호는 " + data + " 입니다.");
+	        		}
+	        		
+	        		$(location).attr("href", "/www/member/login.jsp");
+	        	}else {
+	        		alert("일치하는 정보가 없습니다.");
+	        	}
+	        },
+	      });
 	}
 });
