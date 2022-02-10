@@ -28,7 +28,7 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 	
   <link rel="stylesheet" href="${pageContext.request.contextPath}/www/inc/css/main.css">
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js?t=1"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js?t=<%= new java.util.Date() %>"></script>
   <script>
   	location.href = "/index"; 
   </script>

@@ -25,7 +25,7 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
   
   <link rel="stylesheet" href="/www/inc/css/myroom.css">
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/myroom/withdrawal.js?t=1"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/myroom/withdrawal.js?t=<%= new java.util.Date() %>"></script>
   <script>
   </script>
 </head>

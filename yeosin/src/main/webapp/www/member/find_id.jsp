@@ -28,9 +28,9 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/member/checkPlus.js?t=1"></script>
+	src="${pageContext.request.contextPath}/js/member/checkPlus.js?t=<%= new java.util.Date() %>"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/member/find.js?t=2"></script>
+	src="${pageContext.request.contextPath}/js/member/find.js?t=<%= new java.util.Date() %>"></script>
 </head>
 
 <body>

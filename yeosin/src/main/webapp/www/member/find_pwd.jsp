@@ -23,7 +23,7 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="/www/inc/css/member.css">
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/checkPlus.js?t=1"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/checkPlus.js?t=<%= new java.util.Date() %>"></script>
 </head>
 
 <body>
