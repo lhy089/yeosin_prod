@@ -292,4 +292,23 @@
 		AND 	USERID = #{userId}
 		AND		RECEIPTID = #{receiptId}
 	</update>
+	
+	<!-- 접수 취소여부 업데이트 -->
+	<update id="setCancelReceipt" parameterType="map">
+		UPDATE 	YS_RECEIPT
+		SET		ISCANCEL = 'Y',
+				PAYMENTCANCELDATE =	NOW()
+		WHERE 	1 = 1
+		AND 	USERID = #{userId, jdbcType=VARCHAR}
+		AND		RECEIPTID = #{receiptId, jdbcType=VARCHAR};
+	</update>
+	
+	<!-- 해당접수가 이미 취소됬는지 확인 -->
+   <select id="getIsCancelReceipt"  parameterType="map" resultType="String">
+		SELECT 	ISCANCEL 
+		FROM 	YS_RECEIPT
+		WHERE 	1 = 1
+		AND 	USERID = #{userId, jdbcType=VARCHAR}
+		AND 	RECEIPTID = #{receiptId, jdbcType=VARCHAR};
+	</select>
 </mapper>

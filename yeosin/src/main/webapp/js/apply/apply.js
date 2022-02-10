@@ -190,7 +190,35 @@ function localChk(examId, userId)
 // 환불규정 동의(accept_view.jsp)
 function doRefund()
 {
-	if (confirm("환불규정을 확인하셨습니까?\n환불규정에 동의 후 취소가 가능합니다.")) 
+	var receiptId = $('#receiptId').val();
+	var isCancelReceipt = "N";
+   	
+	// 해당 접수가 이미 취소된 상태인지 확인
+	$.ajax({
+		url: "/isCancelReceipt",
+	    type: "GET",
+	    async: false,
+	    data: {
+				receiptId : receiptId
+			  },
+	    success: function(data) 
+		{
+			console.log("AJAX Request 성공");
+			isCancelReceipt = data.isCancelReceipt;			
+	    },
+	    error: function() 
+		{
+	       console.log("AJAX Request 실패");
+	       receiptCount = 100;
+	    }
+	}); 
+	
+	if (isCancelReceipt == "Y")
+	{
+		alert("이미 접수가 취소된 건입니다.");
+		return false;
+	}
+	else if (confirm("환불규정을 확인하셨습니까?\n환불규정에 동의 후 취소가 가능합니다.")) 
 	{
 		return true;
 	}	

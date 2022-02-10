@@ -26,6 +26,7 @@ public class ApplyDto {
 	private String seatNumber; // 좌석번호
 	private String examZoneId; // 고사장 ID
 	private String paymentId; // 거래 ID
+	private String paymentCancelDate; // 결제취소일
 
 	private int page;  		//현재 페이지 번호	
 	private int perPageNum; //현 페이지당 보여줄 게시글의 갯수
@@ -42,6 +43,13 @@ public class ApplyDto {
 		this.perPageNum  = 10;
 	}
 	
+	public String getPaymentCancelDate() {
+		return paymentCancelDate;
+	}
+
+	public void setPaymentCancelDate(String paymentCancelDate) {
+		this.paymentCancelDate = paymentCancelDate;
+	}
 	public String getCertId() {
 		return certId;
 	}

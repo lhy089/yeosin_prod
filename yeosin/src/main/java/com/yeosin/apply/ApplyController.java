@@ -552,35 +552,74 @@ public class ApplyController {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
-		
-		Map<String,String> resultMap = new HashMap<>();
-		resultMap = this.payCancelResult(session, request, response, resultMap);
-		
-		if("2001".equals(resultMap.get("ResultCode")) || "2211".equals(resultMap.get("ResultCode"))) {
-			// 접수취소 > 환불 성공 
-			// TODO : receiptId, resultMap 을 이용해서 YS_RECEIPT 컬럼 업데이트, cancelDate 컬럼 추가 및 update 필요(cancelDate, cancelTime 컬럼 따로 써도 되고 합쳐도 됨)
-			/*
-			resultMap.put("TID", TID); // YS_RECEIPT > paymentId (고유값)
-			resultMap.put("ResultCode", ResultCode);
-			resultMap.put("ResultMsg", ResultMsg);
-			resultMap.put("CancelDate", CancelDate); // 취소일자 (YYYYMMDD)
-			resultMap.put("CancelTime", CancelTime); // 취소시간 (HHmmss)
-			*/
-		}else {
-		}
-		/*
-		if (userInfo != null) 
+      
+		if (userInfo != null)
 		{
-			mav.addObject("result", "");
-			mav.setViewName("apply/cancel");			
+			Map<String,String> resultMap = new HashMap<>();
+	      	resultMap.put("receiptId", receiptId);
+	      	resultMap.put("userId", userInfo.getUserId());
+			//resultMap = this.payCancelResult(session, request, response, resultMap);
+			resultMap.put("TID", "kmama0001m01012202110022506806");
+			resultMap.put("ResultCode", "2001");
+			resultMap.put("ResultMsg", "결제취소성공");
+			resultMap.put("CancelDate", "20220211");
+			resultMap.put("CancelTime", "013423");
+
+	      	// 환불성공
+	      	if ("2001".equals(resultMap.get("ResultCode")) || "2211".equals(resultMap.get("ResultCode"))) 
+	      	{
+	      		int result = applyService.setCancelReceipt(resultMap);
+	      		
+	      		// 업데이트 성공
+	      		if (result > 0)
+	      		{
+	      			mav.addObject("isSuccess", "Y");
+		    	  	mav.setViewName("apply/cancel");        			
+	      		}
+	      		// 업데이트 실패
+	      		else 
+	      		{
+	      			mav.addObject("isSuccess", "N");
+		    	  	mav.setViewName("apply/cancel");  	      			
+	      		}		    		   
+	      	}
+	      	// 환불실패
+	      	else 
+	      	{
+	      		mav.addObject("isSuccess", "N");
+	    	  	mav.setViewName("apply/cancel");   		    	  
+	      	}		
+			 	  
 		}
+		// 로그인 유저 세션 없음
 		else 
 		{
 			mav.addObject("isAlert", true);
-			mav.setViewName("member/login");				
+			mav.setViewName("member/login");  	    	  
 		}
-		*/
+
 		return mav;
+	}
+	
+	// 해당 접수건이 이미 취소된 상태인지 확인
+	@RequestMapping(value="/isCancelReceipt", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> isCancelReceipt(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");	
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		userInfo = userService.getLoginUserInfo(userInfo);
+		
+		// AJAX에서 넘어온 데이터
+		Map<String, Object> paremterMap = new HashMap<String, Object>();
+		paremterMap.put("userId", userInfo.getUserId());		
+		paremterMap.put("receiptId", requestMap.get("receiptId"));
+		
+		// AJAX로 넘겨줄 데이터
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("isCancelReceipt", applyService.getIsCancelReceipt(paremterMap));
+		
+		return resultMap;
 	}
 	
 	// 원서접수 현황

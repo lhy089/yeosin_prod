@@ -124,4 +124,12 @@ public class ApplyService {
 	public int setPaymentInfo(ApplyDto applyDto) throws Exception{
 		return applyDao.setPaymentInfo(applyDto);
 	}
+	
+	public int setCancelReceipt(Map<String, String> map) throws Exception{
+		return applyDao.setCancelReceipt(map);
+	}
+	
+	public String getIsCancelReceipt(Map<String, Object> map) throws Exception{
+		return applyDao.getIsCancelReceipt(map);
+	}
 }

@@ -34,9 +34,19 @@
     <div class="announcement">
       접수를 취소할 경우 환불 규정을 꼭 확인해야 합니다.
     </div>
-    <div class="completion">
-      접수 취소가 정상적으로 완료되었습니다.
-    </div>
+   	<c:set var="isSuccess" value="${isSuccess}"/>
+    <c:choose>
+    	<c:when test="${isSuccess eq 'Y'}">
+			<div class="completion">
+			  접수 취소가 정상적으로 완료되었습니다.
+			</div>
+    	</c:when>
+    	<c:otherwise>
+		    <div class="completion">
+		      접수 취소에 실패했습니다.
+		    </div>
+    	</c:otherwise>
+    </c:choose>
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>

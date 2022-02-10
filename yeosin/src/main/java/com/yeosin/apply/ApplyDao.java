@@ -66,4 +66,11 @@ public class ApplyDao {
 		return sqlSession.update(nameSpace + "setPaymentInfo", applyDto);
 	}
 	
+	public int setCancelReceipt(Map<String, String> map) throws Exception {
+		return sqlSession.update(nameSpace + "setCancelReceipt", map);
+	}
+	
+	public String getIsCancelReceipt(Map<String, Object> map) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getIsCancelReceipt", map);
+	}
 }
