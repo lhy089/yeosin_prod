@@ -26,17 +26,6 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/common/print.js?t=1"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=1"></script>
-  <script>
-  $(document).ready(function(){
-	 	 $('#btn_cancel').click(function() {
-			if(confirm("환불규정을 확인하셨습니까?\n환불규정에 동의 후 취소가 가능합니다.")) {
-				location.href="/cancel?receiptId="+$("#receiptId").val();
-			}else {
-				
-			}
-		});
-	 })
-  </script>
 </head>
 
 <body>
@@ -49,66 +38,68 @@
     <div class="announcement">
       접수를 취소할 경우 환불 규정을 꼭 확인해야 합니다.
     </div>
-    <c:choose>
-    <c:when test="${applyInfo ne null}">
-    <div id="printArea">
-    <table>
-      <colgroup>
-        <col width="15.5%">
-        <col width="*">
-      </colgroup>
-      <tr>
-        <th>시험명</th>
-        <td>${applyInfo.examDto.examName}</td>
-      </tr>
-      <tr>
-        <th>시험회차</th>
-        <td>${applyInfo.examDto.examDegree}</td>
-      </tr>
-      <tr>
-        <th>성명</th>
-        <td>${applyInfo.userDto.userName}</td>
-      </tr>
-      <tr>
-        <th>연락처</th>
-        <td>${applyInfo.userDto.phoneNumber}</td>
-      </tr>
-      <tr>
-        <th>이메일</th>
-        <td>${applyInfo.userDto.emailAddress}</td>
-      </tr>
-      <tr>
-        <th>시험장명</th>
-        <td>${applyInfo.examZoneDto.examZoneName}</td>
-      </tr>
-      <tr>
-        <th>자격종별</th>
-        <td>${applyInfo.subjectDto.subjectName}</td>
-      </tr>
-      <tr>
-        <th>접수일</th>
-        <td>${applyInfo.receiptDate}</td>
-      </tr>
-      <tr>
-        <th>시험일</th>
-        <td>${applyInfo.examDto.examDate}</td>
-      </tr>
-      <tr>
-        <th>결제정보</th>
-        <td>${applyInfo.paymentMethod}</td>
-      </tr>
-    </table>
-    </div>
-    </c:when>
-    <c:otherwise>
-    표시할 데이터가 없습니다.
-    </c:otherwise>
-    </c:choose>
-    <div class="btnWrap">
-    	<input type="hidden" value="${applyInfo.receiptId}" id="receiptId"/>
-      <a onclick="return false;" class="btn_apply" id="btn_print">출력하기</a>
-      <a onclick="return false;" class="btn_apply" id="btn_cancel">접수취소</a>
-    </div>
+    <form action="/cancel" method="get" onsubmit="return doRefund();">
+	    <c:choose>
+	    <c:when test="${applyInfo ne null}">
+	    <div id="printArea">
+	    <table>
+	      <colgroup>
+	        <col width="15.5%">
+	        <col width="*">
+	      </colgroup>
+	      <tr>
+	        <th>시험명</th>
+	        <td>${applyInfo.examDto.examName}</td>
+	      </tr>
+	      <tr>
+	        <th>시험회차</th>
+	        <td>${applyInfo.examDto.examDegree}</td>
+	      </tr>
+	      <tr>
+	        <th>성명</th>
+	        <td>${applyInfo.userDto.userName}</td>
+	      </tr>
+	      <tr>
+	        <th>연락처</th>
+	        <td>${applyInfo.userDto.phoneNumber}</td>
+	      </tr>
+	      <tr>
+	        <th>이메일</th>
+	        <td>${applyInfo.userDto.emailAddress}</td>
+	      </tr>
+	      <tr>
+	        <th>시험장명</th>
+	        <td>${applyInfo.examZoneDto.examZoneName}</td>
+	      </tr>
+	      <tr>
+	        <th>자격종별</th>
+	        <td>${applyInfo.subjectDto.subjectName}</td>
+	      </tr>
+	      <tr>
+	        <th>접수일</th>
+	        <td>${applyInfo.receiptDate}</td>
+	      </tr>
+	      <tr>
+	        <th>시험일</th>
+	        <td>${applyInfo.examDto.examDate}</td>
+	      </tr>
+	      <tr>
+	        <th>결제정보</th>
+	        <td>${applyInfo.paymentMethod}</td>
+	      </tr>
+	    </table>
+	    </div>
+	    </c:when>
+	    <c:otherwise>
+	    표시할 데이터가 없습니다.
+	    </c:otherwise>
+	    </c:choose>
+	    <div class="btnWrap">
+	    	<input type="hidden" value="${applyInfo.receiptId}" id="receiptId"/>
+			<!-- <a onclick="return false;" class="btn_apply" id="btn_print">출력하기</a> -->
+	      <input style="border:none;" class="btn_apply" type="submit" value="접수취소"/>
+	    </div>
+	</form>
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>

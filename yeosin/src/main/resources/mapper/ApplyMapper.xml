@@ -59,6 +59,7 @@
 		]]> 
 	</select>
 	
+	<!-- 수험표 리스트 -->
 	<select id="getTicketList" parameterType="com.yeosin.apply.ApplyDto" resultMap="ApplyListResultMap">
 		SELECT 	
 				R.RECEIPTID 				-- 접수 ID
@@ -70,6 +71,7 @@
          	,   DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d')       AS RECEIPTENDDATE    	-- 접수마감일
 			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d')				AS EXAMDATE				-- 시험일
 			,	EZ.LOCALDETAIL 				-- 시험지역
+			,	CONCAT(CONVERT(DATE_FORMAT(E.EXAMDATE, '%Y'), CHAR), '년', ' ', CONVERT(E.EXAMDEGREE, CHAR), '회')	AS EXAMDEGREE	-- 시험회차
 		FROM 	YS_RECEIPT					R 	
 		INNER JOIN YS_EXAM 					E	ON 	E.EXAMID = R.EXAMID 	
 		INNER JOIN YS_EXAMZONE				EZ 	ON 	EZ.EXAMZONEID = R.EXAMZONEID
@@ -81,6 +83,7 @@
 		LIMIT #{pageStart}, #{perPageNum};
    </select>
    
+   <!-- 수험표 리스트 총 갯수 -->
    <select id="countTicketListTotal"  parameterType="String" resultType="Integer">
    		SELECT 	count(*)
  		FROM   	YS_RECEIPT	R
@@ -158,7 +161,7 @@
 				E.EXAMID 			-- 시험 ID 
 			,	E.EXAMNAME 			-- 시험명
 			,	EZ.EXAMZONENAME 	-- 시험장명
-			,	E.EXAMDEGREE 		-- 시험차수
+			,	CONCAT(CONVERT(DATE_FORMAT(E.EXAMDATE, '%Y'), CHAR), '년', ' ', CONVERT(E.EXAMDEGREE, CHAR), '회')	AS EXAMDEGREE	-- 시험회차
 			,	U.USERID 			-- 유저 ID
 			,	U.USERNAME 			-- 유저명 
 			,	U.PHONENUMBER 		-- 연락처

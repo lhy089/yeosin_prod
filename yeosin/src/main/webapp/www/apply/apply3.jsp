@@ -76,8 +76,8 @@
 	          <td>
 	            <select id="subjectType" name="subjectType">
 	              <option value="*">선택</option>
-	              <option value="subject001">대출•기타 대출성 상품</option>
-	              <option value="subject002">리스 •할부 상품</option>
+	              <option value="LP01">대출•기타 대출성 상품</option>
+	              <option value="LS01">리스 •할부 상품</option>
 	            </select>
 	          </td>
 	        </tr>

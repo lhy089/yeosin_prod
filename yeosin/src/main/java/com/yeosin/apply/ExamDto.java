@@ -11,7 +11,7 @@ public class ExamDto {
 	private String subjectId; // 종목 ID
 	private String examType; // 시험구분
 	private String isApproval; // 승인상태
-	private int examDegree; // 시험회차
+	private String examDegree; // 시험회차
 	private String examDate; // 시험일
 	private String examLocal; // 시험지역
 	private String examArea; // 시험영역
@@ -68,10 +68,10 @@ public class ExamDto {
 	public void setIsApproval(String isApproval) {
 		this.isApproval = isApproval;
 	}
-	public int getExamDegree() {
+	public String getExamDegree() {
 		return examDegree;
 	}
-	public void setExamDegree(int examDegree) {
+	public void setExamDegree(String examDegree) {
 		this.examDegree = examDegree;
 	}
 	public String getExamDate() {

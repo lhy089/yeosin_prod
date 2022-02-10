@@ -54,18 +54,19 @@ $(document).ready(function() {
       </colgroup>
       <tr>
         <th>시험명</th>
-        <th>접수기간</th>
+        <th>회차</th>
         <th>시험일</th>
         <th>시험지역</th>
-        <th>바로가기</th>
+        <th>수험표</th>
       </tr>
       <c:forEach var="apply" items="${applyList}">
       	<tr>
 			<td>${apply.examDto.examName}</td>
-	        <td>${apply.examDto.receiptStartDate} ~ ${apply.examDto.receiptEndDate}</td>
+	        <%-- <td>${apply.examDto.receiptStartDate} ~ ${apply.examDto.receiptEndDate}</td> --%>
+	        <td>${apply.examDto.examDegree}</td>
 	        <td>${apply.examDto.examDate}</td>
 	        <td>${apply.examZoneDto.localDetail}</td>
-	        <td><a href="/ticket_view?receiptId=${apply.receiptId}" class="btn_apply">자세히 보기</a></td>
+	        <td><a href="/ticket_view?receiptId=${apply.receiptId}" class="btn_apply">출력하기</a></td>
       	</tr>
       </c:forEach>
     </table>

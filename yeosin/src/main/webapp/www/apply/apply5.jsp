@@ -83,7 +83,7 @@
 	        <tr>
 	          <th>결제방법선택</th>
 	          <td>
-	            <label class="pay"><input type="radio" name="paymentMethod" value="VBANK"><span>가상계좌</span></label>
+<!-- 	            <label class="pay"><input type="radio" name="paymentMethod" value="VBANK"><span>가상계좌</span></label> -->
 	            <label class="pay"><input type="radio" name="paymentMethod" value="BANK"><span>실시간 계좌이체</span></label>
 	            <label class="pay"><input type="radio" name="paymentMethod" value="CARD"><span>신용카드</span></label>
 	          </td>

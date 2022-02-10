@@ -32,7 +32,8 @@
 		AND 	USERNAME = #{userName, jdbcType=VARCHAR}
 		AND		GENDER = #{gender, jdbcType=VARCHAR}
 		AND 	BIRTHDATE = #{birthDate, jdbcType=VARCHAR}
-		AND 	CERTID = #{eduNum, jdbcType=VARCHAR};
+		AND 	CERTID = #{eduNum, jdbcType=VARCHAR}
+		AND 	SUBJECT = #{subjectId, jdbcType=VARCHAR};
 	</select>
 	
 	<insert id="insertEduComepletionInfo" parameterType="com.yeosin.user.EduCompletionDto">

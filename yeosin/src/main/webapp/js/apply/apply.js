@@ -5,14 +5,6 @@ $(document).ready(function(){
 		doExamZoneSearch();
 	});
 	
-	// 접수취소(cancel.jsp)
-	$('#btn_cancel').click(function(){
-		if (confirm("환불규정을 확인하셨습니까?\n환불규정에 동의 후 취소가 가능합니다.")) 
-		{
-			location.href="/cancel?receiptId="+$("#receiptId").val();
-		}
-	});
-	
 });
 
 // 원서접수 환불규정동의 체크함수(apply2.jsp)
@@ -39,6 +31,7 @@ function doCompleted()
 	var birthDate = $('#birthDate').val();
 	var eduNum = $('#eduNum').val();
 	var examId = $('#examId').val();
+	var subjectId = $('#subjectType').val();
 	var isPassEdu = "N";
 
 	if (subjectType == "*")
@@ -61,7 +54,8 @@ function doCompleted()
 		   		gender : gender,
 		   		birthDate : birthDate,
 		   		eduNum : eduNum,
-		   		examId : examId
+		   		examId : examId,
+		   		subjectId : subjectId
 			  },
         success: function(data) 
 		{
@@ -81,7 +75,7 @@ function doCompleted()
 	} 
 	else 
 	{
-		alert("등록되어있는 교육증 수료번호가 아닙니다.");
+		alert("등록되어있는 교육증 수료번호가 아닙니다.\n교육과정 및 수료증번호를 다시 확인해 주시기 바랍니다.");
 		return false;
 	}
 }
@@ -210,6 +204,19 @@ function localChk(examId, userId)
 		location.href="/apply2?examId=" + examId + "&local=" + local;
 	}
    	   
+}
+
+// 환불규정 동의(accept_view.jsp)
+function doRefund()
+{
+	if (confirm("환불규정을 확인하셨습니까?\n환불규정에 동의 후 취소가 가능합니다.")) 
+	{
+		return true;
+	}	
+	else 
+	{
+		return false;
+	}
 }
 
 /*
