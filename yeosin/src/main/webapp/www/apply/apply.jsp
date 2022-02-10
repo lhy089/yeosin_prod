@@ -62,7 +62,7 @@
       </tr>
       <tr>
         <th>시험회차</th>
-        <td>${exam.examDegree}</td>
+        <td>${exam.examYear}-${exam.examDegree}</td>
       </tr>
       <tr>
         <th>시험일</th>

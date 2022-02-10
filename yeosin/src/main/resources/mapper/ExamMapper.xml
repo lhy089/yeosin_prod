@@ -17,8 +17,11 @@
 			,	DATE_FORMAT(GRADESTARTDATE, '%Y/%m/%d') AS gradeStartDate
 			,	DATE_FORMAT(GRADEENDDATE, '%Y/%m/%d') AS gradeEndDate
 		FROM YS_EXAM
-		ORDER BY EXAMDEGREE DESC 
+		<![CDATA[
+		WHERE NOW() < receiptstartDate
+		ORDER BY EXAMDEGREE  
 		LIMIT 1
+		]]> 
 	</select>
 	
 	<!-- 시험 1개에 대한 정보 -->
@@ -36,6 +39,35 @@
 			,	EXAMAREA
 			,	DATE_FORMAT(RECEIPTSTARTDATE, '%Y/%m/%d') AS receiptstartDate
 			, 	DATE_FORMAT(RECEIPTENDDATE, '%Y/%m/%d') AS receiptEndDate
+			,	DATE_FORMAT(ALLREFUNDEXITDATE, '%Y/%m/%d') AS allRefundExitDate
+			,	ISPRACTICALEXAM
+			,	DATE_FORMAT(CERTPRINTSTARTDATE, '%Y/%m/%d') AS certPrintStartDate
+			,	DATE_FORMAT(CERTPRINTENDDATE, '%Y/%m/%d') AS certPrintEndDate
+			,	DATE_FORMAT(GRADESTARTDATE, '%Y/%m/%d') AS gradeStartDate
+			,	DATE_FORMAT(GRADEENDDATE, '%Y/%m/%d') AS gradeEndDate
+			,	EXAMCOST
+		FROM 	YS_EXAM
+		WHERE 	1 = 1
+		AND 	EXAMID = #{examId} 
+		ORDER BY 
+				EXAMDEGREE DESC;
+	</select>
+	
+	<!-- apply3 화면에서 필요한 시험 1개에 대한 정보 -->
+	<select id="getExamInfoForApply3" parameterType="String" resultType="com.yeosin.apply.ExamDto">
+		SELECT 
+				EXAMID
+			,	EXAMNAME
+			,	EXAMYEAR
+			,	SUBJECTID
+			,	EXAMTYPE
+			,	ISAPPROVAL
+			,	EXAMDEGREE
+			, 	DATE_FORMAT(EXAMDATE, '%Y/%m/%d') AS examDate
+			,	EXAMLOCAL
+			,	EXAMAREA
+			,	DATE_FORMAT(RECEIPTSTARTDATE, '%Y/%m/%d %p %h:%i:%s') AS receiptstartDate
+			, 	DATE_FORMAT(RECEIPTENDDATE, '%Y/%m/%d %p %h:%i:%s') AS receiptEndDate
 			,	DATE_FORMAT(ALLREFUNDEXITDATE, '%Y/%m/%d') AS allRefundExitDate
 			,	ISPRACTICALEXAM
 			,	DATE_FORMAT(CERTPRINTSTARTDATE, '%Y/%m/%d') AS certPrintStartDate

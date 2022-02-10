@@ -135,7 +135,7 @@ public class ApplyController {
 		
 		if (userInfo != null) 
 		{
-			ExamDto examInfo = applyService.getExamInfo(request.getParameter("examId"));
+			ExamDto examInfo = applyService.getExamInfoForApply3(request.getParameter("examId"));
 			mav.addObject("examInfo", examInfo);
 			mav.addObject("userInfo", userInfo);
 			mav.addObject("local", request.getParameter("local"));

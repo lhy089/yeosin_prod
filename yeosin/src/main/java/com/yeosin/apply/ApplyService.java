@@ -54,6 +54,17 @@ public class ApplyService {
 		return examDao.getExamInfo(examId);
 	}
 	
+	public ExamDto getExamInfoForApply3(String examId) throws Exception{
+		ExamDto examDto = examDao.getExamInfoForApply3(examId);
+		
+		examDto.setReceiptStartDate(examDto.getReceiptStartDate().replace("AM", "오전")); ;
+		examDto.setReceiptStartDate(examDto.getReceiptStartDate().replace("PM", "오후"));
+		examDto.setReceiptEndDate(examDto.getReceiptEndDate().replace("AM", "오전")) ;
+		examDto.setReceiptEndDate(examDto.getReceiptEndDate().replace("PM", "오후"));
+		
+		return examDto;
+	}
+	
 	public List<ApplyDto> getExamResult(String userId) throws Exception {
 		return applyDao.getExamResult(userId);
 	}

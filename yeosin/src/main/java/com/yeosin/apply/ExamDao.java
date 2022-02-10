@@ -25,6 +25,10 @@ public class ExamDao {
 		return this.sqlSession.selectOne(nameSpace + "getExamInfo", examId);
 	}
 	
+	public ExamDto getExamInfoForApply3(String examId) {
+		return this.sqlSession.selectOne(nameSpace + "getExamInfoForApply3", examId);
+	}
+	
 	/*public List<ApplyDto> getApplyList(String userId) throws Exception {
 		return sqlSession.selectList(nameSpace + "GetApplyList", userId);
 	}*/
