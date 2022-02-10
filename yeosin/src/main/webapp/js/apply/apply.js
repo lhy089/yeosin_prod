@@ -143,25 +143,6 @@ function doReceipt()
 	}
 }
 
-//결제하기 체크함수(apply5.jsp)
-function doPayment()
-{	
-	var isPaymentChecked = $('input:radio[name=paymentMethod]').is(':checked');
-	
-	if (!isPaymentChecked)
-	{
-		alert("결제방법은 필수체크입니다.");
-		return false;
-	}
-	else 
-	{
-		var result = confirm('위 내용으로 결제를 진행하시겠습니까?'); 
-		if (result) return true;
-		else return false;
-	}
-}
-
-// 지역선택 여부 및 이미 접수한 시험인지 체크함수(apply.jsp)
 function localChk(examId, userId)
 {
 	var local = $("#" + examId + " option:selected").val();
@@ -219,7 +200,6 @@ function doRefund()
 	}
 }
 
-/*
 // 결제하기 체크함수(apply5.jsp)
 function doPayment()
 {	
@@ -235,7 +215,7 @@ function doPayment()
 		var result = confirm('위 내용으로 결제를 진행하시겠습니까?'); 
 		if (result) {
 			nicepayStart();
-			doApplyInfoInsert
+//			doApplyInfoInsert
 		}
 		else return false;
 	}
@@ -256,11 +236,17 @@ function nicepayStart() { debugger;
 	}
 }
 
-//결제하기 체크함수(apply5.jsp)
-function doApplyInfoInsert()
-{	
-	document.doApplyInfoIForm.submit();
+//[PC 결제창 전용]결제 최종 요청시 실행됩니다. <<'nicepaySubmit()' 이름 수정 불가능>>
+function nicepaySubmit(){
+	document.payForm.submit();
 }
+
+//[PC 결제창 전용]결제창 종료 함수 <<'nicepayClose()' 이름 수정 불가능>>
+function nicepayClose(){
+	alert("결제가 취소 되었습니다");
+}
+
+//결제하기 체크함수(apply5.jsp)
 
 function checkPlatform(ua) {
 if(ua === undefined) {
@@ -299,4 +285,3 @@ if(platform.cros || platform.mac || platform.linux || platform.win) {
 
 return userPlatform;
 }
-*/

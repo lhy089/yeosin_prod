@@ -24,7 +24,7 @@
 	<link rel="stylesheet" href="/www/inc/css/apply.css">	
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=1"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=2"></script>
 <%-- 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/pay.js?t=2"></script> --%>
 	<script src="https://web.nicepay.co.kr/v3/webstd/js/nicepay-3.0.js" type="text/javascript"></script>
 </head>
@@ -40,8 +40,8 @@
       인터넷접수 첫날의 접수 시작 시간은 10:00 부터입니다.
     </div>
     <h2>3단계 접수확인 및 결제선택</h2>
-    <form action="/apply6" method="post" onsubmit="return doPayment();">
-<!--     <form action="/apply6" method="post" name="doApplyInfoIForm"> -->
+<!--     <form action="/apply6" method="post" onsubmit="return doPayment();"> -->
+    <form action="/apply6" method="post" name="payForm">
 	    <section>
 	      <table>
 	        <colgroup>
@@ -93,25 +93,26 @@
 			<input type="hidden" value="<%=request.getParameter("eduNum")%>" id="eduNum" name="eduNum"/>
 			<input type="hidden" value="<%=request.getParameter("exmaZoneRadio")%>" id="exmaZoneId" name="exmaZoneId"/>
 			<input type="hidden" value="<%=request.getParameter("subjectRadio")%>" id="subjectId" name="subjectId"/>
-			<input style="border:none;" class="btn_apply" type="submit" value="결제하기"/>
-<!-- 	      	<input style="border:none;" class="btn_apply" onclick="doPayment()" value="결제하기"/> -->
-	    </section>
-    </form>
-    <!-- 
-  	<form name="payForm" method="post" action="payResult_utf.jsp">
-		<input type="hidden" value="" id="PayMethod" name="PayMethod"/>
+			<input type="hidden" value="" id="PayMethod" name="PayMethod"/>
 		<input type="hidden" value="나이스페이" id="GoodsName" name="GoodsName"/>
 		<input type="hidden" value="${examInfo.examCost}" id="Amt" name="Amt"/>
 		<input type="hidden" value="kmama0001m" id="MID" name="MID"/>
-		<input type="hidden" value="mnoid1234567890" id="Moid" name="Moid"/>
+		<input type="hidden" value="${moid}" id="Moid" name="Moid"/>
 		<input type="hidden" value="${userInfo.userName}" id="BuyerName" name="BuyerName"/>
 		<input type="hidden" value="${userInfo.emailAddress}" id="BuyerEmail" name="BuyerEmail"/>
 		<input type="hidden" value="${userInfo.phoneNumber}" id="BuyerTel" name="BuyerTel"/>
-		<input type="hidden" value=http://127.0.0.1/www/apply/pay/payResult_utf.jsp" id="ReturnURL" name="ReturnURL"/>
+		<input type="hidden" value="http://119.205.221.175/www/apply/pay/payResult_utf.jsp" id="ReturnURL" name="ReturnURL"/>
 		<input type="hidden" value="" id="VbankExpDate" name="VbankExpDate"/>
  		<input type="hidden" name="EdiDate" value="${ediDate}"/>			
-		<input type="hidden" name="SignData" value="${hashString}>"/>	
-	</form>  -->
+		<input type="hidden" name="SignData" value="${hashString}"/>	
+<!-- 			<input style="border:none;" class="btn_apply" type="submit" value="결제하기"/> -->
+	      	<input style="border:none;" class="btn_apply" onclick="doPayment()" value="결제하기"/>
+	    </section>
+    </form>
+    
+<!--   	<form name="payForm" method="post" action="/payResult"> -->
+		
+<!-- 	</form> -->
 	
   </div>
 </div>

@@ -25,7 +25,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/common/print.js?t=1"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=1"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=2"></script>
 </head>
 
 <body>
