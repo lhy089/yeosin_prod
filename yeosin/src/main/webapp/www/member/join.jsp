@@ -25,7 +25,7 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="www/inc/css/member.css?t=1">
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=1"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=3"></script>
   <script language='javascript'>
 	window.name ="Parent_window";
 	
@@ -559,7 +559,7 @@
           <tr>
            <th class="essential">이메일</th>
             <td>
-              <input type="email" id="emailAddress" value="">
+              <input type="email" id="emailAddress" name="emailAddress" value="">
               <p>수신동의 하시면 안내 및 수험 정보를 받으실 수 있습니다.<br/>수신동의와 별도로 비밀번호 찾기에 사용되므로 <strong>반드시 입력</strong> 바랍니다.</p>
               <label><input type="checkbox" id="isReceiveEmail" name="agreeChk" disabled="disabled"/> 수신 동의합니다</label>
             </td>

@@ -132,6 +132,11 @@ function isValid() {
 	var userId = $('#userId').val();
 	var userPwd = $('#userPwd').val();
 	var userPwd2 = $('#userPwd2').val();
+	var phoneNumber = $("#phoneNumber").val();
+	var phoneNumber2 = $("#phoneNumber2").val();
+	var phoneNumber3 = $("#phoneNumber3").val();
+	var emailAddress = $("#emailAddress").val();
+	
 	console.log("B");
 	if (userName == '') {
 		alert("이름 입력하세요.");
@@ -210,6 +215,17 @@ function isValid() {
 		alert("아이디 중복체크가 필요합니다.");
 		return false;
 	}
+	
+	if(phoneNumber == '' || phoneNumber2 == '' || phoneNumber3 == ''){
+		alert("핸드폰 번호를 입력하세요.")
+		return false;
+	}
+	
+	if(emailAddress == ''){
+		alert("이메일을 입력하세요.")
+		return false;
+	}
+		
 	
 	return true;
 }
