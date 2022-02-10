@@ -109,4 +109,8 @@ public class ApplyService {
 	public List<ExamZoneDto> getExamDetailListByLocal(Map<String, Object> map) throws Exception{
 		return examZoneDao.getExamDetailListByLocal(map);
 	}
+	
+	public int setPaymentInfo(ApplyDto applyDto) throws Exception{
+		return applyDao.setPaymentInfo(applyDto);
+	}
 }

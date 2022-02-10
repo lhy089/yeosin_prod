@@ -265,9 +265,9 @@
 	<!-- 새로운 접수 Insert (결제 완료건에 대해) -->
 	<insert id="setReceiptInfo" parameterType="com.yeosin.apply.ApplyDto">
 		INSERT INTO YS_RECEIPT (RECEIPTID, USERID, EXAMID, CERTID, RECEIPTDATE, ISCANCEL
-								, STUDENTCODE, SEATNUMBER, EXAMZONEID, PAYMENTMETHOD, CARDNAME, EXAMFEE)
+								, STUDENTCODE, SEATNUMBER, EXAMZONEID, PAYMENTMETHOD, CARDNAME, EXAMFEE, PAYMENTID)
 		VALUES (#{receiptId}, #{userId}, #{examId}, #{certId}, NOW(), 'N'
-				, #{studentCode}, '임시1', #{examZoneId}, #{paymentMethod}, #{cardName}, #{examFee});
+				, #{studentCode}, '임시1', #{examZoneId}, #{paymentMethod}, #{cardName}, #{examFee}, #{paymentId});
 	</insert>
 	
    <!-- 해당시험에 이미 접수된 건이 있는지 확인 -->
@@ -279,4 +279,15 @@
 		AND 	EXAMID = #{examId, jdbcType=VARCHAR}
 		AND 	ISCANCEL = 'N'
 	</select>
+	
+	<update id="setPaymentInfo" parameterType="com.yeosin.apply.ApplyDto">
+		UPDATE YS_RECEIPT
+		SET
+			PAYMENTMETHOD	=	#{paymentMethod},
+			EXAMFEE			=	#{examFee},
+			PAYMENTID		=	#{paymentId}
+		WHERE 	1 = 1
+		AND 	USERID = #{userId}
+		AND		RECEIPTID = #{receiptId}
+	</update>
 </mapper>

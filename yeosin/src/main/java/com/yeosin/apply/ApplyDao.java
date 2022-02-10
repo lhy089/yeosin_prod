@@ -62,4 +62,8 @@ public class ApplyDao {
 		return sqlSession.selectOne(nameSpace + "getIsReceipt", map);
 	}
 	
+	public int setPaymentInfo(ApplyDto applyDto) throws Exception {
+		return sqlSession.update(nameSpace + "setPaymentInfo", applyDto);
+	}
+	
 }

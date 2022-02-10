@@ -301,12 +301,14 @@ public class ApplyController {
 				long newMaxReceiptNumber = Long.parseLong(applyService.getMaxReceiptNumber()) + 1;
 				String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);
 				String newStudentCode = String.valueOf(newMaxReceiptNumber);
+				/*
 				String paymentMethod = "";
 				if("CARD".equals(request.getParameter("PayMethod"))) {
 					paymentMethod = "카드";
 				}else if("BANK".equals(request.getParameter("PayMethod"))){
 					paymentMethod = "계좌이체";
 				}
+				*/
 				// 3. 접수테이블에 저장될 값을 ApplyDto에 넣는다.(TODO : 결제정보 추가 Insert 필요)
 				ApplyDto insertApplyDto = new ApplyDto();
 				insertApplyDto.setReceiptId(newMaxReceiptNumberStr);
@@ -315,21 +317,43 @@ public class ApplyController {
 				insertApplyDto.setCertId(request.getParameter("eduNum"));
 				insertApplyDto.setExamZoneId(request.getParameter("exmaZoneId"));
 				insertApplyDto.setStudentCode(newStudentCode);
+				/*
 				insertApplyDto.setPaymentMethod(paymentMethod);
 				insertApplyDto.setExamFee(request.getParameter("Amt"));
+				*/
 				
 				int result = applyService.setReceiptInfo(insertApplyDto);
 				
 				if (result > 0)
-				{
-					String payResultCode = this.payResult(session, request, response);
+				{	
+					// 결제 시작 (트랜잭션 처리 후 순서 변경 예정)
+					Map<String,String> resultMap = new HashMap<>();
+					resultMap = this.payResult(session, request, response, resultMap);
 					
-					if(!"0000".equals(payResultCode)) {
+					if(!("3001".equals(resultMap.get("ResultCode")) || "4000".equals(resultMap.get("ResultCode")))) {
 						mav.addObject("isSuccess", "N");
 						mav.setViewName("apply/apply6");
 						return mav;
 					}
 					
+					String paymentMethod = "";
+					if("CARD".equals(resultMap.get("PayMethod"))) {
+						paymentMethod = "카드";
+					}else if("BANK".equals(resultMap.get("PayMethod"))){
+						paymentMethod = "계좌이체";
+					}
+					
+					insertApplyDto.setPaymentMethod(paymentMethod);
+					insertApplyDto.setExamFee(resultMap.get("Amt"));
+					insertApplyDto.setPaymentId(resultMap.get("TID"));
+					
+					int payResult = applyService.setPaymentInfo(insertApplyDto);
+					
+					if(payResult==0) {
+						mav.addObject("isSuccess", "N");
+						mav.setViewName("apply/apply6");
+						return mav;
+					}
 					mav.addObject("isSuccess", "Y");
 					mav.addObject("examId", request.getParameter("examId"));
 					mav.addObject("receiptId", newMaxReceiptNumberStr);
@@ -646,7 +670,7 @@ public class ApplyController {
 	
 //	@RequestMapping(value="/payResult", method=RequestMethod.POST)
 //	@ResponseBody
-	public String payResult(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Map<String,String> payResult(HttpSession session, HttpServletRequest request, HttpServletResponse response, Map<String,String> resultMap) throws Exception {
 	   request.setCharacterEncoding("utf-8"); 
 	   /*
 	   ****************************************************************************************
@@ -783,8 +807,13 @@ public class ApplyController {
 	   	System.out.println("인증 응답 Signature : " + authSignature);
 	   	System.out.println("인증 생성 Signature : " + authComparisonSignature);
 	   }*/
+	   resultMap.put("ResultCode", ResultCode);
+	   resultMap.put("ResultMsg", ResultMsg);
+	   resultMap.put("PayMethod", PayMethod);
+	   resultMap.put("Amt", Amt);
+	   resultMap.put("TID", TID);
 	   
-	   return authResultCode;
+	   return resultMap;
    }
 	
 	//server to server 통신

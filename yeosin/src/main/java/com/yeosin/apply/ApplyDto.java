@@ -25,6 +25,7 @@ public class ApplyDto {
 	private String studentCode; // 수험번호
 	private String seatNumber; // 좌석번호
 	private String examZoneId; // 고사장 ID
+	private String paymentId; // 거래 ID
 
 	private int page;  		//현재 페이지 번호	
 	private int perPageNum; //현 페이지당 보여줄 게시글의 갯수
@@ -64,6 +65,12 @@ public class ApplyDto {
 	}
 	public void setExamZoneId(String examZoneId) {
 		this.examZoneId = examZoneId;
+	}
+	public String getPaymentId() {
+		return paymentId;
+	}
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
 	}
 	public String getReceiptId() {
 		return receiptId;
