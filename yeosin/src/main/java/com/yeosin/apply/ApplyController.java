@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
@@ -546,12 +547,28 @@ public class ApplyController {
 	// 접수취소(TODO : 구현필요)
 	@RequestMapping(value="/cancel", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView cancel(@RequestParam("receiptId") String receiptId, HttpSession session, HttpServletResponse response) throws Exception 
+	public ModelAndView cancel(@RequestParam("receiptId") String receiptId, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		
+		Map<String,String> resultMap = new HashMap<>();
+		resultMap = this.payCancelResult(session, request, response, resultMap);
+		
+		if("2001".equals(resultMap.get("ResultCode")) || "2211".equals(resultMap.get("ResultCode"))) {
+			// 접수취소 > 환불 성공 
+			// TODO : receiptId, resultMap 을 이용해서 YS_RECEIPT 컬럼 업데이트, cancelDate 컬럼 추가 및 update 필요(cancelDate, cancelTime 컬럼 따로 써도 되고 합쳐도 됨)
+			/*
+			resultMap.put("TID", TID); // YS_RECEIPT > paymentId (고유값)
+			resultMap.put("ResultCode", ResultCode);
+			resultMap.put("ResultMsg", ResultMsg);
+			resultMap.put("CancelDate", CancelDate); // 취소일자 (YYYYMMDD)
+			resultMap.put("CancelTime", CancelTime); // 취소시간 (HHmmss)
+			*/
+		}else {
+		}
+		/*
 		if (userInfo != null) 
 		{
 			mav.addObject("result", "");
@@ -562,7 +579,7 @@ public class ApplyController {
 			mav.addObject("isAlert", true);
 			mav.setViewName("member/login");				
 		}
-
+		*/
 		return mav;
 	}
 	
@@ -668,8 +685,6 @@ public class ApplyController {
 	String strENCData = "";
 	String strOUTData = "";
 	
-//	@RequestMapping(value="/payResult", method=RequestMethod.POST)
-//	@ResponseBody
 	public Map<String,String> payResult(HttpSession session, HttpServletRequest request, HttpServletResponse response, Map<String,String> resultMap) throws Exception {
 	   request.setCharacterEncoding("utf-8"); 
 	   /*
@@ -912,5 +927,92 @@ public class ApplyController {
 			sb.append(charSet[idx]); 
 		} 
 		return sb.toString(); 
+	}
+	
+	public Map<String,String> payCancelResult(HttpSession session, HttpServletRequest request, HttpServletResponse response, Map<String,String> resultMap) throws Exception {
+		request.setCharacterEncoding("utf-8"); 
+
+		/*
+		 ****************************************************************************************
+		 * <취소요청 파라미터>
+		 * 취소시 전달하는 파라미터입니다.
+		 * 샘플페이지에서는 기본(필수) 파라미터만 예시되어 있으며, 
+		 * 추가 가능한 옵션 파라미터는 연동메뉴얼을 참고하세요.
+		 ****************************************************************************************
+		 */
+		String tid 					= (String)request.getParameter("TID");	// 거래 ID
+		String cancelAmt 			= (String)request.getParameter("CancelAmt");	// 취소금액
+		String partialCancelCode 	= (String)request.getParameter("PartialCancelCode"); 	// 부분취소여부
+		String mid 					= "kmama0001m";	// 상점 ID
+		String moid					= "moid"+getRamdomPassword();	// 주문번호
+		String cancelMsg 			= "고객요청";	// 취소사유
+
+		/*
+		 ****************************************************************************************
+		 * <해쉬암호화> (수정하지 마세요)
+		 * SHA-256 해쉬암호화는 거래 위변조를 막기위한 방법입니다. 
+		 ****************************************************************************************
+		 */
+		String merchantKey 		= "1q8Rl7lwsYz1YaneFJ/mUIwNgh9y/12OcHoMVtR0CqnVnUf5WAPGxF95+jOo29PhSl1RGjSxnzhRB3xvmFEK7w=="; // 상점키
+		String ediDate			= getyyyyMMddHHmmss();
+		String signData 		= this.encrypt(mid + cancelAmt + ediDate + merchantKey);
+		/*
+		 ****************************************************************************************
+		 * <취소 요청>
+		 * 취소에 필요한 데이터 생성 후 server to server 통신을 통해 취소 처리 합니다.
+		 * 취소 사유(CancelMsg) 와 같이 한글 텍스트가 필요한 파라미터는 euc-kr encoding 처리가 필요합니다.
+		 ****************************************************************************************
+		 */
+		StringBuffer requestData = new StringBuffer();
+		requestData.append("TID=").append(tid).append("&");
+		requestData.append("MID=").append(mid).append("&");
+		requestData.append("Moid=").append(moid).append("&");
+		requestData.append("CancelAmt=").append(cancelAmt).append("&");
+		requestData.append("CancelMsg=").append(URLEncoder.encode(cancelMsg, "euc-kr")).append("&");
+		requestData.append("PartialCancelCode=").append(partialCancelCode).append("&");
+		requestData.append("EdiDate=").append(ediDate).append("&");
+		requestData.append("CharSet=").append("utf-8").append("&");
+		requestData.append("SignData=").append(signData);
+		String resultJsonStr = connectToServer(requestData.toString(), "https://webapi.nicepay.co.kr/webapi/cancel_process.jsp");
+
+		/*
+		 ****************************************************************************************
+		 * <취소 결과 파라미터 정의>
+		 * 샘플페이지에서는 취소 결과 파라미터 중 일부만 예시되어 있으며, 
+		 * 추가적으로 사용하실 파라미터는 연동메뉴얼을 참고하세요.
+		 ****************************************************************************************
+		 */
+		String ResultCode 	= ""; String ResultMsg 	= ""; String CancelAmt 	= "";
+		String CancelDate 	= ""; String CancelTime = ""; String TID 		= ""; String Signature = "";
+
+		/*  
+		 ****************************************************************************************
+		 * Signature : 요청 데이터에 대한 무결성 검증을 위해 전달하는 파라미터로 허위 결제 요청 등 결제 및 보안 관련 이슈가 발생할 만한 요소를 방지하기 위해 연동 시 사용하시기 바라며 
+		 * 위변조 검증 미사용으로 인해 발생하는 이슈는 당사의 책임이 없음 참고하시기 바랍니다.
+		 ****************************************************************************************
+		 */
+		//String Signature = ""; String cancelSignature = "";
+
+		if("9999".equals(resultJsonStr)){
+			ResultCode 	= "9999";
+			ResultMsg	= "통신실패";
+		}else{
+			HashMap resultData = jsonStringToHashMap(resultJsonStr);
+			ResultCode 	= (String)resultData.get("ResultCode");	// 결과코드 (취소성공: 2001, 취소성공(LGU 계좌이체):2211)
+			ResultMsg 	= (String)resultData.get("ResultMsg");	// 결과메시지
+			CancelAmt 	= (String)resultData.get("CancelAmt");	// 취소금액
+			CancelDate 	= (String)resultData.get("CancelDate");	// 취소일
+			CancelTime 	= (String)resultData.get("CancelTime");	// 취소시간
+			TID 		= (String)resultData.get("TID");		// 거래아이디 TID
+			//Signature       	= (String)resultData.get("Signature");
+			//cancelSignature = sha256Enc.encrypt(TID + mid + CancelAmt + merchantKey);
+		}
+		
+		resultMap.put("TID", TID);
+		resultMap.put("ResultCode", ResultCode);
+		resultMap.put("ResultMsg", ResultMsg);
+		resultMap.put("CancelDate", CancelDate);
+		resultMap.put("CancelTime", CancelTime);
+		return resultMap;
 	}
 }

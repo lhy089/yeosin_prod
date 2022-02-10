@@ -95,7 +95,10 @@
 	    </c:otherwise>
 	    </c:choose>
 	    <div class="btnWrap">
-	    	<input type="hidden" value="${applyInfo.receiptId}" id="receiptId"/>
+	    	<input type="hidden" value="${applyInfo.receiptId}" id="receiptId" name="receiptId"/>
+	    	<input type="hidden" value="${applyInfo.paymentId}" id="TID" name="TID"/>
+	    	<input type="hidden" value="${applyInfo.examFee}" id="CancelAmt" name="CancelAmt"/>
+	    	<input type="hidden" value="0" id="PartialCancelCode" name="PartialCancelCode"/>
 			<!-- <a onclick="return false;" class="btn_apply" id="btn_print">출력하기</a> -->
 	      <input style="border:none;" class="btn_apply" type="submit" value="접수취소"/>
 	    </div>
