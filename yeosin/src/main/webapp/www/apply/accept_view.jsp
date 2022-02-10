@@ -24,8 +24,8 @@
 	<link rel="stylesheet" href="/www/inc/css/apply.css">
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/common/print.js?t=1"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=2"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/common/print.js?t=?t=<%= new java.util.Date() %>"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=?t=<%= new java.util.Date() %>"></script>
 </head>
 
 <body>
@@ -38,7 +38,7 @@
     <div class="announcement">
       접수를 취소할 경우 환불 규정을 꼭 확인해야 합니다.
     </div>
-    <form action="/cancel" method="get" onsubmit="return doRefund();">
+    <form action="/cancel" method="POST" onsubmit="return doRefund();">
 	    <c:choose>
 	    <c:when test="${applyInfo ne null}">
 	    <div id="printArea">

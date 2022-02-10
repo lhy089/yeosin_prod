@@ -545,7 +545,7 @@ public class ApplyController {
 	}
 	
 	// 접수취소(TODO : 구현필요)
-	@RequestMapping(value="/cancel", method=RequestMethod.GET)
+	@RequestMapping(value="/cancel", method=RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView cancel(@RequestParam("receiptId") String receiptId, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
@@ -558,7 +558,7 @@ public class ApplyController {
 			Map<String,String> resultMap = new HashMap<>();
 	      	resultMap.put("receiptId", receiptId);
 	      	resultMap.put("userId", userInfo.getUserId());
-			//resultMap = this.payCancelResult(session, request, response, resultMap);
+			resultMap = this.payCancelResult(session, request, response, resultMap);
 			resultMap.put("TID", "kmama0001m01012202110022506806");
 			resultMap.put("ResultCode", "2001");
 			resultMap.put("ResultMsg", "결제취소성공");
