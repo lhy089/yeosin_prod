@@ -25,25 +25,25 @@
       <li>
         <dl>
           <dt><a href="#">원서접수</a></dt>
-          <dd><a href="#">원서접수 신청</a></dd>
-          <dd><a href="#">원서접수 확인 및 취소</a></dd>
-          <dd><a href="#">수험표 출력</a></dd>
-          <dd><a href="#">환불 안내</a></dd>
+          <dd><a href="/apply">원서접수 신청</a></dd>
+          <dd><a href="/accept">원서접수 확인 및 취소</a></dd>
+          <dd><a href="/ticket">수험표 출력</a></dd>
+          <dd><a href="/refund">환불 안내</a></dd>
         </dl>
       </li>
       <li>
         <dl>
           <dt><a href="#">응시현황</a></dt>
-          <dd><a href="#">원서접수 현황</a></dd>
-          <dd><a href="#">응시결과</a></dd>
+          <dd><a href="/receipt">원서접수 현황</a></dd>
+          <dd><a href="/result">응시결과</a></dd>
         </dl>
       </li>
       <li>
         <dl>
           <dt><a href="#">평가안내</a></dt>
-          <dd><a href="#">평가 소개</a></dd>
-          <dd><a href="#">응시 안내</a></dd>
-          <dd><a href="#">시험자료실</a></dd>
+          <dd><a href="/examGuide">평가 소개</a></dd>
+          <dd><a href="/registerGuide">응시 안내</a></dd>
+          <dd><a href="/library?boardType=3">시험자료실</a></dd>
         </dl>
       </li>
     </ul>
@@ -51,23 +51,23 @@
       <li>
         <dl>
           <dt><a href="#">알림마당</a></dt>
-          <dd><a href="#">공지사항</a></dd>
-          <dd><a href="#">자주하는 질문</a></dd>
+          <dd><a href="/notice?boardType=1">공지사항</a></dd>
+          <dd><a href="/question?boardType=2">자주하는 질문</a></dd>
         </dl>
       </li>
       <li>
         <dl>
           <dt><a href="#">회원정보</a></dt>
-          <dd><a href="#">회원 정보 수정</a></dd>
-          <dd><a href="#">회원 탈퇴</a></dd>
+          <dd><a onclick="return false;" class="btn_change">회원정보수정</a></dd>
+          <dd><a href="/withdrawal">회원 탈퇴</a></dd>
         </dl>
       </li>
       <li>
         <dl>
-          <dt class="gray"><a href="#">회원가입</a></dt>
-          <dt class="gray"><a href="#">로그인</a></dt>
-          <dt class="gray mt70"><a href="#">이용약관</a></dt>
-          <dt class="gray"><a href="#">개인정보처리방침</a></dt>
+          <dt class="gray"><a href="/join">회원가입</a></dt>
+          <dt class="gray"><a href="/www/member/login.jsp" id="btn_login">로그인</a></dt>
+          <dt class="gray mt70"><a href="/www/common/law_use.html" target="_blank">이용약관</a></dt>
+          <dt class="gray"><a href="/www/common/law_individual.html" target="_blank">개인정보처리방침</a></dt>
         </dl>
       </li>
     </ul>

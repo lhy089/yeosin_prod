@@ -172,16 +172,14 @@ public class UserController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	@RequestMapping(value="/logout", method=RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView logout(HttpSession session, HttpServletResponse response) throws Exception {
-		Boolean result = false;
+	public void logout(HttpSession session, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
-		ModelAndView mav = new ModelAndView();
-		session.invalidate(); // 세션 초기화
-		mav.addObject("result", "");
-		mav.setViewName("index");
-		return mav;
+		session.invalidate(); // 세션 초기화;
+		response.getWriter().print(true);
+		response.getWriter().flush();
+		response.getWriter().close();
 	}
 	
 	// id 중복체크
@@ -379,11 +377,16 @@ public class UserController {
                 JSONObject item = (JSONObject) items.get(i);
                 EduCompletionDto eduCompletionInfo = new EduCompletionDto();
                 String gender = ("1".equals(ecvrypterAES256.decrypt((String)item.get("user_sex")))) ? "남":"여";
-
+                String birthDate = ecvrypterAES256.decrypt((String)item.get("user_birth"));
+                if(birthDate.length()==8) {
+                	birthDate = birthDate.substring(0,4)+"-"+birthDate.substring(4,6)+"-"+birthDate.substring(6,8);
+                }else if(birthDate.length()==6) {
+                	birthDate = "19"+birthDate.substring(0,2)+"-"+birthDate.substring(2,4)+"-"+birthDate.substring(4,6);
+                }
                 eduCompletionInfo.setUserId("");
                 eduCompletionInfo.setEduUserId((String)item.get("user_id"));
                 eduCompletionInfo.setUserName(ecvrypterAES256.decrypt((String)item.get("user_name")));
-                eduCompletionInfo.setBirthDate(ecvrypterAES256.decrypt((String)item.get("user_birth")));
+                eduCompletionInfo.setBirthDate(birthDate);
                 eduCompletionInfo.setGender(gender);
                 eduCompletionInfo.setCertId((String)item.get("diploma_no"));
                 eduCompletionInfo.setSubject((String)item.get("process_cd"));
@@ -444,11 +447,17 @@ public class UserController {
 				JSONObject item = (JSONObject) items.get(i);
 				EduCompletionDto eduCompletionInfo = new EduCompletionDto();
 				String gender = ("1".equals(ecvrypterAES256.decrypt((String)item.get("user_sex")))) ? "남":"여";
-
+				String birthDate = ecvrypterAES256.decrypt((String)item.get("user_birth"));
+                if(birthDate.length()==8) {
+                	birthDate = birthDate.substring(0,4)+"-"+birthDate.substring(4,6)+"-"+birthDate.substring(6,8);
+                }else if(birthDate.length()==6) {
+                	birthDate = "19"+birthDate.substring(0,2)+"-"+birthDate.substring(2,4)+"-"+birthDate.substring(4,6);
+                }
+                
 				eduCompletionInfo.setUserId("");
 				eduCompletionInfo.setEduUserId((String)item.get("user_id"));
 				eduCompletionInfo.setUserName(ecvrypterAES256.decrypt((String)item.get("user_name")));
-				eduCompletionInfo.setBirthDate(ecvrypterAES256.decrypt((String)item.get("user_birth")));
+				eduCompletionInfo.setBirthDate(birthDate);
 				eduCompletionInfo.setGender(gender);
 				eduCompletionInfo.setCertId((String)item.get("diploma_no"));
 				eduCompletionInfo.setSubject((String)item.get("process_cd"));

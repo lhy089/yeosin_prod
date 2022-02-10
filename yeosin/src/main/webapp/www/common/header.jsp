@@ -2,12 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js?t=2"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js?t=<%= new java.util.Date() %>"></script>
   
  <c:set var="root" value="${pageContext.request.contextPath}"/>
 <link href="/www/inc/css/reset.css" rel="stylesheet" type="text/css" media="screen">
 <link href="/www/inc/css/common.css?a=2" rel="stylesheet" type="text/css" media="screen">
-<link href="/www/inc/css/header_footer.css?t=1" rel="stylesheet" type="text/css" media="screen">
+<link href="/www/inc/css/header_footer.css?t=<%= new java.util.Date() %>" rel="stylesheet" type="text/css" media="screen">
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"> <!--나눔스퀘어 font-->
 <script>
 /* 고딕neo2,고딕neo3 font */
@@ -32,7 +32,7 @@
     <c:choose>
     <c:when test="${loginUserInfo.userId != null}">
     <div class="btnWrap">
-    	<a href="/logout" id="btn_logout">로그아웃</a>
+    	<a onclick="return false;" id="btn_logout">로그아웃</a>
 		<c:choose>
       		<c:when test="${loginUserInfo.userStatus == 'S'}">
       			<a href="/www/manage/syncCert.jsp" id="goSyncCertIdMng">수료번호API호출</a>
@@ -145,7 +145,7 @@
   <c:choose>
     <c:when test="${loginUserInfo.userId != null}">
     <div class="btnWrap">
-    	<a href="/logout" id="btn_logout">로그아웃</a>
+    	<a onclick="return false;" id="btn_logout">로그아웃</a>
     	</div>
     </c:when>
     <c:otherwise>
