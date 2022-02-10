@@ -24,8 +24,8 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="www/inc/css/member.css?t=1">
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=3"></script>
+  <link rel="stylesheet" href="www/inc/css/member.css?t=<%= new java.util.Date() %>">
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=<%= new java.util.Date() %>"></script>
   <script language='javascript'>
 	window.name ="Parent_window";
 	
@@ -488,7 +488,7 @@
           <tr>
             <th class="essential">이름</th>
             <td>
-              <input type="text" name="" value="" id="userName">
+              <input type="text" name="" value="" id="userName" disabled>
             </td>
           </tr>
           <tr>

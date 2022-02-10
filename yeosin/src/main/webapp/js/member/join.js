@@ -217,11 +217,15 @@ function isValid() {
 	}
 	
 	if(phoneNumber == '' || phoneNumber2 == '' || phoneNumber3 == ''){
+		$("#phoneNumber2").val("");
+		$("#phoneNumber3").val("");
+		$('#phoneNumber2').focus();
 		alert("핸드폰 번호를 입력하세요.")
 		return false;
 	}
 	
 	if(emailAddress == ''){
+		$('#emailAddress').focus();
 		alert("이메일을 입력하세요.")
 		return false;
 	}
