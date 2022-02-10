@@ -50,18 +50,18 @@
         </tr>
         <tr>
           <td>1.응시료를 과오납 한 경우</td>
-          <td class="red">과오납한 금액의 전부 환불</td>
+          <td class="red">과오납한 금액의 전부 환불(원서접수 취소처리)</td>
         </tr>
         <tr>
           <td>2.시험 접수 기간 내에 접수를 취소하는 경우</td>
-          <td class="red">납입한 수수료의 100% 환불(결제수수료 포함)</td>
+          <td class="red">납입한 수수료의 100% 환불</td>
         </tr>
         <tr>
           <td>3.접수기간 후부터 시험 시행일 7일 전까지 접수를 취소한 경우</td>
-          <td class="red">납입한 수수료의 50% 환불(결제수수료 포함)</td>
+          <td class="red">납입한 수수료의 50% 환불</td>
         </tr>
         <tr>
-          <td>4.시험 시행일 6일 이내에 접수를 취소한 경우</td>
+          <td>4.시험 시행일 6일 전 이후</td>
           <td class="red">취소 및 환불 불가</td>
         </tr>
       </table>
@@ -78,7 +78,7 @@
           <th rowspan="2">적용기간</th>
           <th>접수기간<br/>중</th>
           <th colspan="15">접수기간 후(7일전)</th>
-          <th colspan="6">회별시험시작<br/>(6일이내)</th>
+          <th colspan="6">시험 시행일<br/>6일 전 이후</th>
           <th>시험일</th>
         </tr>
         <tr>
@@ -107,7 +107,7 @@
           <th>시험일</th>
         </tr>
         <tr>
-          <th>적용기간</th>
+          <th>환불적용률</th>
           <td>100%</td>
           <td colspan="15">50%</td>
           <td colspan="7">취소 및 환불 불가</td>

@@ -49,8 +49,9 @@
 .notice.notice_view .content .info div{font-size:0;}
 .notice.notice_view .content .info div p{border-right:1px solid #707070; box-sizing:border-box; display:inline-block; padding-right:9px; margin-left:9px; font-size:18px; vertical-align:middle; color:#000; letter-spacing:-0.5px;}
 .notice.notice_view .content .info div p:first-of-type{margin-left:0;}
-.notice.notice_view .content .info div p:last-of-type{border-right:none;}
-.notice.notice_view .content .info div .document{width:14px; height:18px; display:inline-block; background:url('../img/guide/icon_note.png') no-repeat center / contain;}
+.notice.notice_view .content .info div .document{font-size:18px; vertical-align:middle; color:#000;}
+.notice.notice_view .content .info div .document:hover{color:#0074dd;}
+.notice.notice_view .content .info div .document::before{content:''; width:14px; height:18px; display:inline-block; background:url('../img/guide/icon_note.png') no-repeat center / contain; margin:0 5px 0 9px;}
 .notice.notice_view .content .text{font-family:sandoll-gothicneo3, sans-serif; font-size:22px; color:#000; line-height:1.64; letter-spacing:-1px; padding:20px 0 70px; box-sizing:border-box;}
 
 /* question */
@@ -100,7 +101,8 @@
   .notice.notice_view .content .info{padding:2.88vw 0 1.8vw;}
   .notice.notice_view .content .info h3{font-size:2.43vw; margin-bottom:1.44vw;}
   .notice.notice_view .content .info div p{padding-right:0.81vw; margin-left:0.81vw; font-size:1.62vw;}
-  .notice.notice_view .content .info div .document{width:1.26vw; height:1.62vw;}
+  .notice.notice_view .content .info div .document{font-size:1.62vw;}
+  .notice.notice_view .content .info div .document::before{width:1.26vw; height:1.62vw; margin:0 0.45vw 0 0.81vw;}
   .notice.notice_view .content .text{font-size:1.98vw; padding:1.8vw 0 6.3vw;}
 
   /* question */

@@ -189,6 +189,7 @@
   .apply.list table th{font-size:2.07vw; padding:1.89vw 0; border-right:0.18vw solid #e1e1e1;}
   .apply.list table td{font-size:1.98vw; line-height:3.15vw; padding:1.35vw 0 1.35vw 1.62vw;}
   .apply.list table td .btn_apply{font-size:1.89vw; padding:0 0.63vw; border-radius:0.45vw;}
+  .apply.list select#exam100{width:44.28vw; height:4.5vw; font-size:2.07vw; text-indent:1.08vw;}
 
   /* 1단계 */
   .apply.first table{border-top:0.27vw solid #0074dd; margin-bottom:6.3vw;}

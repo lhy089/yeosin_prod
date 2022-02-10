@@ -147,6 +147,7 @@
 .find .choice .proveBox table th.essential{background-position:left 30px;}
 .find .choice .proveBox table td{font-family:sandoll-gothicneo3, sans-serif; font-size:20px; line-height:2; color:#58585b; letter-spacing:-0.5px;}
 .find .choice .proveBox table td input{width:450px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:9px; font-family:sandoll-gothicneo3, sans-serif; font-size:20px; color:#58585b; letter-spacing:-0.5px; text-indent:12px;}
+.find .choice .proveBox table td input#year,.find .choice .proveBox table td input#month,.find .choice .proveBox table td input#day{width:185px;}
 .find .choice .proveBox table td p{margin-top:10px;}
 .find .choice .proveBox table td p strong{color:#ff334c;}
 .find .choice .proveBox table td a{width:157px; display:inline-block; border:1px solid #c7c6c6; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; line-height:48px; color:#58585b; background:#f8f8f8; border-radius:5px; text-align:center; vertical-align:middle; margin-left:14px; transition:0.6s;}

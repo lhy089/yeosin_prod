@@ -78,6 +78,7 @@
         * 본인인증 후 하단 저장하기를 클릭해주시기 바랍니다.
       </p>
     </h3>
+    <a href="#" class="btn_apply prove">본인인증</a>
     <section>
       <table>
         <colgroup>
