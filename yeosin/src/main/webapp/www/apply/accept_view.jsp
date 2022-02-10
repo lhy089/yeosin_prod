@@ -85,7 +85,7 @@
 	      </tr>
 	      <tr>
 	        <th>결제정보</th>
-	        <td>${applyInfo.paymentMethod}</td>
+	       <td> <a href="#" class="btn_apply">영수증 출력</a></td>
 	      </tr>
 	    </table>
 	    </div>

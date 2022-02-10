@@ -7,7 +7,7 @@
  <c:set var="root" value="${pageContext.request.contextPath}"/>
 <link href="/www/inc/css/reset.css" rel="stylesheet" type="text/css" media="screen">
 <link href="/www/inc/css/common.css?a=2" rel="stylesheet" type="text/css" media="screen">
-<link href="/www/inc/css/header_footer.css" rel="stylesheet" type="text/css" media="screen">
+<link href="/www/inc/css/header_footer.css?t=1" rel="stylesheet" type="text/css" media="screen">
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"> <!--나눔스퀘어 font-->
 <script>
 /* 고딕neo2,고딕neo3 font */
