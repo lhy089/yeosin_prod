@@ -26,6 +26,9 @@ public class ApplyService {
 	@Autowired
 	private ExamAndExamzoneRelDao examAndExamzoneRelDao;
 	
+	@Autowired
+	private SubjectDao subjectDao;
+	
 	public List<ApplyDto> getAcceptList(ApplyDto applyDto) throws Exception {
 		return applyDao.getAcceptList(applyDto);
 	}
@@ -135,5 +138,9 @@ public class ApplyService {
 	
 	public int getLeftOverSeat(Map<String, Object> map) throws Exception {
 	      return examZoneDao.getLeftOverSeat(map);
+	}
+	
+	public String getSubjectName(String subjectId) throws Exception {
+		return subjectDao.getSubjectName(subjectId);
 	}
 }

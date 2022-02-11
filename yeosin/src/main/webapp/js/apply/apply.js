@@ -1,9 +1,12 @@
 $(document).ready(function(){  
 	
-	// 고사장 검색(apply4.jsp)
+	// 고사장 검색(apply4.jsp)	
 	$('#btn_examzoneSearch').click(function(){
 		doExamZoneSearch();
 	});
+	
+	// 강제클릭(화면 진입시 바로 조회)
+	$('#btn_examzoneSearch').trigger("click");
 	
 });
 

@@ -86,11 +86,26 @@
 	        <th>과목</th>
 	      </tr>
 	      <tr>
-	        <td><input style="width:20px; height:20px;" type="radio" name="subjectRadio" value="subject1"></td>
+	      	<c:set var="subjectId" value="${subjectId}" />
+	      	<c:choose>
+	      	<c:when test="${subjectId eq 'LP01'}">
+	      		<td><input style="width:20px; height:20px;" type="radio" name="subjectRadio" value="LP01" checked="checked"></td>
+	      	</c:when>
+	      	<c:otherwise>
+	      		<td><input style="width:20px; height:20px;" type="radio" name="subjectRadio" value="LP01" disabled></td>
+	      	</c:otherwise>
+	      	</c:choose>
 	        <td>대출 · 기타 대출성 상품</td>
 	      </tr>
 	      <tr>
-	        <td><input style="width:20px; height:20px;" type="radio" name="subjectRadio" value="subject2"></td>
+	      	<c:choose>
+	      	<c:when test="${subjectId eq 'LS01'}">
+	      		<td><input style="width:20px; height:20px;" type="radio" name="subjectRadio" value="LS01" checked="checked"></td>
+	      	</c:when>
+	      	<c:otherwise>
+	      		<td><input style="width:20px; height:20px;" type="radio" name="subjectRadio" value="LS01" disabled></td>
+	      	</c:otherwise>
+	      	</c:choose>
 	        <td>리스 · 할부 상품</td>
 	      </tr>
 	    </table>

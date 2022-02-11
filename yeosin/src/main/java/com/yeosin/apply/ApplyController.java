@@ -134,7 +134,7 @@ public class ApplyController {
 		userInfo = userService.getLoginUserInfo(userInfo);
 		
 		if (userInfo != null) 
-		{
+		{		
 			ExamDto examInfo = applyService.getExamInfoForApply3(request.getParameter("examId"));
 			mav.addObject("examInfo", examInfo);
 			mav.addObject("userInfo", userInfo);
@@ -238,6 +238,7 @@ public class ApplyController {
 	         mav.addObject("examZoneDtailList", examZoneDetailList);
 	         mav.addObject("examInfo", examInfo);
 	         mav.addObject("userInfo", userInfo);
+	         mav.addObject("subjectId", request.getParameter("subjectType"));
 	         mav.setViewName("apply/apply4");
 		}
 		else 
@@ -262,6 +263,7 @@ public class ApplyController {
 		{
 			ExamDto examInfo = applyService.getExamInfo(request.getParameter("examId"));
 			String examZoneName = applyService.getExamZoneName(request.getParameter("exmaZoneRadio"));
+			String subjectName = applyService.getSubjectName(request.getParameter("subjectRadio"));
 			
 			String merchantKey 		= "1q8Rl7lwsYz1YaneFJ/mUIwNgh9y/12OcHoMVtR0CqnVnUf5WAPGxF95+jOo29PhSl1RGjSxnzhRB3xvmFEK7w=="; // 상점키
 			String merchantID 		= "kmama0001m"; 				// 상점아이디
@@ -275,6 +277,7 @@ public class ApplyController {
 			mav.addObject("hashString", hashString);
 			
 			mav.addObject("examZoneName", examZoneName);
+			mav.addObject("subjectName", subjectName);
 			mav.addObject("examInfo", examInfo);
 			mav.addObject("userInfo", userInfo);
 			mav.addObject("moid", moid);

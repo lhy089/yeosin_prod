@@ -9,4 +9,10 @@
 		FROM 	YS_SUBJECT
 		WHERE 	1 = 1;
    </select>
+   
+	<select id="getSubjectName" parameterType="String" resultType="String">
+		SELECT 	SUBJECTNAME
+		FROM 	YS_SUBJECT
+		WHERE 	SUBJECTID = #{subjectId, jdbcType=VARCHAR};
+   </select>
 </mapper>

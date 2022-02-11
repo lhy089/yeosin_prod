@@ -36,7 +36,9 @@
 		LEFT JOIN YS_LOCALCENTER			LC	ON 	EZ.LOCALCENTERID = LC.LOCALCENTERID 
 		WHERE 	1 = 1
 		AND 	EZR.EXAMID = #{examId, jdbcType=VARCHAR}
-		AND 	EZ.LOCALDETAIL = #{examZoneDetail, jdbcType=VARCHAR};
+		<if test='!examZoneDetail.equals("전체")'>
+			AND 	EZ.LOCALDETAIL = #{examZoneDetail, jdbcType=VARCHAR}
+		</if>
 	</select>
    
    	<!-- 고사장 ID로 고사장명 조회 -->
@@ -56,6 +58,9 @@
 	
 	<!--local로 고사장이 등록되어있는 전체 구 조회 -->
 	<select id="getExamDetailListByLocal" parameterType="map" resultType="com.yeosin.apply.ExamZoneDto">
+		SELECT 	'전체' 						AS LOCALDETAIL 
+		FROM 	DUAL
+		UNION
 		SELECT	DISTINCT EZ.LOCALDETAIL 
 		FROM    YS_EXAMZONE               	EZ 
 		INNER JOIN YS_EXAMANDEXAMZONEREL    EZR ON   EZR.EXAMZONEID = EZ.EXAMZONEID 

@@ -16,4 +16,8 @@ public class SubjectDao {
 	public List<SubjectDto> getSubjectList() throws Exception {
 		return sqlSession.selectList(nameSpace + "getSubjectList");
 	}
+	
+	public String getSubjectName(String subjectId) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getSubjectName", subjectId);
+	}
 }
