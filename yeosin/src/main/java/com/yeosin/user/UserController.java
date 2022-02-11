@@ -68,8 +68,8 @@ public class UserController {
 	// 로그인 처리
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	@ResponseBody
-	public void login(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
-		Boolean result = false;
+	public String login(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
+		String result = "";
 		response.setCharacterEncoding("UTF-8");
 		user.setPassword(EncryptUtils.getSha256(user.getPassword()));
 		// 사용자 정보 조회
@@ -77,14 +77,26 @@ public class UserController {
 		
 		if(userInfo != null) {
 			// 세션추가
-			session.setAttribute("loginUserInfo",userInfo);
-			result = true;
+			
+			
+			if(userInfo.getUserStatus().equals("C"))
+				result = "C";
+			else if(userInfo.getUserStatus().equals("U"))
+			{	
+				result = "U";
+				session.setAttribute("loginUserInfo",userInfo);
+			}
+			else if(userInfo.getUserStatus().equals("S"))
+			{
+				result = "S";
+				session.setAttribute("loginUserInfo",userInfo);
+			}
+				
 		}else {
 				
 		}
-		response.getWriter().print(result);
-		response.getWriter().flush();
-		response.getWriter().close();
+	
+		return result;
 	}
 	
 	@RequestMapping(value="/join", method=RequestMethod.GET)
@@ -139,8 +151,10 @@ public class UserController {
 		userInfo.setPassword(EncryptUtils.getSha256(password));
 		
 		int cnt= userService.updateUserPassword(userInfo);
-	
+		
 		if(cnt>0) result = password;
+		userService.updateUserStatus(userInfo);
+		
 		response.getWriter().print(result);
 		response.getWriter().flush();
 		response.getWriter().close();

@@ -43,6 +43,9 @@ public class UserDao {
 	public int updateUserPassword(UserDto userInfo) {
 		return this.sqlSession.update(namespace + "updateUserPassword", userInfo);
 	}
+	public void updateUserStatus(UserDto userInfo) {
+		sqlSession.update(namespace + "updateUserStatus", userInfo );
+	}
 	public String getUserByCIDI(UserDto user) {
 		return this.sqlSession.selectOne(namespace + "getUserByCIDI", user);
 	}

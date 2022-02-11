@@ -42,11 +42,16 @@ function doLogin() {
         url: "/login",
         data: data,
         sendDataType : 'string',
-		dataType : 'json',
+		dataType : 'text',
         success: function(data) {
-            if(data) {
+        	
+            if(data == 'U' || data == 'S') {
          	   $(location).attr("href", "/www/main.jsp");
-            }else {
+            }else if(data == 'C'){
+            	alert("대출성 상품 판매대리 중개업자 등록자격 인증평가 사이트 운영 관리 서버가 변경되어 기존 회원들의 패스워드 재설정이 필요합니다.조금 불편하시더라도 비밀번호 찾기를 통해 패스워드 변경 후 로그인 부탁드립니다.");
+               $(location).attr("href","/www/member/find_pwd.jsp")
+            }
+            else {
             	$('#id').val("");
         		$('#pwd').val("");
         		$('#id').focus();

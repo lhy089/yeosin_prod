@@ -134,6 +134,12 @@
 		WHERE USERID = #{userId}
 	</update>
 	
+	<update id="updateUserStatus" parameterType="com.yeosin.user.UserDto">
+		UPDATE YS_USER
+		SET USERSTATUS = 'U'
+		WHERE USERID = #{userId}
+	</update>
+	
 	<select id="getUserByCIDI" parameterType="com.yeosin.user.UserDto" resultType="String">
       SELECT 
 			(

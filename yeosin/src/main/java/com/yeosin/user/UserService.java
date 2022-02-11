@@ -44,6 +44,10 @@ public class UserService {
 		return userDao.updateUserPassword(userInfo);
 	}
 	
+	public void updateUserStatus(UserDto userInfo) throws Exception {
+		userDao.updateUserStatus(userInfo);
+	}
+	
 	public String findUserId(UserDto userDto) throws Exception   {
 		
 		String userId = userDao.findUserId(userDto);
