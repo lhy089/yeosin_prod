@@ -27,7 +27,7 @@
 			,	EZ.LOCALDETAIL 													-- 구
 			,	EZ.LOCALCENTERID 												-- 지역센터 ID
 			,	LC.LOCALCENTERNAME 												-- 지역센터명
-			,	((SELECT TOTALUSERCNT FROM YS_EXAMZONE WHERE EXAMZONEID = EZ.EXAMZONEID) 
+			,	((SELECT EXAMROOMCNT * EXAMROOMUSERCNT FROM YS_EXAMZONE WHERE EXAMZONEID = EZ.EXAMZONEID) 
 			- (SELECT COUNT(*) FROM YS_RECEIPT WHERE EXAMZONEID = EZ.EXAMZONEID AND ISCANCEL = 'N' AND EXAMID = #{examId, jdbcType=VARCHAR} )) AS LEFTOVERSEAT -- 잔여좌석
 			,	EZ.EXAMZONEMAP 													-- 약도
 			,	EZ.DESCRIPTION													-- 주소
@@ -62,4 +62,17 @@
 		WHERE   EZR.EXAMID = #{examId, jdbcType=VARCHAR}
 		AND    	EZ.LOCAL = #{local, jdbcType=VARCHAR};
 	</select>
+	
+	<!-- 고사장 잔여석 조회 -->
+	<select id="getExamZoneLeftOverSeat" parameterType="map" resultType="Integer">
+	SELECT    
+			((SELECT EXAMROOMCNT * EXAMROOMUSERCNT FROM YS_EXAMZONE WHERE EXAMZONEID = EZ.EXAMZONEID) 
+			- (SELECT COUNT(*) FROM YS_RECEIPT WHERE EXAMZONEID = EZ.EXAMZONEID AND ISCANCEL = 'N' AND EXAMID = #{examId, jdbcType=VARCHAR} )) AS SEAT -- 잔여좌석
+    FROM    YS_EXAMZONE               EZ    
+    INNER JOIN YS_EXAMANDEXAMZONEREL    EZR ON   EZR.EXAMZONEID = EZ.EXAMZONEID 
+    LEFT JOIN YS_LOCALCENTER         LC   ON    EZ.LOCALCENTERID = LC.LOCALCENTERID 
+    WHERE    1 = 1
+    AND    EZR.EXAMID = #{examId, jdbcType=VARCHAR}
+    AND    EZ.EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};
+ 	</select>
 </mapper>

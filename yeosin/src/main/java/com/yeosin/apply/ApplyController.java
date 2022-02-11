@@ -196,6 +196,25 @@ public class ApplyController {
 		return examZoneList;
 	}
 	
+	// 고사장 잔여좌석 조회
+	@RequestMapping(value="/CheckLeftOverSeat", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> CheckLeftOverSeat(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");
+      
+		// JSP에서 넘어온 데이터
+		Map<String, Object> paremterMap = new HashMap<String, Object>();
+		paremterMap.put("examId", requestMap.get("examId"));
+		paremterMap.put("examZoneId", requestMap.get("examZoneId"));
+      
+		// AJAX로 넘겨줄 데이터
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+      	resultMap.put("seat", applyService.getLeftOverSeat(paremterMap));
+      
+      	return resultMap;
+	}
+	
 	// 원서접수4(고사장 및 시험영역 선택 View)
 	@RequestMapping(value="/apply4", method=RequestMethod.GET)
 	@ResponseBody

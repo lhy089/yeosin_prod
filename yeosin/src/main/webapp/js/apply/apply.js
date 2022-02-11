@@ -106,8 +106,15 @@ function doExamZoneSearch()
 				var examZoneMap = "'" + value.examZoneMap + "'";
 				var description = "'" + value.description + "'";
 				
+				var readonlyOption = "";
+            
+	            if(value.leftOverSeat == '0')
+	               readonlyOption ="disabled";
+	            else    
+	               readonlyOption ="";
+               
 				createHtml += '<tr class="examZoneListRowAjax">';
-				createHtml += '<td><input style="width:20px; height:20px;" type="radio" name="exmaZoneRadio" value="' + value.examZoneId + '"></td>';
+				createHtml += '<td><input ' + readonlyOption +' style="width:20px; height:20px;" type="radio" name="exmaZoneRadio" value="' + value.examZoneId + '"></td>';
 				createHtml += '<td>' + value.examZoneName + '</td>';
 				createHtml += '<td>' + value.localCenterDto.localCenterName + '</td>';
 				createHtml += '<td>' + value.leftOverSeat + '</td>';
@@ -162,6 +169,10 @@ function doReceipt()
 	var isExamZoneChecked = $('input:radio[name=exmaZoneRadio]').is(':checked');
 	var isExamAreaChecked = $('input:radio[name=subjectRadio]').is(':checked');
 	
+	var examId = $('#examId').val();   
+   	var examZoneId = $('input:radio[name=exmaZoneRadio]').val();
+   	var seatCount = 0;
+   
 	if (!isExamZoneChecked || !isExamAreaChecked)
 	{
 		alert("고사장과 시험영역은 필수체크입니다.");
@@ -169,7 +180,37 @@ function doReceipt()
 	}
 	else 
 	{
-		return true;	
+		$.ajax({
+				url: "/CheckLeftOverSeat",
+		        type: "GET",
+		        async: false,
+		        data:	{            
+		            		examId : examId,
+		            		examZoneId : examZoneId
+		           		},
+		        success: function(result) 
+		        {
+					console.log("AJAX Request 성공");
+		            seatCount = result.seat;      
+		        },
+		        error: function() 
+		        {
+					console.log("AJAX Request 실패");
+		        },
+				complete: function()
+				{
+				}   
+		}); 
+		      
+		if (seatCount > 0)
+		{
+			return true;
+		}
+  		else
+  		{
+			alert("잔여 좌석이 없습니다.");
+		    return false;	
+		}
 	}
 }
 

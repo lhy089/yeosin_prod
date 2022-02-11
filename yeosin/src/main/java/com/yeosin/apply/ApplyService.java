@@ -132,4 +132,8 @@ public class ApplyService {
 	public String getIsCancelReceipt(Map<String, Object> map) throws Exception{
 		return applyDao.getIsCancelReceipt(map);
 	}
+	
+	public int getLeftOverSeat(Map<String, Object> map) throws Exception {
+	      return examZoneDao.getLeftOverSeat(map);
+	}
 }

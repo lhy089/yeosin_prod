@@ -29,4 +29,8 @@ public class ExamZoneDao {
 	public List<ExamZoneDto> getExamDetailListByLocal(Map<String, Object> map) {
 	    return this.sqlSession.selectList(nameSpace + "getExamDetailListByLocal", map);
 	}
+	
+	public int getLeftOverSeat(Map<String, Object> map) {
+		return this.sqlSession.selectOne(nameSpace + "getExamZoneLeftOverSeat", map);
+	}
 }
