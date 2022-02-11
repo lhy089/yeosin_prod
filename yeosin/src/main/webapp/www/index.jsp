@@ -5,7 +5,8 @@
 <head lang="ko">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 	<meta charset="utf-8">
-	
+	  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<title>대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
 	
 	<meta name="description" content="여신금융협회">
@@ -37,7 +38,7 @@
   <section class="cont01">
     <div class="contentBox">
       <div class="schedule">
-        <h2>시험일정 안내</h2>
+        <h2>평가일정 안내</h2>
         <ul>
           <li>제목 : <span id="examSubject">제${examInfo.examYear}-${examInfo.examDegree}차 ${examInfo.examName}</span></li>
           <li>원서접수 : <span id="receiptDate">${examInfo.receiptStartDate} ~ ${examInfo.receiptEndDate}</span></li>
@@ -87,6 +88,52 @@
         <p class="red">토요일, 일요일 및 공휴일은 휴무</p>
       </div>
     </div>
+    <!-- 팝업// -->
+  <script>
+    $( document ).ready(function() {
+     var userStatus = "${loginUserInfo.userStatus}";
+      cookiedata = document.cookie;
+      if ( (userStatus=="" || userStatus=='C') && cookiedata.indexOf("ncookie=done") < 0 ){
+        document.getElementById('layer_pop').style.display = "block";    //  팝업창 아이디
+      } else {
+        document.getElementById('layer_pop').style.display = "none";    // 팝업창 아이디
+      }
+    });
+
+    function setCookie( name, value, expiredays ) {
+      var todayDate = new Date();
+      todayDate.setDate( todayDate.getDate() + expiredays );
+      document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+    }
+
+    function closeWin() {
+      document.getElementById('layer_pop').style.display = "none";    // 팝업창 아이디
+    }
+
+    function todaycloseWin() {
+      setCookie( "ncookie", "done" , 1 );     // 저장될 쿠키명 , 쿠키 value값 , 기간( ex. 1은 하루, 7은 일주일)
+      document.getElementById('layer_pop').style.display = "none";    // 팝업창 아이디
+    }
+  </script>
+  <div class="popWrap" id="layer_pop">
+    <div class="pop">
+      <h1>
+        <p>기존 평가 홈페이지 회원 로그인 안내</p>
+        <a href="#none" onClick="closeWin();" class="btn_close"></a>
+      </h1>
+      <p class="text">
+        자격인증평가 홈페이지 개편으로 인하여<br/>
+        기존에 가입하셨던 회원들은 패스워드<br/>
+        재설정 후 이용이 가능합니다.<br/>
+        조금 불편하시더라도 비밀번호 찾기를<br/>
+        통해 패스워드 변경 후 로그인 부탁드립니다.
+      </p>
+      <a href="/find_pwd" class="btn_apply">비밀번호 찾기</a>
+      <a href="#none" onClick="closeWin();" class="btn_close">닫기</a>
+      <a href="#none" onClick="todaycloseWin();" class="btn_closeToday">오늘 하루 보지 않기</a>
+    </div>
+  </div>
+  <!-- //팝업 -->
   </section>
 </div>
 <%@ include file="/www/common/footer.jsp"%>
