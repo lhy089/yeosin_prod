@@ -4,7 +4,7 @@
 *{--font-title:SBAggroM; /*어그로체*/}
 
 /* myroom 공통 */
-.myroom{padding:40px 0 150px; box-sizing:border-box;}
+.myroom{min-height:calc(100vh - 400px); padding:40px 0 150px; box-sizing:border-box;}
 .myroom h1{width:100%; border-bottom:3px solid #0074dd; box-sizing:border-box; font-family:var(--font-title); font-size:25px; line-height:48px; color:#0074dd; margin-bottom:45px;}
 .myroom .announcement{width:100%; border:1px solid #c7c6c6; border-radius:10px; box-sizing:border-box; background:#f8f8f8; padding:18px 20px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; line-height:1.4; letter-spacing:-1px; margin-bottom:45px;}
 .myroom .announcement em{color:#0074dd; font-style:normal; display:block; margin-bottom:10px;}
@@ -41,7 +41,7 @@
 .myroom.withdrawal .userID{font-family:sandoll-gothicneo3, sans-serif; font-size:22px; margin-top:27px; line-height:48px; color:#000; letter-spacing:-1px;}
 .myroom.withdrawal .userID span{color:#ff334c;}
 .myroom.withdrawal table{width:100%; border-top:1px solid #c7c6c6; box-sizing:border-box; margin-bottom:60px;}
-.myroom.withdrawal table th,.myroom.withdrawal table td{padding:20px 0; border-bottom:1px solid #c7c6c6; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; letter-spacing:-0.5px;}
+.myroom.withdrawal table th,.myroom.withdrawal table td{padding:20px 0; border-bottom:1px solid #c7c6c6; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:22px; color:#58585b; letter-spacing:-1px;}
 .myroom.withdrawal table th{background:#f8f8f8; border-right:1px solid #c7c6c6;}
 .myroom.withdrawal table td{padding-left:18px;}
 .myroom.withdrawal .announcement p{color:#0074dd; margin-bottom:15px;}
@@ -83,7 +83,7 @@
   .myroom.withdrawal .notice{height:3.06vw; line-height:3.06vw; padding-left:3.78vw; font-size:1.98vw; margin-bottom:1.98vw;}
   .myroom.withdrawal .userID{font-size:1.98vw; margin-top:2.43vw; line-height:4.32vw;}
   .myroom.withdrawal table{margin-bottom:5.4vw;}
-  .myroom.withdrawal table th,.myroom.withdrawal table td{padding:1.8vw 0; font-size:2.07vw;}
+  .myroom.withdrawal table th,.myroom.withdrawal table td{padding:1.8vw 0; font-size:1.98vw;}
   .myroom.withdrawal table td{padding-left:1.62vw;}
   .myroom.withdrawal .announcement p{margin-bottom:1.35vw;}
   .myroom.withdrawal .announcement input[type="checkbox"]{width:2.43vw; height:2.43vw;}

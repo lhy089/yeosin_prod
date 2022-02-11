@@ -51,8 +51,12 @@
 	        <tr>
 	          <th>시험명</th>
 	          <td>${examInfo.examName}</td>
-	        </tr>
-	        <tr>
+	       	</tr>
+        	<tr>
+        		<th>자격종별</th>
+          		<td>자격 종 별 출력</td>
+        	</tr>
+       		<tr>
 	          <th>성명</th>
 	          <td>${userInfo.userName}</td>
 	        </tr>
