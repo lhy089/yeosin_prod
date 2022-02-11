@@ -28,6 +28,8 @@
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/myroom/change.js?t=<%= new java.util.Date() %>"></script>
   <script>
   debugger;
+  
+  var isCert = false;
   window.onload = function() { debugger;
 	  var callNumberStr = $("#callNumberStr").val();
 	  if(callNumberStr) {
@@ -51,6 +53,40 @@
 		  if($("#isReceiveEmailStr").val() == "Y") $("#isReceiveEmail").prop("checked","checked");
 	  }	 
   }
+  
+	function fnPopup(authType){
+		
+		$.ajax({
+	        type: "POST",
+	        url: "/doOpenCert",
+	        data: {sAuthType : authType},
+	        sendDataType : 'string',
+	        success: function(data) { debugger;
+	        	$("#encodeData").val(data);
+	        	window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+	    		document.form_chk.action = "https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb";
+	    		document.form_chk.target = "popupChk";
+	    		document.form_chk.submit();
+	        }
+	      });
+	}
+	
+	window.addEventListener('message', function(e) {
+		isCert = true;
+		debugger;
+		var data = e.data;
+		var birtDate = data.birth.substring(0, 4) + "-"
+			+ data.birth.substring(4, 6) + "-"
+			+ data.birth.substring(6, 8);
+		var gender = data.gender == 0 ? "여" : "남"
+		$("#userName").text(data.name);
+		$("#birthDate").text(birtDate);
+		$("#birthDate").attr("value", birtDate);
+		$("#gender").text(gender);
+		$("#gender").attr("value", gender);
+		$("#diCode").val(data.diCode);
+		$("#ciCode").val(data.ciCode);
+	});
  
   </script>
 </head>
@@ -78,7 +114,7 @@
         * 본인인증 후 하단 저장하기를 클릭해주시기 바랍니다.
       </p>
     </h3>
-    <a href="#" class="btn_apply prove">본인인증</a>
+    <a href="javascript:fnPopup('A')" class="btn_apply prove" id="btn_cert">본인인증</a>
     <section>
       <table>
         <colgroup>
@@ -91,7 +127,7 @@
         </tr>
         <tr>
           <th>성명</th>
-          <td>${userInfo.userName}</td>
+          <td id="userName"></td>
         </tr>
         <tr>
             <th class="essential">비밀번호</th>
@@ -107,11 +143,11 @@
           </tr>
         <tr>
           <th>생년월일</th>
-          <td></td>
+          <td id="birthDate"></td>
         </tr>
         <tr>
           <th>성별</th>
-          <td>${userInfo.gender}</td>
+          <td id="gender"></td>
         </tr>
     <!--     <tr>
           <th>내국인여부</th>
@@ -163,8 +199,15 @@
           </td>
         </tr>
       </table>
-      <a onclick="return false;" class="btn_apply">저장하기</a>
+      <a onclick="return false;" class="btn_apply" id="btn_save">저장하기</a>
     </section>
+    
+    <form name="form_chk" method="post">
+		<input type="hidden" name="m" value="checkplusService">						<!-- 필수 데이타로, 누락하시면 안됩니다.휴대폰,공동 -->
+		<input type="hidden" name="m" value="pubmain">						<!-- 필수 데이타로, 누락하시면 안됩니다. i-pin--> 
+		<input type="hidden" name="EncodeData" id="encodeData" value="">		<!-- 위에서 업체정보를 암호화 한 데이타입니다.휴대폰,공동 -->
+	    <input type="hidden" name="enc_data" id="encodeDataForIpin" value="">	<!-- 위에서 업체정보를 암호화 한 데이타입니다. i-pin-->
+  	</form>
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>

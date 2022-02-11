@@ -92,6 +92,8 @@ function doJoin() {
 			emailAddress:$('#emailAddress').val(),
 			isReceiveSms:$("#isReceiveSms").is(":checked") ? "Y" : "N",
 			isReceiveEmail:$("#isReceiveEmail").is(":checked") ? "Y" : "N",
+			birthDate:$("#birth").text(),
+			gender:$("#gender").text(),
 			diCode:$('#diCode').val(),
 			ciCode:$('#ciCode').val()
 			};

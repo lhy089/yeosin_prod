@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!--footer-->
 <footer>
   <div class="contentBox">
@@ -64,8 +65,16 @@
       </li>
       <li>
         <dl>
-          <dt class="gray"><a href="/join">회원가입</a></dt>
-          <dt class="gray"><a href="/www/member/login.jsp" id="btn_login">로그인</a></dt>
+      <c:choose>
+    	<c:when test="${loginUserInfo.userId != null}">
+       		<dt class="gray"><a onclick="return false;" id="btn_logout2">로그아웃</a></dt>
+    	</c:when>
+    	<c:otherwise>
+    		<dt class="gray"><a href="/join">회원가입</a></dt>
+          	<dt class="gray"><a href="/www/member/login.jsp" id="btn_login">로그인</a></dt>
+    	</c:otherwise>
+   		</c:choose>
+          
           <dt class="gray mt70"><a href="/www/common/law_use.html" target="_blank">이용약관</a></dt>
           <dt class="gray"><a href="/www/common/law_individual.html" target="_blank">개인정보처리방침</a></dt>
         </dl>

@@ -92,6 +92,9 @@
 			<if test="password !=null and password != ''">
 				PASSWORD = #{password},
 			</if>
+			<if test="birthDate != null and birthDate != ''">
+				BIRTHDATE = #{birthDate},
+			</if>
 			<if test="gender != null and gender != ''">
 				GENDER = #{gender},
 			</if>

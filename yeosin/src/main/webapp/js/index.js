@@ -22,6 +22,22 @@ $(document).ready(function(){
        }); 
    });
    
+   $('#btn_logout2').click(function(){
+	   $.ajax({
+           url: "/logout",
+           type: "post",
+           success: function(data) {
+               console.log("AJAX Request 성공");
+               location.href="/index";
+           },
+           error: function() {
+              console.log("에러 발생");
+           },
+           complete: function(){
+           }
+       }); 
+   });
+   
     $('#btn_simpleJoin').click(function(){
        console.log("btn_simpleJoin clicked");
        location.href="member/join.jsp";
