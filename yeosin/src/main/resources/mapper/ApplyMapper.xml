@@ -71,7 +71,7 @@
          	,   DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d')       AS RECEIPTENDDATE    	-- 접수마감일
 			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d')				AS EXAMDATE				-- 시험일
 			,	EZ.LOCALDETAIL 				-- 시험지역
-			,	CONCAT(CONVERT(DATE_FORMAT(E.EXAMDATE, '%Y'), CHAR), '년', ' ', CONVERT(E.EXAMDEGREE, CHAR), '회')	AS EXAMDEGREE	-- 시험회차
+			,	CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR))	AS EXAMDEGREE	-- 시험회차
 		FROM 	YS_RECEIPT					R 	
 		INNER JOIN YS_EXAM 					E	ON 	E.EXAMID = R.EXAMID 	
 		INNER JOIN YS_EXAMZONE				EZ 	ON 	EZ.EXAMZONEID = R.EXAMZONEID
@@ -130,6 +130,8 @@
 		</association>
 		<association property="examZoneDto" javaType="com.yeosin.apply.ExamZoneDto">
 			<result column="EXAMZONENAME" property="examZoneName" />
+			<result column="EXAMZONEMAP" property="examZoneMap" />
+			<result column="DESCRIPTION" property="description" />
 		</association>
 	</resultMap>
 	<select id="GetDetailApplyList" parameterType="map" resultMap="DetailApplyListResultMap">
@@ -162,7 +164,7 @@
 				E.EXAMID 			-- 시험 ID 
 			,	E.EXAMNAME 			-- 시험명
 			,	EZ.EXAMZONENAME 	-- 시험장명
-			,	CONCAT(CONVERT(DATE_FORMAT(E.EXAMDATE, '%Y'), CHAR), '년', ' ', CONVERT(E.EXAMDEGREE, CHAR), '회')	AS EXAMDEGREE	-- 시험회차
+			,	CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR))	AS EXAMDEGREE	-- 시험회차
 			,	U.USERID 			-- 유저 ID
 			,	U.USERNAME 			-- 유저명 
 			,	U.PHONENUMBER 		-- 연락처
@@ -180,6 +182,8 @@
 			,	DATE_FORMAT(E.GRADEENDDATE, '%Y-%m-%d') 	AS GRADEENDDATE
 			,	R.CERTID 			-- 교육수료증 번호
 			,	R.PAYMENTID 		-- 결제 ID
+			,	EZ.EXAMZONEMAP		-- 약도경로
+			,	EZ.DESCRIPTION 		-- 주소
 		FROM 	YS_RECEIPT			R 
 		INNER JOIN YS_EXAM  		E 	ON	E.EXAMID = R.EXAMID 
 		INNER JOIN YS_USER  		U 	ON 	U.USERID = R.USERID 

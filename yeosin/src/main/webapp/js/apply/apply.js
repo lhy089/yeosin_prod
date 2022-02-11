@@ -103,12 +103,17 @@ function doExamZoneSearch()
 			
 			$.each(examZoneList, function(index, value)
 			{	
+				var examZoneMap = "'" + value.examZoneMap + "'";
+				var description = "'" + value.description + "'";
+				
 				createHtml += '<tr class="examZoneListRowAjax">';
 				createHtml += '<td><input style="width:20px; height:20px;" type="radio" name="exmaZoneRadio" value="' + value.examZoneId + '"></td>';
 				createHtml += '<td>' + value.examZoneName + '</td>';
 				createHtml += '<td>' + value.localCenterDto.localCenterName + '</td>';
 				createHtml += '<td>' + value.leftOverSeat + '</td>';
-				createHtml += '<td><a href="#" class="btn_map value=' + value.examZoneMap + '">약도</a></td>';
+				createHtml += '<td><a onclick="callExamZoneMap(' + examZoneMap + ', ' + description + ');" href="#" class="btn_map">약도</a>';
+				createHtml += '<input type="hidden" id="' + value.examZoneMap + '" name="examZoneMap" value="' + value.examZoneMap + '"/>';
+				createHtml += '<input type="hidden" id="' + value.description + '" name="description" value="' + value.description + '"/></td>';
 				createHtml += '</tr>';
 				
 				table.append(createHtml);
@@ -124,6 +129,31 @@ function doExamZoneSearch()
 		{
         }	
 	});   
+}
+
+// 약도호출(apply4.jsp)
+function callExamZoneMap(examZoneMap, description)
+{
+	if (examZoneMap == "null")
+	{
+		alert("등록된 고사장 약도가 없습니다.");
+	}
+	else 
+	{
+		var width = screen.availWidth / 1.5;
+		var height = screen.availHeight / 1.5;
+	    var left = (window.screen.width / 2) - (width / 2);
+	    var top = (window.screen.height / 2) - (height / 2);
+		var createHtml = "";
+		
+		var win = window.open("", 'asdsad', 'top=' + top + ', left=' + left + ', width=' + width + ', height =' + height + ',scrollbars=yes, status=yes');
+		
+		createHtml += "<h2>고사장 약도</h2>";
+		createHtml += "<p>고사장 주소 : " + description + "</p>";
+		createHtml += "<img src='" + examZoneMap + "' style=" + "width:100%;" + "height: 80%" + "/>";
+	
+		win.document.write(createHtml);	
+	}
 }
 
 // 접수하기 체크함수(apply4.jsp)

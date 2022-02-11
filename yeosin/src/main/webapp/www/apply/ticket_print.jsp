@@ -57,7 +57,7 @@ $(function(){
     </colgroup>
     <tr>
       <th>자격종목</th>
-      <td>대출성 상품 판매대리 · 중개업자 등록 자격인증 평가</td>
+      <td>${applyInfo.examDto.examName}</td>
     </tr>
     <tr>
       <th>수험번호</th>
@@ -107,15 +107,14 @@ $(function(){
     </ul>
   </div>
 
-<!-- 약도 없어서 주석처리 -->
-<!--   <h2>
+  <h2>
     고사장 약도
-    <p>고사장 주소 : 301 808 대전 중구 목동 96번지 (대전) 대성고등학교 [042-250-3802]</p>
+    <p>고사장 주소 : ${applyInfo.examZoneDto.description}</p>
   </h2>
   <div class="content">
-    지도 이미지
-    <img src="/www/inc/img/apply/test-map.jpg" class="mapImg" alt="지도이미지 예시">
-  </div> -->
+    <!-- <img src="/www/inc/img/apply/test-map.jpg" class="mapImg" alt="지도이미지 예시"> -->
+    <img src="${applyInfo.examZoneDto.examZoneMap}" class="mapImg" style="width: 100%; height: 100%">
+  </div> 
 </div>
 <div><a onclick="return false;" id="btn_print" class="btn_apply">출력하기</a></div>
 </body>

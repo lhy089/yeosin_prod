@@ -14,6 +14,7 @@
 		<result column="EXAMROOMUSERCNT" property="examRoomUserCnt" />
  		<result column="LEFTOVERSEAT" property="leftOverSeat" />
 		<result column="EXAMZONEMAP" property="examZoneMap" />
+		<result column="DESCRIPTION" property="description" />
   		<association property="localCenterDto" javaType="com.yeosin.apply.LocalCenterDto">
 			<result column="LOCALCENTERNAME" property="localCenterName" />
 		</association>
@@ -29,6 +30,7 @@
 			,	((SELECT TOTALUSERCNT FROM YS_EXAMZONE WHERE EXAMZONEID = EZ.EXAMZONEID) 
 			- (SELECT COUNT(*) FROM YS_RECEIPT WHERE EXAMZONEID = EZ.EXAMZONEID AND ISCANCEL = 'N' AND EXAMID = #{examId, jdbcType=VARCHAR} )) AS LEFTOVERSEAT -- 잔여좌석
 			,	EZ.EXAMZONEMAP 													-- 약도
+			,	EZ.DESCRIPTION													-- 주소
 		FROM 	YS_EXAMZONE					EZ 	
 		INNER JOIN YS_EXAMANDEXAMZONEREL 	EZR ON	EZR.EXAMZONEID = EZ.EXAMZONEID 
 		LEFT JOIN YS_LOCALCENTER			LC	ON 	EZ.LOCALCENTERID = LC.LOCALCENTERID 
