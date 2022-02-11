@@ -25,7 +25,6 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="/www/inc/css/myroom.css">
-  <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js?t=<%= new java.util.Date() %>"></script>
 </head>
 
 <body>
