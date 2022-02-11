@@ -22,6 +22,8 @@ public class UserDto {
 	private String isReceiveSms; // 문자 수신 여부
 	private String modifyDate; // 수정일
 	private String userStatus;	// 사용자 상태 > U:활성화, C:비밀번호 변경 필요, D:탈퇴
+	private String ciCode;		// 개인식별번호
+	private String diCode;		// 중복식별번호
 	
 	private EduCompletionDto eduCompletionDto;
 	
@@ -120,5 +122,17 @@ public class UserDto {
 	}
 	public void setUserStatus(String userStatus) {
 		this.userStatus = userStatus;
+	}
+	public String getCiCode() {
+		return ciCode;
+	}
+	public void setCiCode(String ciCode) {
+		this.ciCode = ciCode;
+	}
+	public String getDiCode() {
+		return diCode;
+	}
+	public void setDiCode(String diCode) {
+		this.diCode = diCode;
 	}
 }

@@ -91,7 +91,9 @@ function doJoin() {
 			phoneNumber:phoneNumber,
 			emailAddress:$('#emailAddress').val(),
 			isReceiveSms:$("#isReceiveSms").is(":checked") ? "Y" : "N",
-			isReceiveEmail:$("#isReceiveEmail").is(":checked") ? "Y" : "N"
+			isReceiveEmail:$("#isReceiveEmail").is(":checked") ? "Y" : "N",
+			diCode:$('#diCode').val(),
+			ciCode:$('#ciCode').val()
 			};
 	$.ajax({
         type: "POST",
@@ -267,4 +269,32 @@ function isDuplication() {
         }
     }); 
 	
+}
+
+function fnCheckDupleUserInfo() {
+	$.ajax({
+        url: "/checkDiCode",
+        type: "POST",
+        data: {diCode : $("#diCode").val(), ciCode : $("#ciCode").val()},
+        async:false,
+        success: function(data) {
+            console.log("AJAX Request 성공");
+            if(data=="Y") {
+            	alert("기존에 가입된 회원입니다.\n아이디를 분실하신 경우 아이디 찾기*를 통해 확인하시기 바랍니다.\n* 홈페이지 우측 상단 로그인 > 아이디 찾기");
+            }else {
+            	alert("인증 되었습니다.");
+
+				$(".provision").hide();
+				$(".certification").hide();
+				$(".entry").show();
+				$(".finish").hide();
+            }
+        },
+        error: function() {
+           console.log("에러 발생");
+           isCheckId=0;
+        },
+        complete: function(){
+        }
+    }); 
 }

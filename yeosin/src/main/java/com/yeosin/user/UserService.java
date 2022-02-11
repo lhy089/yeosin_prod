@@ -72,4 +72,7 @@ public class UserService {
 	public int insertEduComepletionInfo(EduCompletionDto eduCompletionInfo) throws Exception {
 		return eduCompletionDao.insertEduComepletionInfo(eduCompletionInfo);
 	}
+	public String getUserByCIDI(UserDto userDto) throws Exception {
+		return userDao.getUserByCIDI(userDto);
+	}
 }

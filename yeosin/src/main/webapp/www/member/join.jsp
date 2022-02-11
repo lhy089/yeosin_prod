@@ -80,18 +80,13 @@
 					var gender = data.gender == 0 ? "여" : "남"
 					$("#userName").val(data.name);
 					$("#birth").text(birtDate);
-					$("#birth").attr("value", data.birth)
+					$("#birth").attr("value", data.birth);
 					$("#gender").text(gender);
-					$("#gender").attr("value", data.gender)
-
-					alert("인증 되었습니다.");
-
-					// 	    $(".intro").hide();
-					$(".provision").hide();
-					$(".certification").hide();
-					$(".entry").show();
-					$(".finish").hide();
-
+					$("#gender").attr("value", data.gender);
+					$("#diCode").val(data.diCode);
+					$("#ciCode").val(data.ciCode);
+					
+					fnCheckDupleUserInfo()
 				}
 			});
 		</script>
@@ -565,7 +560,9 @@
             </td>
           </tr>
         </table>
-
+		<input type="hidden" name="diCode" id="diCode" value="">	
+		<input type="hidden" name="ciCode" id="ciCode" value="">	
+		
         <a href="#" class="btn_apply" id="btn_doJoinFinish">가입하기</a>
       </section>
       <!-- //(4단계)기입 -->

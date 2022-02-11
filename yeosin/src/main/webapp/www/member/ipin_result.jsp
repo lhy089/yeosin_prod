@@ -141,6 +141,8 @@ window.onload = function() { debugger;
 			name : "<%= sName %>", 
 			birth : "<%= sBirthDate %>", 
 			gender : "<%= sGenderCode %>",
+			diCode : "<%= sDupInfo %>",
+			ciCode : "<%= sCoInfo1 %>",
 			phone : ""
 		}
     window.opener.postMessage(childData, '*');

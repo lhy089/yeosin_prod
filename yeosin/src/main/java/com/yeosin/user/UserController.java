@@ -410,7 +410,7 @@ public class UserController {
 			calToday.setTime(new Date());
 	        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	        String endDate = format.format(calToday.getTime());
-	        calToday.add(Calendar.DATE, -3);
+	        calToday.add(Calendar.DATE, -2);
 	        String startDate = format.format(calToday.getTime());
 	        
 			String rst = "";
@@ -485,6 +485,16 @@ public class UserController {
 				sb.append(charSet[idx]); 
 			} 
 			return sb.toString(); 
+		}
+		
+		// id 중복체크
+		@RequestMapping(value="/checkDiCode", method=RequestMethod.POST)
+		@ResponseBody
+		public void checkDiCode(UserDto userdto, HttpSession session, HttpServletResponse response) throws Exception {
+			String result = userService.getUserByCIDI(userdto);
+			response.getWriter().print(result);
+			response.getWriter().flush();
+			response.getWriter().close();
 		}
 	
 }
