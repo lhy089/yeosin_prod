@@ -12,6 +12,11 @@
 <%@ page import="org.json.simple.JSONObject" %>
 <%@ page import="org.json.simple.parser.JSONParser" %>
 <%@ page import="org.apache.commons.codec.binary.Hex" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="com.yeosin.apply.ExamDto" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="com.yeosin.apply.ApplyService" %>
+<%@ page import="org.springframework.web.servlet.ModelAndView" %>
 <%
 request.setCharacterEncoding("utf-8"); 
 /*
@@ -141,6 +146,22 @@ if(authResultCode.equals("0000") /*&& authSignature.equals(authComparisonSignatu
 				if(ResultCode.equals("0000")) paySuccess = true; // 계좌간편결제(정상 결과코드:0000)
 			}
 		}
+		
+		/*
+		// 인증 결과 성공시 데이터 insert 진행
+		ApplyService applyService = new ApplyService();
+		Map<String,String> resultMap = new HashMap<>();
+		resultMap.put("ResultCode", ResultCode);
+		resultMap.put("ResultMsg", ResultMsg);
+		resultMap.put("PayMethod", PayMethod);
+		resultMap.put("Amt", Amt);
+		resultMap.put("TID", TID);
+
+		String mav = applyService.setReceiptInfoByMoPay(session, request, resultMap);
+	 	System.out.println(">>> payRequest : " + mav);
+	 	*/
+	 	
+
 	}
 }else/*if(authSignature.equals(authComparisonSignature))*/{
 	ResultCode 	= authResultCode; 	
@@ -155,52 +176,32 @@ if(authResultCode.equals("0000") /*&& authSignature.equals(authComparisonSignatu
 <head>
 <title>NICEPAY PAY RESULT(UTF-8)</title>
 <m eta charset="utf-8">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$(document).ready(function(){
+	var resultCd = $("#ResultCode").val();
+	if("3001" == resultCd || "4000" == resultCd) {
+		document.moPayForm.submit();
+	}else {
+		alert("결제가 비정상 처리 되었습니다.");
+		location.href="/index";
+	}
+});
+
+</script>
 </head>
 <body>
-	<table>
-		<%if("9999".equals(resultJsonStr)){%>
-		<tr>
-			<th>승인 통신 실패로 인한 망취소 처리 진행 결과</th>
-			<td>[<%=ResultCode%>]<%=ResultMsg%></td>
-		</tr>
-		<%}else{%>
-		<tr>
-			<th>결과 내용</th>
-			<td>[<%=ResultCode%>]<%=ResultMsg%></td>
-		</tr>
-		<tr>
-			<th>결제수단</th>
-			<td><%=PayMethod%></td>
-		</tr>
-		<tr>
-			<th>상품명</th>
-			<td><%=GoodsName%></td>
-		</tr>
-		<tr>
-			<th>결제 금액</th>
-			<td><%=Amt%></td>
-		</tr>
-		<tr>
-			<th>거래 번호</th>
-			<td><%=TID%></td>
-		</tr>
-		<!--<%/*if(Signature.equals(paySignature)){%>
-		<tr>
-			<th>Signature</th>
-			<td><%=Signature%></td>
-		</tr>
-		<%}else{%>
-		<tr>
-			<th>승인 Signature</th>
-			<td><%=Signature%></td>
-		</tr>
-		<tr>
-			<th>생성 Signature</th>
-			<td><%=paySignature%></td>
-		</tr> -->
-		<%}*/}%>
-	</table>
-	<p>*테스트 아이디인경우 당일 오후 11시 30분에 취소됩니다.</p>
+	
+	<form action="/moRecipt" method="POST" name="moPayForm">
+		<input type="hidden" id="ResultCode" name="ResultCode" value="<%=ResultCode%>"/>
+		<input type="hidden" id="ResultMsg" name="ResultMsg" value="<%=ResultMsg%>"/>
+		<input type="hidden" id="PayMethod" name="PayMethod" value="<%=PayMethod%>"/>
+		<input type="hidden" id="GoodsName" name="GoodsName" value="<%=GoodsName%>"/>
+		<input type="hidden" id="Amt" name="Amt" value="<%=Amt%>"/>
+		<input type="hidden" id="TID" name="TID" value="<%=TID%>"/>
+	</form>
+	
 </body>
 </html>
 <%!

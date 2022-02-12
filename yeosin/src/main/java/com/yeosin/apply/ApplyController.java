@@ -276,6 +276,7 @@ public class ApplyController {
 			mav.addObject("ediDate", ediDate);
 			mav.addObject("hashString", hashString);
 			
+			session.setAttribute("sessionExamInfo", examInfo);
 			mav.addObject("examZoneName", examZoneName);
 			mav.addObject("subjectName", subjectName);
 			mav.addObject("examInfo", examInfo);
@@ -1075,5 +1076,109 @@ public class ApplyController {
 		resultMap.put("CancelDate", CancelDate);
 		resultMap.put("CancelTime", CancelTime);
 		return resultMap;
+	}
+	
+	@RequestMapping(value="/moRecipt", method=RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView moRecipt(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		System.out.println("####### moRecipt Start ###############");
+		response.setCharacterEncoding("UTF-8");	
+		ModelAndView mav = new ModelAndView();
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		ExamDto sessionExamInfo = (ExamDto)session.getAttribute("sessionExamInfo");
+		
+		if (userInfo != null) 
+		{
+			// 1. 결제하기 전 해당 시험에 결제한 이력이 있으면 저장을 막는다.
+			Map<String, Object> parameterMap = new HashMap<String, Object>();
+			parameterMap.put("userId", userInfo.getUserId());
+			parameterMap.put("examId", sessionExamInfo.getExamId());
+			int receiptCount = applyService.getIsReceipt(parameterMap);
+			
+			if (receiptCount > 0)
+			{
+				mav.addObject("isReceipt", true);
+				mav.addObject("userInfo", userInfo);
+				mav.addObject("examListCnt", applyService.getExamList().size());
+				mav.addObject("examList", applyService.getExamList());
+				mav.addObject("examLocalList", applyService.getExamLocalList());
+				mav.setViewName("apply/apply");	
+			}
+			else 
+			{
+				// 2. 접수번호를 생성하기 위해 MAX값을 가져온다.
+				long newMaxReceiptNumber = Long.parseLong(applyService.getMaxReceiptNumber()) + 1;
+				String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);
+				String newStudentCode = String.valueOf(newMaxReceiptNumber);
+
+				// 3. 접수테이블에 저장될 값을 ApplyDto에 넣는다.(TODO : 결제정보 추가 Insert 필요)
+				ApplyDto insertApplyDto = new ApplyDto();
+				insertApplyDto.setReceiptId(newMaxReceiptNumberStr);
+				insertApplyDto.setUserId(userInfo.getUserId());
+				insertApplyDto.setExamId(sessionExamInfo.getExamId());
+				insertApplyDto.setCertId("1234");
+				insertApplyDto.setExamZoneId("");
+				insertApplyDto.setStudentCode(newStudentCode);
+
+				insertApplyDto.setPaymentMethod(request.getParameter("PayMethod"));
+				insertApplyDto.setPaymentId(request.getParameter("TID"));
+				insertApplyDto.setExamFee(request.getParameter("Amt"));
+				
+				int result = applyService.setReceiptInfo(insertApplyDto);
+				
+				if (result > 0)
+				{	
+					/*
+					// 결제 시작 (트랜잭션 처리 후 순서 변경 예정)
+					Map<String,String> resultMap = new HashMap<>();
+					resultMap = this.payResult(session, request, response, resultMap);
+					
+					if(!("3001".equals(resultMap.get("ResultCode")) || "4000".equals(resultMap.get("ResultCode")))) {
+						mav.addObject("isSuccess", "N");
+						mav.setViewName("apply/apply6");
+						return mav;
+					}
+					
+					String paymentMethod = "";
+					if("CARD".equals(resultMap.get("PayMethod"))) {
+						paymentMethod = "카드";
+					}else if("BANK".equals(resultMap.get("PayMethod"))){
+						paymentMethod = "계좌이체";
+					}
+					
+					insertApplyDto.setPaymentMethod(paymentMethod);
+					insertApplyDto.setExamFee(resultMap.get("Amt"));
+					insertApplyDto.setPaymentId(resultMap.get("TID"));
+					
+					int payResult = applyService.setPaymentInfo(insertApplyDto);
+					
+					if(payResult==0) {
+						mav.addObject("isSuccess", "N");
+						mav.setViewName("apply/apply6");
+						return mav;
+					}
+					*/
+					mav.addObject("isSuccess", "Y");
+					mav.addObject("examId", request.getParameter("examId"));
+					mav.addObject("receiptId", newMaxReceiptNumberStr);
+					mav.addObject("studentCode", newStudentCode);
+					mav.addObject("userInfo", userInfo);
+					mav.setViewName("apply/apply6");	
+				}
+				else 
+				{
+					mav.addObject("isSuccess", "N");
+					mav.setViewName("apply/apply6");
+				}	
+			}
+		}
+		else 
+		{
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		}
+		
+		return mav;
 	}
 }

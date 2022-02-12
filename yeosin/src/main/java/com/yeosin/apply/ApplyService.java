@@ -1,12 +1,18 @@
 package com.yeosin.apply;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.yeosin.user.EduCompletionDao;
+import com.yeosin.user.UserDto;
 
 @Service
 public class ApplyService {
