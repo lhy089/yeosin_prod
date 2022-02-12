@@ -113,6 +113,8 @@
 			<result column="GRADESTARTDATE" property="gradeStartDate" />
 			<result column="GRADEENDDATE" property="gradeEndDate" />
 			<result column="EXAMLOCAL" property="examLocal" />
+			<result column="RECEIPTSTARTDATE" property="receiptStartDate" />
+			<result column="RECEIPTENDDATE" property="receiptEndDate" />
 		</association>
 		<association property="userDto" javaType="com.yeosin.user.UserDto">
 			<result column="USERID" property="userId" />
@@ -173,6 +175,8 @@
 			,	E.SUBJECTID 		-- 종목 ID
 			,	S.SUBJECTNAME 		-- 종목명(자격종별)
 			,	DATE_FORMAT(R.RECEIPTDATE, '%Y-%m-%d') 	AS RECEIPTDATE
+			,	DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d') AS RECEIPTSTARTDATE -- 접수 시작일
+			,	DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d') AS RECEIPTENDDATE -- 접수 마감일
 			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') 	AS EXAMDATE
 			,	R.PAYMENTMETHOD 	-- 결제정보
 			, 	R.RECEIPTID			-- 접수번호

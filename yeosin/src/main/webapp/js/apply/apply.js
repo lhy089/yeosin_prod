@@ -267,7 +267,26 @@ function doRefund()
 {
 	var receiptId = $('#receiptId').val();
 	var isCancelReceipt = "N";
-   	
+	var CancelAmt = $('#CancelAmt').val();
+	var examDate = new Date($('#examDate').val());
+	var receiptStartDate = new Date($('#receiptStartDate').val());
+	var receiptEndDate = new Date($('#receiptEndDate').val());
+	var now = new Date();
+	var NonRefund = Math.abs(examDate.getTime() - now.getTime())/(1000 * 3600 * 24);
+	var halfRefund = (receiptEndDate.getTime() - now.getTime())/(1000 * 3600 * 24);
+	var bCheckHalf = false;
+
+   	if(Math.floor(NonRefund) <= 6)
+   	{
+   		alert("접수 취소 가능한 날짜가 지났습니다.");
+   		return false;
+   	}
+   	else if(Math.floor(halfRefund) < 0 && (receiptEndDate.getDate() != now.getDate()))
+   	{
+   		alert("접수기간 이후로 취소하여 환불금액이 50% 감소합니다.");
+   		bCheckHalf = true;
+   	}
+	
 	// 해당 접수가 이미 취소된 상태인지 확인
 	$.ajax({
 		url: "/isCancelReceipt",
@@ -295,6 +314,11 @@ function doRefund()
 	}
 	else if (confirm("환불규정을 확인하셨습니까?\n환불규정에 동의 후 취소가 가능합니다.")) 
 	{
+		if(bCheckHalf == true){
+			CancelAmt = CancelAmt / 2;
+   			$("#CancelAmt").val(CancelAmt);
+   			$("#PartialCancelCode").val('1');
+		}
 		return true;
 	}	
 	else 
