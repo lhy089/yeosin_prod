@@ -152,7 +152,6 @@
 							1
 						FROM YS_USER USER
 						WHERE USER.CICODE = #{ciCode}
-<!-- 							AND USER.DICODE = #{diCode} -->
 							AND USERSTATUS != 'D'
 						)
 					THEN 'Y'
