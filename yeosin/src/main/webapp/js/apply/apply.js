@@ -126,7 +126,7 @@ function doExamZoneSearch()
 				createHtml += '<tr class="examZoneListRowAjax">';
 				createHtml += '<td><input ' + readonlyOption +' style="width:20px; height:20px;" type="radio" name="exmaZoneRadio" value="' + value.examZoneId + '"></td>';
 				createHtml += '<td>' + value.examZoneName + '</td>';
-				createHtml += '<td>' + value.localCenterDto.localCenterName + '</td>';
+				createHtml += '<td>' + value.local + '</td>';
 				createHtml += '<td>' + value.leftOverSeat + '</td>';
 				createHtml += '<td><a onclick="callExamZoneMap(' + examZoneMap + ', ' + description + ');" href="#" class="btn_map">약도</a>';
 				createHtml += '<input type="hidden" id="' + value.examZoneMap + '" name="examZoneMap" value="' + value.examZoneMap + '"/>';
