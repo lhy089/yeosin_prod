@@ -85,7 +85,7 @@
 	      </tr>
 	      <tr>
 	        <th>결제정보</th>
-	       <td> <a href="#" class="btn_apply">영수증 출력</a></td>
+	       <td> <a onclick="return false;" id="btn_receiptPrint" class="btn_apply">영수증 출력</a></td>
 	      </tr>
 	    </table>
 	    </div>

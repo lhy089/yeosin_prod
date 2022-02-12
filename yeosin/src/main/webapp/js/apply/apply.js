@@ -8,6 +8,11 @@ $(document).ready(function(){
 	// 강제클릭(화면 진입시 바로 조회)
 	$('#btn_examzoneSearch').trigger("click");
 	
+	// 영수증 출력
+	$('#btn_receiptPrint').click(function () {
+		alert("준비중입니다.\n영수증 필요시 카드사 출력 가능하며\n불가능 시 별도 문의 바랍니다.");
+	})
+
 });
 
 // 원서접수 환불규정동의 체크함수(apply2.jsp)
