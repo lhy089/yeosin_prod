@@ -35,8 +35,8 @@
   <div class="contentBox">
     <h1>원서접수</h1>
     <div class="schedule">
-      2021 대출성 상품 판매대리 &middot; 중개업자 등록 자격인증 평가<br/>
-      <span><strong>시험일</strong>${examInfo.examDate}</span><span><strong>인터넷접수</strong>${examInfo.receiptStartDate} 오전 10:00 ~ ${examInfo.receiptEndDate}</span>
+      	대출성 상품 판매대리 &middot; 중개업자 등록 자격인증 평가<br/>
+      <span><strong>시험일</strong>${examInfo.examDate}</span><span><strong>인터넷접수</strong>${examInfo.receiptStartDate} ~ ${examInfo.receiptEndDate}</span>
     </div>
     <div class="announcement">
       &middot; 응시하실 지역을 선택 후 원하는 고사장을 선택하세요.<br/>

@@ -63,8 +63,8 @@ public class ApplyService {
 		return examDao.getExamInfo(examId);
 	}
 	
-	public ExamDto getExamInfoForApply3(String examId) throws Exception{
-		ExamDto examDto = examDao.getExamInfoForApply3(examId);
+	public ExamDto getExamInfo2(String examId) throws Exception{
+		ExamDto examDto = examDao.getExamInfo2(examId);
 		
 		examDto.setReceiptStartDate(examDto.getReceiptStartDate().replace("AM", "오전")); ;
 		examDto.setReceiptStartDate(examDto.getReceiptStartDate().replace("PM", "오후"));

@@ -135,7 +135,7 @@ public class ApplyController {
 		
 		if (userInfo != null) 
 		{		
-			ExamDto examInfo = applyService.getExamInfoForApply3(request.getParameter("examId"));
+			ExamDto examInfo = applyService.getExamInfo2(request.getParameter("examId"));
 			mav.addObject("examInfo", examInfo);
 			mav.addObject("userInfo", userInfo);
 			mav.addObject("local", request.getParameter("local"));
@@ -227,7 +227,7 @@ public class ApplyController {
 		userInfo = userService.getLoginUserInfo(userInfo);
 		if (userInfo != null) 
 		{
-			ExamDto examInfo = applyService.getExamInfo(request.getParameter("examId"));
+			ExamDto examInfo = applyService.getExamInfo2(request.getParameter("examId"));
 	         
 	         Map<String, Object> paremterMap = new HashMap<String, Object>();
 	         paremterMap.put("examId", request.getParameter("examId"));
