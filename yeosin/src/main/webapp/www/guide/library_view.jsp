@@ -48,9 +48,8 @@
           <p class="num">No. ${libraryInfo.boardSequence}</p>
           <p class="date"> ${libraryInfo.writeTime}</p>
           <p class="viewCount">조회수 :  ${libraryInfo.hitCnt}</p>
-          <a href="javascript:window.location.assign('파일경로/파일명.확장자');" class="document">파일명.pdf</a> <!--문서표시 있을때 해당 태그 추가-->
           <c:if test="${not empty libraryInfo.fileDto}">
-          <p class="document"></p> <!--문서표시 있을때 'document'클래스명 추가-->
+          <a href="/download?fileSize=${libraryInfo.fileDto.fileSize}&localFileName=${libraryInfo.fileDto.localFileName}" id="btn_download" class="document">${libraryInfo.fileDto.localFileName}</a> <!--문서표시 있을때 해당 태그 추가-->
           </c:if>
         </div>
       </div>

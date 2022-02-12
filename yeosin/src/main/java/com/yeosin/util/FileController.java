@@ -32,7 +32,7 @@ public class FileController {
 			String encordedFilename = URLEncoder.encode(fileName,"UTF-8").replace("+", "%20");
 			// 다운로드 경로 (내려받을 파일경로를 설정한다.)
 //			String filePath = "C:\\Users\\hyong\\git\\yeosin_prod\\yeosin\\src\\main\\webapp\\resources\\boardFile\\"+fileName;
-			String filePath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/ROOT/resources/boardFile/"+fileName;
+			String filePath = request.getServletContext().getRealPath("\\resources\\boardFile\\" + fileName);
 			System.out.println("filePath : " + filePath);
 			
 			// 경로와 파일명으로 파일 객체를 생성한다.
