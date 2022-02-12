@@ -277,8 +277,10 @@ public class ApplyController {
 			mav.addObject("hashString", hashString);
 			
 			session.setAttribute("sessionExamInfo", examInfo);
-			session.setAttribute("examZoneId", request.getParameter("examZoneId"));
-			session.setAttribute("certId", request.getParameter("eduNum"));
+			ApplyDto applyInfo = new ApplyDto();
+			applyInfo.setCertId(request.getParameter("eduNum"));
+			applyInfo.setExamZoneId(request.getParameter("examZoneId"));
+			session.setAttribute("sessionApplyInfo", applyInfo);
 			
 			mav.addObject("examZoneName", examZoneName);
 			mav.addObject("subjectName", subjectName);
@@ -1090,6 +1092,7 @@ public class ApplyController {
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		ExamDto sessionExamInfo = (ExamDto)session.getAttribute("sessionExamInfo");
+		ApplyDto sessionApplyInfo = (ApplyDto)session.getAttribute("sessionApplyInfo");
 		
 		if (userInfo != null) 
 		{
@@ -1120,9 +1123,13 @@ public class ApplyController {
 				insertApplyDto.setReceiptId(newMaxReceiptNumberStr);
 				insertApplyDto.setUserId(userInfo.getUserId());
 				insertApplyDto.setExamId(sessionExamInfo.getExamId());
-				insertApplyDto.setCertId((String)session.getAttribute("certId"));
-				insertApplyDto.setExamZoneId((String)session.getAttribute("examZoneId"));
+				insertApplyDto.setCertId(sessionApplyInfo.getCertId());
+				insertApplyDto.setExamZoneId(sessionApplyInfo.getExamZoneId());
 				insertApplyDto.setStudentCode(newStudentCode);
+				
+				System.out.println(">>> examId : " + insertApplyDto.getExamId());
+				System.out.println(">>> certId : " + insertApplyDto.getCertId());
+				System.out.println(">>> examZoneId : " + insertApplyDto.getExamZoneId());
 
 				insertApplyDto.setPaymentMethod(request.getParameter("PayMethod"));
 				insertApplyDto.setPaymentId(request.getParameter("TID"));
