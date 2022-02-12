@@ -47,9 +47,8 @@
           <p class="num">No.${noticeInfo.boardSequence}</p>
           <p class="date">${noticeInfo.writeTime}</p>
           <p class="viewCount">조회수 : ${noticeInfo.hitCnt}</p>
-          <a href="javascript:window.location.assign('파일경로/파일명.확장자');" class="document">파일명.pdf</a> <!--문서표시 있을때 해당 태그 추가-->
           <c:if test="${not empty noticeInfo.fileDto}">
-         	<p class="document"></p>
+         	<a href="/download?fileSize=${noticeInfo.fileDto.fileSize}&localFileName=${noticeInfo.fileDto.localFileName}" id="btn_download" class="document">${noticeInfo.fileDto.localFileName}</a> <!--문서표시 있을때 해당 태그 추가-->
           </c:if>
         </div>
       </div>

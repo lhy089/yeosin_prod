@@ -5,7 +5,7 @@ public class FileDto {
 	private String fileId;			//파일 ID	(PK)
 	private String realFileName;	//실제 파일명
 	private String localFileName;	//로컬 파일명
-	private double fileSize;		//파일 크기
+	private int fileSize;		//파일 크기
 	private String fileURL;			//파일 URL
 	private String boardId;			//게시글 ID (게시판 테이블)
 	
@@ -27,10 +27,10 @@ public class FileDto {
 	public void setLocalFileName(String localFileName) {
 		this.localFileName = localFileName;
 	}
-	public double getFileSize() {
+	public int getFileSize() {
 		return fileSize;
 	}
-	public void setFileSize(double fileSize) {
+	public void setFileSize(int fileSize) {
 		this.fileSize = fileSize;
 	}
 	public String getFileURL() {
