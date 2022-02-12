@@ -207,6 +207,7 @@ function doReceipt()
 		      
 		if (seatCount > 0)
 		{
+			$("#examZoneId").val(examZoneId);
 			return true;
 		}
   		else

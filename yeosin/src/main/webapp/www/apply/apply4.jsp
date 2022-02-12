@@ -111,6 +111,7 @@
 	    </table>
 		<input type="hidden" value="<%=request.getParameter("examId")%>" id="examId" name="examId"/>
 		<input type="hidden" value="<%=request.getParameter("eduNum")%>" id="eduNum" name="eduNum"/>
+		<input type="hidden" value="" id="examZoneId" name="examZoneId"/>
 		<input style="border:none;" class="btn_apply" type="submit" value="작성완료"/>
     </form>
 

@@ -277,6 +277,9 @@ public class ApplyController {
 			mav.addObject("hashString", hashString);
 			
 			session.setAttribute("sessionExamInfo", examInfo);
+			session.setAttribute("examZoneId", request.getParameter("examZoneId"));
+			session.setAttribute("certId", request.getParameter("eduNum"));
+			
 			mav.addObject("examZoneName", examZoneName);
 			mav.addObject("subjectName", subjectName);
 			mav.addObject("examInfo", examInfo);
@@ -1117,8 +1120,8 @@ public class ApplyController {
 				insertApplyDto.setReceiptId(newMaxReceiptNumberStr);
 				insertApplyDto.setUserId(userInfo.getUserId());
 				insertApplyDto.setExamId(sessionExamInfo.getExamId());
-				insertApplyDto.setCertId("1234");
-				insertApplyDto.setExamZoneId("");
+				insertApplyDto.setCertId((String)session.getAttribute("certId"));
+				insertApplyDto.setExamZoneId((String)session.getAttribute("examZoneId"));
 				insertApplyDto.setStudentCode(newStudentCode);
 
 				insertApplyDto.setPaymentMethod(request.getParameter("PayMethod"));
