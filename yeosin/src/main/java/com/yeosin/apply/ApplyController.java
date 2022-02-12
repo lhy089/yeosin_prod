@@ -187,6 +187,7 @@ public class ApplyController {
 		// JSP에서 넘어온 데이터
 		Map<String, Object> paremterMap = new HashMap<String, Object>();
 		paremterMap.put("examId", requestMap.get("examId"));
+		paremterMap.put("local", requestMap.get("local"));
 		paremterMap.put("examZoneDetail", requestMap.get("examZoneDetail"));
 		
 		// AJAX로 넘겨줄 데이터
@@ -346,6 +347,7 @@ public class ApplyController {
 				insertApplyDto.setCertId(request.getParameter("eduNum"));
 				insertApplyDto.setExamZoneId(request.getParameter("exmaZoneId"));
 				insertApplyDto.setStudentCode(newStudentCode);
+				insertApplyDto.setSubjectId(request.getParameter("subjectId"));
 				/*
 				insertApplyDto.setPaymentMethod(paymentMethod);
 				insertApplyDto.setExamFee(request.getParameter("Amt"));

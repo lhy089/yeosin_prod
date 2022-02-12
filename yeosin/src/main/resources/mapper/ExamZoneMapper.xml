@@ -36,6 +36,7 @@
 		LEFT JOIN YS_LOCALCENTER			LC	ON 	EZ.LOCALCENTERID = LC.LOCALCENTERID 
 		WHERE 	1 = 1
 		AND 	EZR.EXAMID = #{examId, jdbcType=VARCHAR}
+		AND 	EZ.LOCAL = #{local, jdbcType=VARCHAR}
 		<if test='!examZoneDetail.equals("전체")'>
 			AND 	EZ.LOCALDETAIL = #{examZoneDetail, jdbcType=VARCHAR}
 		</if>

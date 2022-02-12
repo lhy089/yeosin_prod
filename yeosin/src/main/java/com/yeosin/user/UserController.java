@@ -418,7 +418,7 @@ public class UserController {
 		}
 		
 		// 수료번호 api 호출
-		@Scheduled(cron = "0 10 01 * * *")
+		@Scheduled(cron = "0 00 7 * * *")
 		public void callSyncCertIdApiForSchedule() throws Exception {
 			Calendar calToday = Calendar.getInstance();
 			calToday.setTime(new Date());

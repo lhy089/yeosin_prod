@@ -67,7 +67,7 @@
           <th>시험시간</th>
         </tr>
         <tr>
-          <td class="center">해당 신규 등록교육을 수료한 자</td>
+          <td class="center">평가일 이전 1년 이내에 해당 신규 등록교육을 이수한 자</td>
           <td class="center">총 50문항</td>
           <td class="center">90분</td>
         </tr>

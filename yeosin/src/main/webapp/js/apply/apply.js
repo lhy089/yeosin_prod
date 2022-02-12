@@ -91,6 +91,7 @@ function doCompleted()
 // 고사장 검색함수(apply4.jsp)
 function doExamZoneSearch() 
 {
+	var local = $('#local').val();
 	var examZoneDetail = $('#examZoneDetailList').val();
 	var examId = $('#examId').val();
 	
@@ -98,6 +99,7 @@ function doExamZoneSearch()
 		url: "/SearchExamZone",
         type: "GET",
         data: {
+				local : local,
 				examZoneDetail : examZoneDetail,
 				examId : examId
 			  },
