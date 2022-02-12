@@ -142,7 +142,7 @@
           <td class="center">30</td>
         </tr>
         <tr>
-          <td class="center">금융소비자보호</td>
+          <td class="center">고객관리</td>
           <td colspan="2">
             &middot; 신용관리 ·신용정보<br/>
             &middot; 금융기관 신용관리<br/>
