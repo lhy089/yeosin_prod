@@ -26,7 +26,7 @@
 	<link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
 	<link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 	
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/www/inc/css/main.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/www/inc/css/main.css?t=<%= new java.util.Date() %>">
 	
 </head>
 
@@ -129,8 +129,10 @@
         통해 패스워드 변경 후 로그인 부탁드립니다.
       </p>
       <a href="/find_pwd" class="btn_apply">비밀번호 찾기</a>
-      <a href="#none" onClick="closeWin();" class="btn_close">닫기</a>
-      <a href="#none" onClick="todaycloseWin();" class="btn_closeToday">오늘 하루 보지 않기</a>
+      <div class="closeWrap">
+      	<a href="#none" onClick="closeWin();" class="btn_close">닫기</a>
+      	<a href="#none" onClick="todaycloseWin();" class="btn_closeToday">오늘 하루 보지 않기</a>
+      </div>
     </div>
   </div>
   <!-- //팝업 -->

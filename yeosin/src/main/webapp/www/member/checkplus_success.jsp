@@ -132,10 +132,11 @@ window.onload = function() {
 			name : "<%= sName %>", 
 			birth : "<%= sBirthDate %>", 
 			gender : "<%= sGender %>",
-			phone : "<%= sMobileNo %>"
+			phone : "<%= sMobileNo %>",
+			diCode : "<%= sDupInfo %>",
+			ciCode : "<%= sConnInfo %>"
 		}
     window.opener.postMessage(childData, '*');
-    debugger;
     this.close();
 
 };

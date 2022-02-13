@@ -529,12 +529,12 @@
           <tr>
             <th>연락처</th>
             <td>
-              <select id="" name="">
-                <option value="02">02 서울</option>
-                <option value="031">031 경기</option>
+              <select id="callNumber" name="">
+                <option value="02">02</option>
+                <option value="031">031</option>
               </select>
-              <input type="tel" maxlength="4" name="" value="">
-              <input type="tel" maxlength="4" name="" value="">
+              <input type="tel" maxlength="4" id="callNumber2" name="" value="">
+              <input type="tel" maxlength="4" id="callNumber3"name="" value="">
               <p>수신동의 하시면 안내 및 수험 정보를 받으실 수 있습니다.<!--<br/>수신동의와 별도로 비밀번호 찾기에 사용되므로 <strong>반드시 입력</strong> 바랍니다.--></p>
               <label><input type="checkbox" id="" name="agreeChk"/> 수신 동의합니다</label>
             </td>
