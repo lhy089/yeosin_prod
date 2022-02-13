@@ -32,8 +32,8 @@
 
 <!-- header 붙여주세요. (/common/admin_header.html) -->
 <!-- lnb 붙여주세요. (/common/admin_lnb.html) -->
-
 <div class="manage status">
+  <a href="/www/main.jsp" class="home"><img src="/www/inc/img/common/logo.png" alt="여신금융협회"></a>
   <div class="contentBoxAd">
     <h1 class="title">시험운영관리</h1>
     <h2>원서접수현황 <em>– 고사장별 현황</em></h2>
