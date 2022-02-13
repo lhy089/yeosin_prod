@@ -359,7 +359,8 @@ public class UserController {
 			UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 			if(!"S".equals(userInfo.getUserStatus())) return;
 			String rst = "";
-			String url = "http://www.educrefia.or.kr/restapi/PassUsers?passStartDate=" + startDate + "&passEndDate=" + endDate;
+			String url = "https://www.educrefia.or.kr/restapi/PassUsers?passStartDate=" + startDate + "&passEndDate=" + endDate;
+			System.out.println(">>>>> callSyncCertIdApi url : " + url);
 			try
 			{
 				URL clsUrl = new URL(url);
@@ -429,7 +430,8 @@ public class UserController {
 	        
 			String rst = "";
 			
-			String url = "http://www.educrefia.or.kr/restapi/PassUsers?passStartDate=" + startDate + "&passEndDate=" + endDate;
+			String url = "https://www.educrefia.or.kr/restapi/PassUsers?passStartDate=" + startDate + "&passEndDate=" + endDate;
+			System.out.println(">>>>> callSyncCertIdApi url : " + url);
 			try
 			{
 				URL clsUrl = new URL(url);

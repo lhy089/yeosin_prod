@@ -153,6 +153,7 @@
 		UPDATE YS_USER
 		SET USERSTATUS = 'U'
 		WHERE USERID = #{userId}
+			AND USERSTATUS NOT IN ('D','S')
 	</update>
 	
 	<select id="getUserByCIDI" parameterType="com.yeosin.user.UserDto" resultType="String">
