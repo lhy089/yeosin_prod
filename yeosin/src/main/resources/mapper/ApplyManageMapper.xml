@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yeosin.admin.ApplyManageDao" >
+   
+	<!-- 관리자의 원서접수 현황 조회(원서별) -->
+	<resultMap id="ApplyListByDocumentResultMap" type="com.yeosin.apply.ApplyDto">
+		<result column="STUDENTCODE" property="studentCode" />
+		<result column="USERID" property="userId" />
+		<result column="SUBJECTID" property="subjectId" />
+		<result column="RECEIPTDATE" property="receiptDate" />
+		<result column="ISCANCEL" property="isCancel" />
+	<association property="examDto" javaType="com.yeosin.apply.ExamDto">
+		<result column="EXAMDEGREE" property="examDegree" />
+		<result column="EXAMDATE" property="examDate" />
+	</association>
+	<association property="examZoneDto" javaType="com.yeosin.apply.ExamZoneDto">
+		<result column="LOCAL" property="local" />
+		<result column="EXAMZONENAME" property="examZoneName" />
+	</association>
+	<association property="subjectDto" javaType="com.yeosin.apply.SubjectDto">
+		<result column="SUBJECTNAME" property="subjectName" />
+	</association>
+		<association property="userDto" javaType="com.yeosin.user.UserDto">
+		<result column="USERNAME" property="userName" />
+		<result column="GENDER" property="gender" />
+	</association>
+	</resultMap>
+	<select id="getApplyListByDocument" parameterType="map" resultMap="ApplyListByDocumentResultMap">
+		 SELECT 	
+				@ROWNUM := @ROWNUM + 1						AS ROWNUM								-- 행순서
+			,	CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR))	AS EXAMDEGREE	-- 시험차수
+			,	R.STUDENTCODE  																		-- 수험번호
+			,	U.USERNAME 																			-- 유저명
+			,	R.USERID 																			-- 유저ID
+			,	EZ.LOCAL																			-- 지역
+			,	EZ.EXAMZONENAME 																	-- 고사장명
+			,	R.SEATNUMBER 																		-- 좌석번호
+			,	R.SUBJECTID 																		-- 종목ID
+			,	S.SUBJECTNAME 																		-- 종목명
+			,	U.GENDER 																			-- 성별
+			,	DATE_FORMAT(R.RECEIPTDATE, '%Y-%m-%d') 		AS	RECEIPTDATE							-- 접수날짜
+			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') 		AS 	EXAMDATE							-- 시험날짜
+			,	R.ISCANCEL 																			-- 취소여부
+		FROM 	YS_RECEIPT									R
+		INNER JOIN (SELECT 	RECEIPTID, @ROWNUM := 0
+					FROM 	YS_RECEIPT
+					ORDER BY RECEIPTDATE DESC) 				RN	ON	RN.RECEIPTID = R.RECEIPTID 
+		INNER JOIN YS_EXAM 									E	ON	E.EXAMID = R.EXAMID
+		INNER JOIN YS_USER 									U 	ON 	U.USERID = R.USERID
+		INNER JOIN YS_EXAMZONE 								EZ 	ON 	EZ.EXAMZONEID = R.EXAMZONEID
+		INNER JOIN YS_SUBJECT 								S	ON 	S.SUBJECTID = R.SUBJECTID
+		WHERE 	1 = 1
+		
+		<if test="textCondition != null and textCondition != ''">
+			AND (R.STUDENTCODE LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR},'%')
+				OR U.USERNAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR},'%')
+				OR R.USERID LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR},'%'))
+		</if>
+		<if test='localCondition != null and !localCondition.equals("전체")'>
+			AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR},'%')
+		</if>
+		<if test='subjectCondition != null and !subjectCondition.equals("*")'>
+			AND (R.SUBJECTID LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR},'%')
+				OR S.SUBJECTNAME LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR},'%'))
+		</if>
+		ORDER BY
+				R.RECEIPTDATE DESC;
+   </select>
+   
+   	<!-- 조회조건 지역 리스트 -->
+	<select id="getConditionLocalList" resultType="com.yeosin.apply.ExamZoneDto">
+		SELECT 	
+				'전체'	AS LOCAL
+		FROM 	DUAL
+		UNION
+		SELECT 	
+				DISTINCT LOCAL
+		FROM 	YS_EXAMZONE
+		WHERE 	1 = 1;
+	</select>
+	
+	<!-- 조회조건 과목 리스트 -->
+	<select id="getConditionSubjectList" resultType="com.yeosin.apply.SubjectDto">
+		SELECT 	
+				'*'		AS SUBJECTID
+			,	'전체'	AS SUBJECTNAME
+		FROM 	DUAL
+		UNION 	
+		SELECT 	
+				DISTINCT SUBJECTID 
+			,	SUBJECTNAME 
+		FROM 	YS_SUBJECT
+		WHERE 	1 = 1;
+	</select>
+
+</mapper>

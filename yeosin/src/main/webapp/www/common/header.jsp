@@ -36,6 +36,7 @@
 		<c:choose>
       		<c:when test="${loginUserInfo.userStatus == 'S'}">
       			<a href="/www/manage/syncCert.jsp" id="goSyncCertIdMng">수료번호API호출</a>
+      			<a href="/manage_status_doc">접수자 리스트</a>
       		</c:when>
       	</c:choose>
     </div>
