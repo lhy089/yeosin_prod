@@ -232,7 +232,6 @@
 	<!-- //팝업 -->
 	<%@ include file="/www/common/footer.jsp"%>
 	<!--?php include_once "../common/footer.php";?-->
-	<%@ include file="/www/common/header.jsp"%>
 	<script>
 		$(function() {
 			/* 선택 항목 열기 */
