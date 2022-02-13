@@ -37,7 +37,7 @@
     <h1>비밀번호 확인</h1>
     <div class="pwdBox">
       <input type="password" placeholder="비밀번호 입력" id="password">
-      <a nclick="return false;" id="btn_doCheckPwd">확인</a>
+      <a onclick="return false;" id="btn_doCheckPwd">확인</a>
     </div>
   </div>
 </div>

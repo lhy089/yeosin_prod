@@ -22,7 +22,7 @@ function doCheckedPwd() {
         data: {password : $("#password").val()},
         sendDataType : 'string',
         success: function(data) {
-        	if(data) {
+        	if(data == "true") {
         		location.href = "/change";
         	}else {
         		alert("비밀번호가 일치하지 않습니다.");

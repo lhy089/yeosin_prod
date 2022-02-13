@@ -237,14 +237,14 @@ public class UserController {
 	@RequestMapping(value="/doCheckPwd", method=RequestMethod.POST)
 	@ResponseBody
 	public void doCheckPwd(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
-		boolean result = false;
+		String result = "false";
 		response.setCharacterEncoding("UTF-8");
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		userInfo.setPassword(EncryptUtils.getSha256(user.getPassword()));
 
 		userInfo = userService.getLoginUserInfo(userInfo);
 		if(userInfo != null ) {
-			result = true;
+			result = "true";
 		}
 		response.getWriter().print(result);
 		response.getWriter().flush();
