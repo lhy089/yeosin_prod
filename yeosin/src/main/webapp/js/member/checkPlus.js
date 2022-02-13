@@ -48,9 +48,7 @@ window.addEventListener('message', function(e) {
 		}
 		
 		var inputData = {
-				userName:data.name,
-				birthDate: data.birth.substring(0, 4) + "-" + data.birth.substring(4, 6) + "-" + data.birth.substring(6, 8),
-				gender:(data.gender==0) ? "여":"남"
+				ciCode:data.ciCode
 		};
 
 		$.ajax({

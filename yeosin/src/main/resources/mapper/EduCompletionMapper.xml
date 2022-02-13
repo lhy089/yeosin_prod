@@ -10,10 +10,7 @@
 						SELECT 
 							1
 						FROM YS_EDUCOMPLETION EC
-						WHERE EC.USERNAME = #{userName}
-							AND EC.BIRTHDATE = #{birthDate}
-							AND EC.GENDER = #{gender}
-							AND EC.SUBJECT = #{subject}
+						WHERE EC.CERTID = #{certId}
 						)
 					THEN 'Y'
 					ELSE 'N'
@@ -31,7 +28,7 @@
 		WHERE 	1 = 1
 		AND 	USERNAME = #{userName, jdbcType=VARCHAR}
 		AND		GENDER = #{gender, jdbcType=VARCHAR}
-		AND 	BIRTHDATE = #{birthDate, jdbcType=VARCHAR}
+		AND 	SUBSTRING(BIRTHDATE, 3,8) =  SUBSTRING(#{birthDate},3,8)
 		AND 	CERTID = #{eduNum, jdbcType=VARCHAR}
 		AND 	SUBJECT = #{subjectId, jdbcType=VARCHAR};
 	</select>
@@ -46,12 +43,11 @@
 	<update id="updateEduComepletionInfo" parameterType="com.yeosin.user.EduCompletionDto">
 		UPDATE YS_EDUCOMPLETION
 		<set>
-			CERTID = #{certId}
+			USERNAME = #{userName},
+			BIRTHDATE = #{birthDate},
+			GENDER = #{gender}
 		</set>
-		WHERE USERNAME = #{userName}
-			AND BIRTHDATE = #{birthDate}
-			AND GENDER = #{gender}
-			AND SUBJECT = #{subject}
+		WHERE CERTID = #{certId}
 	</update>
 	
 	

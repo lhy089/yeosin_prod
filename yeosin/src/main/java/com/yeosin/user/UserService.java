@@ -37,7 +37,7 @@ public class UserService {
 	}
 
 	public String findUserIdByCert(UserDto userDto) throws Exception   {
-		return userDao.findUserId(userDto);
+		return userDao.findUserIdByCert(userDto);
 	}
 	
 	public int updateUserPassword(UserDto userInfo) throws Exception   {

@@ -40,6 +40,9 @@ public class UserDao {
 	public String findUserId(UserDto userDto) {
 		return this.sqlSession.selectOne(namespace + "findUserId", userDto);
 	}
+	public String findUserIdByCert(UserDto userDto) {
+		return this.sqlSession.selectOne(namespace + "findUserIdByCert", userDto);
+	}
 	public int updateUserPassword(UserDto userInfo) {
 		return this.sqlSession.update(namespace + "updateUserPassword", userInfo);
 	}

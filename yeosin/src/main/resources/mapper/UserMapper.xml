@@ -129,6 +129,18 @@
 				USERNAME = #{userName}
 			AND GENDER = #{gender}
 			AND BIRTHDATE = #{birthDate}
+			AND USERSTATUS != 'D'
+	</select>
+	
+	<!-- 아이디 찾기 기능 -->	
+	<select id="findUserIdByCert" parameterType="com.yeosin.user.UserDto" resultType="String">
+		SELECT
+			USERID	 
+		FROM 
+			YS_USER
+		WHERE
+				CICODE = #{ciCode}
+			AND USERSTATUS != 'D'
 	</select>
 	
 	<update id="updateUserPassword" parameterType="com.yeosin.user.UserDto">

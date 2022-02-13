@@ -77,17 +77,33 @@
       </tr>
       <tr>
         <th>결제정보</th>
-        <td>결제한 방법 표기(카트, 무통장 등)</td>
+        <td><a href="#none" onClick="$('.alertPop').show();" class="btn_apply">영수증 출력</a></td>
       </tr>
     </table>
-    <div class="btnWrap">
-      <a href="#" class="btn_apply">출력하기</a>
-      <a href="#" class="btn_apply">접수 취소</a>
-    </div>
+    <a href="#" class="btn_apply">접수 취소</a>
   </div>
+
+  <!-- 팝업// -->
+  <div class="alertPop">
+    <a href="#none" class="btn_close"></a>
+    <p class="text">
+      준비중입니다.<br/>
+      영수증 필요시 카드사 출력 가능하며<br/>
+      불가능 시 별도 문의 바랍니다.
+    </p>
+  </div>
+  <!-- //팝업 -->
 </div>
 
 <!--?php include_once "../common/footer.php";?-->
 
+<script>
+$(function(){
+  /* 알럿 팝업 닫기 */
+  $('.alertPop .btn_close').click(function(){
+    $('.alertPop').fadeOut(300);
+  });
+});
+</script>
 </body>
 </html>

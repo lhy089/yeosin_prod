@@ -359,7 +359,7 @@ public class UserController {
 			UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 			if(!"S".equals(userInfo.getUserStatus())) return;
 			String rst = "";
-			String url = "https://www.educrefia.or.kr/restapi/PassUsers?passStartDate=" + startDate + "&passEndDate=" + endDate;
+			String url = "http://www.educrefia.or.kr/restapi/PassUsers?passStartDate=" + startDate + "&passEndDate=" + endDate;
 			try
 			{
 				URL clsUrl = new URL(url);
@@ -395,7 +395,7 @@ public class UserController {
                 if(birthDate.length()==8) {
                 	birthDate = birthDate.substring(0,4)+"-"+birthDate.substring(4,6)+"-"+birthDate.substring(6,8);
                 }else if(birthDate.length()==6) {
-                	birthDate = "19"+birthDate.substring(0,2)+"-"+birthDate.substring(2,4)+"-"+birthDate.substring(4,6);
+                	birthDate = "YY"+birthDate.substring(0,2)+"-"+birthDate.substring(2,4)+"-"+birthDate.substring(4,6);
                 }
                 eduCompletionInfo.setUserId("");
                 eduCompletionInfo.setEduUserId((String)item.get("user_id"));
@@ -429,7 +429,7 @@ public class UserController {
 	        
 			String rst = "";
 			
-			String url = "https://www.educrefia.or.kr/restapi/PassUsers?passStartDate=" + startDate + "&passEndDate=" + endDate;
+			String url = "http://www.educrefia.or.kr/restapi/PassUsers?passStartDate=" + startDate + "&passEndDate=" + endDate;
 			try
 			{
 				URL clsUrl = new URL(url);
@@ -465,7 +465,7 @@ public class UserController {
                 if(birthDate.length()==8) {
                 	birthDate = birthDate.substring(0,4)+"-"+birthDate.substring(4,6)+"-"+birthDate.substring(6,8);
                 }else if(birthDate.length()==6) {
-                	birthDate = "19"+birthDate.substring(0,2)+"-"+birthDate.substring(2,4)+"-"+birthDate.substring(4,6);
+                	birthDate = "YY"+birthDate.substring(0,2)+"-"+birthDate.substring(2,4)+"-"+birthDate.substring(4,6);
                 }
                 
 				eduCompletionInfo.setUserId("");
