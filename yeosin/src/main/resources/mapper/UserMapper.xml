@@ -147,6 +147,7 @@
 		UPDATE YS_USER
 		SET PASSWORD = #{password}
 		WHERE USERID = #{userId}
+			AND USERSTATUS != 'D'
 	</update>
 	
 	<update id="updateUserStatus" parameterType="com.yeosin.user.UserDto">
