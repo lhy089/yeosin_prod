@@ -6,7 +6,7 @@ $(document).ready(function(){
        location.href="member/login.jsp";
    });
    
-   $('#btn_logout').click(function(){
+   $("a[name='btn_logout']").click(function(){
 	   $.ajax({
            url: "/logout",
            type: "post",

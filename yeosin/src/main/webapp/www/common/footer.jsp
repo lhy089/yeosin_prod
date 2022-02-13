@@ -67,7 +67,7 @@
         <dl>
       <c:choose>
     	<c:when test="${loginUserInfo.userId != null}">
-       		<dt class="gray"><a onclick="return false;" id="btn_logout2">로그아웃</a></dt>
+       		<dt class="gray"><a onclick="return false;" name="btn_logout" id="btn_logout">로그아웃</a></dt>
     	</c:when>
     	<c:otherwise>
     		<dt class="gray"><a href="/join">회원가입</a></dt>

@@ -32,7 +32,7 @@
     <c:choose>
     <c:when test="${loginUserInfo.userId != null}">
     <div class="btnWrap">
-    	<a onclick="return false;" id="btn_logout">로그아웃</a>
+    	<a onclick="return false;" id="btn_logout" name="btn_logout">로그아웃</a>
 		<c:choose>
       		<c:when test="${loginUserInfo.userStatus == 'S'}">
       			<a href="/www/manage/syncCert.jsp" id="goSyncCertIdMng">수료번호API호출</a>
@@ -145,7 +145,7 @@
   <c:choose>
     <c:when test="${loginUserInfo.userId != null}">
     <div class="btnWrap">
-    	<a onclick="return false;" id="btn_logout">로그아웃</a>
+    	<a onclick="return false;" id="btn_logout2" name="btn_logout">로그아웃</a>
     	</div>
     </c:when>
     <c:otherwise>
