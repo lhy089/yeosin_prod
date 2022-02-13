@@ -22,14 +22,14 @@
 	<link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
 	<link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 	
-	<link rel="stylesheet" href="/www/inc/css/apply.css">
+	<link rel="stylesheet" href="/www/inc/css/apply.css?t=<%= new java.util.Date() %>">
 	
 	<style>
 		select {width:492px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:16px; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; color:#58585b; letter-spacing:-0.5px; text-indent:12px;}
 	</style>
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=?t=<%= new java.util.Date() %>"></script>	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=<%= new java.util.Date() %>"></script>	
 	<script>
 	if (${isReceipt}) 
 	{ 
@@ -72,7 +72,7 @@
         <th>시험지역</th>
         <td>      
            <c:set var="examId" value="${exam.examId}" />   
-           <select required name="examLocalList" id ="${exam.examId}">   
+           <select required name="examLocalList" id="${exam.examId}" class="exam100">   
                <option value="">시험지역을 선택하세요.</option>              
                <c:forEach var="localList" items="${examLocalList}">
                      <c:set var="examIdLocal" value="${localList.examId}" />  
