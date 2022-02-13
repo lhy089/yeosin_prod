@@ -359,7 +359,7 @@ function doPayment()
 function nicepayStart() { debugger;
 	var payMethod = $('input[name="paymentMethod"]:checked').val();
 	$("#PayMethod").val(payMethod);
-	$("#BuyerTel").val($("#BuyerTel").val().replaceAll("-",""));
+	$("#BuyerTel").val($("#BuyerTel").val().replace(/-/g,""));
 	if(checkPlatform(window.navigator.userAgent) == "mobile"){//모바일 결제창 진입
 		document.payForm.action = "https://web.nicepay.co.kr/v3/v3Payment.jsp";
 		document.payForm.acceptCharset="euc-kr";
