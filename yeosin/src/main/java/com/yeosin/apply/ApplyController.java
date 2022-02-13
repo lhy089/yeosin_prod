@@ -130,8 +130,6 @@ public class ApplyController {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
-			
-		userInfo = userService.getLoginUserInfo(userInfo);
 		
 		if (userInfo != null) 
 		{		
@@ -157,7 +155,6 @@ public class ApplyController {
 	{
 		response.setCharacterEncoding("UTF-8");	
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
-		userInfo = userService.getLoginUserInfo(userInfo);
 		
 		// AJAX에서 넘어온 데이터
 		Map<String, Object> paremterMap = new HashMap<String, Object>();
@@ -224,8 +221,7 @@ public class ApplyController {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
-			
-		userInfo = userService.getLoginUserInfo(userInfo);
+
 		if (userInfo != null) 
 		{
 			ExamDto examInfo = applyService.getExamInfo2(request.getParameter("examId"));
