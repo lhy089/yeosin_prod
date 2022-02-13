@@ -28,7 +28,6 @@
 							1
 						FROM YS_USER USER
 						WHERE USER.USERID = #{userId}
-						AND USERSTATUS != 'D'
 						)
 					THEN 'Y'
 					ELSE 'N'
