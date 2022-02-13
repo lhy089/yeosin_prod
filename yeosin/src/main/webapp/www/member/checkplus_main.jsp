@@ -16,8 +16,8 @@
 	
     // CheckPlus(본인인증) 처리 후, 결과 데이타를 리턴 받기위해 다음예제와 같이 http부터 입력합니다.
 	//리턴url은 인증 전 인증페이지를 호출하기 전 url과 동일해야 합니다. ex) 인증 전 url : http://www.~ 리턴 url : http://www.~
-    String sReturnUrl = "http://119.205.221.175/www/member/checkplus_success.jsp";      // 성공시 이동될 URL
-    String sErrorUrl = "http://119.205.221.175/www/member/checkplus_fail.jsp";          // 실패시 이동될 URL
+    String sReturnUrl = "https://www.lpcrefia.or.kr/www/member/checkplus_success.jsp";      // 성공시 이동될 URL
+    String sErrorUrl = "https://www.lpcrefia.or.kr/www/member/checkplus_fail.jsp";          // 실패시 이동될 URL
 
     // 입력될 plain 데이타를 만든다.
     String sPlainData = "7:REQ_SEQ" + sRequestNumber.getBytes().length + ":" + sRequestNumber +

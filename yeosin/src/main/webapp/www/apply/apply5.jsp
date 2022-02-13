@@ -105,7 +105,7 @@
 		<input type="hidden" value="${userInfo.userName}" id="BuyerName" name="BuyerName"/>
 		<input type="hidden" value="${userInfo.emailAddress}" id="BuyerEmail" name="BuyerEmail"/>
 		<input type="hidden" value="${userInfo.phoneNumber}" id="BuyerTel" name="BuyerTel"/>
-		<input type="hidden" value="http://119.205.221.175/www/apply/pay/payResult_utf.jsp" id="ReturnURL" name="ReturnURL"/>
+		<input type="hidden" value="https://www.lpcrefia.or.kr/www/apply/pay/payResult_utf.jsp" id="ReturnURL" name="ReturnURL"/>
 		<input type="hidden" value="" id="VbankExpDate" name="VbankExpDate"/>
  		<input type="hidden" name="EdiDate" value="${ediDate}"/>			
 		<input type="hidden" name="SignData" value="${hashString}"/>	
