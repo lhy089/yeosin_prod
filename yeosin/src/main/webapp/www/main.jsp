@@ -30,7 +30,12 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/www/inc/css/main.css">
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/index.js?t=<%= new java.util.Date() %>"></script>
   <script>
+  
+  	if("${isAlertNoAuth}") {
+      alert("권한이 없습니다.");
+	}
   	location.href = "/index"; 
+  
   </script>
 </head>
 

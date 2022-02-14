@@ -37,21 +37,35 @@ public class ApplyManageController {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		
-		List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
-		List<SubjectDto> subjectList = applyManageService.getConditionSubjectList();
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		
-		Map<String, Object> parameterMap = new HashMap<String, Object>();
-		parameterMap.put("textCondition", request.getParameter("textCondition"));
-		parameterMap.put("localCondition", request.getParameter("localCondition"));
-		parameterMap.put("subjectCondition", request.getParameter("subjectCondition"));
-		
-		List<ApplyDto> applyListByDocument	= applyManageService.getApplyListByDocument(parameterMap);
-		
-		mav.addObject("localList", localList);
-		mav.addObject("subjectList", subjectList);
-		mav.addObject("applyListByDocument", applyListByDocument);
-		mav.setViewName("admin/manage_status_doc"); 
-	  
+		if (userInfo == null) 
+		{
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		}
+		else if (!"S".equals(userInfo.getUserStatus())) 
+		{
+			mav.addObject("isAlertNoAuth", true);
+			mav.setViewName("main");		
+		}
+		else
+		{
+			List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
+			List<SubjectDto> subjectList = applyManageService.getConditionSubjectList();
+
+			Map<String, Object> parameterMap = new HashMap<String, Object>();
+			parameterMap.put("textCondition", request.getParameter("textCondition"));
+			parameterMap.put("localCondition", request.getParameter("localCondition"));
+			parameterMap.put("subjectCondition", request.getParameter("subjectCondition"));
+
+			List<ApplyDto> applyListByDocument	= applyManageService.getApplyListByDocument(parameterMap);
+
+			mav.addObject("localList", localList);
+			mav.addObject("subjectList", subjectList);
+			mav.addObject("applyListByDocument", applyListByDocument);
+			mav.setViewName("admin/manage_status_doc"); 
+		}
 		return mav;
 	}
 
