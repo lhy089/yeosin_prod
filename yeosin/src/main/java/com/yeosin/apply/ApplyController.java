@@ -277,6 +277,7 @@ public class ApplyController {
 			ApplyDto applyInfo = new ApplyDto();
 			applyInfo.setCertId(request.getParameter("eduNum"));
 			applyInfo.setExamZoneId(request.getParameter("examZoneId"));
+			applyInfo.setSubjectId(request.getParameter("subjectId"));
 			session.setAttribute("sessionApplyInfo", applyInfo);
 			
 			mav.addObject("examZoneName", examZoneName);
@@ -300,6 +301,7 @@ public class ApplyController {
 	@ResponseBody
 	public ModelAndView ReceiptAndPaymentView(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
+		System.out.println("############# ReceiptAndPayment Start ###############");
 		response.setCharacterEncoding("UTF-8");	
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
@@ -311,7 +313,9 @@ public class ApplyController {
 			parameterMap.put("userId", userInfo.getUserId());
 			parameterMap.put("examId", request.getParameter("examId"));
 			int receiptCount = applyService.getIsReceipt(parameterMap);
-			
+			System.out.println(">>> apply6 ReceiptAndPaymentView userId : " + userInfo.getUserId());
+			System.out.println(">>> apply6 ReceiptAndPaymentView examId : " + request.getParameter("examId"));
+			System.out.println(">>> apply6 ReceiptAndPaymentView receiptCount : " + receiptCount);
 			if (receiptCount > 0)
 			{
 				mav.addObject("isReceipt", true);
@@ -327,6 +331,8 @@ public class ApplyController {
 				long newMaxReceiptNumber = Long.parseLong(applyService.getMaxReceiptNumber()) + 1;
 				String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);
 				String newStudentCode = String.valueOf(newMaxReceiptNumber);
+				System.out.println(">>> apply6 ReceiptAndPaymentView newMaxReceiptNumberStr : " + newMaxReceiptNumberStr);
+				System.out.println(">>> apply6 ReceiptAndPaymentView newStudentCode : " + newStudentCode);
 				/*
 				String paymentMethod = "";
 				if("CARD".equals(request.getParameter("PayMethod"))) {
@@ -344,19 +350,21 @@ public class ApplyController {
 				insertApplyDto.setExamZoneId(request.getParameter("exmaZoneId"));
 				insertApplyDto.setStudentCode(newStudentCode);
 				insertApplyDto.setSubjectId(request.getParameter("subjectId"));
+				System.out.println(">>> apply6 ReceiptAndPaymentView CertId : " + request.getParameter("eduNum"));
+				System.out.println(">>> apply6 ReceiptAndPaymentView subjectId : " + request.getParameter("subjectId"));
 				/*
 				insertApplyDto.setPaymentMethod(paymentMethod);
 				insertApplyDto.setExamFee(request.getParameter("Amt"));
 				*/
 				
 				int result = applyService.setReceiptInfo(insertApplyDto);
-				
+				System.out.println(">>> apply6 ReceiptAndPaymentView setReceiptInfo result : " + result);
 				if (result > 0)
 				{	
 					// 결제 시작 (트랜잭션 처리 후 순서 변경 예정)
 					Map<String,String> resultMap = new HashMap<>();
 					resultMap = this.payResult(session, request, response, resultMap);
-					
+					System.out.println(">>> apply6 ReceiptAndPaymentView ResultCode : " + resultMap.get("ResultCode"));
 					if(!("3001".equals(resultMap.get("ResultCode")) || "4000".equals(resultMap.get("ResultCode")))) {
 						mav.addObject("isSuccess", "N");
 						mav.setViewName("apply/apply6");
@@ -375,7 +383,7 @@ public class ApplyController {
 					insertApplyDto.setPaymentId(resultMap.get("TID"));
 					
 					int payResult = applyService.setPaymentInfo(insertApplyDto);
-					
+					System.out.println(">>> apply6 ReceiptAndPaymentView payResult : " + payResult);
 					if(payResult==0) {
 						mav.addObject("isSuccess", "N");
 						mav.setViewName("apply/apply6");
@@ -401,6 +409,7 @@ public class ApplyController {
 			mav.setViewName("member/login");
 		}
 		
+		System.out.println("############# ReceiptAndPayment End ###############");
 		return mav;
 	}
 	
@@ -585,7 +594,6 @@ public class ApplyController {
 	      	resultMap.put("receiptId", receiptId);
 	      	resultMap.put("userId", userInfo.getUserId());
 			resultMap = this.payCancelResult(session, request, response, resultMap);
-			resultMap.put("TID", "kmama0001m01012202110022506806");
 			resultMap.put("ResultCode", "2001");
 			resultMap.put("ResultMsg", "결제취소성공");
 			resultMap.put("CancelDate", "20220211");
@@ -768,6 +776,10 @@ public class ApplyController {
 	   String amt 				= (String)request.getParameter("Amt"); 				// 결제 금액
 	   String reqReserved 		= (String)request.getParameter("ReqReserved"); 		// 상점 예약필드
 	   String netCancelURL 	= (String)request.getParameter("NetCancelURL"); 	// 망취소 요청 URL
+	   System.out.println(">>> payResult authResultCode : " + authResultCode);
+	   System.out.println(">>> payResulto txTid : " + txTid);
+	   System.out.println(">>> payResult payMethod : " + payMethod);
+	   System.out.println(">>> payResult moid : " + moid);
 	   //String authSignature = (String)request.getParameter("Signature");			// Nicepay에서 내려준 응답값의 무결성 검증 Data
 
 	   /*  
@@ -1085,7 +1097,7 @@ public class ApplyController {
 	@ResponseBody
 	public ModelAndView moRecipt(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		System.out.println("####### moRecipt Start ###############");
+		System.out.println("############# moRecipt Start ###############");
 		response.setCharacterEncoding("UTF-8");	
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
@@ -1099,7 +1111,9 @@ public class ApplyController {
 			parameterMap.put("userId", userInfo.getUserId());
 			parameterMap.put("examId", sessionExamInfo.getExamId());
 			int receiptCount = applyService.getIsReceipt(parameterMap);
-			
+			System.out.println(">>> moRecipt userId : " + userInfo.getUserId());
+			System.out.println(">>> moRecipt examId : " + sessionExamInfo.getExamId());
+			System.out.println(">>> moRecipt receiptCount : " + receiptCount);
 			if (receiptCount > 0)
 			{
 				mav.addObject("isReceipt", true);
@@ -1123,18 +1137,26 @@ public class ApplyController {
 				insertApplyDto.setExamId(sessionExamInfo.getExamId());
 				insertApplyDto.setCertId(sessionApplyInfo.getCertId());
 				insertApplyDto.setExamZoneId(sessionApplyInfo.getExamZoneId());
+				insertApplyDto.setSubjectId(sessionApplyInfo.getSubjectId());
 				insertApplyDto.setStudentCode(newStudentCode);
 				
 				System.out.println(">>> examId : " + insertApplyDto.getExamId());
 				System.out.println(">>> certId : " + insertApplyDto.getCertId());
 				System.out.println(">>> examZoneId : " + insertApplyDto.getExamZoneId());
+				System.out.println(">>> newMaxReceiptNumberStr : " + insertApplyDto.getReceiptId());
+				System.out.println(">>> newStudentCode : " + insertApplyDto.getStudentCode());
+				System.out.println(">>> SubjectId : " + insertApplyDto.getSubjectId());
 
 				insertApplyDto.setPaymentMethod(request.getParameter("PayMethod"));
 				insertApplyDto.setPaymentId(request.getParameter("TID"));
 				insertApplyDto.setExamFee(request.getParameter("Amt"));
 				
-				int result = applyService.setReceiptInfo(insertApplyDto);
+				System.out.println(">>> PayMethod : " + insertApplyDto.getPaymentMethod());
+				System.out.println(">>> TID : " + insertApplyDto.getPaymentId());
+				System.out.println(">>> Amt : " + insertApplyDto.getExamFee());
 				
+				int result = applyService.setReceiptInfo(insertApplyDto);
+				System.out.println(">>>  moRecipt result : " + result);
 				if (result > 0)
 				{	
 					/*
@@ -1186,7 +1208,7 @@ public class ApplyController {
 			mav.addObject("isAlert", true);
 			mav.setViewName("member/login");
 		}
-		
+		System.out.println("############# moRecipt End ###############");
 		return mav;
 	}
 }

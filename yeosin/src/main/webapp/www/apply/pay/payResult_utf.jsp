@@ -37,6 +37,9 @@ String reqReserved 		= (String)request.getParameter("ReqReserved"); 		// 상점 
 String netCancelURL 	= (String)request.getParameter("NetCancelURL"); 	// 망취소 요청 URL
 //String authSignature = (String)request.getParameter("Signature");			// Nicepay에서 내려준 응답값의 무결성 검증 Data
 
+System.out.println(">>> moRecipt moid : " + moid);
+System.out.println(">>> moRecipt txTid : " + txTid);
+
 /*  
 ****************************************************************************************
 * Signature : 요청 데이터에 대한 무결성 검증을 위해 전달하는 파라미터로 허위 결제 요청 등 결제 및 보안 관련 이슈가 발생할 만한 요소를 방지하기 위해 연동 시 사용하시기 바라며 

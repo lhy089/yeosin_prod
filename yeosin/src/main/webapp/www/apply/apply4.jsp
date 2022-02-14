@@ -113,6 +113,7 @@
 		<input type="hidden" value="<%=request.getParameter("eduNum")%>" id="eduNum" name="eduNum"/>
 		<input type="hidden" value="<%=request.getParameter("local")%>" id="local" name="local"/>
 		<input type="hidden" value="" id="examZoneId" name="examZoneId"/>
+		<input type="hidden" value="${subjectId}" id="subjectId" name="subjectId"/>
 		<input style="border:none;" class="btn_apply" type="submit" value="작성완료"/>
     </form>
 
