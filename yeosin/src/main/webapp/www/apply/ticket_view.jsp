@@ -56,6 +56,10 @@
         <td>${applyInfo.examDto.examName}</td>
       </tr>
       <tr>
+      	<th>자격종별</th>
+      	<td>${applyInfo.subjectDto.subjectName}</td>
+      </tr>
+      <tr>
         <th>성명</th>
         <td>${applyInfo.userDto.userName}</td>
       </tr>

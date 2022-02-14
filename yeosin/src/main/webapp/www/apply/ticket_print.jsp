@@ -60,6 +60,10 @@ $(function(){
       <td>${applyInfo.examDto.examName}</td>
     </tr>
     <tr>
+      <th>자격종별</th>
+      <td>${applyInfo.subjectDto.subjectName}</td>
+    </tr>
+    <tr>
       <th>수험번호</th>
       <td>${applyInfo.studentCode}</td>
     </tr>
