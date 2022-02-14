@@ -31,7 +31,9 @@
 <body>
 
 <!-- header 붙여주세요. (/common/admin_header.html) -->
+<%-- <%@ include file="/www/common/admin_header.jsp"%> --%>
 <!-- lnb 붙여주세요. (/common/admin_lnb.html) -->
+<%-- <%@ include file="/www/common/admin_lnb.jsp"%> --%>
 <div class="manage status">
   <a href="/www/main.jsp" class="home"><img src="/www/inc/img/common/logo.png" alt="여신금융협회"></a>
   <div class="contentBoxAd">
