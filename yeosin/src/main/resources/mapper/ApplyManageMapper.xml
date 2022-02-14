@@ -10,6 +10,7 @@
 		<result column="SUBJECTID" property="subjectId" />
 		<result column="RECEIPTDATE" property="receiptDate" />
 		<result column="ISCANCEL" property="isCancel" />
+		<result column="PAYMENTMETHOD" property="paymentMethod" />
 	<association property="examDto" javaType="com.yeosin.apply.ExamDto">
 		<result column="EXAMDEGREE" property="examDegree" />
 		<result column="EXAMDATE" property="examDate" />
@@ -24,6 +25,7 @@
 		<association property="userDto" javaType="com.yeosin.user.UserDto">
 		<result column="USERNAME" property="userName" />
 		<result column="GENDER" property="gender" />
+		<result column="PHONENUMBER" property="phoneNumber" />
 	</association>
 	</resultMap>
 	<select id="getApplyListByDocument" parameterType="map" resultMap="ApplyListByDocumentResultMap">
@@ -42,6 +44,8 @@
 			,	DATE_FORMAT(R.RECEIPTDATE, '%Y-%m-%d') 		AS	RECEIPTDATE							-- 접수날짜
 			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') 		AS 	EXAMDATE							-- 시험날짜
 			,	R.ISCANCEL 																			-- 취소여부
+			, 	U.PHONENUMBER																		-- 전화번호
+			,	R.PAYMENTMETHOD																		-- 결제방식
 		FROM 	YS_RECEIPT									R
 		INNER JOIN (SELECT 	RECEIPTID, @ROWNUM := 0
 					FROM 	YS_RECEIPT

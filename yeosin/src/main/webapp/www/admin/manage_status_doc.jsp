@@ -106,6 +106,8 @@
         <th>수험번호</th>
         <th>이름</th>
         <th>아이디</th>
+        <th>전화번호</th>
+        <th>결제방식</th>
         <th>수험지역</th>
         <th>고사장</th>
         <th>좌석배치</th>
@@ -123,6 +125,8 @@
 	        <td>${applyList.studentCode}</td>
 	        <td class="flow flowArea"><p>${applyList.userDto.userName}</p></td>
 	        <td>${applyList.userId}</td>
+	        <td>${applyList.userDto.phoneNumber}</td>
+	        <td>${applyList.paymentMethod}</td>
 	        <td>${applyList.examZoneDto.local}</td>
 	        <td>${applyList.examZoneDto.examZoneName}</td>
 	        <td>-</td>
