@@ -128,8 +128,9 @@ public class UserController {
 	@ResponseBody
 	public void find_id_cert(UserDto userDto, HttpSession session, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
-		
+		System.out.println(">>> find_id_cert ciCode : " + userDto.getCiCode());
 		String userId = userService.findUserIdByCert(userDto);
+		System.out.println(">>> find_id_cert userId : " + userId);
 	
 		response.getWriter().print(userId);
 		response.getWriter().flush();
@@ -143,14 +144,17 @@ public class UserController {
 		response.setCharacterEncoding("UTF-8");
 		String result = "null";
 		UserDto userInfo = new UserDto();
-		
+		System.out.println(">>> find_id_cert ciCode : " + userDto.getCiCode());
 		String userId = userService.findUserIdByCert(userDto);
 		String password = getRamdomPassword(); //랜덤값
+		System.out.println(">>> find_id_cert userId : " + userId);
+		System.out.println(">>> find_id_cert password : " + password);
 		
 		userInfo.setUserId(userId);
 		userInfo.setPassword(EncryptUtils.getSha256(password));
 		
 		int cnt= userService.updateUserPassword(userInfo);
+		System.out.println(">>> find_id_cert cnt : " + cnt);
 		
 		if(cnt>0) result = password;
 		userService.updateUserStatus(userInfo);
@@ -215,6 +219,7 @@ public class UserController {
 		user.setPassword(EncryptUtils.getSha256(user.getPassword()));
 		user.setUserStatus("U");
 		// 사용자 정보 조회
+		System.out.println(">>> doJoin ciCode : " + user.getCiCode());
 		int cnt = userService.insertUserInfo(user);
 		if(cnt > 0) userResult.add(userService.getLoginUserInfo(user));
 
@@ -507,6 +512,7 @@ public class UserController {
 		@RequestMapping(value="/checkDiCode", method=RequestMethod.POST)
 		@ResponseBody
 		public void checkDiCode(UserDto userdto, HttpSession session, HttpServletResponse response) throws Exception {
+			System.out.println(">>> checkDiCode ciCode : " + userdto.getCiCode());
 			String result = userService.getUserByCIDI(userdto);
 			response.getWriter().print(result);
 			response.getWriter().flush();
