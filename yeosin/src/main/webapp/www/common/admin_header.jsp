@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import = "com.yeosin.user.UserDto" %>
 <script>
 /* 고딕neo2,고딕neo3 font */
 (function(d) {
@@ -17,17 +18,25 @@
 <script src="/www/inc/js/jquery-3.4.1.min.js"></script>
 <link href="/www/inc/css/reset.css" rel="stylesheet" type="text/css" media="screen">
 <link href="/www/inc/css/header_admin.css" rel="stylesheet" type="text/css" media="screen">
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/admin/applymanage.js?t=<%= new java.util.Date() %>"></script>
 
 <!--header-->
 <header>
   <div class="contentBox">
     <div class="leftSec">
       <p class="date"></p>
-      <h1><span>여신금융협회</span>님 환영합니다</h1>
+      <% UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+         if(userInfo == null)
+            out.print("<h1><span>/span></h1>");
+         else
+            out.print("<h1><span>" + userInfo.getUserName() + "</span>님 환영합니다</h1>");
+   %>
     </div>
     <div class="rightSec">
       <a href="/www/main.jsp" class="home">HOME</a>
-      <a href="#" class="btn_header">로그아웃</a>
+      <a onclick="return false;" class="btn_header" id="btn_logout">로그아웃</a>
       <div class="autoLogout">[ 자동로그아웃 : 59:26 <a href="#" class="btn_header">연장</a> ]</div>
     </div>
   </div>

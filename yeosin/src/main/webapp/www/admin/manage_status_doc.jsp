@@ -31,11 +31,11 @@
 <body>
 
 <!-- header 붙여주세요. (/common/admin_header.html) -->
-<%-- <%@ include file="/www/common/admin_header.jsp"%> --%>
+<%@ include file="/www/common/admin_header.jsp"%>
 <!-- lnb 붙여주세요. (/common/admin_lnb.html) -->
-<%-- <%@ include file="/www/common/admin_lnb.jsp"%> --%>
+<%@ include file="/www/common/admin_lnb.jsp"%>
 <div class="manage status">
-  <a href="/www/main.jsp" class="home"><img src="/www/inc/img/common/logo.png" alt="여신금융협회"></a>
+<!--   <a href="/www/main.jsp" class="home"><img src="/www/inc/img/common/logo.png" alt="여신금융협회"></a> -->
   <div class="contentBoxAd">
     <h1 class="title">시험운영관리</h1>
     <h2>원서접수현황 <em>– 고사장별 현황</em></h2>

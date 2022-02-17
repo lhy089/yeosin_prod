@@ -1,0 +1,156 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<!DOCTYPE html>
+<html>
+<head lang="ko">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <meta charset="utf-8">
+  <title>[admin]대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
+  <meta name="description" content="여신금융협회">
+  <meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
+  <meta name="viewport" content="user-scalable=no,
+   initial-scale=1.0,
+   maximum-scale=1.0,
+   minimum-scale=1.0,
+   width=device-width,
+   height=device-height">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="여신금융협회"/>
+  <!-- <meta property="og:url" content="사이트url"> -->
+  <meta property="og:title" content="대출성 상품 판매대리•중개업자 등록 자격인증 평가">
+  <meta property="og:description" content="대출성 상품 판매대리•중개업자 등록 자격인증 평가">
+  <meta property="og:image" content="/www/inc/img/openGraph.jpg">
+  <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
+  <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
+
+  <link rel="stylesheet" href="/www/inc/css/admin.css">
+</head>
+
+<body>
+
+<!-- header 붙여주세요. (/common/admin_header.html) -->
+<%@ include file="/www/common/admin_header.jsp"%>
+<!-- lnb 붙여주세요. (/common/admin_lnb.html) -->
+<%@ include file="/www/common/admin_lnb.jsp"%>
+
+<div class="member info">
+  <div class="contentBoxAd">
+    <h1 class="title">회원관리</h1>
+    <h2>회원정보</h2>
+    <table>
+      <colgroup>
+        <col width="17%">
+        <col width="33%">
+        <col width="17%">
+        <col width="33%">
+      </colgroup>
+      <tr>
+        <th>검색어</th>
+        <td><input type="text" name="" value=""></td>
+        <th>회원구분</th>
+        <td>
+          <label class="type"><input type="checkbox" name="check" value=""> 일반</label>
+          <label class="type"><input type="checkbox" name="check" value=""> 관리자</label>
+          <label class="type"><input type="checkbox" name="check" value=""> 부관리자</label>
+          <label class="type"><input type="checkbox" name="check" value=""> 회원</label>
+        </td>
+      </tr>
+      <tr>
+        <th>이메일 수신 여부</th>
+        <td>
+          <label class="agree"><input type="radio" name="email" value=""> 전체</label>
+          <label class="agree"><input type="radio" name="email" value=""> 수신허용</label>
+          <label class="agree"><input type="radio" name="email" value=""> 수신거부</label>
+        </td>
+        <th>문자(SMS) 수신 여부</th>
+        <td>
+          <label class="agree"><input type="radio" name="sms" value=""> 전체</label>
+          <label class="agree"><input type="radio" name="sms" value=""> 수신허용</label>
+          <label class="agree"><input type="radio" name="sms" value=""> 수신거부</label>
+        </td>
+      </tr>
+    </table>
+    <a href="#" class="btn_apply mb100">조회</a>
+
+    <ul class="btn_wrap">
+      <li><a href="#">수정</a></li>
+      <li><a href="#">엑셀다운로드</a></li>
+      <li><a href="#">회원등급</a></li>
+      <li><a href="#">정보삭제</a></li>
+    </ul>
+    <table class="memberList">
+      <colgroup>
+        <col width="4%">
+        <col width="4%">
+        <col width="6.5%">
+        <col width="7%">
+        <col width="11%">
+        <col width="4%">
+        <col width="8.5%">
+        <col width="8.5%">
+        <col width="8.5%">
+        <col width="11%">
+        <col width="11%">
+        <col width="14%">
+      </colgroup>
+      <tr>
+        <th>선택</th>
+        <th>번호</th>
+        <th>등급</th>
+        <th>이름</th>
+        <th>아이디</th>
+        <th>성별</th>
+        <th>가입일</th>
+        <th>최근접속일</th>
+        <th>생년월일</th>
+        <th>연락처</th>
+        <th>휴대전화</th>
+        <th>이메일</th>
+      </tr>
+      <tr class="center">
+        <td><input type="checkbox" name="memberCheck" value=""></td>
+        <td>1</td>
+        <td>관리자</td>
+        <td class="flow flowName"><p>홍길동</p></td>
+        <td class="flow flowId"><p>hongjil</p></td>
+        <td>남</td>
+        <td>20211212</td>
+        <td>20220101</td>
+        <td>19810101</td>
+        <td>-</td>
+        <td>01012345678</td>
+        <td class="flow flowEmail"><p>hongjil@naver.com</p></td>
+      </tr>
+      <tr class="center">
+        <td><input type="checkbox" name="memberCheck" value=""></td>
+        <td>2</td>
+        <td>부관리자</td>
+        <td class="flow flowName"><p>홍길동</p></td>
+        <td class="flow flowId"><p>hongjil</p></td>
+        <td>남</td>
+        <td>20211212</td>
+        <td>20220101</td>
+        <td>19810101</td>
+        <td>-</td>
+        <td>01012345678</td>
+        <td class="flow flowEmail"><p>hongjil@naver.com</p></td>
+      </tr>
+      <tr class="center">
+        <td><input type="checkbox" name="memberCheck" value=""></td>
+        <td>3</td>
+        <td>회원</td>
+        <td class="flow flowName"><p>홍길동</p></td>
+        <td class="flow flowId"><p>hongjil</p></td>
+        <td>남</td>
+        <td>20211212</td>
+        <td>20220101</td>
+        <td>19810101</td>
+        <td>-</td>
+        <td>01012345678</td>
+        <td class="flow flowEmail"><p>hongjil@naver.com</p></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>
