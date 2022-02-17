@@ -58,7 +58,7 @@ function doCompleted()
 	
 	$.ajax({
 		url: "/isCompleteEdu",
-        type: "GET",
+        type: "POST",
         async: false,
         data: {
 				userName : userName,
@@ -195,7 +195,7 @@ function doReceipt()
 	{
 		$.ajax({
 				url: "/CheckLeftOverSeat",
-		        type: "GET",
+		        type: "POST",
 		        async: false,
 		        data:	{            
 		            		examId : examId,

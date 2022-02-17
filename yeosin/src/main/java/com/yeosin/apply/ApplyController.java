@@ -149,7 +149,7 @@ public class ApplyController {
 	}
 
 	// 로그인한 유저의 교육증 수료여부 체크
-	@RequestMapping(value="/isCompleteEdu", method=RequestMethod.GET)
+	@RequestMapping(value="/isCompleteEdu", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> IsCompleteEdu(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
 	{
@@ -195,7 +195,7 @@ public class ApplyController {
 	}
 	
 	// 고사장 잔여좌석 조회
-	@RequestMapping(value="/CheckLeftOverSeat", method=RequestMethod.GET)
+	@RequestMapping(value="/CheckLeftOverSeat", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> CheckLeftOverSeat(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
 	{
@@ -214,7 +214,7 @@ public class ApplyController {
 	}
 	
 	// 원서접수4(고사장 및 시험영역 선택 View)
-	@RequestMapping(value="/apply4", method=RequestMethod.GET)
+	@RequestMapping(value="/apply4", method=RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView ExamZoneAndSubjectView(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
@@ -248,7 +248,7 @@ public class ApplyController {
 	}
 	
 	// 원서접수5(접수최종확인 및 결제직전 View)
-	@RequestMapping(value="/apply5", method=RequestMethod.GET)
+	@RequestMapping(value="/apply5", method=RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView ApplyResultCheckView(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{

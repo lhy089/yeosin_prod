@@ -65,7 +65,7 @@
       <a href="/change" class="btn_change">개인정보 변경</a>
 
       <h2>교육수료정보</h2>
-      <form action="/apply4" method="get" onsubmit="return doCompleted();">
+      <form action="/apply4" method="post" onsubmit="return doCompleted();">
 	      <table>
 	        <colgroup>
 	          <col width="20.5%">

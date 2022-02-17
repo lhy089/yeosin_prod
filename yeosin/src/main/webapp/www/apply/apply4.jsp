@@ -54,7 +54,7 @@
       </p>
       <p class="serch"><a class="btn_serch" id="btn_examzoneSearch">검색</a></p>
     </div>
-    <form action="/apply5" method="get" onsubmit="return doReceipt();">
+    <form action="/apply5" method="post" onsubmit="return doReceipt();">
 	    <table class="areaTable" id="examZoneListAjax">
 	      <colgroup>
 	        <col width="14.5%">
