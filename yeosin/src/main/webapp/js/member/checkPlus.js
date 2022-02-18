@@ -38,7 +38,7 @@ window.addEventListener('message', function(e) {
 		document.vnoform.target = data.target;
 		document.vnoform.action = data.action;
 		document.vnoform.submit();
-	} else {
+	} else if (data.module == "cert") {
 		var findType = $("#findType").val();
 		var url = "";
 		if(findType=="id") {
@@ -52,22 +52,24 @@ window.addEventListener('message', function(e) {
 		};
 
 		$.ajax({
-	        type: "GET",
+	        type: "POST",
 	        url: url,
 	        data: inputData,
 	        sendDataType : 'string',
 	        success: function(data) {
-	        	if(data != "null"){
-	        		if($("#findType").val()=="id") {
-	        			alert("인증  되었습니다.\n회원님의 아이디는 " + data + " 입니다.");
-	        		}else {
-	        			alert("인증  되었습니다.\n임시 비밀번호는 " + data + " 입니다.");
-	        		}
-	        		
-	        		$(location).attr("href", "/www/member/login.jsp");
-	        	}else {
-	        		alert("일치하는 정보가 없습니다.");
-	        	}
+	        	var url = "/popup?type=" + $("#findType").val() + "&data="+data;
+	    		var options = 'top=10, left=10, width=400, height=200, status=no, menubar=no, toolbar=no, resizable=no';
+	    		window.open(url, "아이디/비밀번호 찾기", options);
+	    		
+//	        	if(data != "null"){
+//	        		if($("#findType").val()=="id") {
+//	        			alert("인증  되었습니다.\n회원님의 아이디는 " + data + " 입니다.");
+//	        		}else {
+//	        			alert("인증  되었습니다.\n임시 비밀번호는 " + data + " 입니다.");
+//	        		}
+//	        	}else {
+//	        		alert("일치하는 정보가 없습니다.");
+//	        	}
 	        },
 	      });
 	}

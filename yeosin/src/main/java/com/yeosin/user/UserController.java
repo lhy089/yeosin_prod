@@ -124,7 +124,7 @@ public class UserController {
 	}
 	
 	// 본인 인증으로 id 찾기
-	@RequestMapping(value="/find_id_cert", method=RequestMethod.GET)
+	@RequestMapping(value="/find_id_cert", method=RequestMethod.POST)
 	@ResponseBody
 	public void find_id_cert(UserDto userDto, HttpSession session, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
@@ -137,8 +137,22 @@ public class UserController {
 		response.getWriter().close();
 	}
 	
+	// 본인 인증으로 id 찾기
+		@RequestMapping(value="/popup", method=RequestMethod.GET)
+		@ResponseBody
+		public ModelAndView popup(String type, String data, HttpSession session, HttpServletResponse response) throws Exception {
+			response.setCharacterEncoding("UTF-8");
+			ModelAndView mav = new ModelAndView();
+			String sessionid= (String)session.getAttribute("loginId");
+			
+			mav.addObject("type", type);
+			mav.addObject("data", data);
+			mav.setViewName("member/popup");
+			return mav;
+		}
+	
 	// 본인 인증으로 신규 비밀번호 발급
-	@RequestMapping(value="/find_pwd_cert", method=RequestMethod.GET)
+	@RequestMapping(value="/find_pwd_cert", method=RequestMethod.POST)
 	@ResponseBody
 	public void find_pwd_cert(UserDto userDto, HttpSession session, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
@@ -146,7 +160,7 @@ public class UserController {
 		UserDto userInfo = new UserDto();
 		System.out.println(">>> find_id_cert ciCode : " + userDto.getCiCode());
 		String userId = userService.findUserIdByCert(userDto);
-		String password = getRamdomPassword(); //랜덤값
+		String password = getRamdomPwd(); //랜덤값
 		System.out.println(">>> find_id_cert userId : " + userId);
 		System.out.println(">>> find_id_cert password : " + password);
 		
@@ -167,13 +181,19 @@ public class UserController {
 	@RequestMapping(value="/find_id_ok", method=RequestMethod.GET)
 	@ResponseBody
 	public void find_id_ok(UserDto userDto, HttpSession session, HttpServletResponse response) throws Exception {
+		String result = "null";
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		String sessionid= (String)session.getAttribute("loginId");
-		
-		String userId = userService.findUserId(userDto);
-	
-		response.getWriter().print(userId);
+		System.out.println(">>> find_id_ok id : " + userDto.getUserId());
+		int cnt = userService.findUserInfoCnt(userDto);
+		if(cnt>1) {
+			result = "duple";
+		}else {
+			String userId = userService.findUserId(userDto);
+			result = userId;
+		}
+		response.getWriter().print(result);
 		response.getWriter().flush();
 		response.getWriter().close();
 	}
@@ -489,6 +509,20 @@ public class UserController {
 					userService.insertEduComepletionInfo(eduCompletionInfo);
 				}
 			}
+		}
+		
+		public String getRamdomPwd() { 
+			char[] charSet = new char[] {'0','1','2','3','4','5','6','7','8','9'}; 
+			StringBuffer sb = new StringBuffer(); 
+			SecureRandom sr = new SecureRandom(); 
+			sr.setSeed(new Date().getTime()); 
+			int idx = 0; 
+			int len = charSet.length; 
+			for (int i=0; i<5; i++) {
+				idx = sr.nextInt(len); // 강력한 난수를 발생시키기 위해 SecureRandom을 사용한다. 
+				sb.append(charSet[idx]); 
+			} 
+			return "lpcrefia" + sb.toString() + "!"; 
 		}
 		
 		public String getRamdomPassword() { 

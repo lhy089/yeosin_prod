@@ -1033,6 +1033,15 @@ public class ApplyController {
 		String merchantKey 		= "1q8Rl7lwsYz1YaneFJ/mUIwNgh9y/12OcHoMVtR0CqnVnUf5WAPGxF95+jOo29PhSl1RGjSxnzhRB3xvmFEK7w=="; // 상점키
 		String ediDate			= getyyyyMMddHHmmss();
 		String signData 		= this.encrypt(mid + cancelAmt + ediDate + merchantKey);
+		System.out.println(">>> tid : " + tid);
+		System.out.println(">>> cancelAmt : " + cancelAmt);
+		System.out.println(">>> partialCancelCode : " + partialCancelCode);
+		System.out.println(">>> mid : " + mid);
+		System.out.println(">>> moid : " + moid);
+		System.out.println(">>> cancelMsg : " + cancelMsg);
+		System.out.println(">>> merchantKey : " + merchantKey);
+		System.out.println(">>> ediDate : " + ediDate);
+		System.out.println(">>> signData : " + signData);
 		/*
 		 ****************************************************************************************
 		 * <취소 요청>
@@ -1084,6 +1093,13 @@ public class ApplyController {
 			//Signature       	= (String)resultData.get("Signature");
 			//cancelSignature = sha256Enc.encrypt(TID + mid + CancelAmt + merchantKey);
 		}
+		System.out.println(">>> ResultCode : " + ResultCode);
+		System.out.println(">>> ResultMsg : " + ResultMsg);
+		System.out.println(">>> CancelAmt : " + CancelAmt);
+		System.out.println(">>> CancelDate : " + CancelDate);
+		System.out.println(">>> CancelTime : " + CancelTime);
+		System.out.println(">>> TID : " + TID);
+		System.out.println(">>> partialCancelCode : " + partialCancelCode);
 		
 		resultMap.put("TID", TID);
 		resultMap.put("ResultCode", ResultCode);

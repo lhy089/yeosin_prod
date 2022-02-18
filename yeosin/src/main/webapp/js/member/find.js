@@ -23,11 +23,18 @@ $(document).ready(function(){
 	        data: inputData,
 	        sendDataType : 'string',
 	        success: function(data) {
-	        	if(data != "null"){
-	        		alert("회원님의 아이디는 " + data + " 입니다.");
-	        		$(location).attr("href", "/www/member/login.jsp");
+	        	if(data == "null"){
+	        		var url = "/popup?type=noData&data="+data;
+		    		var options = 'top=10, left=10, width=400, height=200, status=no, menubar=no, toolbar=no, resizable=no';
+		    		window.open(url, "아이디/비밀번호 찾기", options);
+	        	}else if(data == "duple"){
+	        		var url = "/popup?type=duple&data="+data;
+		    		var options = 'top=10, left=10, width=400, height=200, status=no, menubar=no, toolbar=no, resizable=no';
+		    		window.open(url, "아이디/비밀번호 찾기", options);
 	        	}else {
-	        		alert("입력정보가 맞지 않습니다.");
+	        		var url = "/popup?type=id&data="+data;
+		    		var options = 'top=10, left=10, width=400, height=200, status=no, menubar=no, toolbar=no, resizable=no';
+		    		window.open(url, "아이디/비밀번호 찾기", options);
 	        	}
 	        },
 	      });

@@ -216,7 +216,7 @@ public class CheckPlus {
 	└────────────────────────────────────────────────────────────────────
 	    */
 	   	String sReturnURL   = "https://www.lpcrefia.or.kr/www/member/ipin_process.jsp";
-//	   String sReturnURL   = "http://127.0.0.1/www/member/ipin_process.jsp";
+//	   String sReturnURL   = "https://www.lpcrefia.or.kr/www/member/ipin_process.jsp";
 
 
 	   /*

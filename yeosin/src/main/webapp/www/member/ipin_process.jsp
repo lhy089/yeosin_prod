@@ -28,7 +28,7 @@
 				module:"ipin",
 				enc_data :  "<%= sResponseData %>", 
 				target : "popupIPIN2", 
-// 				action : "http://127.0.0.1/www/member/ipin_result.jsp"
+// 				action : "https://www.lpcrefia.or.kr/www/member/ipin_result.jsp"
 				action : "https://www.lpcrefia.or.kr/www/member/ipin_result.jsp"
 			}
 	    window.opener.postMessage(childData, '*');
@@ -38,7 +38,7 @@
 // 			parent.opener.parent.document.vnoform.target = "Parent_window";
 			
 // 			// 인증결과 데이터를 최종 수신하는 결과페이지 URL (형식:절대주소, 필수항목:프로토콜) 
-// 			parent.opener.parent.document.vnoform.action = "http://127.0.0.1/www/member/ipin_result.jsp";
+// 			parent.opener.parent.document.vnoform.action = "https://www.lpcrefia.or.kr/www/member/ipin_result.jsp";
 // 			parent.opener.parent.document.vnoform.submit();
 			
 // 			self.close();

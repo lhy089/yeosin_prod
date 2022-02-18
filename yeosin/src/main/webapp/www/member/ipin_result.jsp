@@ -138,6 +138,7 @@ public String requestReplace (String paramValue, String gubun) {
 
 window.onload = function() { debugger;
 	var childData = {
+			module : "cert",
 			name : "<%= sName %>", 
 			birth : "<%= sBirthDate %>", 
 			gender : "<%= sGenderCode %>",

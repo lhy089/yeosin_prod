@@ -72,13 +72,14 @@
 					document.vnoform.target = data.target;
 					document.vnoform.action = data.action;
 					document.vnoform.submit();
-				} else {
+				} else if (data.module == "cert") {
 
 					var birtDate = data.birth.substring(0, 4) + "-"
 							+ data.birth.substring(4, 6) + "-"
 							+ data.birth.substring(6, 8);
 					var gender = data.gender == 0 ? "여" : "남"
-					$("#userName").val(data.name);
+					$("#userName").text(data.name);
+					$("#userName").attr("value", data.name);
 					$("#birth").text(birtDate);
 					$("#birth").attr("value", data.birth);
 					$("#gender").text(gender);
@@ -483,9 +484,17 @@
           <tr>
             <th class="essential">이름</th>
             <td>
+              <p id="userName"></p>
+            </td>
+          </tr>
+    <!--
+          <tr>
+            <th class="essential">이름</th>
+            <td>
               <input type="text" name="" value="" id="userName" disabled>
             </td>
           </tr>
+          -->
           <tr>
             <th class="essential">아이디</th>
             <td>

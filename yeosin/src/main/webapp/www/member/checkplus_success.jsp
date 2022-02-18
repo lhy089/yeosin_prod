@@ -129,6 +129,7 @@
 
 window.onload = function() {
 	var childData = {
+			module : "cert",
 			name : "<%= sName %>", 
 			birth : "<%= sBirthDate %>", 
 			gender : "<%= sGender %>",
@@ -137,6 +138,8 @@ window.onload = function() {
 			ciCode : "<%= sConnInfo %>"
 		}
     window.opener.postMessage(childData, '*');
+	console.log("childData.ciCode : " + childData.ciCode);
+	 debugger;
     this.close();
 
 };

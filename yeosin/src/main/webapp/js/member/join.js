@@ -84,7 +84,7 @@ function doJoin() {
 		phoneNumber = $("#phoneNumber option:selected").val()+"-"+$("#phoneNumber2").val()+"-"+$("#phoneNumber3").val();
 	}
 	var joinData = {
-			userName : $('#userName').val(), 
+			userName : $('#userName').text(), 
 			userId:$('#userId').val(),
 			password:$('#userPwd').val(),
 			callNumber:callNumber,
@@ -132,7 +132,7 @@ function doJoin() {
 }
 
 function isValid() {
-	var userName = $('#userName').val();
+	var userName = $('#userName').text();
 	var userId = $('#userId').val();
 	var userPwd = $('#userPwd').val();
 	var userPwd2 = $('#userPwd2').val();
@@ -143,8 +143,7 @@ function isValid() {
 	
 	console.log("B");
 	if (userName == '') {
-		alert("이름 입력하세요.");
-		$('#userName').focus();
+		alert("이름 인증이 되지 않았습니다. 인증을 다시 시도하시고 계속 실패시 관리자에게 문의하세요.");
 		return false;
 	}
 	
@@ -163,14 +162,6 @@ function isValid() {
 	if (userPwd2 == '') {
 		alert("비밀번호를 입력하세요.");
 		$('#userPwd2').focus();
-		return false;
-	}
-	
-	var nameReg = /^[가-힣a-zA-Z]+$/;
-	if (!nameReg.test(userName)) {
-		 alert("사용할 수 없는 이름 입니다.");
-		$('#userName').val("");
-		$('#userName').focus();
 		return false;
 	}
 	

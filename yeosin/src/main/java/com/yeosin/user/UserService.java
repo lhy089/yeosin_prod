@@ -48,6 +48,10 @@ public class UserService {
 		userDao.updateUserStatus(userInfo);
 	}
 	
+	public int findUserInfoCnt(UserDto userInfo) throws Exception {
+		return userDao.findUserInfoCnt(userInfo);
+	}
+	
 	public String findUserId(UserDto userDto) throws Exception   {
 		
 		String userId = userDao.findUserId(userDto);
