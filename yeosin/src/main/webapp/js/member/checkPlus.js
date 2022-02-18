@@ -57,7 +57,9 @@ window.addEventListener('message', function(e) {
 	        data: inputData,
 	        sendDataType : 'string',
 	        success: function(data) {
-	        	var url = "/popup?type=" + $("#findType").val() + "&data="+data;
+	        	var type = $("#findType").val();
+	        	if(data=="null") type = "noData";
+	        	var url = "/popup?type=" + type + "&data="+data;
 	    		var options = 'top=10, left=10, width=400, height=200, status=no, menubar=no, toolbar=no, resizable=no';
 	    		window.open(url, "아이디/비밀번호 찾기", options);
 	    		
