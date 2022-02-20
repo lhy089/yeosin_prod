@@ -26,7 +26,7 @@
 
   <link rel="stylesheet" href="/www/inc/css/admin.css">
   <script>
-  $(document).ready(function(){  
+  $(document).ready(function(){ 
  	$("#excelDownload").click(function(){
  		saveExcel();
 	});
@@ -83,6 +83,18 @@
 		
 		return {columns : columnList.join(','), data : dataList.join('▧')};
 	}
+  
+  function setSubjectValue() {
+	  var isLP01 = $('input[name="subjectVal"][value="LP01"]').is(':checked');
+	  var isLS01 = $('input[name="subjectVal"][value="LS01"]').is(':checked');
+	  if (isLP01 && !isLS01){
+		  $("#subject").val("LP01");
+	  }else if (!isLP01 && isLS01){
+		  $("#subject").val("LS01");
+	  }
+	  return true;
+	  debugger;
+  }
   </script>
 
 </head>
@@ -97,7 +109,7 @@
 <div class="member course">
   <div class="contentBoxAd">
     <h1 class="title">회원관리</h1>
-    <form action="/memberCourseViewMng" method="GET">
+    <form action="/memberCourseViewMng" method="GET" onsubmit="return setSubjectValue();">
     <h2>교육수료정보</h2>
     <table>
       <colgroup>
@@ -110,16 +122,17 @@
       </colgroup>
       <tr>
         <th>검색어</th>
-        <td><input type="text" id="searchWord" name="searchWord" value=""></td>
+        <td><input type="text" id="searchWord" name="searchWord" value="${eduCompletionInfo.searchWord}"></td>
         <th>과목</th>
         <td>
-          <label class="type"><input type="checkbox" name="subject" value="LP01"> 대출성상품</label>
-          <label class="type"><input type="checkbox" name="subject" value="LS01"> 리스 할부상품</label>
+          <label class="type"><input type="checkbox" name="subjectVal" <c:if test="${eduCompletionInfo.subject eq 'LP01'}">checked="checked"</c:if> value="LP01"> 대출성상품</label>
+          <label class="type"><input type="checkbox" name="subjectVal" <c:if test="${eduCompletionInfo.subject eq 'LS01'}">checked="checked"</c:if> value="LS01"> 리스 할부상품</label>
+          <input type="hidden" name="subject" id="subject" value="">	
         </td>
         <th>성별</th>
         <td>
-          <label class="agree"><input type="radio" name="gender" value="남"> 남</label>
-          <label class="agree"><input type="radio" name="gender" value="여"> 여</label>
+          <label class="agree"><input type="radio" name="gender" <c:if test="${eduCompletionInfo.gender eq '남'}">checked="checked"</c:if> value="남"> 남</label>
+          <label class="agree"><input type="radio" name="gender" <c:if test="${eduCompletionInfo.gender eq '여'}">checked="checked"</c:if> value="여"> 여</label>
         </td>
       </tr>
     </table>
