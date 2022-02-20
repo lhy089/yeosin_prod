@@ -32,4 +32,9 @@ public class ApplyManageDao {
 		return sqlSession.selectList(nameSpace + "getApplyListByDocument", map);
 	}
 	
+	// 원서접수 리스트 조회(고사장별)
+	public List<ApplyDto> getApplyListByExamZone(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList(nameSpace + "getApplyListByExamZone", map);
+	}
+	
 }

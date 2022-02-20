@@ -3,6 +3,32 @@
 
 <mapper namespace="com.yeosin.admin.ApplyManageDao" >
    
+    <!-- 조회조건 지역 리스트 -->
+	<select id="getConditionLocalList" resultType="com.yeosin.apply.ExamZoneDto">
+		SELECT 	
+				'전체'	AS LOCAL
+		FROM 	DUAL
+		UNION
+		SELECT 	
+				DISTINCT LOCAL
+		FROM 	YS_EXAMZONE
+		WHERE 	1 = 1;
+	</select>
+	
+	<!-- 조회조건 과목 리스트 -->
+	<select id="getConditionSubjectList" resultType="com.yeosin.apply.SubjectDto">
+		SELECT 	
+				'*'		AS SUBJECTID
+			,	'전체'	AS SUBJECTNAME
+		FROM 	DUAL
+		UNION 	
+		SELECT 	
+				DISTINCT SUBJECTID 
+			,	SUBJECTNAME 
+		FROM 	YS_SUBJECT
+		WHERE 	1 = 1;
+	</select>
+	
 	<!-- 관리자의 원서접수 현황 조회(원서별) -->
 	<resultMap id="ApplyListByDocumentResultMap" type="com.yeosin.apply.ApplyDto">
 		<result column="STUDENTCODE" property="studentCode" />
@@ -25,7 +51,8 @@
 	<association property="subjectDto" javaType="com.yeosin.apply.SubjectDto">
 		<result column="SUBJECTNAME" property="subjectName" />
 	</association>
-		<association property="userDto" javaType="com.yeosin.user.UserDto">
+	<association property="userDto" javaType="com.yeosin.user.UserDto">
+		<result column="BIRTHDATE" property="birthDate" />
 		<result column="USERNAME" property="userName" />
 		<result column="GENDER" property="gender" />
 		<result column="PHONENUMBER" property="phoneNumber" />
@@ -38,6 +65,7 @@
 			,	R.STUDENTCODE  																		-- 수험번호
 			,	U.USERNAME 																			-- 유저명
 			,	R.USERID 																			-- 유저ID
+			,	DATE_FORMAT(U.BIRTHDATE, '%Y-%m-%d') 		AS	BIRTHDATE							-- 생년월일
 			,	EZ.LOCAL																			-- 지역
 			,	EZ.EXAMZONENAME 																	-- 고사장명
 			,	R.SEATNUMBER 																		-- 좌석번호
@@ -63,45 +91,86 @@
 		WHERE 	1 = 1
 		
 		<if test="textCondition != null and textCondition != ''">
-			AND (R.STUDENTCODE LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR},'%')
-				OR U.USERNAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR},'%')
-				OR R.USERID LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR},'%'))
+			AND (R.STUDENTCODE LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+				OR U.USERNAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+				OR R.USERID LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%'))
+		</if>
+		<if test='localCondition != null and !localCondition.equals("전체")'>
+			AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
+		</if>
+		<if test='subjectCondition != null and !subjectCondition.equals("*")'>
+			AND (R.SUBJECTID LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%')
+				OR S.SUBJECTNAME LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%'))
+		</if>
+		ORDER BY
+				R.RECEIPTDATE DESC;
+	</select>
+ 
+	<!-- 관리자의 원서접수 현황 조회(고사장별) -->
+	<resultMap id="ApplyListByExamZoneResultMap" type="com.yeosin.apply.ExamZoneDto">
+		<result column="LOCAL" property="local" />
+		<result column="EXAMZONEID" property="examZoneId" />
+		<result column="EXAMZONENAME" property="examZoneName" />
+		<result column="TOTALUSERCNT" property="examTotalUserCnt" />
+		<result column="LEFTOVERSEAT" property="leftOverSeat" />
+		<result column="RECEIPTSEAT" property="receiptSeat" />
+	<association property="examDto" javaType="com.yeosin.apply.ExamDto">
+		<result column="EXAMDEGREE" property="examDegree" />
+		<result column="EXAMID" property="examId" />
+		<result column="EXAMNAME" property="examName" />
+		<result column="EXAMDATE" property="examDate" />
+	</association>
+	<association property="applyDto" javaType="com.yeosin.apply.ApplyDto">
+		<result column="RECEIPTDATE" property="receiptDate" />
+	</association>
+	</resultMap>
+	<select id="getApplyListByExamZone" parameterType="map" resultMap="ApplyListByExamZoneResultMap">
+		SELECT 	
+				CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR))			AS	EXAMDEGREE			-- 시험차수
+			,	E.EXAMID 																							-- 시험 ID
+			,	E.EXAMNAME 																							-- 시험명
+			,	EZ.LOCAL																							-- 수험지역
+			,	EZ.EXAMZONEID 																						-- 고사장 ID
+			,	EZ.EXAMZONENAME 																					-- 고사장명
+			, 	EZ.EXAMROOMCNT * EZ.EXAMROOMUSERCNT  										AS	TOTALUSERCNT		-- 총좌석수
+			,	RT.RECEIPTCOUNT 															AS 	RECEIPTSEAT			-- 접수현황
+			,	(EZ.EXAMROOMCNT * EZ.EXAMROOMUSERCNT) - RT.RECEIPTCOUNT 					AS 	LEFTOVERSEAT		-- 남은수량
+			,	CONCAT(DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d'), 
+					  ' - ',
+					  DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d'))							AS 	RECEIPTDATE 		-- 접수일시
+			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') 										AS 	EXAMDATE			-- 시험날짜																					-- 시험일	
+		FROM 	YS_EXAMZONE  					EZ
+		INNER JOIN YS_EXAMANDEXAMZONEREL		EZR	ON 	EZR.EXAMZONEID = EZ.EXAMZONEID 
+		INNER JOIN YS_EXAM 						E 	ON 	E.EXAMID = EZR.EXAMID 
+		INNER JOIN 
+		(
+			SELECT 	
+					R.EXAMID 
+				,	EZ.EXAMZONEID 
+				,	COUNT(R.RECEIPTID)			AS 	RECEIPTCOUNT
+			FROM 	YS_RECEIPT					R 
+			INNER JOIN YS_EXAMZONE				EZ	ON 	EZ.EXAMZONEID = R.EXAMZONEID 
+			WHERE 	1 = 1
+			GROUP BY 
+					R.EXAMID 
+				,	EZ.EXAMZONEID
+		)	RT	ON 	RT.EXAMID = E.EXAMID 
+				AND RT.EXAMZONEID = EZ.EXAMZONEID 
+		WHERE 	1 = 1
+		
+		<if test="textCondition != null and textCondition != ''">
+			AND (CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR)) LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+				OR E.EXAMNAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+				OR EZ.EXAMZONENAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%'))
 		</if>
 		<if test='localCondition != null and !localCondition.equals("전체")'>
 			AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR},'%')
 		</if>
 		<if test='subjectCondition != null and !subjectCondition.equals("*")'>
-			AND (R.SUBJECTID LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR},'%')
-				OR S.SUBJECTNAME LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR},'%'))
+
 		</if>
-		ORDER BY
-				R.RECEIPTDATE DESC;
-   </select>
-   
-   	<!-- 조회조건 지역 리스트 -->
-	<select id="getConditionLocalList" resultType="com.yeosin.apply.ExamZoneDto">
-		SELECT 	
-				'전체'	AS LOCAL
-		FROM 	DUAL
-		UNION
-		SELECT 	
-				DISTINCT LOCAL
-		FROM 	YS_EXAMZONE
-		WHERE 	1 = 1;
-	</select>
-	
-	<!-- 조회조건 과목 리스트 -->
-	<select id="getConditionSubjectList" resultType="com.yeosin.apply.SubjectDto">
-		SELECT 	
-				'*'		AS SUBJECTID
-			,	'전체'	AS SUBJECTNAME
-		FROM 	DUAL
-		UNION 	
-		SELECT 	
-				DISTINCT SUBJECTID 
-			,	SUBJECTNAME 
-		FROM 	YS_SUBJECT
-		WHERE 	1 = 1;
+		ORDER BY 
+				E.EXAMDATE DESC;
 	</select>
 
 </mapper>

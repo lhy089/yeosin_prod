@@ -68,8 +68,48 @@ public class ApplyManageController {
       }
       return mav;
    }
+   
+   // 원서접수 리스트 조회(고사장별)
+   @RequestMapping(value="/manage_status_site", method=RequestMethod.GET)
+   @ResponseBody
+   public ModelAndView ApplyListByExamZone(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+   {      
+      response.setCharacterEncoding("UTF-8");
+      ModelAndView mav = new ModelAndView();
+      
+      UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+      
+      if (userInfo == null) 
+      {
+         mav.addObject("isAlert", true);
+         mav.setViewName("member/login");
+      }
+      else if (!"S".equals(userInfo.getUserStatus())) 
+      {
+         mav.addObject("isAlertNoAuth", true);
+         mav.setViewName("main");      
+      }
+      else
+      {
+         List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
+         List<SubjectDto> subjectList = applyManageService.getConditionSubjectList();
 
-   //로그아웃
+         Map<String, Object> parameterMap = new HashMap<String, Object>();
+         parameterMap.put("textCondition", request.getParameter("textCondition"));
+         parameterMap.put("localCondition", request.getParameter("localCondition"));
+         parameterMap.put("subjectCondition", request.getParameter("subjectCondition"));
+
+         List<ApplyDto> applyListByDocument   = applyManageService.getApplyListByExamZone(parameterMap);
+
+         mav.addObject("localList", localList);
+         mav.addObject("subjectList", subjectList);
+         mav.addObject("applyListByExamZone", applyListByDocument);
+         mav.setViewName("admin/manage_status_site"); 
+      }
+      return mav;
+   }
+
+   // 로그아웃
    @RequestMapping(value="/adminLogout", method=RequestMethod.GET)
    @ResponseBody
    public void logout(HttpSession session, HttpServletResponse response) throws Exception {
@@ -78,16 +118,6 @@ public class ApplyManageController {
       response.getWriter().print(true);
       response.getWriter().flush();
       response.getWriter().close();
-   }
-   
-   //회원정보
-   @RequestMapping(value="/memberInfo", method=RequestMethod.GET)
-   @ResponseBody
-   public ModelAndView memberInfo()  
-   {
-      ModelAndView mav = new ModelAndView();      
-      mav.setViewName("admin/member_info");
-      return mav;
    }
    
    //교육수료정보

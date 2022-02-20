@@ -36,9 +36,9 @@
 <div class="manage status">
   <div class="contentBoxAd">
     <h1 class="title">시험운영관리</h1>
-    <h2>원서접수현황 <em>– 원서별 현황</em></h2>
+    <h2>원서접수현황 <em>– 고사장별 현황</em></h2>
     <div class="selectTable">
-    <form action="/manage_status_doc" method="get" onsubmit="return true">
+    <form action="/manage_status_site" method="get" onsubmit="return true">
       <table>
         <colgroup>
           <col width="7.7%">
@@ -90,7 +90,8 @@
     <input style="border:none;" class="btn_apply mb100" type="submit" value="조회"/>
     </form>
     <ul class="btn_wrap">
-      <li><a href="/manage_status_site">고사장별 확인</a></li>
+      <li><a href="#">좌석배치 확정</a></li>
+      <li><a href="/manage_status_doc">원서별 확인</a></li>
       <li><a href="#">엑셀다운로드</a></li>
     </ul>
     <table class="list">
@@ -110,40 +111,28 @@
         <th>선택</th>
         <th>번호</th>
         <th>시험회차</th>
-        <th>수험번호</th>
-        <th>이름</th>
-        <th>아이디</th>
-        <th>생년월일</th>
-        <th>전화번호</th>
-        <th>결제방식</th>
+        <th>시험명</th>
         <th>수험지역</th>
         <th>고사장</th>
-        <th>좌석배치</th>
-        <th>과목</th>
-        <th>성별</th>
-        <th>접수일</th>
+        <th>총좌석수</th>
+        <th>접수현황</th>
+        <th>남은수량</th>
+        <th>접수일시</th>
         <th>시험일</th>
-        <th>취소여부</th>
       </tr>
-      <c:forEach var="applyList" items="${applyListByDocument}" varStatus="status">
+      <c:forEach var="applyList" items="${applyListByExamZone}" varStatus="status">
 	      <tr class="center">
 	        <td class="flow flowNo"><input type="checkbox" name="memberCheck" value=""></td>
 	        <td class="flow flowNo">${status.count}</td>
 	        <td class="flow flowNo">${applyList.examDto.examDegree}</td>
-	        <td class="flow flowNo">${applyList.studentCode}</td>
-	        <td class="flow flowNo">${applyList.userDto.userName}</td>
-	        <td class="flow flowNo">${applyList.userId}</td>
-	        <td class="flow flowNo">${applyList.userDto.birthDate}</td>
-	        <td class="flow flowNo">${applyList.userDto.phoneNumber}</td>
-	        <td class="flow flowNo">${applyList.paymentMethod}</td>
-	        <td class="flow flowNo">${applyList.examZoneDto.local}</td>
-	        <td class="flow flowNo">${applyList.examZoneDto.examZoneName}</td>
-	        <td class="flow flowNo">-</td>
-	        <td class="flow flowNo">${applyList.subjectDto.subjectName}</td>
-	        <td class="flow flowNo">${applyList.userDto.gender}</td>
-	        <td class="flow flowNo">${applyList.receiptDate}</td>
+	        <td class="flow flowNo">${applyList.examDto.examName}</td>
+	        <td class="flow flowNo">${applyList.local}</td>
+	        <td class="flow flowNo">${applyList.examZoneName}</td>
+	        <td class="flow flowNo">${applyList.examTotalUserCnt}</td>
+	        <td class="flow flowNo">${applyList.receiptSeat}</td>
+	        <td class="flow flowNo">${applyList.leftOverSeat}</td>
+	        <td class="flow flowNo">${applyList.applyDto.receiptDate}</td>
 	        <td class="flow flowNo">${applyList.examDto.examDate}</td>
-	        <td class="flow flowNo">${applyList.isCancel}</td>
 	      </tr>
 	  </c:forEach>
     </table>

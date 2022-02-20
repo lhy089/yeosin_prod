@@ -30,5 +30,10 @@ public class ApplyManageService {
 	public List<ApplyDto> getApplyListByDocument(Map<String, Object> map) throws Exception {
 		return applyManageDao.getApplyListByDocument(map);
 	}
+	
+	// 원서접수 리스트 조회(고사장별)
+	public List<ApplyDto> getApplyListByExamZone(Map<String, Object> map) throws Exception {
+		return applyManageDao.getApplyListByExamZone(map);
+	}
 
 }
