@@ -4,7 +4,7 @@
 *{--font-title:SBAggroM; /*어그로체*/}
 
 /* member 공통 */
-.member{padding:40px 0 150px; box-sizing:border-box;}
+.member{min-height:calc(100vh - 400px); padding:40px 0 150px; box-sizing:border-box;}
 .member h1{width:100%; border-bottom:3px solid #0074dd; box-sizing:border-box; font-family:var(--font-title); font-size:25px; line-height:48px; color:#0074dd; margin-bottom:45px;}
 
 /* login */
@@ -177,7 +177,7 @@
 
 @media (max-width:768px){
   /* member 공통 */
-  .member{padding:3.6vw 0 13.5vw;}
+  .member{min-height:calc(100vh - 73.816vw); padding:3.6vw 0 13.5vw;}
   .member h1{border-bottom:0.27vw solid #0074dd; font-size:2.25vw; line-height:4.32; margin-bottom:4.05vw;}
 
   /* login */
