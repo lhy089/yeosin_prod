@@ -59,7 +59,7 @@ public class ApplyManageController {
          parameterMap.put("localCondition", request.getParameter("localCondition"));
          parameterMap.put("subjectCondition", request.getParameter("subjectCondition"));
 
-         List<ApplyDto> applyListByDocument   = applyManageService.getApplyListByDocument(parameterMap);
+         List<ApplyDto> applyListByDocument = applyManageService.getApplyListByDocument(parameterMap);
 
          mav.addObject("localList", localList);
          mav.addObject("subjectList", subjectList);
@@ -99,16 +99,68 @@ public class ApplyManageController {
          parameterMap.put("localCondition", request.getParameter("localCondition"));
          parameterMap.put("examYearCondition", request.getParameter("examYearCondition"));
 
-         List<ApplyDto> applyListByDocument   = applyManageService.getApplyListByExamZone(parameterMap);
+         List<ApplyDto> applyListByExamZone = applyManageService.getApplyListByExamZone(parameterMap);
 
          mav.addObject("localList", localList);
          mav.addObject("examYearList", examYearList);
-         mav.addObject("applyListByExamZone", applyListByDocument);
+         mav.addObject("applyListByExamZone", applyListByExamZone);
          mav.setViewName("admin/manage_status_site"); 
       }
       return mav;
    }
 
+	// 좌석배치 확정
+	@RequestMapping(value="/SeatConfirm", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView SeatConfirm(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+      
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+      
+		if (userInfo == null) 
+		{
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		}
+		else if (!"S".equals(userInfo.getUserStatus())) 
+		{
+			mav.addObject("isAlertNoAuth", true);
+			mav.setViewName("main");      
+		}
+		else
+		{
+			String[] examAndexamZoneIdArr = request.getParameterValues("examZoneCheck");
+			
+			// 시험 ID, 고사장 ID로 해당 시험의 고사장에 접수된 인원들에 대해 좌석배치 Update 로직
+			for (int i = 0; i < examAndexamZoneIdArr.length; i++)
+			{
+				String examId = examAndexamZoneIdArr[i].split("\\.")[0];
+				String examZoneId = examAndexamZoneIdArr[i].split("\\.")[1];
+				
+				// TODO : Update 로직 시작
+			}
+			
+			// Update 완료 후 재조회
+			List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
+			List<ExamDto> examYearList = applyManageService.getConditionExamYearList();
+
+			Map<String, Object> parameterMap = new HashMap<String, Object>();
+			parameterMap.put("textCondition", request.getParameter("textCondition"));
+			parameterMap.put("localCondition", request.getParameter("localCondition"));
+			parameterMap.put("examYearCondition", request.getParameter("examYearCondition"));
+
+			List<ApplyDto> applyListByExamZone = applyManageService.getApplyListByExamZone(parameterMap);
+
+			mav.addObject("localList", localList);
+			mav.addObject("examYearList", examYearList);
+			mav.addObject("applyListByExamZone", applyListByExamZone);
+			mav.setViewName("admin/manage_status_site"); 
+		}
+		return mav;
+	}
+	
    // 로그아웃
    @RequestMapping(value="/adminLogout", method=RequestMethod.GET)
    @ResponseBody

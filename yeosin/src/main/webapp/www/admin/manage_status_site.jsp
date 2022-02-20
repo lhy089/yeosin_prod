@@ -38,7 +38,7 @@
     <h1 class="title">시험운영관리</h1>
     <h2>원서접수현황 <em>– 고사장별 현황</em></h2>
     <div class="selectTable">
-    <form action="/manage_status_site" method="get" onsubmit="return true">
+    <form action="/manage_status_site" method="get" onsubmit="return true;">
       <table>
         <colgroup>
           <col width="7.7%">
@@ -89,53 +89,56 @@
     </div>
     <input style="border:none;" class="btn_apply mb100" type="submit" value="조회"/>
     </form>
-    <ul class="btn_wrap">
-      <li><a href="#">좌석배치 확정</a></li>
-      <li><a href="/manage_status_doc">원서별 확인</a></li>
-      <li><a href="#">엑셀다운로드</a></li>
-    </ul>
-    <table class="list">
-      <colgroup>
-<%--         <col width="4%">
-        <col width="4%">
-        <col width="10.5%">
-        <col width="12%">
-        <col width="20%">
-        <col width="9.5%">
-        <col width="9.5%">
-        <col width="9.5%">
-        <col width="10.5%">
-        <col width="10.5%"> --%>
-      </colgroup>
-      <tr>
-        <th>선택</th>
-        <th>번호</th>
-        <th>시험회차</th>
-        <th>시험명</th>
-        <th>수험지역</th>
-        <th>고사장</th>
-        <th>총좌석수</th>
-        <th>접수현황</th>
-        <th>남은수량</th>
-        <th>접수일시</th>
-        <th>시험일</th>
-      </tr>
-      <c:forEach var="applyList" items="${applyListByExamZone}" varStatus="status">
-	      <tr class="center">
-	        <td class="flow flowNo"><input type="checkbox" name="memberCheck" value=""></td>
-	        <td class="flow flowNo">${status.count}</td>
-	        <td class="flow flowNo">${applyList.examDto.examDegree}</td>
-	        <td class="flow flowArea">${applyList.examDto.examName}</td>
-	        <td class="flow flowNo">${applyList.local}</td>
-	        <td class="flow flowNo">${applyList.examZoneName}</td>
-	        <td class="flow flowNo">${applyList.examTotalUserCnt}</td>
-	        <td class="flow flowNo">${applyList.receiptSeat}</td>
-	        <td class="flow flowNo">${applyList.leftOverSeat}</td>
-	        <td class="flow flowNo">${applyList.applyDto.receiptDate}</td>
-	        <td class="flow flowNo">${applyList.examDto.examDate}</td>
+    <form action="/SeatConfirm" method="get" onsubmit="return IsCheckedSeatConfirm();">
+	    <ul class="btn_wrap">
+<!--  	      <li><input type="submit" value="좌석배치 확정"/></li> -->
+	      <li><a href="/manage_status_doc">원서별 확인</a></li>
+	      <li><a href="#">엑셀다운로드</a></li>
+<!--       <li><a href="/SeatConfirm" onclick="return IsCheckedSeatConfirm()">좌석배치 확정</a></li> -->
+	    </ul>
+	    <table class="list">
+	      <colgroup>
+	<%--         <col width="4%">
+	        <col width="4%">
+	        <col width="10.5%">
+	        <col width="12%">
+	        <col width="20%">
+	        <col width="9.5%">
+	        <col width="9.5%">
+	        <col width="9.5%">
+	        <col width="10.5%">
+	        <col width="10.5%"> --%>
+	      </colgroup>
+	      <tr>
+	        <th>선택</th>
+	        <th>번호</th>
+	        <th>시험회차</th>
+	        <th>시험명</th>
+	        <th>수험지역</th>
+	        <th>고사장</th>
+	        <th>총좌석수</th>
+	        <th>접수현황</th>
+	        <th>남은수량</th>
+	        <th>접수일시</th>
+	        <th>시험일</th>
 	      </tr>
-	  </c:forEach>
-    </table>
+	      <c:forEach var="applyList" items="${applyListByExamZone}" varStatus="status">   
+		      <tr class="center">
+		        <td class="flow flowNo"><input type="checkbox" name="examZoneCheck" value="${applyList.examDto.examId}.${applyList.examZoneId}"></td>
+		        <td class="flow flowNo">${status.count}</td>
+		        <td class="flow flowNo">${applyList.examDto.examDegree}</td>
+		        <td class="flow flowArea">${applyList.examDto.examName}</td>
+		        <td class="flow flowNo">${applyList.local}</td>
+		        <td class="flow flowNo">${applyList.examZoneName}</td>
+		        <td class="flow flowNo">${applyList.examTotalUserCnt}</td>
+		        <td class="flow flowNo">${applyList.receiptSeat}</td>
+		        <td class="flow flowNo">${applyList.leftOverSeat}</td>
+		        <td class="flow flowNo">${applyList.applyDto.receiptDate}</td>
+		        <td class="flow flowNo">${applyList.examDto.examDate}</td>
+		      </tr>
+		  </c:forEach>  
+	    </table>
+    </form>
   </div>
 </div>
 
