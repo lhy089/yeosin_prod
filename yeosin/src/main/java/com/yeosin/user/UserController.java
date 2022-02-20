@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.yeosin.admin.UserManageService;
 import com.yeosin.apply.ApplyService;
 import com.yeosin.apply.ExamDto;
 import com.yeosin.board.BoardDto;
@@ -49,6 +50,9 @@ public class UserController {
 	
 	@Autowired	
 	private BoardService boardService;
+	
+	@Autowired	
+	private UserManageService userManageService;
 	
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	@ResponseBody
@@ -412,6 +416,9 @@ public class UserController {
 			JSONArray items = (JSONArray) resultObj.get("items");
 			
 			StringEncrypter ecvrypterAES256 = new StringEncrypter(key, vector);
+			EduCompletionHisDto eduCompletionHis = new EduCompletionHisDto();
+			eduCompletionHis.setApiSyncId();
+			System.out.println(">>>>> callSyncCertIdApi ApiSyncId : " + eduCompletionHis.getApiSyncId());
 
 			for(int i=0; i<items.length(); i++){            
                 JSONObject item = (JSONObject) items.get(i);
@@ -432,11 +439,19 @@ public class UserController {
                 eduCompletionInfo.setSubject((String)item.get("process_cd"));
                 
                 if("Y".equals(userService.getEduCompletionInfo(eduCompletionInfo))) {
-                	userService.updateEduComepletionInfo(eduCompletionInfo);
-                }else {
-                	userService.insertEduComepletionInfo(eduCompletionInfo);
-                }
-            }
+					eduCompletionInfo.setUpApiSyncId(eduCompletionHis.getApiSyncId());
+					userService.updateEduComepletionInfo(eduCompletionInfo);
+				}else {
+					eduCompletionInfo.setApiSyncId(eduCompletionHis.getApiSyncId());
+					userService.insertEduComepletionInfo(eduCompletionInfo);
+				}
+			}
+						
+			eduCompletionHis.setPassStartDate(startDate);
+			eduCompletionHis.setPassEndDate(endDate);
+			eduCompletionHis.setApiSyncType("M");
+			
+			userManageService.insertEduCompletionHis(eduCompletionHis);
 			
 			response.getWriter().print(totalCount);
 			response.getWriter().flush();
@@ -475,7 +490,7 @@ public class UserController {
 				rst=jo.getString("result");
 			}catch(Exception e){ System.out.println(e);
 			}
-			System.out.println("aaa");
+			
 			JSONObject resultObj=new JSONObject(rst);
 			String status = (String) resultObj.get("status");
 			String statusMsg = (String) resultObj.get("statusMsg");
@@ -483,7 +498,10 @@ public class UserController {
 			JSONArray items = (JSONArray) resultObj.get("items");
 
 			StringEncrypter ecvrypterAES256 = new StringEncrypter(key, vector);
-
+			EduCompletionHisDto eduCompletionHis = new EduCompletionHisDto();
+			eduCompletionHis.setApiSyncId();
+			System.out.println(">>>>> callSyncCertIdApi ApiSyncId : " + eduCompletionHis.getApiSyncId());
+			
 			for(int i=0; i<items.length(); i++){            
 				JSONObject item = (JSONObject) items.get(i);
 				EduCompletionDto eduCompletionInfo = new EduCompletionDto();
@@ -504,11 +522,19 @@ public class UserController {
 				eduCompletionInfo.setSubject((String)item.get("process_cd"));
 
 				if("Y".equals(userService.getEduCompletionInfo(eduCompletionInfo))) {
+					eduCompletionInfo.setUpApiSyncId(eduCompletionHis.getApiSyncId());
 					userService.updateEduComepletionInfo(eduCompletionInfo);
 				}else {
+					eduCompletionInfo.setApiSyncId(eduCompletionHis.getApiSyncId());
 					userService.insertEduComepletionInfo(eduCompletionInfo);
 				}
 			}
+						
+			eduCompletionHis.setPassStartDate(startDate);
+			eduCompletionHis.setPassEndDate(endDate);
+			eduCompletionHis.setApiSyncType("S");
+			
+			userManageService.insertEduCompletionHis(eduCompletionHis);
 		}
 		
 		public String getRamdomPwd() { 

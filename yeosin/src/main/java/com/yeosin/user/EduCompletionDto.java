@@ -9,6 +9,9 @@ public class EduCompletionDto {
 	private String gender;
 	private String certId;
 	private String subject;
+	private String apiSyncId;
+	private String upApiSyncId;
+	private String searchWord;
 	
 	public String getUserId() {
 		return userId;
@@ -52,4 +55,23 @@ public class EduCompletionDto {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
+	public String getApiSyncId() {
+		return apiSyncId;
+	}
+	public void setApiSyncId(String apiSyncId) {
+		this.apiSyncId = apiSyncId;
+	}
+	public String getUpApiSyncId() {
+		return upApiSyncId;
+	}
+	public void setUpApiSyncId(String upApiSyncId) {
+		this.upApiSyncId = upApiSyncId;
+	}
+	public String getSearchWord() {
+		return searchWord;
+	}
+	public void setSearchWord(String searchWord) {
+		this.searchWord = searchWord;
+	}
+	
 }

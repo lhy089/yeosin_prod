@@ -76,4 +76,48 @@
 		</if>
 			)
    </select>
+   
+   <insert id="insertEduCompletionHis" parameterType="com.yeosin.user.EduCompletionHisDto">
+		INSERT INTO YS_EDUCOMPLETIONHIS
+			(APISYNCID, APISYNCDATE, PASSSTARTDATE, PASSENDDATE, APISYNCTYPE)
+		VALUES
+			(#{apiSyncId}, now(), #{passStartDate}, #{passEndDate}, #{apiSyncType})
+	</insert>
+	
+	<select id="getEduCompletionList" parameterType="com.yeosin.user.EduCompletionHisDto" resultType="com.yeosin.user.EduCompletionDto">
+		SELECT 
+				USERNAME
+			,	BIRTHDATE
+			,  	GENDER
+			,	(SELECT SUBJECT.SUBJECTNAME FROM YS_SUBJECT SUBJECT WHERE SUBJECT.SUBJECTID = SUBJECT) 	AS SUBJECT
+			,  	CERTID
+			, 	APISYNCID
+			, 	UPAPISYNCID
+		FROM YS_EDUCOMPLETION
+		WHERE 1 = 1
+			<if test="apiSyncId !=null and apiSyncId != ''">
+				AND (APISYNCID = #{apiSyncId} OR APISYNCID = #{apiSyncId})
+			</if>
+			<if test="searchWord !=null and searchWord != ''">
+				AND (USERNAME LIKE CONCAT('%', #{searchWord},'%') OR CERTID LIKE CONCAT('%', #{searchWord},'%'))
+			</if>
+			<if test="gender !=null and gender != ''">
+				AND GENDER = #{gender}
+			</if>
+			<if test="subject !=null and subject != ''">
+				AND SUBJECT = #{subject}
+			</if>
+		ORDER BY USERNAME
+	</select> 
+	
+	<select id="getEduCompletionHisList" resultType="com.yeosin.user.EduCompletionHisDto">
+		SELECT
+				APISYNCID
+			,	APISYNCDATE
+			,	PASSSTARTDATE
+			,	PASSENDDATE 
+			,	APISYNCTYPE 
+		FROM YS_EDUCOMPLETIONHIS
+		ORDER BY APISYNCDATE DESC
+	</select> 
 </mapper>

@@ -40,6 +40,7 @@
 <div class="member course">
   <div class="contentBoxAd">
     <h1 class="title">회원관리</h1>
+    <!-- 
     <h2>교육수료정보</h2>
     <table>
       <colgroup>
@@ -66,6 +67,7 @@
       </tr>
     </table>
     <a href="#" class="btn_apply mb100">조회</a>
+    -->
 
     <table class="inputTable">
       <colgroup>
@@ -107,51 +109,17 @@
         <th>수신</th>
         <th>결과 등록</th>
       </tr>
-      <tr class="center">
-        <td><input type="checkbox" name="memberCheck" value=""></td>
-        <td>1</td>
-        <td class="flow flowCon"><p>교육수료자 리스트</p></td>
-        <td>2022-01-01</td>
-        <td class="flow flowReceived"><p>여신금융협회</p></td>
-        <td class="flow flowSent"><p>여신금융협회</p></td>
-        <td><a href="#" class="btn_more">자세히 보기</a></td>
-      </tr>
-      <tr class="center">
-        <td><input type="checkbox" name="memberCheck" value=""></td>
-        <td>2</td>
-        <td class="flow flowCon"><p>교육수료자 리스트</p></td>
-        <td>2022-01-01</td>
-        <td class="flow flowReceived"><p>여신금융협회</p></td>
-        <td class="flow flowSent"><p>여신금융협회</p></td>
-        <td><a href="#" class="btn_more">자세히 보기</a></td>
-      </tr>
-      <tr class="center">
-        <td><input type="checkbox" name="memberCheck" value=""></td>
-        <td>3</td>
-        <td class="flow flowCon"><p>교육수료자 리스트</p></td>
-        <td>2022-01-01</td>
-        <td class="flow flowReceived"><p>여신금융협회</p></td>
-        <td class="flow flowSent"><p>여신금융협회</p></td>
-        <td><a href="#" class="btn_more">자세히 보기</a></td>
-      </tr>
-      <tr class="center">
-        <td><input type="checkbox" name="memberCheck" value=""></td>
-        <td>4</td>
-        <td class="flow flowCon"><p>교육수료자 리스트</p></td>
-        <td>2022-01-01</td>
-        <td class="flow flowReceived"><p>여신금융협회</p></td>
-        <td class="flow flowSent"><p>여신금융협회</p></td>
-        <td><a href="#" class="btn_more">자세히 보기</a></td>
-      </tr>
-      <tr class="center">
-        <td><input type="checkbox" name="memberCheck" value=""></td>
-        <td>5</td>
-        <td class="flow flowCon"><p>교육수료자 리스트</p></td>
-        <td>2022-01-01</td>
-        <td class="flow flowReceived"><p>여신금융협회</p></td>
-        <td class="flow flowSent"><p>여신금융협회</p></td>
-        <td><a href="#" class="btn_more">자세히 보기</a></td>
-      </tr>
+      <c:forEach var="apiSyncHis" items="${eduCompletionHisList}" varStatus="status">
+      	<tr class="center">
+        	<td><input type="checkbox" name="memberCheck" value=""></td>
+        	<td>${status.count}</td>
+        	<td class="flow flowCon"><p>교육수료자 리스트</p></td>
+        	<td>${apiSyncHis.apiSyncDate}</td>
+        	<td class="flow flowReceived"><p>여신금융협회</p></td>
+        	<td class="flow flowSent"><p>능률협회</p></td>
+        	<td><a href="/memberCourseViewMng?apiSyncId=${apiSyncHis.apiSyncId}" class="btn_more">자세히 보기</a></td>
+      	</tr>
+      </c:forEach>
     </table>
   </div>
 </div>

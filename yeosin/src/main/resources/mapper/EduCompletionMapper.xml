@@ -35,9 +35,9 @@
 	
 	<insert id="insertEduComepletionInfo" parameterType="com.yeosin.user.EduCompletionDto">
 		INSERT INTO YS_EDUCOMPLETION
-			(USERID, EDUUSERID, USERNAME, BIRTHDATE, GENDER, CERTID, SUBJECT)
+			(USERID, EDUUSERID, USERNAME, BIRTHDATE, GENDER, CERTID, SUBJECT, APISYNCID)
 		VALUES
-			(#{userId}, #{eduUserId}, #{userName}, #{birthDate}, #{gender}, #{certId}, #{subject})
+			(#{userId}, #{eduUserId}, #{userName}, #{birthDate}, #{gender}, #{certId}, #{subject}, #{apiSyncId})
 	</insert>
 	
 	<update id="updateEduComepletionInfo" parameterType="com.yeosin.user.EduCompletionDto">
@@ -45,7 +45,10 @@
 		<set>
 			USERNAME = #{userName},
 			BIRTHDATE = #{birthDate},
-			GENDER = #{gender}
+			GENDER = #{gender},
+			<if test="upApiSyncId !=null and upApiSyncId != ''">
+				UPAPISYNCID = #{upApiSyncId}
+			</if>
 		</set>
 		WHERE CERTID = #{certId}
 	</update>
