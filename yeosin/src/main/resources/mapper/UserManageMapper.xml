@@ -79,6 +79,71 @@
 			</choose>
 		</if>
 			)
+		LIMIT #{pageStart}, #{perPageNum};
+   </select>
+   
+   <select id="countUserListTotal" parameterType="com.yeosin.user.UserDto" resultType="Integer">
+		SELECT 	
+			 count(*)
+		FROM 	YS_USER U
+		WHERE 	1 = 1
+		<if test="searchWord != null and searchWord != ''">
+				AND (USERNAME LIKE CONCAT('%', #{searchWord, jdbcType=VARCHAR},'%')
+				OR USERID LIKE CONCAT('%', #{searchWord, jdbcType=VARCHAR},'%')
+				OR PHONENUMBER LIKE CONCAT('%', #{searchWord, jdbcType=VARCHAR},'%')
+				OR EMAILADDRESS LIKE CONCAT('%', #{searchWord, jdbcType=VARCHAR}, '%'))
+		</if>
+		<if test='searchEmailType=="Y"'>
+			AND  ISRECEIVEEMAIL = 'Y'
+		</if>
+		<if test='searchEmailType=="N"'>
+			AND	ISRECEIVEEMAIL = 'N'
+		</if>
+		<if test='searchSMSType=="Y"'>
+			AND ISRECEIVESMS = 'Y'
+		</if>
+		<if test='searchSMSType=="N"'>
+			AND ISRECEIVESMS = 'N'
+		</if>
+	  		AND	(
+		
+		<if test='isCheckGeneralGrade == "Y"'>
+				USERSTATUS = 'NON'
+		</if>
+		
+		<if test='isCheckManagerGrade == "Y"'>
+			<choose>
+				<when test='isCheckGeneralGrade=="Y"'>
+					OR USERSTATUS = 'S'
+				</when>
+				<otherwise>
+					USERSTATUS = 'S'
+				</otherwise>
+			</choose>
+		</if>
+		
+		<if test='isCheckAssistantGrade == "Y"'>
+			<choose>
+				<when test='isCheckGeneralGrade=="Y" or isCheckGeneralGrade=="Y"'>
+					OR USERSTATUS = 'NON'
+				</when>
+				<otherwise>
+					USERSTATUS = 'NON'
+				</otherwise>
+			</choose>
+		</if>
+		
+		<if test='isCheckMemberGrade == "Y"'>
+			<choose>
+				<when test='isCheckGeneralGrade=="Y" or isCheckManagerGrade =="Y" or isCheckAssistantGrade == "Y"'>
+					OR USERSTATUS = 'U' OR USERSTATUS = 'D' OR USERSTATUS='C'
+				</when>
+				<otherwise>
+					USERSTATUS = 'U' OR USERSTATUS = 'D' OR USERSTATUS='C'
+				</otherwise>
+			</choose>
+		</if>
+			)
    </select>
    
    <insert id="insertEduCompletionHis" parameterType="com.yeosin.user.EduCompletionHisDto">

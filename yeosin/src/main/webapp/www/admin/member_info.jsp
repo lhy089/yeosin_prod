@@ -21,6 +21,7 @@
   <meta property="og:image" content="/www/inc/img/openGraph.jpg">
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
+  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
   <link rel="stylesheet" href="/www/inc/css/admin.css">
 </head>
@@ -31,6 +32,7 @@
 	}
    
    $(document).ready(function() {
+	   $("li[value='${pageMaker.userDto.page}']").attr("class","on");
 		
 		$("#btn_search").click(function() {
 		   $("#searchWord").val($("#searchWord").val());
@@ -193,9 +195,33 @@
 	      </tr>
 	  </c:forEach>
     </table>
+    <ul class="btn-group pagination">
+  	<c:if test="${pageMaker.prev }">
+   		<li>
+     		 <a href='<c:url value="/member_info?page=${pageMaker.startPage-1}&searchWord=${userDto.searchWord}&isCheckGeneralGrade=${userDto.isCheckGeneralGrade}&isCheckManagerGrade=${userDto.isCheckManagerGrade}&isCheckAssistantGrade=${userDto.isCheckAssistantGrade}&isCheckMemberGrade=${userDto.isCheckMemberGrade}&searchEmailType=${userDto.searchEmailType}&searchSMSType=${userDto.searchSMSType}" />'><i class="fa fa-chevron-left">이전</i></a>
+  		</li>
+ 	</c:if>
+  	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+    	<li value="${pageNum}"> 
+       		<a href='<c:url value="/member_info?page=${pageNum}&searchWord=${userDto.searchWord}&isCheckGeneralGrade=${userDto.isCheckGeneralGrade}&isCheckManagerGrade=${userDto.isCheckManagerGrade}&isCheckAssistantGrade=${userDto.isCheckAssistantGrade}&isCheckMemberGrade=${userDto.isCheckMemberGrade}&searchEmailType=${userDto.searchEmailType}&searchSMSType=${userDto.searchSMSType}"/>'><i class="fa">${pageNum}</i></a>
+    	</li>
+    </c:forEach>
+    <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+    	<li>
+      		<a href='<c:url value="/member_info?page=${pageMaker.endPage+1}&searchWord=${userDto.searchWord}&isCheckGeneralGrade=${userDto.isCheckGeneralGrade}&isCheckManagerGrade=${userDto.isCheckManagerGrade}&isCheckAssistantGrade=${userDto.isCheckAssistantGrade}&isCheckMemberGrade=${userDto.isCheckMemberGrade}&searchEmailType=${userDto.searchEmailType}&searchSMSType=${userDto.searchSMSType}"/>'><i class="fa fa-chevron-right">다음</i></a>
+   		</li>
+    </c:if>
+	</ul>
+	
+	<c:set var="OutputPageTotal" value="${(pageMaker.totalCount/userDto.perPageNum)+(1-((pageMaker.totalCount/userDto.perPageNum)%1))%1}" />
+	<fmt:parseNumber var="OutputPage"  value="${OutputPageTotal}" integerOnly="true" type="number"/>
+    <p class="pageCnt">전체 ${pageMaker.totalCount}건, ${userDto.page} / <c:out value="${OutputPage}"/> 페이지</p>
+	 <div class="pageWrap">
+      <!-- 페이징 -->
+    </div>
   </div>
 </div>
 
-
+	
 </body>
 </html>

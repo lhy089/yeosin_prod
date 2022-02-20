@@ -19,8 +19,12 @@ public class UserManageDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	public List<UserDto> getUserInfo(UserDto userDto) {
+	public List<UserDto> getUserInfo(UserDto userDto) throws Exception{
 		return this.sqlSession.selectList(namespace + "getUserInfo", userDto);
+	}
+	
+	public int countUserListTotal(UserDto userDto) throws Exception{
+		return this.sqlSession.selectOne(namespace + "countUserListTotal", userDto);
 	}
 	
 	public List<EduCompletionDto> getEduCompletionList(EduCompletionDto eduCompletionInfo) throws Exception {

@@ -21,6 +21,10 @@ public class UserManageService {
 		return userManageDao.getUserInfo(userDto);
 	}
 	
+	public int countUserListTotal(UserDto userDto) throws Exception{
+		return userManageDao.countUserListTotal(userDto);
+	}
+	
 	public List<EduCompletionDto> getEduCompletionList(EduCompletionDto eduCompletionInfo) throws Exception {
 		return userManageDao.getEduCompletionList(eduCompletionInfo);
 	}

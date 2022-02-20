@@ -3,10 +3,11 @@ package com.yeosin.admin;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,16 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
+import com.yeosin.board.PageMaker;
 import com.yeosin.user.EduCompletionDto;
 import com.yeosin.user.EduCompletionHisDto;
+import com.yeosin.user.UserDto;
+import com.yeosin.user.UserPageMaker;
+import com.yeosin.user.UserService;
 import com.yeosin.util.EncryptUtils;
 import com.yeosin.util.ExcelUtil;
-
-
-import com.yeosin.user.UserDto;
-import com.yeosin.user.UserService;
 
 @Controller
 public class UserManageController {
@@ -57,8 +56,25 @@ public class UserManageController {
 		// 로그인 정보 있을 때
 		if (userInfo != null) 
 		{
+			UserPageMaker pageMaker = new UserPageMaker();
+			pageMaker.setUserDto(userDto);
+			pageMaker.setTotalCount(userManageService.countUserListTotal(userDto));
+			
 			List<UserDto> userList = userManageService.getUserInfo(userDto);
+			
+//			for(int i = 0 ; i < userList.size(); i++)
+//			{
+//				userList.get(i).setPage(pageMaker.getUserDto().getPage());
+//				userList.get(i).setSearchWord(userDto.getSearchWord());
+//				userList.get(i).setIsCheckGeneralGrade(userDto.getIsCheckGeneralGrade());
+//				userList.get(i).setIsCheckManagerGrade(userDto.getIsCheckManagerGrade());
+//				userList.get(i).setIsCheckAssistantGrade(userDto.getIsCheckAssistantGrade());
+//				userList.get(i).setIsCheckMemberGrade(userDto.getIsCheckMemberGrade());
+//				userList.get(i).setSearchEmailType(userDto.getSearchEmailType());
+//				userList.get(i).setSearchSMSType(userDto.getSearchSMSType());
+//			}
 
+			mav.addObject("pageMaker", pageMaker);
 			mav.addObject("userDto", userDto);
 			mav.addObject("userList", userList);
 			mav.addObject("isAlert",false);

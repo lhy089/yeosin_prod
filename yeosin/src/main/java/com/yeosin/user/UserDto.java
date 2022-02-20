@@ -27,6 +27,9 @@ public class UserDto {
 	
 	private EduCompletionDto eduCompletionDto;
 	
+	private int page;  		//현재 페이지 번호	
+	private int perPageNum; //현 페이지당 보여줄 게시글의 갯수
+	
 	//관리자 회원정보 페이지 관련 변수
 	private String searchWord; // 검색어 
 	private String isCheckGeneralGrade; //일반등급 체크여부 > Y:체크 , N:체크x
@@ -36,6 +39,11 @@ public class UserDto {
 	private String searchEmailType; //이메일 수신여부 검색타입 > A:전체, Y:수신허용, N:수신거부
 	private String searchSMSType; //SMS 수신여부 검색타입> A:전체, Y:수신허용, N:수신거부
 	
+	public UserDto() 
+	{
+		this.page = 1;
+		this.perPageNum  = 50;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -185,5 +193,31 @@ public class UserDto {
 	}
 	public void setSearchWord(String searchWord) {
 		this.searchWord = searchWord;
+	}
+	public int getPageStart() {
+		return (this.page-1) * perPageNum;
+	}
+	public int getPage() {
+		return page;
+	}
+	
+	public void setPage(int page) {
+		if(page <= 0) {
+			this.page = 1;
+		} else {
+			this.page = page;
+		}
+	}
+	public int getPerPageNum() {
+		return perPageNum;
+	}
+	
+	public void setPerPageNum(int pageCount) {
+		int cnt = this.perPageNum;
+		if(pageCount != cnt) {
+			this.perPageNum = cnt;
+		}else {
+			this.perPageNum = pageCount;
+		}
 	}
 }
