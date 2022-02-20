@@ -58,17 +58,19 @@
 		});
 		dataList.push(row.join('▒'));
 	});
-
-	var fileName = "수료증번호 목록"; // 다운로드 받을 엑셀 이름 정의
 	
+	$("#fileName").val("수료증번호 목록");  // 다운로드 받을 엑셀 이름 정의
+	$("#columns").val(columnList.join(','));
+	$("#data").val(dataList.join('▧'));
+	$("#excelForm").submit();
 	/* 
 		(2)
+		<form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
 		/excelDownload > UserManageController 에 있음.
 	 	완전히 똑같이 호출해도 되고,
 	 	/excelDownloadForApplyList 와 같이 다른 이름으로 controller에 추가해서 사용 가능.
 	 	controller 메서드는 그대로 사용.
-	*/
-  	location.href = "/excelDownload?fileName="+fileName+"&columns="+columnList.join(',')+"&data="+dataList.join('▧');
+	*/;
   }
   
   function setSubjectValue() {
@@ -127,6 +129,12 @@
 <!--     <a id ="btn_search" type="submit" class="btn_apply mb100">조회</a> -->
 	</form>
 
+	  
+  	<form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
+  		<input type="hidden" name="fileName" id="fileName" value="">	
+  		<input type="hidden" name="columns" id="columns" value="">	
+  		<input type="hidden" name="data" id="data" value="">	
+  	</form>
     <ul class="btn_wrap">
       <li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
     </ul>

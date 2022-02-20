@@ -157,7 +157,7 @@ public class UserManageController {
 	}
 	
 	
-	@RequestMapping(value="/excelDownload", method=RequestMethod.GET)
+	@RequestMapping(value="/excelDownload", method=RequestMethod.POST)
 	@ResponseBody
 	public void excelDownloadForMemberCourseView(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
