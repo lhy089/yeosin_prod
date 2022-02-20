@@ -92,17 +92,17 @@ public class ApplyManageController {
       else
       {
          List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
-         List<SubjectDto> subjectList = applyManageService.getConditionSubjectList();
+         List<ExamDto> examYearList = applyManageService.getConditionExamYearList();
 
          Map<String, Object> parameterMap = new HashMap<String, Object>();
          parameterMap.put("textCondition", request.getParameter("textCondition"));
          parameterMap.put("localCondition", request.getParameter("localCondition"));
-         parameterMap.put("subjectCondition", request.getParameter("subjectCondition"));
+         parameterMap.put("examYearCondition", request.getParameter("examYearCondition"));
 
          List<ApplyDto> applyListByDocument   = applyManageService.getApplyListByExamZone(parameterMap);
 
          mav.addObject("localList", localList);
-         mav.addObject("subjectList", subjectList);
+         mav.addObject("examYearList", examYearList);
          mav.addObject("applyListByExamZone", applyListByDocument);
          mav.setViewName("admin/manage_status_site"); 
       }

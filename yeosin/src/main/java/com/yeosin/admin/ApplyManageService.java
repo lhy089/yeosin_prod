@@ -26,6 +26,11 @@ public class ApplyManageService {
 		return applyManageDao.getConditionSubjectList();
 	}
 	
+	// 시험회차 리스트 조회(조회조건)
+	public List<ExamDto> getConditionExamYearList() throws Exception {
+		return applyManageDao.getConditionExamYearList();
+	}
+	
 	// 원서접수 리스트 조회(원서별)
 	public List<ApplyDto> getApplyListByDocument(Map<String, Object> map) throws Exception {
 		return applyManageDao.getApplyListByDocument(map);

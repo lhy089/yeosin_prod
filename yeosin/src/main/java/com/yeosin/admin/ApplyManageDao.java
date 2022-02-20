@@ -27,6 +27,11 @@ public class ApplyManageDao {
 		return sqlSession.selectList(nameSpace + "getConditionSubjectList");
 	}
 	
+	// 시험회차 리스트 조회(조회조건)
+	public List<ExamDto> getConditionExamYearList() throws Exception {
+		return sqlSession.selectList(nameSpace + "getConditionExamYearList");
+	}
+	
 	// 원서접수 리스트 조회(원서별)
 	public List<ApplyDto> getApplyListByDocument(Map<String, Object> map) throws Exception {
 		return sqlSession.selectList(nameSpace + "getApplyListByDocument", map);

@@ -63,11 +63,11 @@
 	            </c:forEach>
             </select>
           </td>
-          <th>과목</th>
+          <th>시험연도</th>
           <td>
-            <select id="subjectCondition" name="subjectCondition">
-            	<c:forEach var="subjectList" items="${subjectList}" varStatus="status">
-					<option value="${subjectList.subjectId}">${subjectList.subjectName}</option>
+            <select id="examYearCondition" name="examYearCondition">
+            	<c:forEach var="examYearList" items="${examYearList}" varStatus="status">
+					<option value="${examYearList.examYear}">${examYearList.examYear}</option>
 				</c:forEach>
             </select>
           </td>
@@ -125,7 +125,7 @@
 	        <td class="flow flowNo"><input type="checkbox" name="memberCheck" value=""></td>
 	        <td class="flow flowNo">${status.count}</td>
 	        <td class="flow flowNo">${applyList.examDto.examDegree}</td>
-	        <td class="flow flowNo">${applyList.examDto.examName}</td>
+	        <td class="flow flowArea">${applyList.examDto.examName}</td>
 	        <td class="flow flowNo">${applyList.local}</td>
 	        <td class="flow flowNo">${applyList.examZoneName}</td>
 	        <td class="flow flowNo">${applyList.examTotalUserCnt}</td>
