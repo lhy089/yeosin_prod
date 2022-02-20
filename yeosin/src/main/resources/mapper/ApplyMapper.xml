@@ -277,7 +277,7 @@
 		INSERT INTO YS_RECEIPT (RECEIPTID, USERID, EXAMID, CERTID, RECEIPTDATE, ISCANCEL
 								, STUDENTCODE, SEATNUMBER, EXAMZONEID, PAYMENTMETHOD, CARDNAME, PAYMENTDATE, EXAMFEE, PAYMENTID, SUBJECTID)
 		VALUES (#{receiptId}, #{userId}, #{examId}, #{certId}, NOW(), 'N'
-				, #{studentCode}, '임시1', #{examZoneId}, #{paymentMethod}, #{cardName}, now(), #{examFee}, #{paymentId}, #{subjectId});
+				, #{studentCode}, null, #{examZoneId}, #{paymentMethod}, #{cardName}, now(), #{examFee}, #{paymentId}, #{subjectId});
 	</insert>
 	
    <!-- 해당시험에 이미 접수된 건이 있는지 확인 -->
@@ -306,7 +306,8 @@
 	<update id="setCancelReceipt" parameterType="map">
 		UPDATE 	YS_RECEIPT
 		SET		ISCANCEL = 'Y',
-				PAYMENTCANCELDATE =	NOW()
+				PAYMENTCANCELDATE =	NOW(),
+				SEATNUMBER = NULL
 		WHERE 	1 = 1
 		AND 	USERID = #{userId, jdbcType=VARCHAR}
 		AND		RECEIPTID = #{receiptId, jdbcType=VARCHAR};

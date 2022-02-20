@@ -40,5 +40,14 @@ public class ApplyManageService {
 	public List<ApplyDto> getApplyListByExamZone(Map<String, Object> map) throws Exception {
 		return applyManageDao.getApplyListByExamZone(map);
 	}
+	
+	// 시험, 고사장에 접수된 총 접수번호 리스트
+	public List<Object> getTotalReceiptIdByExamZone(Map<String, Object> map) throws Exception {
+		return applyManageDao.getTotalReceiptIdByExamZone(map);
+	}
 
+	// 좌석배치 확정 업데이트
+	public int setExamZoneSeatConfirm(Map<String, Object> map) throws Exception {
+		return applyManageDao.setExamZoneSeatConfirm(map);
+	}
 }

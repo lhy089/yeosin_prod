@@ -89,11 +89,17 @@
     </div>
     <input style="border:none;" class="btn_apply mb100" type="submit" value="조회"/>
     </form>
+    <form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
+  		<input type="hidden" name="fileName" id="fileName" value="">	
+  		<input type="hidden" name="columns" id="columns" value="">	
+  		<input type="hidden" name="data" id="data" value="">
+  		<input type="hidden" name="docName" id="docName" value="원서접수현황(원서별)">	
+  	</form>
     <ul class="btn_wrap">
       <li><a href="/manage_status_site">고사장별 확인</a></li>
-      <li><a href="#">엑셀다운로드</a></li>
+      <li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
     </ul>
-    <table class="list">
+    <table class="list" id="columnList">
       <colgroup>
 <%--         <col width="4%">
         <col width="4%">
@@ -106,8 +112,8 @@
         <col width="10.5%">
         <col width="10.5%"> --%>
       </colgroup>
-      <tr>
-        <th>선택</th>
+      <tr class="column_thead">
+        <th class="first">선택</th>
         <th>번호</th>
         <th>시험회차</th>
         <th>수험번호</th>
@@ -127,8 +133,8 @@
       </tr>
       <c:forEach var="applyList" items="${applyListByDocument}" varStatus="status">
 	      <tr class="center">
-	        <td class="flow flowNo"><input type="checkbox" name="memberCheck" value=""></td>
-	        <td class="flow flowNo">${status.count}</td>
+	        <td class="flow flowNo"><input type="checkbox" name="applyCheck" value=""></td>
+	        <td class="flow flowNo">${applyList.rowNum}</td>
 	        <td class="flow flowNo">${applyList.examDto.examDegree}</td>
 	        <td class="flow flowNo">${applyList.studentCode}</td>
 	        <td class="flow flowNo">${applyList.userDto.userName}</td>
@@ -138,7 +144,7 @@
 	        <td class="flow flowNo">${applyList.paymentMethod}</td>
 	        <td class="flow flowNo">${applyList.examZoneDto.local}</td>
 	        <td class="flow flowNo">${applyList.examZoneDto.examZoneName}</td>
-	        <td class="flow flowNo">-</td>
+	        <td class="flow flowNo">${applyList.seatNumber}</td>
 	        <td class="flow flowNo">${applyList.subjectDto.subjectName}</td>
 	        <td class="flow flowNo">${applyList.userDto.gender}</td>
 	        <td class="flow flowNo">${applyList.receiptDate}</td>

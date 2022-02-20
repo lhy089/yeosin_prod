@@ -17,11 +17,18 @@ public class ExamZoneDto {
 	private String description;		//비고
 	private String leftOverSeat;  	//잔여좌석수
 	private String receiptSeat;  	//접수좌석수
+	private String rowNum; 			// 행순서
 	
 	private LocalCenterDto localCenterDto; // 지역센터 DTO
 	private ExamDto examDto; // 시험 DTO
 	private ApplyDto applyDto; // 접수 DTO
 	
+	public String getRowNum() {
+		return rowNum;
+	}
+	public void setRowNum(String rowNum) {
+		this.rowNum = rowNum;
+	}
 	public ExamDto getExamDto() {
 		return examDto;
 	}

@@ -49,6 +49,7 @@
 	<resultMap id="ApplyListByDocumentResultMap" type="com.yeosin.apply.ApplyDto">
 		<result column="STUDENTCODE" property="studentCode" />
 		<result column="USERID" property="userId" />
+		<result column="SEATNUMBER" property="seatNumber" />
 		<result column="SUBJECTID" property="subjectId" />
 		<result column="RECEIPTDATE" property="receiptDate" />
 		<result column="ISCANCEL" property="isCancel" />
@@ -56,6 +57,7 @@
 		<result column="RECEIPTDATE" property="receiptDate" />
 		<result column="PAYMENTDATE" property="paymentDate" />
 		<result column="PAYMENTCANCELDATE" property="paymentCancelDate" />
+		<result column="ROWNUM" property="rowNum" />
 	<association property="examDto" javaType="com.yeosin.apply.ExamDto">
 		<result column="EXAMDEGREE" property="examDegree" />
 		<result column="EXAMDATE" property="examDate" />
@@ -130,6 +132,7 @@
 		<result column="TOTALUSERCNT" property="examTotalUserCnt" />
 		<result column="LEFTOVERSEAT" property="leftOverSeat" />
 		<result column="RECEIPTSEAT" property="receiptSeat" />
+		<result column="ROWNUM" property="rowNum" />
 	<association property="examDto" javaType="com.yeosin.apply.ExamDto">
 		<result column="EXAMDEGREE" property="examDegree" />
 		<result column="EXAMID" property="examId" />
@@ -142,7 +145,8 @@
 	</resultMap>
 	<select id="getApplyListByExamZone" parameterType="map" resultMap="ApplyListByExamZoneResultMap">
 		SELECT 	
-				CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR))			AS	EXAMDEGREE			-- 시험차수
+				@ROWNUM := @ROWNUM + 1														AS 	ROWNUM				-- 행순서
+			,	CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR))			AS	EXAMDEGREE			-- 시험차수
 			,	E.EXAMID 																							-- 시험 ID
 			,	E.EXAMNAME 																							-- 시험명
 			,	EZ.LOCAL																							-- 수험지역
@@ -158,6 +162,9 @@
 		FROM 	YS_EXAMZONE  					EZ
 		INNER JOIN YS_EXAMANDEXAMZONEREL		EZR	ON 	EZR.EXAMZONEID = EZ.EXAMZONEID 
 		INNER JOIN YS_EXAM 						E 	ON 	E.EXAMID = EZR.EXAMID 
+		INNER JOIN (SELECT 	EXAMID, @ROWNUM := 0
+					FROM 	YS_EXAM
+					ORDER BY EXAMDATE DESC) 	RN	ON	RN.EXAMID = E.EXAMID 
 		INNER JOIN 
 		(
 			SELECT 	
@@ -167,6 +174,7 @@
 			FROM 	YS_RECEIPT					R 
 			INNER JOIN YS_EXAMZONE				EZ	ON 	EZ.EXAMZONEID = R.EXAMZONEID 
 			WHERE 	1 = 1
+			AND 	R.ISCANCEL = 'N'
 			GROUP BY 
 					R.EXAMID 
 				,	EZ.EXAMZONEID
@@ -188,5 +196,27 @@
 		ORDER BY 
 				E.EXAMDATE DESC;
 	</select>
+	
+	<!-- 시험, 고사장에 접수된 총 건수 -->
+	<select id="getTotalReceiptIdByExamZone" parameterType="map" resultType="String">
+		SELECT 	RECEIPTID
+		FROM 	YS_RECEIPT
+		WHERE  	1 = 1
+		AND 	ISCANCEL = 'N'
+		AND 	EXAMID = #{examId, jdbcType=VARCHAR}
+		AND 	EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};
+	</select>
+	
+	<!-- 좌석배치 확정 업데이트 -->
+	<update id="setExamZoneSeatConfirm" parameterType="map">
+		<if test="totalReceiptList != null and totalReceiptList.size != 0">
+			<foreach item="receiptId" index="index" collection="totalReceiptList">
+				UPDATE 	YS_RECEIPT
+				SET		SEATNUMBER = #{index} + 1
+				WHERE 	1 = 1
+				AND		RECEIPTID = #{receiptId, jdbcType=VARCHAR};			
+			</foreach>
+	 	</if>
+	</update>
 
 </mapper>

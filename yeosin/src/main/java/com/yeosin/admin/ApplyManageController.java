@@ -4,6 +4,8 @@ import com.yeosin.apply.*;
 import com.yeosin.board.*;
 import com.yeosin.user.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,6 +120,7 @@ public class ApplyManageController {
 		ModelAndView mav = new ModelAndView();
       
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		boolean isSuccess = false;
       
 		if (userInfo == null) 
 		{
@@ -139,7 +142,19 @@ public class ApplyManageController {
 				String examId = examAndexamZoneIdArr[i].split("\\.")[0];
 				String examZoneId = examAndexamZoneIdArr[i].split("\\.")[1];
 				
-				// TODO : Update 로직 시작
+				Map<String, Object> parameter = new HashMap<String, Object>();
+				parameter.put("examId", examId);
+				parameter.put("examZoneId", examZoneId);
+				
+				// 시험, 고사장에 접수된 모든 접수번호(TODO : 오름차순으로 정렬필요)
+				List<Object> totalReceiptList = applyManageService.getTotalReceiptIdByExamZone(parameter);
+
+				parameter.put("totalReceiptList", totalReceiptList);
+			
+				int isUpdateSuccess = applyManageService.setExamZoneSeatConfirm(parameter);
+				
+				if (isUpdateSuccess == 1) isSuccess = true;
+				else isSuccess = false;
 			}
 			
 			// Update 완료 후 재조회
@@ -153,6 +168,7 @@ public class ApplyManageController {
 
 			List<ApplyDto> applyListByExamZone = applyManageService.getApplyListByExamZone(parameterMap);
 
+			mav.addObject("isSuccess", isSuccess);
 			mav.addObject("localList", localList);
 			mav.addObject("examYearList", examYearList);
 			mav.addObject("applyListByExamZone", applyListByExamZone);
