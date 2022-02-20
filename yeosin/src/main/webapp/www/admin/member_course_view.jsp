@@ -32,13 +32,24 @@
 	});
   });
   
+  /*
+  	excel download 기능.
+  	- 필수 : (1)번 부분에 맞춰서 head, body를 선택하면 됨.
+  	- 선택 : (2)번은 그대로 사용하거나 변경/추가해서 사용 가능. 
+  */  
   function saveExcel() {
-  var columnList = $.map($('.column_thead').find('th'), function(th){
+	 /*
+		(1)
+	  	 아래 두 가지 요소만 정확하게 선택되면 됨.
+	   	$('.column_thead').find('th')
+	 	$('#columnList').find('tr') 
+	*/
+  	var columnList = $.map($('.column_thead').find('th'), function(th){ // 리스트 head 찾기 
 		if(!$(th).hasClass('first')) return $(th).text();
 	});
 	
 	var dataList = new Array();
-	$('#columnList').find('tr').each(function(tr){
+	$('#columnList').find('tr').each(function(tr){ // 리스트 body 찾기
 		if(tr == 0) return true;
 		var row = new Array();
 		$(this).children().each(function(idx){
@@ -47,42 +58,18 @@
 		});
 		dataList.push(row.join('▒'));
 	});
+
+	var fileName = "수료증번호 목록"; // 다운로드 받을 엑셀 이름 정의
 	
-	var fileName = "수료증번호 목록";
-  	location.href = "/excelDownload?fileName="+fileName+"&columns="+columnList.join(',')+"&data="+dataList.join('▧');
-	/*
-	$.ajax({
-			url : '/excelDownloadForMemberCourseView',
-			data : getExportParamData(),
-			dataType : 'file',
-  			target : document.body,
-  			type : 'post',
-			success : function(jsonRes) {	
-				alert("");
-				 debugger;
-			}
-	});
+	/* 
+		(2)
+		/excelDownload > UserManageController 에 있음.
+	 	완전히 똑같이 호출해도 되고,
+	 	/excelDownloadForApplyList 와 같이 다른 이름으로 controller에 추가해서 사용 가능.
+	 	controller 메서드는 그대로 사용.
 	*/
+  	location.href = "/excelDownload?fileName="+fileName+"&columns="+columnList.join(',')+"&data="+dataList.join('▧');
   }
-  
-  function getExportParamData() {
-		var columnList = $.map($('.column_thead').find('th'), function(th){
-			if(!$(th).hasClass('first')) return $(th).text();
-		});
-		
-		var dataList = new Array();
-		$('#columnList').find('tr').each(function(tr){
-			if(tr == 0) return true;
-			var row = new Array();
-			$(this).children().each(function(idx){
-				if(idx == 0) return;
-				row.push($(this).text());
-			});
-			dataList.push(row.join('▒'));
-		});
-		
-		return {columns : columnList.join(','), data : dataList.join('▧')};
-	}
   
   function setSubjectValue() {
 	  var isLP01 = $('input[name="subjectVal"][value="LP01"]').is(':checked');
