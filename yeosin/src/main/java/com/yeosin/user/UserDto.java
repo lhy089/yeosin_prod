@@ -12,20 +12,29 @@ public class UserDto {
 	private String userName; // 회원명
 	private String grade; // 등급
 	private String gender; // 성별
-	private Date joinDate; // 가입일
+	private String joinDate; // 가입일
 	private String lastConnectDate; //최근 접속일
 	private String birthDate; // 생년월일 
 	private String callNumber; // 연락처
 	private String phoneNumber; // 휴대전화
 	private String emailAddress; // 이메일
-	private String isReceiveEmail; // 이메일 수신여부
-	private String isReceiveSms; // 문자 수신 여부
+	private String isReceiveEmail; // 이메일 수신여부 > Y:수신 , N:수신x
+	private String isReceiveSms; // 문자 수신 여부 > Y:수신, N:수신x
 	private String modifyDate; // 수정일
 	private String userStatus;	// 사용자 상태 > U:활성화, C:비밀번호 변경 필요, D:탈퇴
 	private String ciCode;		// 개인식별번호
 	private String diCode;		// 중복식별번호
 	
 	private EduCompletionDto eduCompletionDto;
+	
+	//관리자 회원정보 페이지 관련 변수
+	private String searchWord; // 검색어 
+	private String isCheckGeneralGrade; //일반등급 체크여부 > Y:체크 , N:체크x
+	private String isCheckManagerGrade;//관리자등급 체크여부 > Y:체크, N:체크x
+	private String isCheckAssistantGrade; //부관리자등급 체크 여부 > Y:체크, N:체크x
+	private String isCheckMemberGrade; //멤버등급 체크여부 > Y:체크, N:체크x
+	private String searchEmailType; //이메일 수신여부 검색타입 > A:전체, Y:수신허용, N:수신거부
+	private String searchSMSType; //SMS 수신여부 검색타입> A:전체, Y:수신허용, N:수신거부
 	
 	public String getUserId() {
 		return userId;
@@ -57,10 +66,10 @@ public class UserDto {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public Date getJoinDate() {
+	public String getJoinDate() {
 		return joinDate;
 	}
-	public void setJoinDate(Date joinDate) {
+	public void setJoinDate(String joinDate) {
 		this.joinDate = joinDate;
 	}
 	public String getLastConnectDate() {
@@ -134,5 +143,47 @@ public class UserDto {
 	}
 	public void setDiCode(String diCode) {
 		this.diCode = diCode;
+	}
+	public String getIsCheckGeneralGrade() {
+		return isCheckGeneralGrade;
+	}
+	public void setIsCheckGeneralGrade(String isCheckGeneralGrade) {
+		this.isCheckGeneralGrade = isCheckGeneralGrade;
+	}
+	public String getIsCheckManagerGrade() {
+		return isCheckManagerGrade;
+	}
+	public void setIsCheckManagerGrade(String isCheckManagerGrade) {
+		this.isCheckManagerGrade = isCheckManagerGrade;
+	}
+	public String getIsCheckAssistantGrade() {
+		return isCheckAssistantGrade;
+	}
+	public void setIsCheckAssistantGrade(String isCheckAssistantGrade) {
+		this.isCheckAssistantGrade = isCheckAssistantGrade;
+	}
+	public String getIsCheckMemberGrade() {
+		return isCheckMemberGrade;
+	}
+	public void setIsCheckMemberGrade(String isCheckMemberGrade) {
+		this.isCheckMemberGrade = isCheckMemberGrade;
+	}
+	public String getSearchEmailType() {
+		return searchEmailType;
+	}
+	public void setSearchEmailType(String searchEmailType) {
+		this.searchEmailType = searchEmailType;
+	}
+	public String getSearchSMSType() {
+		return searchSMSType;
+	}
+	public void setSearchSMSType(String searchSMSType) {
+		this.searchSMSType = searchSMSType;
+	}
+	public String getSearchWord() {
+		return searchWord;
+	}
+	public void setSearchWord(String searchWord) {
+		this.searchWord = searchWord;
 	}
 }

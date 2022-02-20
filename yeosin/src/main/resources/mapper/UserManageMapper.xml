@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeosin.user.UserManageDao" >
+
+	<!-- 회원 유저 조회 -->
+	<select id="getUserInfo" parameterType="com.yeosin.user.UserDto" resultType="com.yeosin.user.UserDto">
+		SELECT 	
+			 	USERID
+			,	GRADE 
+			,	USERNAME 
+			, 	USERSTATUS
+			,	GENDER 
+			,	DATE_FORMAT(JOINDATE, '%Y-%m-%d') AS JOINDATE 
+			,	DATE_FORMAT(LASTCONNECTDATE, '%Y-%m-%d') AS LASTCONNECTDATE 
+			,	DATE_FORMAT(BIRTHDATE, '%Y-%m-%d') AS BIRTHDATE 
+			,	CALLNUMBER
+			,	PHONENUMBER
+			,	EMAILADDRESS 
+		FROM 	YS_USER U
+		WHERE 	1 = 1
+		<if test="searchWord != null and searchWord != ''">
+				AND (USERNAME LIKE CONCAT('%', #{searchWord, jdbcType=VARCHAR},'%')
+				OR USERID LIKE CONCAT('%', #{searchWord, jdbcType=VARCHAR},'%')
+				OR PHONENUMBER LIKE CONCAT('%', #{searchWord, jdbcType=VARCHAR},'%')
+				OR EMAILADDRESS LIKE CONCAT('%', #{searchWord, jdbcType=VARCHAR}, '%'))
+		</if>
+		<if test='searchEmailType=="Y"'>
+			AND  ISRECEIVEEMAIL = 'Y'
+		</if>
+		<if test='searchEmailType=="N"'>
+			AND	ISRECEIVEEMAIL = 'N'
+		</if>
+		<if test='searchSMSType=="Y"'>
+			AND ISRECEIVESMS = 'Y'
+		</if>
+		<if test='searchSMSType=="N"'>
+			AND ISRECEIVESMS = 'N'
+		</if>
+	  		AND	(
+		
+		<if test='isCheckGeneralGrade == "Y"'>
+				USERSTATUS = 'NON'
+		</if>
+		
+		<if test='isCheckManagerGrade == "Y"'>
+			<choose>
+				<when test='isCheckGeneralGrade=="Y"'>
+					OR USERSTATUS = 'S'
+				</when>
+				<otherwise>
+					USERSTATUS = 'S'
+				</otherwise>
+			</choose>
+		</if>
+		
+		<if test='isCheckAssistantGrade == "Y"'>
+			<choose>
+				<when test='isCheckGeneralGrade=="Y" or isCheckGeneralGrade=="Y"'>
+					OR USERSTATUS = 'NON'
+				</when>
+				<otherwise>
+					USERSTATUS = 'NON'
+				</otherwise>
+			</choose>
+		</if>
+		
+		<if test='isCheckMemberGrade == "Y"'>
+			<choose>
+				<when test='isCheckGeneralGrade=="Y" or isCheckManagerGrade"Y" or isCheckAssistantGrade == "Y"'>
+					OR USERSTATUS = 'U' OR USERSTATUS = 'D' OR USERSTATUS='C'
+				</when>
+				<otherwise>
+					USERSTATUS = 'U' OR USERSTATUS = 'D' OR USERSTATUS='C'
+				</otherwise>
+			</choose>
+		</if>
+			)
+   </select>
+</mapper>

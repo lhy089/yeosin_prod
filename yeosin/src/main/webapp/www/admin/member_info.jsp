@@ -24,6 +24,27 @@
 
   <link rel="stylesheet" href="/www/inc/css/admin.css">
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <script>
+   if(${isAlert}) { 
+	      alert("로그인 후 이용 가능합니다.");
+	}
+   
+   $(document).ready(function() {
+		
+		$("#btn_search").click(function() {
+		   $("#searchWord").val($("#searchWord").val());
+		   $("#isCheckGeneralGrade").val($("#isCheckGeneralGrade").val());
+		   $("#isCheckManagerGrade").val($("#isCheckManagerGrade").val());	   
+		   $("#isCheckAssistantGrade").val($("#isCheckAssistantGrade").val());
+		   $("#isCheckMemberGrade").val($("#isCheckMemberGrade").val());
+		   $('input[name=searchEmailType]').val($('input[name=searchEmailType]:checked').val());
+		   $('input[name=searchSMSType]').val($('input[name=searchSMSType]:checked').val());
+		   $("#commonform").submit(); 
+		});
+	});
+
+ </script>
 
 <body>
 
@@ -32,6 +53,7 @@
 <!-- lnb 붙여주세요. (/common/admin_lnb.html) -->
 <%@ include file="/www/common/admin_lnb.jsp"%>
 
+<form id="commonform" name="commonform" method="get" action="/member_info">
 <div class="member info">
   <div class="contentBoxAd">
     <h1 class="title">회원관리</h1>
@@ -45,31 +67,31 @@
       </colgroup>
       <tr>
         <th>검색어</th>
-        <td><input type="text" name="" value=""></td>
+        <td><input type="text" id="searchWord"  name="searchWord" value="${userDto.searchWord}"></td>
         <th>회원구분</th>
         <td>
-          <label class="type"><input type="checkbox" name="check" value=""> 일반</label>
-          <label class="type"><input type="checkbox" name="check" value=""> 관리자</label>
-          <label class="type"><input type="checkbox" name="check" value=""> 부관리자</label>
-          <label class="type"><input type="checkbox" name="check" value=""> 회원</label>
+          <label class="type"><input type="checkbox" name="isCheckGeneralGrade" id="isCheckGeneralGrade"  <c:if test="${userDto.isCheckGeneralGrade eq 'Y'}">checked="checked"</c:if> value="Y"> 일반</label>
+          <label class="type"><input type="checkbox" name="isCheckManagerGrade" id="isCheckManagerGrade" <c:if test="${userDto.isCheckManagerGrade eq 'Y'}">checked="checked"</c:if> value="Y"> 관리자</label>
+          <label class="type"><input type="checkbox" name="isCheckAssistantGrade" id="isCheckAssistantGrade" <c:if test="${userDto.isCheckAssistantGrade eq 'Y'}">checked="checked"</c:if> value="Y"> 부관리자</label>
+          <label class="type"><input type="checkbox" name="isCheckMemberGrade" id="isCheckMemberGrade" <c:if test="${userDto.isCheckMemberGrade eq 'Y'}">checked="checked"</c:if> value="Y"> 회원</label>
         </td>
       </tr>
       <tr>
         <th>이메일 수신 여부</th>
         <td>
-          <label class="agree"><input type="radio" name="email" value=""> 전체</label>
-          <label class="agree"><input type="radio" name="email" value=""> 수신허용</label>
-          <label class="agree"><input type="radio" name="email" value=""> 수신거부</label>
+          <label class="agree"><input type="radio" name="searchEmailType" <c:if test="${userDto.searchEmailType eq 'A'}">checked="checked"</c:if> value="A"> 전체</label>
+          <label class="agree"><input type="radio" name="searchEmailType" <c:if test="${userDto.searchEmailType eq 'Y'}">checked="checked"</c:if> value="Y"> 수신허용</label>
+          <label class="agree"><input type="radio" name="searchEmailType" <c:if test="${userDto.searchEmailType eq 'N'}">checked="checked"</c:if> value="N"> 수신거부</label>
         </td>
         <th>문자(SMS) 수신 여부</th>
         <td>
-          <label class="agree"><input type="radio" name="sms" value=""> 전체</label>
-          <label class="agree"><input type="radio" name="sms" value=""> 수신허용</label>
-          <label class="agree"><input type="radio" name="sms" value=""> 수신거부</label>
+          <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${userDto.searchSMSType eq 'A'}">checked="checked"</c:if> value="A"> 전체</label>
+          <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${userDto.searchSMSType eq 'Y'}">checked="checked"</c:if> value="Y"> 수신허용</label>
+          <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${userDto.searchSMSType eq 'N'}">checked="checked"</c:if> value="N"> 수신거부</label>
         </td>
       </tr>
     </table>
-    <a href="#" class="btn_apply mb100">조회</a>
+    <a onclick="return false;" id="btn_search" class="btn_apply mb100">조회</a>
 
     <ul class="btn_wrap">
       <li><a href="#">수정</a></li>
@@ -106,51 +128,26 @@
         <th>휴대전화</th>
         <th>이메일</th>
       </tr>
-      <tr class="center">
-        <td><input type="checkbox" name="memberCheck" value=""></td>
-        <td>1</td>
-        <td>관리자</td>
-        <td class="flow flowName"><p>홍길동</p></td>
-        <td class="flow flowId"><p>hongjil</p></td>
-        <td>남</td>
-        <td>20211212</td>
-        <td>20220101</td>
-        <td>19810101</td>
-        <td>-</td>
-        <td>01012345678</td>
-        <td class="flow flowEmail"><p>hongjil@naver.com</p></td>
-      </tr>
-      <tr class="center">
-        <td><input type="checkbox" name="memberCheck" value=""></td>
-        <td>2</td>
-        <td>부관리자</td>
-        <td class="flow flowName"><p>홍길동</p></td>
-        <td class="flow flowId"><p>hongjil</p></td>
-        <td>남</td>
-        <td>20211212</td>
-        <td>20220101</td>
-        <td>19810101</td>
-        <td>-</td>
-        <td>01012345678</td>
-        <td class="flow flowEmail"><p>hongjil@naver.com</p></td>
-      </tr>
-      <tr class="center">
-        <td><input type="checkbox" name="memberCheck" value=""></td>
-        <td>3</td>
-        <td>회원</td>
-        <td class="flow flowName"><p>홍길동</p></td>
-        <td class="flow flowId"><p>hongjil</p></td>
-        <td>남</td>
-        <td>20211212</td>
-        <td>20220101</td>
-        <td>19810101</td>
-        <td>-</td>
-        <td>01012345678</td>
-        <td class="flow flowEmail"><p>hongjil@naver.com</p></td>
-      </tr>
+      <c:forEach var="user" items="${userList}">
+	      <tr class="center">
+	        <td><input type="checkbox" name="memberCheck" value=""></td>
+	        <td>1</td>
+	        <td>${user.grade} </td>
+	        <td class="flow flowName"><p>${user.userName}</p></td>
+	        <td class="flow flowId"><p>${user.userId}</p></td>
+	        <td>${user.gender}</td>
+	        <td>${user.joinDate}</td>
+	        <td>${user.lastConnectDate}</td>
+	        <td>${user.birthDate}</td>
+	        <td>${user.callNumber}</td>
+	        <td>${user.phoneNumber}</td>
+	        <td class="flow flowEmail"><p>${user.emailAddress}</p></td>
+	      </tr>
+	  </c:forEach>
     </table>
   </div>
 </div>
+</form>
 
 </body>
 </html>
