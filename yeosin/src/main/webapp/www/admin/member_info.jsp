@@ -42,7 +42,47 @@
 		   $('input[name=searchSMSType]').val($('input[name=searchSMSType]:checked').val());
 		   $("#commonform").submit(); 
 		});
+		
+		$("#excelDownload").click(function(){
+	 		saveExcel();
+		});
 	});
+   
+   function saveExcel() {
+		 /*
+			(1)
+		  	 아래 두 가지 요소만 정확하게 선택되면 됨.
+		   	$('.column_thead').find('th')
+		 	$('#columnList').find('tr') 
+		*/
+	  	var columnList = $.map($('.column_thead').find('th'), function(th){ // 리스트 head 찾기 
+			if(!$(th).hasClass('first')) return $(th).text();
+		});
+		
+		var dataList = new Array();
+		$('#columnList').find('tr').each(function(tr){ // 리스트 body 찾기
+			if(tr == 0) return true;
+			var row = new Array();
+			$(this).children().each(function(idx){
+				if(idx == 0) return;
+				row.push($(this).text());
+			});
+			dataList.push(row.join('▒'));
+		});
+
+		$("#fileName").val("회원정보 목록");  // 다운로드 받을 엑셀 이름 정의
+		$("#columns").val(columnList.join(','));
+		$("#data").val(dataList.join('▧'));
+		$("#excelForm").submit();
+		/* 
+		(2)
+		<form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
+		/excelDownload > UserManageController 에 있음.
+	 	완전히 똑같이 호출해도 되고,
+	 	/excelDownloadForApplyList 와 같이 다른 이름으로 controller에 추가해서 사용 가능.
+	 	controller 메서드는 그대로 사용.
+		*/;
+	  }
 
  </script>
 
@@ -92,14 +132,20 @@
       </tr>
     </table>
     <a onclick="return false;" id="btn_search" class="btn_apply mb100">조회</a>
+	</form>
 
+	<form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
+  		<input type="hidden" name="fileName" id="fileName" value="">	
+  		<input type="hidden" name="columns" id="columns" value="">	
+  		<input type="hidden" name="data" id="data" value="">	
+  	</form>
     <ul class="btn_wrap">
       <li><a href="#">수정</a></li>
-      <li><a href="#">엑셀다운로드</a></li>
+      <li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
       <li><a href="#">회원등급</a></li>
       <li><a href="#">정보삭제</a></li>
     </ul>
-    <table class="memberList">
+    <table class="memberList" id="columnList">
       <colgroup>
         <col width="4%">
         <col width="4%">
@@ -114,8 +160,8 @@
         <col width="11%">
         <col width="14%">
       </colgroup>
-      <tr>
-        <th>선택</th>
+      <tr class="column_thead">
+        <th class="first">선택</th>
         <th>번호</th>
         <th>등급</th>
         <th>이름</th>
@@ -129,19 +175,14 @@
         <th>휴대전화</th>
         <th>이메일</th>
       </tr>
-      <c:forEach var="user" items="${userList}">
+      <c:forEach var="user" items="${userList}" varStatus="status">
 	      <tr class="center">
 	        <td><input type="checkbox" name="memberCheck" value=""></td>
-	        <td>1</td>
+	        <td>${status.count}</td>
 	        <td>${user.grade} </td>
 	        <td class="flow flowName"><p>${user.userName}</p></td>
 	        <td class="flow flowId"><p>${user.userId}</p></td>
-	        <c:if test="${user.userStatus eq 'C' or user.userStatus eq 'U'}">
-	        <td>회원</td>
-	        </c:if>
-	        <c:if test="${user.userStatus eq 'D'}">
-	         <td>탈퇴</td>
-	        </c:if>
+	      	<td>${user.userStatus}</td>
 	        <td>${user.gender}</td>
 	        <td>${user.joinDate}</td>
 	        <td>${user.lastConnectDate}</td>
@@ -154,7 +195,7 @@
     </table>
   </div>
 </div>
-</form>
+
 
 </body>
 </html>

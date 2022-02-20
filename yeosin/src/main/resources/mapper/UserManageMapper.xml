@@ -6,9 +6,13 @@
 	<select id="getUserInfo" parameterType="com.yeosin.user.UserDto" resultType="com.yeosin.user.UserDto">
 		SELECT 	
 			 	USERID
+			,
+			 	CASE 
+      		   		WHEN USERSTATUS != 'D'	THEN '회원'
+        		ELSE '탈퇴'
+      		  	END AS USERSTATUS
 			,	GRADE 
 			,	USERNAME 
-			, 	USERSTATUS
 			,	GENDER 
 			,	DATE_FORMAT(JOINDATE, '%Y-%m-%d') AS JOINDATE 
 			,	DATE_FORMAT(LASTCONNECTDATE, '%Y-%m-%d') AS LASTCONNECTDATE 
