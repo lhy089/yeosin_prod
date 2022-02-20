@@ -12,7 +12,7 @@ import com.yeosin.user.UserDto;
 public class UserManageDao {
 	
 	/** The namespace. */
-	private String namespace = "com.yeosin.user.UserManageDao.";
+	private String namespace = "com.yeosin.admin.UserManageDao.";
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;

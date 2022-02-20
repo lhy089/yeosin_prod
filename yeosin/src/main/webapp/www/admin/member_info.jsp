@@ -120,6 +120,7 @@
         <th>등급</th>
         <th>이름</th>
         <th>아이디</th>
+        <th>상태</th>
         <th>성별</th>
         <th>가입일</th>
         <th>최근접속일</th>
@@ -135,6 +136,12 @@
 	        <td>${user.grade} </td>
 	        <td class="flow flowName"><p>${user.userName}</p></td>
 	        <td class="flow flowId"><p>${user.userId}</p></td>
+	        <c:if test="${user.userStatus eq 'C' or user.userStatus eq 'U'}">
+	        <td>회원</td>
+	        </c:if>
+	        <c:if test="${user.userStatus eq 'D'}">
+	         <td>탈퇴</td>
+	        </c:if>
 	        <td>${user.gender}</td>
 	        <td>${user.joinDate}</td>
 	        <td>${user.lastConnectDate}</td>
