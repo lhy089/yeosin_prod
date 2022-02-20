@@ -33,11 +33,11 @@
 <div class="home">
   <div class="contentBoxAd">
     <ul>
-      <li><a href="/memberCourseMng">회원관리</a></li>
-      <li><a href="site_register.html">고사장설정</a></li>
-      <li><a href="manage_schedule.html">시험운영관리</a></li>
-      <li><a href="result_list.html">성적관리</a></li>
-      <li><a href="board_notice.html">게시물관리</a></li>
+      <li><a href="/member_info?searchWord=&isCheckGeneralGrade=Y&isCheckManagerGrade=Y&isCheckAssistantGrade=Y&isCheckMemberGrade=Y&searchEmailType=A&searchSMSType=A">회원관리</a></li>
+      <li><a href="/siteRegister">고사장설정</a></li>
+      <li><a href="/manageSchedule">시험운영관리</a></li>
+      <li><a href="/resultList">성적관리</a></li>
+      <li><a href="/boardNotice">게시물관리</a></li>
     </ul>
     <p class="logo"><img src="/www/inc/img/admin/logo.png" alt="여신금융"></p>
   </div>

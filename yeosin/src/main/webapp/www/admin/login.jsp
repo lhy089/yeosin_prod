@@ -26,6 +26,49 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/admin/applymanage.js?t=<%= new java.util.Date() %>"></script>
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+  <script>
+   	if(${loginUserInfo.userId != null}) {
+   	  	$(location).attr("href", "/manageHome");
+	}
+ 	$(document).ready(function(){
+ 		$('#btn_doLogin').click(function(){
+ 		var userId = $('#id').val();
+ 		var password = $('#pwd').val();
+
+ 		if (userId == '') {
+ 			alert("아이디를 입력하세요.");
+ 			$('#id').focus();
+ 			$('#pwd').val("");
+ 			return false;
+ 		}
+ 		if (password == '') {
+ 			alert("비밀번호를 입력 하세요.");
+ 			$('#pwd').focus();
+ 			return false;
+ 		}
+ 		
+ 		var data = {userId : userId, password:password};
+ 		$.ajax({
+ 	        type: "POST",
+ 	        url: "/manageLogin",
+ 	        data: data,
+ 	        sendDataType : 'string',
+ 			dataType : 'text',
+ 	        success: function(data) {
+ 	            if(data == 'S') {
+ 	         	   $(location).attr("href", "/manageHome");
+ 	            }else {
+ 	            	$('#id').val("");
+ 	        		$('#pwd').val("");
+ 	        		$('#id').focus();
+ 	            	alert("회원 정보가 존재하지 않거나 일치하지 않습니다.")
+ 	            }
+ 	        }
+ 	      });
+ 		});
+ 	});
+   </script>
+
 </head>
 
 <body>
@@ -41,9 +84,9 @@
     <div class="loginBox">
       <p><label for="id">아이디</label><input type="text" id="id" placeholder="아이디 입력"></p>
       <p><label for="pwd">비밀번호</label><input type="password" id="pwd" placeholder="비밀번호 입력"></p>
-      <a href="#">로그인</a>
+      <a id="btn_doLogin" onclick="return false;">로그인</a>
     </div>
-    <p class="logo"><img src="../inc/img/admin/logo.png" alt="여신금융"></p>
+    <p class="logo"><img src="/www/inc/img/admin/logo.png" alt="여신금융"></p>
   </div>
 </div>
 

@@ -21,7 +21,6 @@
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/admin/applymanage.js?t=<%= new java.util.Date() %>"></script>
-
 <!--header-->
 <header>
   <div class="contentBox">
@@ -35,9 +34,9 @@
    %>
     </div>
     <div class="rightSec">
-      <a href="/www/main.jsp" class="home">HOME</a>
-      <a onclick="return false;" class="btn_header" id="btn_logout">로그아웃</a>
-      <div class="autoLogout">[ 자동로그아웃 : 59:26 <a href="#" class="btn_header">연장</a> ]</div>
+      <a href="/manageHome" class="home">HOME</a>
+      <a href="/manageLogout" class="btn_header" id="btn_logout">로그아웃</a>
+<!--       <div class="autoLogout">[ 자동로그아웃 : 59:26 <a href="#" class="btn_header">연장</a> ]</div> -->
     </div>
   </div>
 </header>

@@ -161,37 +161,6 @@ public class ApplyManageController {
 		return mav;
 	}
 	
-   // 로그아웃
-   @RequestMapping(value="/adminLogout", method=RequestMethod.GET)
-   @ResponseBody
-   public void logout(HttpSession session, HttpServletResponse response) throws Exception {
-      response.setCharacterEncoding("UTF-8");
-      session.invalidate(); // 세션 초기화;
-      response.getWriter().print(true);
-      response.getWriter().flush();
-      response.getWriter().close();
-   }
-   
-   //교육수료정보
-   @RequestMapping(value="/memberCourse", method=RequestMethod.GET)
-   @ResponseBody
-   public ModelAndView memberCourse()  
-   {
-      ModelAndView mav = new ModelAndView();      
-      mav.setViewName("admin/member_course");
-      return mav;
-   }
-   
-   //접속자 집계
-   @RequestMapping(value="/memberCount", method=RequestMethod.GET)
-   @ResponseBody
-   public ModelAndView memberCount()  
-   {
-      ModelAndView mav = new ModelAndView();      
-      mav.setViewName("admin/member_count");
-      return mav;
-   }
-   
    //고사장 등록
    @RequestMapping(value="/siteRegister", method=RequestMethod.GET)
    @ResponseBody

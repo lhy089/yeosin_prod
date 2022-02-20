@@ -18,17 +18,33 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.yeosin.user.EduCompletionDto;
 import com.yeosin.user.EduCompletionHisDto;
+import com.yeosin.util.EncryptUtils;
 import com.yeosin.util.ExcelUtil;
 
 
 import com.yeosin.user.UserDto;
+import com.yeosin.user.UserService;
 
 @Controller
 public class UserManageController {
+	
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private UserManageService userManageService;
-
+	
+	
+	@RequestMapping(value="/manageLogout", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView manageLogout(HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+		session.invalidate(); // 세션 초기화;
+		mav.setViewName("admin/login");
+		return mav;
+	}
+	
 	// 원서접수(접수가능한 시험 리스트 View)
 	@RequestMapping(value="/member_info", method=RequestMethod.GET)
 	@ResponseBody
@@ -63,7 +79,21 @@ public class UserManageController {
 	public ModelAndView manageHome(HttpSession session, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("admin/home");
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+	      
+	    if (userInfo == null) 
+	    {
+	       mav.addObject("isAlert", true);
+	       mav.setViewName("admin/login");
+	    }
+	    else if (!"S".equals(userInfo.getUserStatus())) 
+	    {
+	       mav.addObject("isAlertNoAuth", true);
+	       mav.setViewName("main");      
+	    }
+	    else {
+			mav.setViewName("admin/home");
+	    }
 		return mav;
 	}
 	
@@ -72,12 +102,26 @@ public class UserManageController {
 	public ModelAndView memberCourseMng(HttpSession session, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
-		
-		List<EduCompletionHisDto> eduCompletionHisList = new ArrayList<EduCompletionHisDto>();
-		eduCompletionHisList = userManageService.getEduCompletionHisList();
-		
-		mav.addObject("eduCompletionHisList", eduCompletionHisList);
-		mav.setViewName("admin/member_course");
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+	      
+	    if (userInfo == null) 
+	    {
+	       mav.addObject("isAlert", true);
+	       mav.setViewName("admin/login");
+	    }
+	    else if (!"S".equals(userInfo.getUserStatus())) 
+	    {
+	       mav.addObject("isAlertNoAuth", true);
+	       mav.setViewName("main");      
+	    }
+	    else 
+	    {
+	    	List<EduCompletionHisDto> eduCompletionHisList = new ArrayList<EduCompletionHisDto>();
+			eduCompletionHisList = userManageService.getEduCompletionHisList();
+			
+			mav.addObject("eduCompletionHisList", eduCompletionHisList);
+			mav.setViewName("admin/member_course");
+	    }
 		return mav;
 	}
 	
@@ -87,12 +131,28 @@ public class UserManageController {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		
-		List<EduCompletionDto> eduCompletionList = new ArrayList<EduCompletionDto>();
-		eduCompletionList = userManageService.getEduCompletionList(eduCompletionInfo);
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+	      
+	    if (userInfo == null)
+	    {
+	       mav.addObject("isAlert", true);
+	       mav.setViewName("admin/login");
+	    }
+	    else if (!"S".equals(userInfo.getUserStatus())) 
+	    {
+	       mav.addObject("isAlertNoAuth", true);
+	       mav.setViewName("main");      
+	    }
+	    else 
+	    {
+	    	List<EduCompletionDto> eduCompletionList = new ArrayList<EduCompletionDto>();
+			eduCompletionList = userManageService.getEduCompletionList(eduCompletionInfo);
+			
+			mav.addObject("eduCompletionInfo", eduCompletionInfo);
+			mav.addObject("eduCompletionList", eduCompletionList);
+			mav.setViewName("admin/member_course_view");
+	    }
 		
-		mav.addObject("eduCompletionInfo", eduCompletionInfo);
-		mav.addObject("eduCompletionList", eduCompletionList);
-		mav.setViewName("admin/member_course_view");
 		return mav;
 	}
 	
@@ -109,5 +169,23 @@ public class UserManageController {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
+	}
+	
+	// 로그인 처리
+	@RequestMapping(value="/manageLogin", method=RequestMethod.POST)
+	@ResponseBody
+	public String manageLogin(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
+		String result = "";
+		response.setCharacterEncoding("UTF-8");
+		user.setPassword(EncryptUtils.getSha256(user.getPassword()));
+		// 사용자 정보 조회
+		UserDto userInfo = userService.getLoginUserInfo(user);
+		
+		if(userInfo != null && userInfo.getUserStatus().equals("S")) {
+			// 세션추가
+			result = "S";
+			session.setAttribute("loginUserInfo",userInfo);
+		}
+		return result;
 	}
 }
