@@ -149,4 +149,8 @@ public class ApplyService {
 	public String getSubjectName(String subjectId) throws Exception {
 		return subjectDao.getSubjectName(subjectId);
 	}
+	
+	public int setDeleteReceiptInfo(String receiptId) throws Exception {
+		return applyDao.setDeleteReceiptInfo(receiptId);
+	}
 }

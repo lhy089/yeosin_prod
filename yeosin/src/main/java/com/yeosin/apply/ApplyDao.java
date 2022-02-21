@@ -73,4 +73,8 @@ public class ApplyDao {
 	public String getIsCancelReceipt(Map<String, Object> map) throws Exception {
 		return sqlSession.selectOne(nameSpace + "getIsCancelReceipt", map);
 	}
+	
+	public int setDeleteReceiptInfo(String receiptId) throws Exception {
+		return sqlSession.delete(nameSpace + "setDeleteReceiptInfo", receiptId);
+	}
 }

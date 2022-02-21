@@ -321,4 +321,12 @@
 		AND 	USERID = #{userId, jdbcType=VARCHAR}
 		AND 	RECEIPTID = #{receiptId, jdbcType=VARCHAR};
 	</select>
+	
+	<!-- 결제실패 Exception일때 접수데이터 삭제 -->
+   <select id="setDeleteReceiptInfo"  parameterType="String">
+		DELETE 	
+		FROM 	YS_RECEIPT
+		WHERE 	RECEIPTID = #{receiptId, jdbcType=VARCHAR};
+	</select>
+	
 </mapper>
