@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yeosin.user.UserDto;
-import com.yeosin.user.UserService;
 
 @Controller
 public class ApplyManageController {
@@ -36,39 +35,39 @@ public class ApplyManageController {
    @ResponseBody
    public ModelAndView ApplyListByDocument(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
    {      
-      response.setCharacterEncoding("UTF-8");
-      ModelAndView mav = new ModelAndView();
+	   response.setCharacterEncoding("UTF-8");
+	   ModelAndView mav = new ModelAndView();
       
-      UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+	   UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
       
-      if (userInfo == null) 
-      {
-         mav.addObject("isAlert", true);
-         mav.setViewName("member/login");
-      }
-      else if (!"S".equals(userInfo.getUserStatus())) 
-      {
-         mav.addObject("isAlertNoAuth", true);
-         mav.setViewName("main");      
-      }
-      else
-      {
-         List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
-         List<SubjectDto> subjectList = applyManageService.getConditionSubjectList();
+	   if (userInfo == null) 
+	   {
+		   mav.addObject("isAlert", true);
+		   mav.setViewName("member/login");
+	   }
+	   else if (!"S".equals(userInfo.getUserStatus())) 
+	   {
+		   mav.addObject("isAlertNoAuth", true);
+		   mav.setViewName("main");      
+	   }
+	   else
+	   {
+		   List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
+		   List<SubjectDto> subjectList = applyManageService.getConditionSubjectList();
 
-         Map<String, Object> parameterMap = new HashMap<String, Object>();
-         parameterMap.put("textCondition", request.getParameter("textCondition"));
-         parameterMap.put("localCondition", request.getParameter("localCondition"));
-         parameterMap.put("subjectCondition", request.getParameter("subjectCondition"));
+		   Map<String, Object> parameterMap = new HashMap<String, Object>();
+		   parameterMap.put("textCondition", request.getParameter("textCondition"));
+		   parameterMap.put("localCondition", request.getParameter("localCondition"));
+		   parameterMap.put("subjectCondition", request.getParameter("subjectCondition"));
 
-         List<ApplyDto> applyListByDocument = applyManageService.getApplyListByDocument(parameterMap);
+		   List<ApplyDto> applyListByDocument = applyManageService.getApplyListByDocument(parameterMap);
 
-         mav.addObject("localList", localList);
-         mav.addObject("subjectList", subjectList);
-         mav.addObject("applyListByDocument", applyListByDocument);
-         mav.setViewName("admin/manage_status_doc"); 
-      }
-      return mav;
+		   mav.addObject("localList", localList);
+		   mav.addObject("subjectList", subjectList);
+		   mav.addObject("applyListByDocument", applyListByDocument);
+		   mav.setViewName("admin/manage_status_doc"); 
+	   }
+	   return mav;
    }
    
    // 원서접수 리스트 조회(고사장별)
@@ -76,65 +75,60 @@ public class ApplyManageController {
    @ResponseBody
    public ModelAndView ApplyListByExamZone(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
    {      
-      response.setCharacterEncoding("UTF-8");
-      ModelAndView mav = new ModelAndView();
+	   response.setCharacterEncoding("UTF-8");
+	   ModelAndView mav = new ModelAndView();
       
-      UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+	   UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
       
-      if (userInfo == null) 
-      {
-         mav.addObject("isAlert", true);
-         mav.setViewName("member/login");
-      }
-      else if (!"S".equals(userInfo.getUserStatus())) 
-      {
-         mav.addObject("isAlertNoAuth", true);
-         mav.setViewName("main");      
-      }
-      else
-      {
-         List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
-         List<ExamDto> examYearList = applyManageService.getConditionExamYearList();
+	   if (userInfo == null) 
+	   {
+		   mav.addObject("isAlert", true);
+		   mav.setViewName("member/login");
+	   }
+	   else if (!"S".equals(userInfo.getUserStatus())) 
+	   {
+		   mav.addObject("isAlertNoAuth", true);
+		   mav.setViewName("main");      
+	   }
+	   else
+	   {	   
+		   List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
+		   List<ExamDto> examYearList = applyManageService.getConditionExamYearList();
 
-         Map<String, Object> parameterMap = new HashMap<String, Object>();
-         parameterMap.put("textCondition", request.getParameter("textCondition"));
-         parameterMap.put("localCondition", request.getParameter("localCondition"));
-         parameterMap.put("examYearCondition", request.getParameter("examYearCondition"));
+		   Map<String, Object> parameterMap = new HashMap<String, Object>();
+		   parameterMap.put("textCondition", request.getParameter("textCondition"));
+		   parameterMap.put("localCondition", request.getParameter("localCondition"));
+		   parameterMap.put("examYearCondition", request.getParameter("examYearCondition"));
 
-         List<ApplyDto> applyListByExamZone = applyManageService.getApplyListByExamZone(parameterMap);
+		   List<ApplyDto> applyListByExamZone = applyManageService.getApplyListByExamZone(parameterMap);
 
-         mav.addObject("localList", localList);
-         mav.addObject("examYearList", examYearList);
-         mav.addObject("applyListByExamZone", applyListByExamZone);
-         mav.setViewName("admin/manage_status_site"); 
-      }
-      return mav;
+		   mav.addObject("localList", localList);
+		   mav.addObject("examYearList", examYearList);
+		   mav.addObject("applyListByExamZone", applyListByExamZone);
+		   mav.setViewName("admin/manage_status_site"); 
+	   }
+	   return mav;
    }
 
 	// 좌석배치 확정
-	@RequestMapping(value="/SeatConfirm", method=RequestMethod.GET)
+	@RequestMapping(value="/SeatConfirmByAjax", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView SeatConfirm(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	public Map<String, Object> SeatConfirmByAjax(@RequestParam(value="examZoneCheck[]") List<String> requestArray, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		response.setCharacterEncoding("UTF-8");
-		ModelAndView mav = new ModelAndView();
-      
+		response.setCharacterEncoding("UTF-8");      
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		boolean isSuccess = false;
+		
+		// AJAX로 넘겨줄 데이터
+		Map<String, Object> resultMap = new HashMap<String, Object>();
       
-		if (userInfo == null) 
+		if (userInfo == null || !"S".equals(userInfo.getUserStatus())) 
 		{
-			mav.addObject("isAlert", true);
-			mav.setViewName("member/login");
+			isSuccess = false;
 		}
-		else if (!"S".equals(userInfo.getUserStatus())) 
+		else 
 		{
-			mav.addObject("isAlertNoAuth", true);
-			mav.setViewName("main");      
-		}
-		else
-		{
-			String[] examAndexamZoneIdArr = request.getParameterValues("examZoneCheck");
+			String[] examAndexamZoneIdArr = requestArray.toArray(new String[requestArray.size()]);
 			
 			// 시험 ID, 고사장 ID로 해당 시험의 고사장에 접수된 인원들에 대해 좌석배치 Update 로직
 			for (int i = 0; i < examAndexamZoneIdArr.length; i++)
@@ -146,7 +140,6 @@ public class ApplyManageController {
 				parameter.put("examId", examId);
 				parameter.put("examZoneId", examZoneId);
 				
-				// 시험, 고사장에 접수된 모든 접수번호(TODO : 오름차순으로 정렬필요)
 				List<Object> totalReceiptList = applyManageService.getTotalReceiptIdByExamZone(parameter);
 
 				parameter.put("totalReceiptList", totalReceiptList);
@@ -155,26 +148,12 @@ public class ApplyManageController {
 				
 				if (isUpdateSuccess == 1) isSuccess = true;
 				else isSuccess = false;
-			}
-			
-			// Update 완료 후 재조회
-			List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
-			List<ExamDto> examYearList = applyManageService.getConditionExamYearList();
-
-			Map<String, Object> parameterMap = new HashMap<String, Object>();
-			parameterMap.put("textCondition", request.getParameter("textCondition"));
-			parameterMap.put("localCondition", request.getParameter("localCondition"));
-			parameterMap.put("examYearCondition", request.getParameter("examYearCondition"));
-
-			List<ApplyDto> applyListByExamZone = applyManageService.getApplyListByExamZone(parameterMap);
-
-			mav.addObject("isSuccess", isSuccess);
-			mav.addObject("localList", localList);
-			mav.addObject("examYearList", examYearList);
-			mav.addObject("applyListByExamZone", applyListByExamZone);
-			mav.setViewName("admin/manage_status_site"); 
+			}	
 		}
-		return mav;
+		
+		resultMap.put("isSuccess", isSuccess);
+
+		return resultMap;
 	}
 	
    //고사장 등록

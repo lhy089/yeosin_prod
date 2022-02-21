@@ -7,10 +7,12 @@ $(document).ready(function(){
 });
 
 
-// 좌석배치 체크함수(manage_status_site.jsp)
-function IsCheckedSeatConfirm() 
+// 좌석배치 확정함수(manage_status_site.jsp)
+function doSeatConfirm() 
 {
-	var checkBox = $("input[name=examZoneCheck]:checked");
+	var checkBox = $("input[name=examZoneCheck]:checked");	
+	var checkValueArr = [];		
+	var isSuccess = false;
 			
 	if (checkBox.length < 1)
 	{
@@ -20,12 +22,38 @@ function IsCheckedSeatConfirm()
 	
 	if (confirm("해당 고사장에 대한 좌석배치 확정을 진행하시겠습니까?")) 
 	{
-		return true;
+		checkBox.each(function(){
+			var checkValue = $(this).val();
+			checkValueArr.push(checkValue);	
+		});
+		
+		$.ajax({
+			url: "/SeatConfirmByAjax",
+	        type: "GET",
+	        async: false,
+	        dataType : 'json',
+	        data: {
+					examZoneCheck : checkValueArr
+				  },
+	        success: function(data) 
+			{
+				console.log("AJAX Request 성공");
+				isSuccess = data.isSuccess;
+				alert("좌석배치를 완료했습니다.");
+	        },
+	        error: function() 
+			{
+	           console.log("AJAX Request 실패");
+	           isSuccess = false;
+	        }
+		});
 	}
 	else 
 	{
-		return false
+		isSuccess = false;
 	}
+	
+	return isSuccess;
 }
 
 /*

@@ -197,14 +197,16 @@
 				E.EXAMDATE DESC;
 	</select>
 	
-	<!-- 시험, 고사장에 접수된 총 건수 -->
+	<!-- 시험, 고사장에 접수된 접수아이디 List로 가져오기 -->
 	<select id="getTotalReceiptIdByExamZone" parameterType="map" resultType="String">
 		SELECT 	RECEIPTID
 		FROM 	YS_RECEIPT
 		WHERE  	1 = 1
 		AND 	ISCANCEL = 'N'
 		AND 	EXAMID = #{examId, jdbcType=VARCHAR}
-		AND 	EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};
+		AND 	EXAMZONEID = #{examZoneId, jdbcType=VARCHAR}
+		ORDER BY 
+				CONVERT(REPLACE(RECEIPTID, 'LPBQ', ''), SIGNED) ASC;
 	</select>
 	
 	<!-- 좌석배치 확정 업데이트 -->
