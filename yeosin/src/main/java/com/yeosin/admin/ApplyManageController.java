@@ -54,9 +54,19 @@ public class ApplyManageController {
 		   List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
 		   List<SubjectDto> subjectList = applyManageService.getConditionSubjectList();
 		   
+		   // 페이징 데이터 준비(페이지당 데이터 목록수)
+		   /*
 		   int pagePerNum = 30;
-		   if (request.getParameterMap().containsKey("onePageDataCountCondition")) pagePerNum = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
+		   if (request.getParameterMap().containsKey("onePageDataCountCondition")) 
+		   {
+			   if (request.getParameter("onePageDataCountCondition") != null 
+					   && !request.getParameter("onePageDataCountCondition").trim().isEmpty())
+			   {
+				   pagePerNum = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
+			   }
+		   }
 		   applyDto.setPerPageNum(pagePerNum);
+		   */
 		   
 		   Map<String, Object> parameterMap = new HashMap<String, Object>();
 		   parameterMap.put("textCondition", request.getParameter("textCondition"));
@@ -90,7 +100,7 @@ public class ApplyManageController {
    // 원서접수 리스트 조회(고사장별)
    @RequestMapping(value="/manage_status_site", method=RequestMethod.GET)
    @ResponseBody
-   public ModelAndView ApplyListByExamZone(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+   public ModelAndView ApplyListByExamZone(ExamZoneDto examZoneDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception
    {      
 	   response.setCharacterEncoding("UTF-8");
 	   ModelAndView mav = new ModelAndView();
@@ -109,19 +119,48 @@ public class ApplyManageController {
 	   }
 	   else
 	   {	   
+		   // 조회조건 콤보박스 데이터
 		   List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
 		   List<ExamDto> examYearList = applyManageService.getConditionExamYearList();
-
+		
+		   // 페이징 데이터 준비(페이지당 데이터 목록수)
+		   /*
+		   int pagePerNum = 30;
+		   if (request.getParameterMap().containsKey("onePageDataCountCondition")) 
+		   {
+			   if (request.getParameter("onePageDataCountCondition") != null 
+					   && !request.getParameter("onePageDataCountCondition").trim().isEmpty())
+			   {
+				   pagePerNum = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
+			   }
+		   }
+		   examZoneDto.setPerPageNum(pagePerNum);
+		   */
+		     
 		   Map<String, Object> parameterMap = new HashMap<String, Object>();
 		   parameterMap.put("textCondition", request.getParameter("textCondition"));
 		   parameterMap.put("localCondition", request.getParameter("localCondition"));
 		   parameterMap.put("examYearCondition", request.getParameter("examYearCondition"));
-
+		   parameterMap.put("pageStart", examZoneDto.getPageStart());
+		   parameterMap.put("perPageNum", examZoneDto.getPerPageNum());
+		     
+		   // 접수 리스트 데이터
 		   List<ApplyDto> applyListByExamZone = applyManageService.getApplyListByExamZone(parameterMap);
-
+		
+		   // 페이징 하기위한 데이터
+		   ExamZoneDtoPageMaker pageMaker = new ExamZoneDtoPageMaker();
+		   pageMaker.setExamZoneDto(examZoneDto);
+		   pageMaker.setTotalCount(applyManageService.getApplyListByExamZoneCount(parameterMap));         
+		     
 		   mav.addObject("localList", localList);
 		   mav.addObject("examYearList", examYearList);
 		   mav.addObject("applyListByExamZone", applyListByExamZone);
+		   mav.addObject("textCondition", request.getParameter("textCondition"));
+		   mav.addObject("localCondition", request.getParameter("localCondition"));
+		   mav.addObject("examYearCondition", request.getParameter("examYearCondition"));
+		   mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
+		   mav.addObject("pageMaker", pageMaker);
+		   mav.addObject("examZoneDto", examZoneDto);
 		   mav.setViewName("admin/manage_status_site"); 
 	   }
 	   return mav;

@@ -23,6 +23,29 @@ public class ExamZoneDto {
 	private ExamDto examDto; // 시험 DTO
 	private ApplyDto applyDto; // 접수 DTO
 	
+	private int page;        		// 현재 페이지 번호   
+	private int perPageNum; 		// 현 페이지당 보여줄 게시글의 갯수
+	   
+	public ExamZoneDto() 
+	{
+		this.page = 1;
+		this.perPageNum  = 30;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+	    this.page = page;
+	}
+	public int getPerPageNum() {
+	   return perPageNum;
+	}
+	public void setPerPageNum(int perPageNum) {
+	   this.perPageNum = perPageNum;
+	}  
+	public int getPageStart() {
+	   return (this.page-1) * perPageNum;
+	}
 	public String getRowNum() {
 		return rowNum;
 	}
@@ -120,5 +143,4 @@ public class ExamZoneDto {
 		this.description = description;
 	}
 	
-
 }

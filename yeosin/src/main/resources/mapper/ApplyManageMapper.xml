@@ -196,7 +196,9 @@
 			AND CONVERT(E.EXAMYEAR, CHAR) LIKE CONCAT('%', #{examYearCondition, jdbcType=VARCHAR}, '%')
 		</if>
 		ORDER BY 
-				E.EXAMDATE DESC;
+				E.EXAMDATE DESC
+      	LIMIT 
+            	#{pageStart}, #{perPageNum};
 	</select>
 	
 	<!-- 시험, 고사장에 접수된 접수아이디 List로 가져오기 -->
@@ -249,4 +251,41 @@
 				R.RECEIPTDATE DESC;
 	</select>
 
+	<!-- 관리자의 원서접수 현황 갯수 조회(고사장별) -->
+	<select id="getApplyListByExamZoneCount" parameterType="map" resultType="Integer">
+	   SELECT COUNT(EZ.EXAMZONEID)
+	   FROM YS_EXAMZONE EZ
+	   INNER JOIN YS_EXAMANDEXAMZONEREL EZR ON EZ.EXAMZONEID = EZR.EXAMZONEID 
+	   INNER JOIN YS_EXAM EX ON EZR.EXAMID = EX.EXAMID 
+	   INNER JOIN 
+	   (
+	      SELECT    
+	             R.EXAMID 
+	         ,   EZ.EXAMZONEID 
+	         ,   COUNT(R.RECEIPTID)         AS RECEIPTCOUNT
+	      FROM    YS_RECEIPT               	R 
+	      INNER JOIN YS_EXAMZONE            EZ ON EZ.EXAMZONEID = R.EXAMZONEID 
+	      WHERE    1 = 1
+	      AND    R.ISCANCEL = 'N'
+	      GROUP BY 
+	             R.EXAMID 
+	         ,   EZ.EXAMZONEID
+	   )   RT   ON    RT.EXAMID = EX.EXAMID 
+	         	AND RT.EXAMZONEID = EZ.EXAMZONEID 
+	   WHERE 1 = 1
+	
+	   <if test="textCondition != null and textCondition != ''">
+	      AND (EX.LOCALDETAIL LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+	         OR EX.EXAMZONENAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+	   </if>
+	   <if test='localCondition != null and !localCondition.equals("전체")'>
+	      AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
+	   </if>
+	   <if test='subjectCondition != null and !subjectCondition.equals("*")'>
+	      AND EX.EXAMYEAR LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%')      
+	   </if>
+	   ORDER BY
+	         EX.EXAMDATE DESC;
+	</select>
+	
 </mapper>

@@ -96,7 +96,7 @@
           <th>목록건수</th>
           <td>
             <select id="onePageDataCountCondition" name="onePageDataCountCondition" class="count">
-				<c:forEach var="i" begin="10" end="100" step="10">
+				<c:forEach var="i" begin="30" end="100" step="10">
 				<c:choose>
 				<c:when test="${i eq pageCondition}">
 					<option value="${i}" selected>${i}</option>
@@ -200,8 +200,7 @@
     <p class="pageCnt">전체 ${pageMaker.totalCount}건, ${applyDto.page} / <c:out value="${OutputPage}"/> 페이지</p>
 	<div class="pageWrap">
 	<!-- 페이징 -->
-    </div>
-    
+    </div> 
   </div>
 </div>
 

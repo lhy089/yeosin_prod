@@ -55,4 +55,9 @@ public class ApplyManageService {
 	public int getApplyListByDocumentCount(Map<String, Object> map) throws Exception {
 		return applyManageDao.getApplyListByDocumentCount(map);
 	}
+	
+	// 원서접수 리스트 총 갯수 조회(고사장)
+	public int getApplyListByExamZoneCount(Map<String, Object> map) throws Exception {
+		return applyManageDao.getApplyListByExamZoneCount(map);
+	}
 }

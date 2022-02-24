@@ -42,7 +42,7 @@ public class ApplyDto {
 	public ApplyDto() 
 	{
 		this.page = 1;
-		this.perPageNum  = 10;
+		this.perPageNum  = 30;
 	}
 	
 	public String getRowNum() {

@@ -1,22 +1,22 @@
 package com.yeosin.apply;
 
 
-public class ApplyPageMaker {
-	
-	private ApplyDto applyDto;
-    private int totalCount;
+public class ExamZoneDtoPageMaker {
+   
+   private ExamZoneDto examZoneDto;
+   private int totalCount;
     private int startPage;
     private int endPage;
     private boolean prev;
     private boolean next;
     private int displayPageNum = 30;
     
-    public ApplyDto getApplyDto() {
-        return applyDto;
-    }
-    public void setApplyDto(ApplyDto applyDto) {
-        this.applyDto = applyDto;
-    }
+    public ExamZoneDto getExamZoneDto() {
+      return examZoneDto;
+   }
+   public void setExamZoneDto(ExamZoneDto examZoneDto) {
+      this.examZoneDto = examZoneDto;
+   }
     public int getTotalCount() {
         return totalCount;
     }
@@ -27,18 +27,18 @@ public class ApplyPageMaker {
     
     private void calcData() {
         
-        endPage = (int) (Math.ceil(applyDto.getPage() / (double) displayPageNum) * displayPageNum);
+        endPage = (int) (Math.ceil(examZoneDto.getPage() / (double) displayPageNum) * displayPageNum);
  
         startPage = (endPage - displayPageNum) + 1;
         if(startPage <= 0) startPage = 1;
         
-        int tempEndPage = (int) (Math.ceil(totalCount / (double) applyDto.getPerPageNum()));
+        int tempEndPage = (int) (Math.ceil(totalCount / (double) examZoneDto.getPerPageNum()));
         if (endPage > tempEndPage) {
             endPage = tempEndPage;
         }
  
         prev = startPage == 1 ? false : true;
-        next = endPage * applyDto.getPerPageNum() < totalCount ? true : false;
+        next = endPage * examZoneDto.getPerPageNum() < totalCount ? true : false;
         
     }
     

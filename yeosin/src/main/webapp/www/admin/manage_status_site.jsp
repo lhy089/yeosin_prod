@@ -26,6 +26,7 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/admin/applymanage.js?t=<%= new java.util.Date() %>"></script>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 </head>
 
 <body>
@@ -51,37 +52,60 @@
         <tr>
           <th>검색</th>
           <td colspan="5">
-            <input type="text" id="textCondition" name="textCondition" value="">
+			<c:choose>
+			<c:when test="${textCondition eq '' || textCondition eq null}">
+			   <input type="text" id="textCondition" name="textCondition" value="">
+			</c:when>
+			<c:otherwise>
+			   <input type="text" id="textCondition" name="textCondition" value="${textCondition}">
+			</c:otherwise>
+			</c:choose>
           </td>
         </tr>
         <tr>
           <th>지역</th>
           <td>
-            <select id="localCondition" name="localCondition">
-	            <c:forEach var="localList" items="${localList}" varStatus="status">
-					<option value="${localList.local}">${localList.local}</option>
-	            </c:forEach>
-            </select>
+			<select id="localCondition" name="localCondition">
+				<c:forEach var="localList" items="${localList}" varStatus="status">
+				<c:choose>
+				<c:when test="${localCondition eq localList.local}">
+				  <option value="${localList.local}" selected>${localList.local}</option>
+				</c:when>
+				<c:otherwise>
+				  <option value="${localList.local}">${localList.local}</option>
+				</c:otherwise>
+				</c:choose>
+				</c:forEach>
+          	</select>
           </td>
           <th>시험연도</th>
           <td>
-            <select id="examYearCondition" name="examYearCondition">
-            	<c:forEach var="examYearList" items="${examYearList}" varStatus="status">
-					<option value="${examYearList.examYear}">${examYearList.examYear}</option>
+			<select id="examYearCondition" name="examYearCondition">
+				<c:forEach var="examYearList" items="${examYearList}" varStatus="status">
+				   <c:choose>
+				<c:when test="${examYearList eq examYearList.examYear}">
+				   <option value="${examYearList.examYear}" selected>${examYearList.examYear}</option>
+				</c:when>
+				<c:otherwise>
+				   <option value="${examYearList.examYear}">${examYearList.examYear}</option>
+				</c:otherwise>
+				</c:choose>
 				</c:forEach>
             </select>
           </td>
           <th>목록건수</th>
           <td>
-            <select id="" name="" class="count">
-              <option value="30">30</option>
-              <option value="40">40</option>
-              <option value="50">50</option>
-              <option value="60">60</option>
-              <option value="70">70</option>
-              <option value="80">80</option>
-              <option value="90">90</option>
-              <option value="100">100</option>
+			<select id="onePageDataCountCondition" name="onePageDataCountCondition" class="count">
+	            <c:forEach var="i" begin="30" end="100" step="10">
+	            <c:choose>
+	            <c:when test="${i eq pageCondition}">
+	               <option value="${i}" selected>${i}</option>
+	            </c:when>
+	            <c:otherwise>
+	               <option value="${i}">${i}</option>
+	            </c:otherwise>
+	            </c:choose>
+	            </c:forEach>
             </select>
           </td>
         </tr>
@@ -143,6 +167,30 @@
 	      </tr>
 	  </c:forEach>  
     </table>
+	<br>
+	<ul class="btn-group pagination">
+	 <c:if test="${pageMaker.prev}">
+	     <li>
+	        <a href='<c:url value="/manage_status_site?page=${pageMaker.startPage-1}&textCondition=${textCondition}&localCondition=${localCondition}&examYearCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}" />'><i class="fa fa-chevron-left">이전</i></a>
+	    </li>
+	</c:if>
+	 <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+	   <li value="${pageNum}"> 
+	         <a href='<c:url value="/manage_status_site?page=${pageNum}&textCondition=${textCondition}&localCondition=${localCondition}&examYearCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}" />'><i class="fa">${pageNum}</i></a>
+	   </li>
+	</c:forEach>
+	<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+	   <li>
+	        <a href='<c:url value="/manage_status_site?page=${pageMaker.endPage+1}&textCondition=${textCondition}&localCondition=${localCondition}&examYearCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}"/>'><i class="fa fa-chevron-right">다음</i></a>
+	     </li>
+	</c:if>
+	</ul>   
+	<c:set var="OutputPageTotal" value="${(pageMaker.totalCount/examZoneDto.perPageNum)+(1-((pageMaker.totalCount/examZoneDto.perPageNum)%1))%1}" />
+	<fmt:parseNumber var="OutputPage"  value="${OutputPageTotal}" integerOnly="true" type="number"/>
+	<p class="pageCnt">전체 ${pageMaker.totalCount}건, ${examZoneDto.page} / <c:out value="${OutputPage}"/> 페이지</p>
+	<div class="pageWrap">
+	<!-- 페이징 -->
+	</div>
   </div>
 </div>
 

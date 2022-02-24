@@ -57,4 +57,9 @@ public class ApplyManageDao {
 		return sqlSession.selectOne(nameSpace + "getApplyListByDocumentCount", map);
 	}
 	
+	// 원서접수 리스트 총 갯수 조회(원서별)
+	public int getApplyListByExamZoneCount(Map<String, Object> map) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getApplyListByExamZoneCount", map);
+	}
+	
 }
