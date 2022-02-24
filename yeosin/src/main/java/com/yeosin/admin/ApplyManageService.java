@@ -50,4 +50,9 @@ public class ApplyManageService {
 	public int setExamZoneSeatConfirm(Map<String, Object> map) throws Exception {
 		return applyManageDao.setExamZoneSeatConfirm(map);
 	}
+	
+	// 원서접수 리스트 총 갯수 조회(원서별)
+	public int getApplyListByDocumentCount(Map<String, Object> map) throws Exception {
+		return applyManageDao.getApplyListByDocumentCount(map);
+	}
 }

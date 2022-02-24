@@ -121,7 +121,9 @@
 				OR S.SUBJECTNAME LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%'))
 		</if>
 		ORDER BY
-				R.RECEIPTDATE DESC;
+				R.RECEIPTDATE DESC
+		LIMIT 
+				#{pageStart}, #{perPageNum};
 	</select>
  
 	<!-- 관리자의 원서접수 현황 조회(고사장별) -->
@@ -220,5 +222,31 @@
 			</foreach>
 	 	</if>
 	</update>
+	
+	<!-- 관리자의 원서접수 현황 갯수 조회(원서별) -->
+	<select id="getApplyListByDocumentCount" parameterType="map" resultType="Integer">
+		SELECT 	COUNT(R.RECEIPTID)
+		FROM 	YS_RECEIPT									R
+		INNER JOIN YS_EXAM 									E	ON	E.EXAMID = R.EXAMID
+		INNER JOIN YS_USER 									U 	ON 	U.USERID = R.USERID
+		INNER JOIN YS_EXAMZONE 								EZ 	ON 	EZ.EXAMZONEID = R.EXAMZONEID
+		INNER JOIN YS_SUBJECT 								S	ON 	S.SUBJECTID = R.SUBJECTID
+		WHERE 	1 = 1
+		
+		<if test="textCondition != null and textCondition != ''">
+			AND (R.STUDENTCODE LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+				OR U.USERNAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+				OR R.USERID LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%'))
+		</if>
+		<if test='localCondition != null and !localCondition.equals("전체")'>
+			AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
+		</if>
+		<if test='subjectCondition != null and !subjectCondition.equals("*")'>
+			AND (R.SUBJECTID LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%')
+				OR S.SUBJECTNAME LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%'))
+		</if>
+		ORDER BY
+				R.RECEIPTDATE DESC;
+	</select>
 
 </mapper>

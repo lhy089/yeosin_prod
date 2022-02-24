@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.yeosin.user.UserDto;
-
 @Controller
 public class ApplyManageController {
    
@@ -33,7 +31,7 @@ public class ApplyManageController {
    // 원서접수 리스트 조회(원서별)
    @RequestMapping(value="/manage_status_doc", method=RequestMethod.GET)
    @ResponseBody
-   public ModelAndView ApplyListByDocument(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+   public ModelAndView ApplyListByDocument(ApplyDto applyDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
    {      
 	   response.setCharacterEncoding("UTF-8");
 	   ModelAndView mav = new ModelAndView();
@@ -52,19 +50,39 @@ public class ApplyManageController {
 	   }
 	   else
 	   {
+		   // 조회조건 콤보박스 데이터
 		   List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
 		   List<SubjectDto> subjectList = applyManageService.getConditionSubjectList();
-
+		   
+		   int pagePerNum = 30;
+		   if (request.getParameter("onePageDataCountCondition") == null) pagePerNum = 30;
+		   else pagePerNum = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
+		   applyDto.setPerPageNum(pagePerNum);
+		   
 		   Map<String, Object> parameterMap = new HashMap<String, Object>();
 		   parameterMap.put("textCondition", request.getParameter("textCondition"));
 		   parameterMap.put("localCondition", request.getParameter("localCondition"));
 		   parameterMap.put("subjectCondition", request.getParameter("subjectCondition"));
+		   parameterMap.put("pageStart", applyDto.getPageStart());
+		   parameterMap.put("perPageNum", applyDto.getPerPageNum());
 
+		   // 접수 리스트 데이터
 		   List<ApplyDto> applyListByDocument = applyManageService.getApplyListByDocument(parameterMap);
 
+		   // 페이징 하기위한 데이터
+		   ApplyPageMaker pageMaker = new ApplyPageMaker();
+		   pageMaker.setApplyDto(applyDto);
+		   pageMaker.setTotalCount(applyManageService.getApplyListByDocumentCount(parameterMap));			
+			
 		   mav.addObject("localList", localList);
 		   mav.addObject("subjectList", subjectList);
 		   mav.addObject("applyListByDocument", applyListByDocument);
+		   mav.addObject("textCondition", request.getParameter("textCondition"));
+		   mav.addObject("localCondition", request.getParameter("localCondition"));
+		   mav.addObject("subjectCondition", request.getParameter("subjectCondition"));
+		   mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
+		   mav.addObject("pageMaker", pageMaker);
+		   mav.addObject("applyDto", applyDto);
 		   mav.setViewName("admin/manage_status_doc"); 
 	   }
 	   return mav;
