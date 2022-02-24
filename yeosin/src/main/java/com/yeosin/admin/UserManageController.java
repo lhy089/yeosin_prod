@@ -201,7 +201,17 @@ public class UserManageController {
 			// 세션추가
 			result = "S";
 			session.setAttribute("loginUserInfo",userInfo);
+            session.setMaxInactiveInterval(3600);
+            session.setAttribute("sessionTime", System.currentTimeMillis());
 		}
 		return result;
+	}
+	
+	// 세션연장
+	@RequestMapping(value="/manageRefreshSession", method=RequestMethod.GET)
+	@ResponseBody
+	public void manageRefreshSession(HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		session.setAttribute("sessionTime", System.currentTimeMillis());
 	}
 }

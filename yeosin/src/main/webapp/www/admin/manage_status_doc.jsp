@@ -134,7 +134,7 @@
       <c:forEach var="applyList" items="${applyListByDocument}" varStatus="status">
 	      <tr class="center">
 	        <td class="flow flowNo"><input type="checkbox" name="applyCheck" value=""></td>
-	        <td class="flow flowNo">${applyList.rowNum}</td>
+	        <td class="flow flowNo">${status.count}</td>
 	        <td class="flow flowNo">${applyList.examDto.examDegree}</td>
 	        <td class="flow flowNo">${applyList.studentCode}</td>
 	        <td class="flow flowNo">${applyList.userDto.userName}</td>

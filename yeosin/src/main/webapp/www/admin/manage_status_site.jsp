@@ -130,7 +130,7 @@
       <c:forEach var="applyList" items="${applyListByExamZone}" varStatus="status">   
 	      <tr class="center">
 	        <td class="flow flowNo"><input type="checkbox" name="examZoneCheck" value="${applyList.examDto.examId}.${applyList.examZoneId}"></td>
-	        <td class="flow flowNo">${applyList.rowNum}</td>
+	        <td class="flow flowNo">${status.count}</td>
 	        <td class="flow flowNo">${applyList.examDto.examDegree}</td>
 	        <td class="flow flowArea">${applyList.examDto.examName}</td>
 	        <td class="flow flowNo">${applyList.local}</td>

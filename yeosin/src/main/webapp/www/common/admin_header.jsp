@@ -11,6 +11,70 @@
   },
   h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
 })(document);
+
+var min ="";
+var sec ="";
+
+var initTime = 3600;
+var sessionTime = '<%=session.getAttribute("sessionTime")%>';
+var curTime = new Date().getTime();
+
+var time = initTime - (( curTime - sessionTime)/1000);
+var x = setInterval(function(){
+
+     if(time < 0){
+        clearInterval(x);
+        
+        $.ajax({
+            url: "/manageLogout",
+             type: "GET",
+             async: false,
+             success: function(data) 
+            {
+               console.log("AJAX Request 성공");
+             },
+             error: function() 
+            {
+                console.log("AJAX Request 실패");
+             }
+         }); 
+     }
+     else
+     {
+        min = Lpad(parseInt(time/60), 2); 
+        sec = Lpad(parseInt(time%60), 2);
+        
+        $('#timer').text("[ 자동로그아웃 : " + min +":" + sec);         
+        
+        time--;
+     }
+}, 1000);
+
+Lpad = function(str, len) {
+    str = str + "";
+    while (str.length < len) {
+        str = "0" + str;
+    }
+    return str;
+}
+
+function refereshSession()
+{
+   $.ajax({
+      url: "/manageRefreshSession",
+       type: "GET",
+       async: false,
+       success: function(data) 
+      {
+         console.log("AJAX Request 성공");
+         location.reload();
+       },
+       error: function() 
+      {
+          console.log("AJAX Request 실패");
+       }
+   });          
+}
 </script>
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"> <!--나눔스퀘어 font-->
 <link href="/www/inc/css/font.css" rel="stylesheet" type="text/css" media="screen">
@@ -36,19 +100,23 @@
     <div class="rightSec">
       <a href="/manageHome" class="home">HOME</a>
       <a href="/manageLogout" class="btn_header" id="btn_logout">로그아웃</a>
-<!--       <div class="autoLogout">[ 자동로그아웃 : 59:26 <a href="#" class="btn_header">연장</a> ]</div> -->
+	  <span id ="timer" class="autoLogout"></span> 
+      <div class="autoLogout">
+         <a href="#none" onClick="refereshSession();" class="btn_header">연장</a>
+         <span class="autoLogout">]</span> 
+      </div>
     </div>
   </div>
 </header>
 
 <script>
-  $(function(){
-    /* 오늘 날짜 출력 */
-    let today = new Date();
-    let year = today.getFullYear(); // 년도
-    let month = today.getMonth() + 1;  // 월
-    let date = today.getDate();  // 날짜
-
-    $('.date').text(year+'년 '+month+'월 '+date+'일');
-  });
+	$(function(){
+	  /* 오늘 날짜 출력 */
+	  let today = new Date();
+	  let year = today.getFullYear(); // 년도
+	  let month = today.getMonth() + 1;  // 월
+	  let date = today.getDate();  // 날짜
+	
+	  $('.date').text(year+'년 '+month+'월 '+date+'일');
+	});
 </script>
