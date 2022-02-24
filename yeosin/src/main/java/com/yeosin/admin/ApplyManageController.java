@@ -54,10 +54,12 @@ public class ApplyManageController {
 		   List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
 		   List<SubjectDto> subjectList = applyManageService.getConditionSubjectList();
 		   
+		   /*
 		   int pagePerNum = 30;
 		   if (request.getParameter("onePageDataCountCondition") == null) pagePerNum = 30;
 		   else pagePerNum = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
 		   applyDto.setPerPageNum(pagePerNum);
+		   */
 		   
 		   Map<String, Object> parameterMap = new HashMap<String, Object>();
 		   parameterMap.put("textCondition", request.getParameter("textCondition"));
