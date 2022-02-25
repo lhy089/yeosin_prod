@@ -483,6 +483,7 @@ public class UserController {
 		}
 		
 		// 수료번호 api 호출
+		@Scheduled(cron = "0 0 7 * * *")
 		public void callSyncCertIdApiForSchedule() throws Exception {
 			Calendar calToday = Calendar.getInstance();
 			calToday.setTime(new Date());
