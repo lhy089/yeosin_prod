@@ -23,6 +23,29 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="/www/inc/css/admin.css">
+  <script>
+  $(document).ready(function() {
+      
+      $(".upload #fileUpload").click(function(){ debugger;
+          
+          var formData = new FormData(); 
+          formData.append("file", $('#fileExcel')[0].files[0]);
+          
+          var fileName = formData.get('file').name;
+          
+          //console.log(fileName);
+          
+          $.ajax({
+              type : "POST",
+              url : "/fileDBUpload",
+              data : {"fileName" : fileName},
+              success : function(data){
+                  
+              }
+          })
+      });
+  });
+  </script>
 </head>
 
 <body>
@@ -38,17 +61,17 @@
     <h2>성적처리</h2>
     <table class="list">
       <colgroup>
-        <col width="4%">
+<!--         <col width="4%"> -->
         <col width="4%">
         <col width="22.5%">
         <col width="10.5%">
         <col width="14%">
-        <col width="22.5%">
+        <col width="26.5%">
         <col width="12%">
         <col width="10.5%">
       </colgroup>
       <tr>
-        <th>선택</th>
+<!--         <th>선택</th> -->
         <th>번호</th>
         <th>시험고유번호</th>
         <th>차수</th>
@@ -57,16 +80,21 @@
         <th>결과 등록</th>
         <th>처리결과</th>
       </tr>
-      <tr class="center">
-        <td><input type="checkbox" name="memberCheck" value=""></td>
-        <td>1</td>
-        <td class="flow flowNum"><p>LPBQ220101</p></td>
-        <td>22-1</td>
-        <td>2022-01-01</td>
-        <td class="flow flowSub"><p>리스할부상품</p></td>
-        <td><a href="#" class="btn_more">등록하기</a></td>
-        <td>완료</td>
-      </tr>
+      <c:forEach var="examInfo" items="${examList}" varStatus="status">
+      	<tr class="center">
+<!--         <td><input type="checkbox" name="memberCheck" value=""></td> -->
+        	<td>${status.count}</td>
+        	<td class="flow flowNum"><p>${examInfo.examId}</p></td>
+        	<td>${examInfo.examDegree}</td>
+        	<td>${examInfo.examDate}</td>
+        	<td class="flow flowSub"><p>대출/리스</p></td>
+        	<td class="upload">
+        		<input type="file" id="fileExcel" style="width: -webkit-fill-available;"/>
+				<button type="button" class="btn btn-primary" id="fileUpload" style="float:left;">등록하기</button>
+        	</td>
+        	<td>${examInfo.gradeStatus}</td>
+      	</tr>
+      </c:forEach>
     </table>
   </div>
 </div>

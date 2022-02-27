@@ -288,4 +288,15 @@
 	         EX.EXAMDATE DESC;
 	</select>
 	
+	<select id="getExamListForGradeRegistration" resultType="com.yeosin.apply.ExamDto">
+		SELECT 
+				EXAMID
+			,  	CONCAT(SUBSTRING(EXAMYEAR,3,4),"-",EXAMDEGREE) 			AS EXAMDEGREE
+			, 	DATE_FORMAT(EXAMDATE, '%Y-%m-%d') 						AS EXAMDATE
+			, 	(CASE WHEN GRADESTATUS='Y' THEN '완료' ELSE '대기' END) 	AS GRADESTATUS
+ 		FROM  YS_EXAM
+		WHERE EXAMDEGREE > 0
+		ORDER BY EXAMDATE DESC
+	</select>
+	
 </mapper>

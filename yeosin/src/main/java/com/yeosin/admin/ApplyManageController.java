@@ -266,11 +266,35 @@ public class ApplyManageController {
    //성적처리
    @RequestMapping(value="/resultManage", method=RequestMethod.GET)
    @ResponseBody
-   public ModelAndView resultManage()  
+   public ModelAndView resultManage(HttpSession session, HttpServletResponse response)  
    {
-      ModelAndView mav = new ModelAndView();      
-      mav.setViewName("admin/result_manage");
-      return mav;
+	   response.setCharacterEncoding("UTF-8");
+	   ModelAndView mav = new ModelAndView();
+      
+	   UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+ 
+	   if (userInfo == null) 
+	   {
+		   mav.addObject("isAlert", true);
+		   mav.setViewName("member/login");
+	   }
+	   else if (!"S".equals(userInfo.getUserStatus())) 
+	   {
+		   mav.addObject("isAlertNoAuth", true);
+		   mav.setViewName("main");      
+	   }
+	   else
+	   {	
+		   try {
+			   List<ExamDto> examList = applyManageService.getExamListForGradeRegistration();
+
+			   mav.addObject("examList", examList);
+			   mav.setViewName("admin/result_manage");
+		   } catch(Exception e) {
+
+		   }
+	   }
+	   return mav; 
    }
    
    //공지사항

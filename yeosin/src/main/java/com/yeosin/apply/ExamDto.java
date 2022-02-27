@@ -23,7 +23,8 @@ public class ExamDto {
 	private String certPrintEndDate; // 수혐표 출력기간(끝)
 	private String gradeStartDate; // 성적 공고기간(시작)
 	private String gradeEndDate; // 성적 공고기간(끝)
-	private String examCost; // 시험비용  
+	private String examCost; // 시험비용
+	private String gradeStatus; // 성적등록여부
 
 	public String getExamCost() {
 		return examCost;
@@ -140,5 +141,10 @@ public class ExamDto {
 	public void setGradeEndDate(String gradeEndDate) {
 		this.gradeEndDate = gradeEndDate;
 	}
-
+	public String getGradeStatus() {
+		return gradeStatus;
+	}
+	public void setGradeStatus(String gradeStatus) {
+		this.gradeStatus = gradeStatus;
+	}
 }

@@ -60,4 +60,9 @@ public class ApplyManageService {
 	public int getApplyListByExamZoneCount(Map<String, Object> map) throws Exception {
 		return applyManageDao.getApplyListByExamZoneCount(map);
 	}
+	
+	// 성적처리 시험리스트 조회
+	public List<ExamDto> getExamListForGradeRegistration() throws Exception {
+		return applyManageDao.getExamListForGradeRegistration();
+	}
 }

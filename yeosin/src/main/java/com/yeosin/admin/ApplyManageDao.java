@@ -62,4 +62,9 @@ public class ApplyManageDao {
 		return sqlSession.selectOne(nameSpace + "getApplyListByExamZoneCount", map);
 	}
 	
+	// 성적처리 시험리스트 조회
+	public List<ExamDto> getExamListForGradeRegistration() throws Exception {
+		return sqlSession.selectList(nameSpace + "getExamListForGradeRegistration");
+	}
+	
 }
