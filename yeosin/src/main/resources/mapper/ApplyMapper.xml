@@ -122,6 +122,7 @@
 			<result column="PHONENUMBER" property="phoneNumber" />
 			<result column="EMAILADDRESS" property="emailAddress" />
 			<result column="BIRTHDATE" property="birthDate" />
+			<result column="GENDER" property="gender" />
 		 </association>
 		 <association property="subjectDto" javaType="com.yeosin.apply.SubjectDto">
 			<result column="SUBJECTNAME" property="subjectName" />
@@ -331,6 +332,22 @@
 		DELETE 	
 		FROM 	YS_RECEIPT
 		WHERE 	RECEIPTID = #{receiptId, jdbcType=VARCHAR};
+	</select>
+	
+	<select id="selectPassUser"  parameterType="String" resultMap="DetailApplyListResultMap">
+		SELECT
+				MEM.USERNAME
+			, 	REPLACE(MEM.BIRTHDATE,'-','') 						AS BIRTHDATE
+			,	(CASE WHEN MEM.GENDER='남' THEN '1' ELSE '2' END ) 	AS GENDER
+			,	RECEIPT.CERTID
+			, 	IFNULL(GRADE.PASSCERTID, "") 						AS	PASSCERTID
+		FROM YS_RECEIPT RECEIPT
+			INNER JOIN YS_USER MEM ON MEM.USERID = RECEIPT.USERID
+			INNER JOIN YS_EXAM EXAM ON RECEIPT.EXAMID = EXAM.EXAMID
+			INNER JOIN YS_GRADE GRADE ON RECEIPT.RECEIPTID = GRADE.RECEIPTID
+		WHERE DATE_FORMAT(EXAM.EXAMDATE, '%Y-%m-%d') = #{examDate}
+			AND GRADE.ISPASS = 'Y'
+		ORDER BY RECEIPT.RECEIPTID 
 	</select>
 	
 </mapper>

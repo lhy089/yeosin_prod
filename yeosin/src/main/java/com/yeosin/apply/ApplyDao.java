@@ -77,4 +77,8 @@ public class ApplyDao {
 	public int setDeleteReceiptInfo(String receiptId) throws Exception {
 		return sqlSession.delete(nameSpace + "setDeleteReceiptInfo", receiptId);
 	}
+	
+	public List<ApplyDto> selectPassUser(String examDate) throws Exception {
+		return sqlSession.selectList(nameSpace + "selectPassUser", examDate);
+	}
 }

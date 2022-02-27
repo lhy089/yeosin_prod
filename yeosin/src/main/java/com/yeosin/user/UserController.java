@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.yeosin.admin.UserManageService;
+import com.yeosin.apply.ApplyDto;
 import com.yeosin.apply.ApplyService;
 import com.yeosin.apply.ExamDto;
 import com.yeosin.board.BoardDto;
@@ -602,5 +604,52 @@ public class UserController {
 			response.getWriter().flush();
 			response.getWriter().close();
 		}
-	
+
+		// 합격자리스트 API 호출 RETURN
+		@RequestMapping(value = "/callApiSelectPassUser")
+		@ResponseBody
+		public void callApiSelectPassUser(String examDate, HttpSession session, HttpServletResponse response) throws Exception {
+			JSONObject result = new JSONObject();
+			result.put("status", "200");
+			result.put("statusMsg", "Success");
+			
+			if(examDate == null || "".equals(examDate)) {
+				System.out.println("examDate 가 없습니다.");
+				result.put("status", "401");
+				result.put("statusMsg", "Unauthorized");
+			}else if(!"-".equals(examDate.substring(4,5)) || !"-".equals(examDate.substring(7,8))) {
+				System.out.println("형식이 맞지 않습니다.");
+				result.put("status", "401");
+				result.put("statusMsg", "Unauthorized");
+			}
+			
+			List<ApplyDto> passUserList = (ArrayList<ApplyDto>) applyService.selectPassUser(examDate);
+			try {
+				JSONArray passUserArray = new JSONArray();
+				for(int i=0; i<passUserList.size(); i++){
+
+					JSONObject passUser= new JSONObject();
+					passUser.put("row_num", i+1);
+					passUser.put("user_name", passUserList.get(i).getUserDto().getUserName());
+					passUser.put("user_birth", passUserList.get(i).getUserDto().getBirthDate());
+					passUser.put("user_sex", passUserList.get(i).getUserDto().getGender());
+					passUser.put("diploma_no", passUserList.get(i).getCertId());
+					passUser.put("exam_date", examDate);
+					passUser.put("exam_cert_no", passUserList.get(i).getGradeDto().getPassCertId());
+					passUserArray.put(passUser);
+				}
+				result.put("items", passUserArray);
+				result.put("totalCount", passUserList.size());
+			} catch(Exception e) {
+				System.out.println(e.toString());
+				result.put("status", "401");
+				result.put("statusMsg", "Unauthorized");
+			} finally {
+				String jsonString = JSONValue.toJSONString(result); 
+				response.setCharacterEncoding("UTF-8"); 
+				response.setContentType("text/html;charset=UTF-8"); 
+				response.getWriter().print(jsonString);
+			}
+		}
+
 }

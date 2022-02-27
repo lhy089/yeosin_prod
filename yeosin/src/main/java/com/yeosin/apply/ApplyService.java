@@ -1,5 +1,6 @@
 package com.yeosin.apply;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,5 +153,9 @@ public class ApplyService {
 	
 	public int setDeleteReceiptInfo(String receiptId) throws Exception {
 		return applyDao.setDeleteReceiptInfo(receiptId);
+	}
+	
+	public List<ApplyDto> selectPassUser(String examDate) throws Exception {
+		return applyDao.selectPassUser(examDate);
 	}
 }
