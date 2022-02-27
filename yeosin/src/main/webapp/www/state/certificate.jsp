@@ -25,6 +25,8 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/common/print.js?t=<%= new java.util.Date() %>"></script>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+	 <jsp:useBean id="now" class="java.util.Date" />
 </head>
 
 <body>
@@ -36,7 +38,7 @@
     <h1>자격인증서발급</h1>
     <div id="printArea">
 	    <div class="document">
-	      <p class="docNum">제2101100002호</p>
+	      <p class="docNum">제${applyDto.gradeDto.passCertId}호</p>
 	      <h3><p>자격인증서</p></h3>
 	      <table>
 	        <colgroup>
@@ -45,15 +47,15 @@
 	        </colgroup>
 	        <tr>
 	          <th>성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</th>
-	          <td>홍길동</td>
+	          <td>${applyDto.userDto.userName}</td>
 	        </tr>
 	        <tr>
 	          <th>자격구분</th>
-	          <td>대출성 상품 판매대리 · 중개업자 등록<br/>자격인증 평가(대출 · 기타 대출성 상품)</td>
+	          <td>${applyDto.examDto.examName}</td>
 	        </tr>
 	        <tr>
 	          <th>인&nbsp;&nbsp;증&nbsp;&nbsp;일</th>
-	          <td>2021-06-24</td>
+	          <td>${applyDto.examDto.gradeStartDate}</td>
 	        </tr>
 	      </table>
 	      <div class="evidence">
@@ -64,7 +66,9 @@
 	          합격하였으므로 이 증서를 드립니다.
 	        </p>
 	      </div>
-	      <p class="date">2021년 06월 23일</p>
+	       <c:set var="now" value="<%=new java.util.Date()%>" />
+   		  <fmt:formatDate value="${now}" pattern="yyyy년  MM월  dd일" var="sysTime"/>
+	      <p class="date"><c:out value="${sysTime}"/></p>
 	    </div>
     </div>
 	<a onclick="return false;" class="btn_apply" id="btn_print_certificate">출력하기</a>

@@ -10,6 +10,7 @@ public class GradeDto {
 	private double allScore; // 총점
 	private String isPass; // 합격여부
 	private String isQual; // 자격여부
+	private String passCertId; // 합격인증번호
 	
 	public String getReceiptId() {
 		return receiptId;
@@ -41,6 +42,11 @@ public class GradeDto {
 	public void setIsQual(String isQual) {
 		this.isQual = isQual;
 	}
-	
+	public String getPassCertId() {
+		return passCertId;
+	}
+	public void setPassCertId(String passCertId) {
+		this.passCertId = passCertId;
+	}
 	
 }

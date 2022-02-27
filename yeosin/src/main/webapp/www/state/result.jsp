@@ -56,10 +56,10 @@
         <td>${result.gradeDto.isPass}</td>
         <td>${result.gradeDto.allScore}</td>
 		<td>
-         <c:set var = "result"  value = "${result.gradeDto.isPass}"/>
+         <c:set var = "passResult"  value = "${result.gradeDto.isPass}"/>
             <c:choose> 
-            <c:when test="${result eq '합격'}">
-            	<a href="/certificate" class="btn_apply">출력하기</a>
+            <c:when test="${passResult eq '합격'}">
+            	 <a href="/certificate?examDto.gradeStartDate=${result.examDto.gradeStartDate}&gradeDto.passCertId=${result.gradeDto.passCertId}&examDto.examName=${result.examDto.examName}&userDto.userName=${result.userDto.userName}"  class="btn_apply">출력하기</a>
             </c:when>   
             <c:otherwise>
                 <p>출력 불가</p>

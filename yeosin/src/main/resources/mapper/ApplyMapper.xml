@@ -129,6 +129,7 @@
 		<association property="gradeDto" javaType="com.yeosin.apply.GradeDto">
 			<result column="ALLSCORE" property="allScore" />
 			<result column="ISPASS" property="isPass" />
+			<result column="PASSCERTID" property="passCertId"/>
 		</association>
 		<association property="examZoneDto" javaType="com.yeosin.apply.ExamZoneDto">
 			<result column="EXAMZONENAME" property="examZoneName" />
@@ -203,6 +204,7 @@
 		SELECT 	
 				E.EXAMID 			-- 시험 ID 
 			,	E.EXAMNAME 			-- 시험명
+			, 	DATE_FORMAT(E.GRADESTARTDATE , '%Y-%m-%d') AS GRADESTARTDATE -- 성적공고기간 시작(합격 발표일)
 			, 	R.RECEIPTID			-- 접수번호
 			, 	G.ALLSCORE
 			, 	(
@@ -211,10 +213,12 @@
 					ELSE '불합격'
 				END 
 				)	AS ISPASS
-
+			,	G.PASSCERTID		-- 합격인증번호
+			,   U.USERNAME
 		FROM 	YS_RECEIPT			R 
 		INNER JOIN YS_EXAM  		E 	ON	E.EXAMID = R.EXAMID 
 		INNER JOIN YS_GRADE 		G 	ON	G.RECEIPTID = R.RECEIPTID 
+		INNER JOIN YS_USER			U	ON	U.USERID = R.USERID
 		WHERE 	1 = 1
 		AND 	R.USERID = #{userId}
 		AND     E.EXAMDATE >= DATE_ADD(NOW(), INTERVAL -36 MONTH);
