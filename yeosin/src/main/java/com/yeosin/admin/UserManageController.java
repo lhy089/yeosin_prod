@@ -13,8 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yeosin.apply.ApplyDto;
+import com.yeosin.apply.GradeDto;
 import com.yeosin.board.PageMaker;
 import com.yeosin.user.EduCompletionDto;
 import com.yeosin.user.EduCompletionHisDto;
@@ -213,5 +216,24 @@ public class UserManageController {
 	public void manageRefreshSession(HttpSession session, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		session.setAttribute("sessionTime", System.currentTimeMillis());
+	}
+	
+
+	
+	@RequestMapping(value = "/excelUploadForGradeRegistration")
+	public ModelAndView excelUpload(HttpServletRequest req){
+		MultipartHttpServletRequest mult =  (MultipartHttpServletRequest)req;  
+		ModelAndView mav = new ModelAndView("admin/result_manage");
+		List<ApplyDto> list = new ArrayList<>();
+		//엑셀 파일이 xls일때와 xlsx일때 서비스 라우팅
+		String excelType = req.getParameter("excelType");
+		String examId = req.getParameter("examId");
+		if(excelType.equals("xlsx")){
+			list = userManageService.xlsxExcelReader(mult, examId);
+		}else if(excelType.equals("xls")){
+			list = userManageService.xlsExcelReader(mult, examId);
+		}
+		mav.addObject("uploadSuccess", true);
+		return mav;
 	}
 }

@@ -3,6 +3,8 @@
 <html>
 <head lang="ko">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <meta charset="utf-8">
   <title>[admin]대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
   <meta name="description" content="여신금융협회">
@@ -23,28 +25,39 @@
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
   <link rel="stylesheet" href="/www/inc/css/admin.css">
-  <script>
-  $(document).ready(function() {
-      
-      $(".upload #fileUpload").click(function(){ debugger;
-          
-          var formData = new FormData(); 
-          formData.append("file", $('#fileExcel')[0].files[0]);
-          
-          var fileName = formData.get('file').name;
-          
-          //console.log(fileName);
-          
-          $.ajax({
-              type : "POST",
-              url : "/fileDBUpload",
-              data : {"fileName" : fileName},
-              success : function(data){
-                  
-              }
-          })
-      });
-  });
+  <script type="text/javascript">
+  window.onload = function() {
+	  if("${uploadSuccess}") location.href = "/resultManage";
+  }
+	$(document).ready(function() {
+	});
+
+	function checkFileType(filePath) {
+		var fileFormat = filePath.split(".");
+		if (fileFormat.indexOf("xlsx") > -1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function check(examId) {
+		var file = $("#excel").val();
+		if (file == "" || file == null) {
+			alert("파일을 선택해 주세요");
+			return false;
+		} else if (!checkFileType(file)) {
+			alert("엑셀(xlsx) 파일만 업로드 가능합니다");
+			return false;
+		}
+		var fileFormat = file.split(".");
+		var fileType = fileFormat[1];
+		if (confirm("업로드 하시겠습니까?")) {
+			$("#excelType").val(fileType);
+			$("#examId").val(examId);
+			$("#excelUpForm").submit();
+		}
+	}
   </script>
 </head>
 
@@ -59,6 +72,9 @@
   <div class="contentBoxAd">
     <h1 class="title">성적관리</h1>
     <h2>성적처리</h2>
+    <form id="excelUpForm" method="post" action="/excelUploadForGradeRegistration" role="form" enctype="multipart/form-data">
+    <input type="hidden" id="excelType" name="excelType" value=""/>
+    <input type="hidden" id="examId" name="examId" value=""/>
     <table class="list">
       <colgroup>
 <!--         <col width="4%"> -->
@@ -89,13 +105,15 @@
         	<td>${examInfo.examDate}</td>
         	<td class="flow flowSub"><p>대출/리스</p></td>
         	<td class="upload">
-        		<input type="file" id="fileExcel" style="width: -webkit-fill-available;"/>
-				<button type="button" class="btn btn-primary" id="fileUpload" style="float:left;">등록하기</button>
+        		<input id="excel" name="excel" class="file" type="file" multiple data-show-upload="false" data-show-caption="true">
+<%--         		<label className="input-file-button" for="input-file" id="excelUp" onclick="check('${examInfo.examId}')">등록하기</label> --%>
+				<button type="button" id="excelUp" onclick="check('${examInfo.examId}')">등록하기</button>
         	</td>
         	<td>${examInfo.gradeStatus}</td>
       	</tr>
       </c:forEach>
     </table>
+    </form>
   </div>
 </div>
 

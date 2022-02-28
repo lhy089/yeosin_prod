@@ -261,6 +261,20 @@
 			<artifactId>poi</artifactId>
 			<version>3.8</version>
 		</dependency>
+		
+		<dependency>
+    		<groupId>commons-fileupload</groupId>
+    		<artifactId>commons-fileupload</artifactId>
+    		<version>1.2.1</version>
+		</dependency>
+		
+		<dependency>
+	    	<groupId>commons</groupId>
+	    	<artifactId>commons</artifactId>
+	    	<version>2.6</version> 
+	    	<scope>system</scope>
+	    	<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/commons-io-2.6.jar</systemPath>
+		</dependency>
 		<!-- excel download -->
 
 	</dependencies>

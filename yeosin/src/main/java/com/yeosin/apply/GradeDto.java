@@ -11,6 +11,8 @@ public class GradeDto {
 	private String isPass; // 합격여부
 	private String isQual; // 자격여부
 	private String passCertId; // 합격인증번호
+	private String regDate;	// 등록일
+	private String modDate;	// 수정일
 	
 	public String getReceiptId() {
 		return receiptId;
@@ -48,5 +50,16 @@ public class GradeDto {
 	public void setPassCertId(String passCertId) {
 		this.passCertId = passCertId;
 	}
-	
+	public String getRegDate() {
+		return regDate;
+	}
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
+	public String getModDate() {
+		return modDate;
+	}
+	public void setModDate(String modDate) {
+		this.modDate = modDate;
+	}
 }

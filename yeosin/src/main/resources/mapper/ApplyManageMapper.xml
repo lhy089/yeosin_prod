@@ -299,4 +299,37 @@
 		ORDER BY EXAMDATE DESC
 	</select>
 	
+	<select id="getReceiptIdByStudentCode" parameterType="String" resultType="String">
+		SELECT 
+				RECEIPTID
+ 		FROM  YS_RECEIPT
+		WHERE STUDENTCODE = #{studentCode}
+	</select>
+	
+	<select id="getExamInfoByExamId" parameterType="String" resultType="com.yeosin.apply.ExamDto">
+		SELECT 
+				EXAMYEAR
+			, 	EXAMDEGREE
+ 		FROM  YS_EXAM
+		WHERE EXAMID = #{examId}
+	</select>
+	
+	<insert id="insertExcelData" parameterType="java.util.List">
+    	INSERT INTO YS_GRADE 
+    		(RECEIPTID, ISQUIT, ALLSCORE, ISPASS, ISQUAL, PASSCERTID, REGDATE, MODDATE)
+    	VALUES
+    	<foreach collection="list" item="item" separator=" , " >
+        	("${item.receiptId}", "${item.isQuit}", "${item.allScore}", "${item.isPass}", "${item.isQual}" , "${item.passCertId}", now(), now())
+   	 	</foreach>
+   	 	ON DUPLICATE KEY UPDATE ISQUIT = "",
+   	 		MODDATE = now()
+	</insert>
+	
+	<update id="updateGradeStatus" parameterType="String">
+		UPDATE 	YS_EXAM
+		SET		GRADESTATUS ='Y'
+		WHERE 	1 = 1
+			AND EXAMID = #{examId}
+	</update>
+	
 </mapper>

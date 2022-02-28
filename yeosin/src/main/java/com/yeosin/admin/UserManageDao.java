@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.yeosin.apply.ApplyDto;
 import com.yeosin.user.EduCompletionDto;
 import com.yeosin.user.EduCompletionHisDto;
 import com.yeosin.user.UserDto;
@@ -38,6 +39,5 @@ public class UserManageDao {
 	public List<EduCompletionHisDto> getEduCompletionHisList() throws Exception {
 		return sqlSession.selectList(namespace + "getEduCompletionHisList");
 	}
-
 }
 	

@@ -131,7 +131,7 @@
 
 	  
   	<form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
-  		<input type="hidden" name="fileName" id="fileName" value="">	
+  		<input type="hidden" name="fileName" id="fileName" value="수료증번호 목록">	
   		<input type="hidden" name="columns" id="columns" value="">	
   		<input type="hidden" name="data" id="data" value="">	
   	</form>

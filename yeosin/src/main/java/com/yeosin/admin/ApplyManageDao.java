@@ -67,4 +67,20 @@ public class ApplyManageDao {
 		return sqlSession.selectList(nameSpace + "getExamListForGradeRegistration");
 	}
 	
+	public int insertExcelData(List<GradeDto> gradeList) throws Exception {
+		return sqlSession.update(nameSpace + "insertExcelData", gradeList);
+	}
+	
+	public String getReceiptIdByStudentCode(String studentCode) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getReceiptIdByStudentCode", studentCode);
+	}
+	
+	public ExamDto getExamInfoByExamId(String examId) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getExamInfoByExamId", examId);
+	}
+	
+	public int updateGradeStatus(String examId) throws Exception {
+		return sqlSession.update(nameSpace + "updateGradeStatus", examId);
+	}
+	
 }

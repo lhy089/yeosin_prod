@@ -31,6 +31,9 @@ public class ExcelUtil {
 			throws Exception {
 		OutputStreamWriter out = null;
 		try {
+			if("".equals(fileName)) {
+				fileName = "리스트";
+			}
 			if (wb == null || "".equals(fileName)) {
 				System.out.println("엑셀 파일 다운로드에 실패했습니다.");
 				throw new NullPointerException("");
