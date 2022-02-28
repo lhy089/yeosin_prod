@@ -222,7 +222,10 @@
 		INNER JOIN YS_USER			U	ON	U.USERID = R.USERID
 		WHERE 	1 = 1
 		AND 	R.USERID = #{userId}
-		AND     E.EXAMDATE >= DATE_ADD(NOW(), INTERVAL -36 MONTH);
+		AND     E.EXAMDATE >= DATE_ADD(NOW(), INTERVAL -36 MONTH)
+		<![CDATA[
+      	AND		DATE_FORMAT(E.GRADESTARTDATE, '%Y-%m-%d %H:%i:%S') < DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%S');
+      	]]>
    </select>
    
     <!-- 로그인 유저의 원서접수 현황 총 갯수 조회 -->
