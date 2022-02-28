@@ -61,6 +61,16 @@ public class ApplyManageService {
 		return applyManageDao.getApplyListByExamZoneCount(map);
 	}
 	
+	// 채점표리스트  조회
+	public List<ApplyDto> getScorecardList(Map<String, Object> map) throws Exception{
+		return applyManageDao.getScorecardList(map);
+	}
+	
+	// 채점표리스트 총 갯수
+	public int getScorecardListCount(Map<String, Object> map) throws Exception {
+		return applyManageDao.getScorecardListCount(map);
+	}
+	
 	// 성적처리 시험리스트 조회
 	public List<ExamDto> getExamListForGradeRegistration() throws Exception {
 		return applyManageDao.getExamListForGradeRegistration();

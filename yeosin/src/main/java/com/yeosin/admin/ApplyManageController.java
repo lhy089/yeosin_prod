@@ -22,6 +22,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yeosin.apply.ApplyDto;
+import com.yeosin.apply.ApplyPageMaker;
+import com.yeosin.apply.ExamDto;
+import com.yeosin.apply.ExamZoneDto;
+import com.yeosin.apply.ExamZoneDtoPageMaker;
+import com.yeosin.apply.SubjectDto;
+import com.yeosin.user.EduCompletionDto;
+import com.yeosin.user.UserDto;
+
 @Controller
 public class ApplyManageController {
    
@@ -256,10 +265,66 @@ public class ApplyManageController {
    //채점표리스트
    @RequestMapping(value="/resultList", method=RequestMethod.GET)
    @ResponseBody
-   public ModelAndView resultList()  
+   public ModelAndView resultList(ApplyDto applyDto, HttpSession session, HttpServletResponse response, HttpServletRequest request)  
    {
+	  response.setCharacterEncoding("UTF-8");
       ModelAndView mav = new ModelAndView();      
-      mav.setViewName("admin/result_list");
+      
+      UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+      
+	   if (userInfo == null) 
+	   {
+		   mav.addObject("isAlert", true);
+		   mav.setViewName("member/login");
+	   }
+	   else if (!"S".equals(userInfo.getUserStatus())) 
+	   {
+		   mav.addObject("isAlertNoAuth", true);
+		   mav.setViewName("main");      
+	   }
+	   else
+	   {	
+		  
+		   try {
+			   String str = request.getParameter("onePageDataCountCondition");
+			   
+			   int a = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
+			   
+			   applyDto.setPerPageNum(Integer.parseInt(request.getParameter("onePageDataCountCondition")));
+			   
+			   Map<String, Object> parameterMap = new HashMap<String, Object>();
+			   parameterMap.put("textCondition", request.getParameter("textCondition"));
+			   parameterMap.put("localCondition", request.getParameter("localCondition"));
+			   parameterMap.put("subjectCondition", request.getParameter("subjectCondition"));
+			   parameterMap.put("pageStart", applyDto.getPageStart());
+			   parameterMap.put("perPageNum", applyDto.getPerPageNum());
+			   
+			   List<ApplyDto> socrecardList = applyManageService.getScorecardList(parameterMap);
+			   List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
+			   List<SubjectDto> subjectList = applyManageService.getConditionSubjectList();
+			   
+			   // 페이징 하기위한 데이터
+			   ApplyPageMaker pageMaker = new ApplyPageMaker();
+			   pageMaker.setApplyDto(applyDto);
+			   pageMaker.setTotalCount(applyManageService.getScorecardListCount(parameterMap));
+			   
+				mav.addObject("socrecardList", socrecardList);
+				mav.addObject("localList",localList);
+				mav.addObject("subjectList", subjectList);
+				mav.addObject("applyDto", applyDto);
+				
+				mav.addObject("textCondition", request.getParameter("textCondition"));
+				mav.addObject("localCondition", request.getParameter("localCondition"));
+				mav.addObject("subjectCondition", request.getParameter("subjectCondition"));
+				mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
+				mav.addObject("pageMaker", pageMaker);
+				mav.setViewName("admin/result_manage");
+		   } catch (Exception e) {
+		
+		   }
+	   }
+      
+       mav.setViewName("admin/result_list");
       return mav;
    }
    

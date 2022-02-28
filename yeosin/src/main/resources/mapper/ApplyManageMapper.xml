@@ -288,6 +288,93 @@
 	         EX.EXAMDATE DESC;
 	</select>
 	
+	
+	<!--채점표리스트 resultMap -->
+	<resultMap id="GetScorecardListResultMap" type="com.yeosin.apply.ApplyDto">
+		<result column="STUDENTCODE" property="studentCode" />
+		<result column="SEATNUMBER"	property="seatNumber"/>
+	<association property="examZoneDto" javaType="com.yeosin.apply.ExamZoneDto">
+		<result column="EXAMZONENAME" property="examZoneName" />
+	</association>
+	<association property="userDto" javaType="com.yeosin.user.UserDto">
+		<result column="USERNAME" property="userName" />
+		<result column="BIRTHDATE" property="birthDate" />
+		<result column="GENDER" property="gender" />
+	</association>
+	<association property="subjectDto" javaType="com.yeosin.apply.SubjectDto">
+		<result column="SUBJECTNAME" property="subjectName" />
+	</association>
+	<association property="gradeDto" javaType="com.yeosin.apply.GradeDto">
+		<result column="ALLSCORE" property="allScore" />
+		<result column="ISPASS" property="isPass" />
+	</association>
+	</resultMap>
+	
+	<!-- 채점리스트 조회 -->
+	<select id="getScorecardList" resultMap="GetScorecardListResultMap" parameterType="map">
+		SELECT
+				EZ.EXAMZONENAME	-- 고사장명
+			,	R.STUDENTCODE	-- 수험번호
+			,	R.SEATNUMBER	-- 좌석번호
+			,	U.USERNAME		-- 회원명
+			,	U.BIRTHDATE		-- 생년월일
+			,	U.GENDER		--	성별
+			,	S.SUBJECTNAME	-- 과목
+			,	G.ALLSCORE		--	총점
+			,	(CASE WHEN G.ISPASS='Y' THEN '합격' ELSE '불합격' END) AS ISPASS	-- 합격여부
+		FROM	YS_RECEIPT	R
+		INNER JOIN YS_EXAMZONE	EZ ON EZ.EXAMZONEID = R.EXAMZONEID
+		INNER JOIN YS_USER	U ON U.USERID = R.USERID
+		INNER JOIN YS_EDUCOMPLETION	EC ON (EC.BIRTHDATE = U.BIRTHDATE AND EC.GENDER = U.GENDER AND EC.USERNAME = U.USERNAME)
+		INNER JOIN YS_GRADE	G ON G.RECEIPTID = R.RECEIPTID
+		INNER JOIN YS_SUBJECT S ON EC.SUBJECT = S.SUBJECTID
+		WHERE 	1 = 1
+		
+		<if test="textCondition != null and textCondition != ''">
+			AND (EZ.EXAMZONENAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+				OR U.USERNAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+				OR R.STUDENTCODE LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%'))
+		</if>
+		<if test='localCondition != null and !localCondition.equals("전체")'>
+			AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
+		</if>
+		<if test='subjectCondition != null and !subjectCondition.equals("전체")'>
+			AND (R.SUBJECTID LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%')
+				OR S.SUBJECTNAME LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%'))
+		</if>
+		ORDER BY 
+				R.STUDENTCODE DESC
+      	LIMIT 
+            	#{pageStart}, #{perPageNum};
+	</select>
+	
+	<!--채점표 리스트 총 갯수   --> 
+	<select id="getScorecardListCount" resultType="int" parameterType="map">
+		SELECT	COUNT(*)
+		FROM	YS_RECEIPT	R
+		INNER JOIN YS_EXAMZONE	EZ ON EZ.EXAMZONEID = R.EXAMZONEID
+		INNER JOIN YS_USER	U ON U.USERID = R.USERID
+		INNER JOIN YS_EDUCOMPLETION	EC ON (EC.BIRTHDATE = U.BIRTHDATE AND EC.GENDER = U.GENDER AND EC.USERNAME = U.USERNAME)
+		INNER JOIN YS_GRADE	G ON G.RECEIPTID = R.RECEIPTID
+		INNER JOIN YS_SUBJECT S ON EC.SUBJECT = S.SUBJECTID
+		WHERE 	1 = 1
+		
+		<if test="textCondition != null and textCondition != ''">
+			AND (EZ.EXAMZONENAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+				OR U.USERNAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+				OR R.STUDENTCODE LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%'))
+		</if>
+		<if test='localCondition != null and !localCondition.equals("전체")'>
+			AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
+		</if>
+		<if test='subjectCondition != null and !subjectCondition.equals("전체")'>
+			AND (R.SUBJECTID LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%')
+				OR S.SUBJECTNAME LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%'))
+		</if>
+		ORDER BY 
+				R.STUDENTCODE DESC
+	</select>
+	
 	<select id="getExamListForGradeRegistration" resultType="com.yeosin.apply.ExamDto">
 		SELECT 
 				EXAMID

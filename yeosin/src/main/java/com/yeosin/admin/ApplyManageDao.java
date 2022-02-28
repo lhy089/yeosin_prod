@@ -62,6 +62,16 @@ public class ApplyManageDao {
 		return sqlSession.selectOne(nameSpace + "getApplyListByExamZoneCount", map);
 	}
 	
+	// 채점리스트 조회
+	public List<ApplyDto> getScorecardList(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList(nameSpace + "getScorecardList", map);
+	}
+	
+	// 채점표리스트 총 갯수
+	public int getScorecardListCount(Map<String, Object> map) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getScorecardListCount", map);
+	}
+
 	// 성적처리 시험리스트 조회
 	public List<ExamDto> getExamListForGradeRegistration() throws Exception {
 		return sqlSession.selectList(nameSpace + "getExamListForGradeRegistration");

@@ -222,7 +222,7 @@ public class ApplyDto {
 	public void setPerPageNum(int pageCount) {
 		int cnt = this.perPageNum;
 		if(pageCount != cnt) {
-			this.perPageNum = cnt;
+			this.perPageNum = pageCount;
 		}else {
 			this.perPageNum = pageCount;
 		}

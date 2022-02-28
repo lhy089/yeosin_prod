@@ -24,6 +24,24 @@
 
   <link rel="stylesheet" href="/www/inc/css/admin.css">
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+$(document).ready(function() {
+	$("li[value='${pageMaker.applyDto.page}']").attr("class","on");
+	
+	   $("#btn_search").click(function() {
+	      $("#textCondition").val($("#textCondition").val());
+	      $("#localCondition").val($("#localCondition").val());
+	      $("#subjectCondition").val($("#subjectCondition").val());
+	      $("#onePageDataCountCondition").val($("#onePageDataCountCondition").val());
+	      $("#page").val(1);
+	      $("#commonform").submit(); 
+	   });
+});
+</script>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <body>
 
@@ -32,6 +50,7 @@
 <!-- lnb 붙여주세요. (/common/admin_lnb.html) -->
 <%@ include file="/www/common/admin_lnb.jsp"%>
 
+<form id="commonform" name="commonform" method="get" action="/resultList">
 <div class="result list">
   <div class="contentBoxAd">
     <h1 class="title">성적관리</h1>
@@ -49,33 +68,66 @@
         <tr>
           <th>검색</th>
           <td colspan="5">
-            <input type="text" name="" value="">
+			<c:choose>
+			<c:when test="${textCondition eq '' || textCondition eq null}">
+			   <input type="text" id="textCondition" name="textCondition" value="">
+			</c:when>
+			<c:otherwise>
+			   <input type="text" id="textCondition" name="textCondition" value="${textCondition}">
+			</c:otherwise>
+			</c:choose>
           </td>
         </tr>
         <tr>
           <th>지역</th>
           <td>
-            <select id="" name="">
-              <option value="">전체</option>
+            <select id="localCondition" name="localCondition">
+              <c:forEach var="localList" items="${localList}" varStatus="status">
+					<c:choose>
+					<c:when test="${localCondition eq localList.local}">
+						<option value="${localList.local}" selected>${localList.local}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${localList.local}">${localList.local}</option>
+					</c:otherwise>
+					</c:choose>
+	            </c:forEach>
             </select>
           </td>
           <th>과목</th>
           <td>
-            <select id="" name="">
-              <option value="">전체</option>
+            <select id="subjectCondition" name="subjectCondition">
+              <c:forEach var="subjectList" items="${subjectList}" varStatus="status">
+					<c:choose>
+					<c:when test="${subjectCondition eq subjectList.subjectName}">
+						<option value="${subjectList.subjectName}" selected>${subjectList.subjectName}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${subjectList.subjectName}">${subjectList.subjectName}</option>
+					</c:otherwise>
+					</c:choose>
+	            </c:forEach>
             </select>
           </td>
           <th>목록건수</th>
-          <td>
-            <select id="" name="" class="count">
-              <option value="">30</option>
+           <td>
+			<select id="onePageDataCountCondition" name="onePageDataCountCondition" class="count">
+	            <c:forEach var="i" begin="30" end="100" step="10">
+	            <c:choose>
+	            <c:when test="${i eq pageCondition}">
+	               <option value="${i}" selected>${i}</option>
+	            </c:when>
+	            <c:otherwise>
+	               <option value="${i}">${i}</option>
+	            </c:otherwise>
+	            </c:choose>
+	            </c:forEach>
             </select>
           </td>
         </tr>
       </table>
     </div>
-    <a href="#" class="btn_apply mb100">조회</a>
-
+    <a onclick="return false;" id="btn_search" class="btn_apply mb100">조회</a>
     <table class="list">
       <colgroup>
         <col width="20%">
@@ -101,33 +153,48 @@
         <th class="score">점수</th>
         <th class="accept">합격여부</th>
       </tr>
-      <tr class="center">
-        <td class="flow flowArea"><p>부산 경남공업고등학교</p></td>
-        <td>B2021-00-0000</td>
-        <td>이OO</td>
-        <td>840908</td>
-        <td>남</td>
-        <td class="flow flowSub"><p>대출성 상품</p></td>
-        <td>00</td>
-        <td>00</td>
-        <td>77.5</td>
-        <td>합격</td>
-      </tr>
-      <tr class="center">
-        <td class="flow flowArea"><p>부산 경남공업고등학교</p></td>
-        <td>B2021-00-0000</td>
-        <td>김OO</td>
-        <td>840908</td>
-        <td>여</td>
-        <td class="flow flowSub"><p>리스할부 상품</p></td>
-        <td>00</td>
-        <td>00</td>
-        <td>85.0</td>
-        <td>불합격</td>
-      </tr>
+       <c:forEach var="scorecardInfo" items="${socrecardList}" varStatus="status">
+      	<tr class="center">
+			<td class="flow flowArea"><p>${scorecardInfo.examZoneDto.examZoneName}</p></td>
+       		<td> ${scorecardInfo.studentCode}</td>
+       		<td>${scorecardInfo.userDto.userName}</td>
+        	<td>${scorecardInfo.userDto.birthDate}</td>
+        	<td>${scorecardInfo.userDto.gender}</td>
+        	<td class="flow flowSub"><p>${scorecardInfo.subjectDto.subjectName}</p></td>
+        	<td>00</td>
+        	<td>${scorecardInfo.seatNumber}</td>
+        	<td>${scorecardInfo.gradeDto.allScore}</td>
+        	<td>${scorecardInfo.gradeDto.isPass}</td>
+      	</tr>
+      </c:forEach>
     </table>
+    
+    <ul class="btn-group pagination">
+	 <c:if test="${pageMaker.prev}">
+	     <li>
+	        <a href='<c:url value="/resultList?page=${pageMaker.startPage-1}&textCondition=${textCondition}&localCondition=${localCondition}&subjectCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}" />'><i class="fa fa-chevron-left">이전</i></a>
+	    </li>
+	</c:if>
+	 <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+	   <li value="${pageNum}"> 
+	         <a href='<c:url value="/resultList?page=${pageNum}&textCondition=${textCondition}&localCondition=${localCondition}&subjectCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}" />'><i class="fa">${pageNum}</i></a>
+	   </li>
+	</c:forEach>
+	<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+	   <li>
+	        <a href='<c:url value="/resultList?page=${pageMaker.endPage+1}&textCondition=${textCondition}&localCondition=${localCondition}&subjectCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}"/>'><i class="fa fa-chevron-right">다음</i></a>
+	     </li>
+	</c:if>
+	</ul>   
+	<c:set var="OutputPageTotal" value="${(pageMaker.totalCount/pageCondition)+(1-((pageMaker.totalCount/pageCondition)%1))%1}" />
+	<fmt:parseNumber var="OutputPage"  value="${OutputPageTotal}" integerOnly="true" type="number"/>
+	<p class="pageCnt">전체 ${pageMaker.totalCount}건, ${applyDto.page} / <c:out value="${OutputPage}"/> 페이지</p>
+	<div class="pageWrap">
+	<!-- 페이징 -->
+    
   </div>
 </div>
+</form>
 
 </body>
 </html>

@@ -47,7 +47,7 @@ public class UserManageController {
 		return mav;
 	}
 	
-	// 원서접수(접수가능한 시험 리스트 View)
+	//회원정보
 	@RequestMapping(value="/member_info", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView member_info(UserDto userDto, HttpSession session, HttpServletResponse response) throws Exception 
@@ -56,38 +56,29 @@ public class UserManageController {
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
 		ModelAndView mav = new ModelAndView();
 
-		// 로그인 정보 있을 때
-		if (userInfo != null) 
+		if (userInfo == null) 
+		{
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		} 
+		else if (!"S".equals(userInfo.getUserStatus())) 
+		{
+		    mav.addObject("isAlertNoAuth", true);
+		    mav.setViewName("main");      
+		}
+		else 
 		{
 			UserPageMaker pageMaker = new UserPageMaker();
 			pageMaker.setUserDto(userDto);
 			pageMaker.setTotalCount(userManageService.countUserListTotal(userDto));
 			
 			List<UserDto> userList = userManageService.getUserInfo(userDto);
-			
-//			for(int i = 0 ; i < userList.size(); i++)
-//			{
-//				userList.get(i).setPage(pageMaker.getUserDto().getPage());
-//				userList.get(i).setSearchWord(userDto.getSearchWord());
-//				userList.get(i).setIsCheckGeneralGrade(userDto.getIsCheckGeneralGrade());
-//				userList.get(i).setIsCheckManagerGrade(userDto.getIsCheckManagerGrade());
-//				userList.get(i).setIsCheckAssistantGrade(userDto.getIsCheckAssistantGrade());
-//				userList.get(i).setIsCheckMemberGrade(userDto.getIsCheckMemberGrade());
-//				userList.get(i).setSearchEmailType(userDto.getSearchEmailType());
-//				userList.get(i).setSearchSMSType(userDto.getSearchSMSType());
-//			}
 
 			mav.addObject("pageMaker", pageMaker);
 			mav.addObject("userDto", userDto);
 			mav.addObject("userList", userList);
 			mav.addObject("isAlert",false);
 			mav.setViewName("admin/member_info");
-		} 
-		// 로그인 정보 없을 때
-		else 
-		{
-			mav.addObject("isAlert", true);
-			mav.setViewName("admin/login");
 		}
 
 		return mav;
@@ -102,13 +93,13 @@ public class UserManageController {
 	      
 	    if (userInfo == null) 
 	    {
-	       mav.addObject("isAlert", true);
-	       mav.setViewName("admin/login");
+	    	mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
 	    }
 	    else if (!"S".equals(userInfo.getUserStatus())) 
 	    {
-	       mav.addObject("isAlertNoAuth", true);
-	       mav.setViewName("main");      
+	    	mav.addObject("isAlertNoAuth", true);
+			mav.setViewName("main");      
 	    }
 	    else {
 			mav.setViewName("admin/home");
