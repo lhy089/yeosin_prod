@@ -1,11 +1,5 @@
 package com.yeosin.admin;
 
-import com.yeosin.apply.*;
-import com.yeosin.board.*;
-import com.yeosin.user.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +22,6 @@ import com.yeosin.apply.ExamDto;
 import com.yeosin.apply.ExamZoneDto;
 import com.yeosin.apply.ExamZoneDtoPageMaker;
 import com.yeosin.apply.SubjectDto;
-import com.yeosin.user.EduCompletionDto;
 import com.yeosin.user.UserDto;
 
 @Controller
@@ -64,8 +57,7 @@ public class ApplyManageController {
 		   List<SubjectDto> subjectList = applyManageService.getConditionSubjectList();
 		   
 		   // 페이징 데이터 준비(페이지당 데이터 목록수)
-		   /*
-		   int pagePerNum = 30;
+		   int pagePerNum = 10;
 		   if (request.getParameterMap().containsKey("onePageDataCountCondition")) 
 		   {
 			   if (request.getParameter("onePageDataCountCondition") != null 
@@ -75,7 +67,6 @@ public class ApplyManageController {
 			   }
 		   }
 		   applyDto.setPerPageNum(pagePerNum);
-		   */
 		   
 		   Map<String, Object> parameterMap = new HashMap<String, Object>();
 		   parameterMap.put("textCondition", request.getParameter("textCondition"));
@@ -133,7 +124,6 @@ public class ApplyManageController {
 		   List<ExamDto> examYearList = applyManageService.getConditionExamYearList();
 		
 		   // 페이징 데이터 준비(페이지당 데이터 목록수)
-		   /*
 		   int pagePerNum = 30;
 		   if (request.getParameterMap().containsKey("onePageDataCountCondition")) 
 		   {
@@ -144,7 +134,6 @@ public class ApplyManageController {
 			   }
 		   }
 		   examZoneDto.setPerPageNum(pagePerNum);
-		   */
 		     
 		   Map<String, Object> parameterMap = new HashMap<String, Object>();
 		   parameterMap.put("textCondition", request.getParameter("textCondition"));
