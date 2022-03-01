@@ -282,16 +282,15 @@ function doRefund()
 	var receiptStartDate = new Date($('#receiptStartDate').val());
 	var receiptEndDate = new Date($('#receiptEndDate').val());
 	var now = new Date();
-	var NonRefund = Math.abs(examDate.getTime() - now.getTime())/(1000 * 3600 * 24);
-	var halfRefund = (receiptEndDate.getTime() - now.getTime())/(1000 * 3600 * 24);
+	var before_6Days = new Date(examDate.setDate(examDate.getDate()-6));
 	var bCheckHalf = false;
-
-   	if(Math.floor(NonRefund) <= 6)
+	
+   	if(now > before_6Days || now.getDate() == before_6Days.getDate())
    	{
    		alert("접수 취소 가능한 날짜가 지났습니다.");
    		return false;
-   	}
-   	else if(Math.floor(halfRefund) < 0 && (receiptEndDate.getDate() != now.getDate()))
+   	}	
+   	else if(now > receiptEndDate && now.getDate() != receiptEndDate.getDate())
    	{
    		alert("접수기간 이후로 취소하여 환불금액이 50% 감소합니다.");
    		bCheckHalf = true;
