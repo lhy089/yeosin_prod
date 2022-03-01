@@ -40,9 +40,14 @@ public class ExamZoneDto {
 	public int getPerPageNum() {
 	   return perPageNum;
 	}
-	public void setPerPageNum(int perPageNum) {
-	   this.perPageNum = perPageNum;
-	}  
+	public void setPerPageNum(int pageCount) {
+		int cnt = this.perPageNum;
+		if(pageCount != cnt) {
+			this.perPageNum = pageCount;
+		}else {
+			this.perPageNum = pageCount;
+		}
+	} 
 	public int getPageStart() {
 	   return (this.page-1) * perPageNum;
 	}

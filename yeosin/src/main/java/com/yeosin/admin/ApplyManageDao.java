@@ -22,6 +22,11 @@ public class ApplyManageDao {
 		return sqlSession.selectList(nameSpace + "getConditionLocalList");
 	}
 	
+	// 구 리스트 조회(조회조건)
+	public List<ExamZoneDto> getConditionLocalDetailList() throws Exception {
+		return sqlSession.selectList(nameSpace + "getConditionLocalDetailList");
+	}
+	
 	// 종목 리스트 조회(조회조건)
 	public List<SubjectDto> getConditionSubjectList() throws Exception {
 		return sqlSession.selectList(nameSpace + "getConditionSubjectList");
@@ -93,4 +98,23 @@ public class ApplyManageDao {
 		return sqlSession.update(nameSpace + "updateGradeStatus", examId);
 	}
 	
+	// 고사장 리스트 조회
+	public List<ExamZoneDto> getExamZoneList(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList(nameSpace + "getExamZoneList", map);
+	}
+	
+	// 고사장 리스트 총 갯수 조회
+	public int getExamZoneListCount(Map<String, Object> map) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getExamZoneListCount", map);
+	}
+	
+	// 지역에 해당하는 구 조회
+	public List<ExamZoneDto> getLocalDetailListByLocal(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList(nameSpace + "getConditionLocalDetailList", map);
+	}
+	
+	// 고사장 ID에 따른 1개의 고사장 데이터 조회
+	public ExamZoneDto getExamZone(Map<String, Object> map) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getExamZone", map);
+	}
 }

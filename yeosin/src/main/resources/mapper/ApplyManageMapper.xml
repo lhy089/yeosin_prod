@@ -15,6 +15,22 @@
 		WHERE 	1 = 1;
 	</select>
 	
+    <!-- 조회조건 구 리스트 -->
+	<select id="getConditionLocalDetailList" parameterType="map" resultType="com.yeosin.apply.ExamZoneDto">
+		SELECT 	
+				'전체'	AS LOCALDETAIL
+		FROM 	DUAL
+		UNION
+		SELECT 	
+				DISTINCT LOCALDETAIL
+		FROM 	YS_EXAMZONE
+		WHERE 	1 = 1
+		
+		<if test='local != null and !local.equals("전체")'>
+			AND LOCAL = #{local, jdbcType=VARCHAR};
+		</if>
+	</select>
+	
 	<!-- 조회조건 과목 리스트 -->
 	<select id="getConditionSubjectList" resultType="com.yeosin.apply.SubjectDto">
 		SELECT 	
@@ -418,5 +434,72 @@
 		WHERE 	1 = 1
 			AND EXAMID = #{examId}
 	</update>
+	
+	<!-- 관리자의 고사장 리스트 조회 -->
+	<select id="getExamZoneList" parameterType="map" resultType="com.yeosin.apply.ExamZoneDto">
+		SELECT 	
+				EXAMZONEID 													-- 고사장 ID
+			,	LOCAL														-- 지역 
+			,	LOCALDETAIL													-- 구
+			,	EXAMZONENAME 												-- 고사장명
+			,	EXAMROOMCNT 												-- 시험교실수
+			,	EXAMROOMUSERCNT 											-- 교실당인원수
+			,	EXAMROOMCNT * EXAMROOMUSERCNT			AS EXAMTOTALUSERCNT	-- 전체인원수
+			,	CASE WHEN EXAMZONEMAP IS NULL 
+					 THEN 'N'
+					 ELSE 'Y' END						AS EXAMZONEMAP		-- 약도여부
+		FROM 	YS_EXAMZONE
+		WHERE 	1 = 1
+		
+		<if test="textCondition != null and textCondition != ''">
+			AND	EXAMZONENAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+		</if>
+		<if test='localCondition != null and !localCondition.equals("전체")'>
+			AND LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
+		</if>
+		<if test='localDetailCondition != null and !localDetailCondition.equals("전체")'>
+			AND LOCALDETAIL LIKE CONCAT('%', #{localDetailCondition, jdbcType=VARCHAR}, '%')
+		</if>
+		ORDER BY 
+				LOCAL 
+			,	LOCALDETAIL
+      	LIMIT 
+            	#{pageStart}, #{perPageNum};
+	</select>
+	
+	<!-- 관리자의 고사장 리스트 총 갯수 조회 -->
+	<select id="getExamZoneListCount" parameterType="map" resultType="Integer">
+		SELECT 	
+				COUNT(EXAMZONEID) 
+		FROM 	YS_EXAMZONE
+		WHERE 	1 = 1
+		
+		<if test="textCondition != null and textCondition != ''">
+			AND	EXAMZONENAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+		</if>
+		<if test='localCondition != null and !localCondition.equals("전체")'>
+			AND LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
+		</if>
+		ORDER BY 
+				LOCAL 
+			,	LOCALDETAIL
+	</select>
+	
+	<!-- 고사장 등록에 해당하는 고사장 1개에 대한 데이터 조회 -->
+	<select id="getExamZone" parameterType="map" resultType="com.yeosin.apply.ExamZoneDto">
+		SELECT 	
+				LOCAL 													-- 지역 
+			,	LOCALDETAIL 											-- 구 
+			,	EXAMZONEID 												-- 고사장 ID
+			,	EXAMZONENAME 											-- 고사장명
+			,	EXAMROOMCNT 											-- 시험 교실수
+			,	EXAMROOMUSERCNT											-- 교실당 인원수
+			,	EXAMROOMCNT * EXAMROOMUSERCNT 		AS TOTALUSERCNT 	-- 전체 인원수
+			, 	DESCRIPTION 											-- 주소
+			,	EXAMZONEMAP 											-- 약도
+		FROM 	YS_EXAMZONE 
+		WHERE 	1 = 1
+		AND 	EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};
+	</select>
 	
 </mapper>

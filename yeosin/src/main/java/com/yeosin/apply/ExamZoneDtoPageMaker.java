@@ -9,7 +9,7 @@ public class ExamZoneDtoPageMaker {
     private int endPage;
     private boolean prev;
     private boolean next;
-    private int displayPageNum = 30;
+    private int displayPageNum = 10;
     
     public ExamZoneDto getExamZoneDto() {
       return examZoneDto;

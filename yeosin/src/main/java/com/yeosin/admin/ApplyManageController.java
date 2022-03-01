@@ -210,25 +210,116 @@ public class ApplyManageController {
 		return resultMap;
 	}
 	
-   //고사장 등록
+   // 고사장 등록
    @RequestMapping(value="/siteRegister", method=RequestMethod.GET)
    @ResponseBody
-   public ModelAndView siteRegister()  
+   public ModelAndView ExamZoneRegister(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
    {
-      ModelAndView mav = new ModelAndView();      
-      mav.setViewName("admin/site_register");
-      return mav;
+	   response.setCharacterEncoding("UTF-8");
+	   ModelAndView mav = new ModelAndView();
+      
+	   UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+      
+	   if (userInfo == null) 
+	   {
+		   mav.addObject("isAlert", true);
+		   mav.setViewName("member/login");
+	   }
+	   else if (!"S".equals(userInfo.getUserStatus())) 
+	   {
+		   mav.addObject("isAlertNoAuth", true);
+		   mav.setViewName("main");      
+	   }
+	   else
+	   {	   		   
+		   // 조회조건 콤보박스 데이터
+		   Map<String, Object> parameterMap = new HashMap<String, Object>();
+		   parameterMap.put("examZoneId", request.getParameter("examZoneId"));
+		     
+		   // 고사장 데이터
+		   ExamZoneDto examZone = applyManageService.getExamZone(parameterMap);
+
+		   mav.addObject("examZone", examZone);
+		   mav.setViewName("admin/site_register"); 
+	   }
+	   return mav;	
    }
    
-   //고사장 리스트
+   // 고사장 리스트
    @RequestMapping(value="/siteList", method=RequestMethod.GET)
    @ResponseBody
-   public ModelAndView siteList()  
+   public ModelAndView ExamZoneList(ExamZoneDto examZoneDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception  
    {
-      ModelAndView mav = new ModelAndView();      
-      mav.setViewName("admin/site_list");
-      return mav;
+	   response.setCharacterEncoding("UTF-8");
+	   ModelAndView mav = new ModelAndView();
+      
+	   UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+      
+	   if (userInfo == null) 
+	   {
+		   mav.addObject("isAlert", true);
+		   mav.setViewName("member/login");
+	   }
+	   else if (!"S".equals(userInfo.getUserStatus())) 
+	   {
+		   mav.addObject("isAlertNoAuth", true);
+		   mav.setViewName("main");      
+	   }
+	   else
+	   {	   
+		   // 조회조건 콤보박스 데이터
+		   Map<String, Object> parameterMap = new HashMap<String, Object>();
+		   parameterMap.put("local", request.getParameter("localCondition"));
+		   List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
+		   List<ExamZoneDto> localDetailList = applyManageService.getLocalDetailListByLocal(parameterMap);
+		   //List<ExamZoneDto> localDetailList = applyManageService.getConditionLocalDetailList();
+		
+		   // 페이징 데이터 준비(페이지당 데이터 목록수)
+		   examZoneDto.setPerPageNum(30);
+		     
+		   parameterMap.put("textCondition", request.getParameter("textCondition"));
+		   parameterMap.put("localCondition", request.getParameter("localCondition"));
+		   parameterMap.put("localDetailCondition", request.getParameter("localDetailCondition"));
+		   parameterMap.put("pageStart", examZoneDto.getPageStart());
+		   parameterMap.put("perPageNum", examZoneDto.getPerPageNum());
+		     
+		   // 고사장 리스트 데이터
+		   List<ExamZoneDto> examZoneList = applyManageService.getExamZoneList(parameterMap);
+		
+		   // 페이징 하기위한 데이터
+		   ExamZoneDtoPageMaker pageMaker = new ExamZoneDtoPageMaker();
+		   pageMaker.setExamZoneDto(examZoneDto);
+		   pageMaker.setTotalCount(applyManageService.getExamZoneListCount(parameterMap));         
+		     
+		   mav.addObject("localList", localList);
+		   mav.addObject("localDetailList", localDetailList);
+		   mav.addObject("examZoneList", examZoneList);
+		   mav.addObject("textCondition", request.getParameter("textCondition"));
+		   mav.addObject("localCondition", request.getParameter("localCondition"));
+		   mav.addObject("localDetailCondition", request.getParameter("localDetailCondition"));
+		   mav.addObject("pageMaker", pageMaker);
+		   mav.addObject("examZoneDto", examZoneDto);
+		   mav.setViewName("admin/site_list"); 
+	   }
+	   return mav;
    }
+   
+	// 지역을 선택했을때, 지역에 해당하는 구 조회
+	@RequestMapping(value="/localDetailListByLocal", method=RequestMethod.GET)
+	@ResponseBody
+	public List<ExamZoneDto> LocalDetailListByLocal(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");	
+		
+		// AJAX에서 넘어온 데이터
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("local", requestMap.get("local"));
+		
+		// AJAX로 넘겨줄 데이터
+		List<ExamZoneDto> localDetailList = applyManageService.getLocalDetailListByLocal(parameterMap);
+		
+		return localDetailList;
+	}
    
    //시험일정관리
    @RequestMapping(value="/manageSchedule", method=RequestMethod.GET)

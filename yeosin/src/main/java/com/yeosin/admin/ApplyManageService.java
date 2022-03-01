@@ -21,6 +21,11 @@ public class ApplyManageService {
 		return applyManageDao.getConditionLocalList();
 	}
 	
+	// 구 리스트 조회(조회조건)
+	public List<ExamZoneDto> getConditionLocalDetailList() throws Exception {
+		return applyManageDao.getConditionLocalDetailList();
+	}
+	
 	// 종목 리스트 조회(조회조건)
 	public List<SubjectDto> getConditionSubjectList() throws Exception {
 		return applyManageDao.getConditionSubjectList();
@@ -75,4 +80,25 @@ public class ApplyManageService {
 	public List<ExamDto> getExamListForGradeRegistration() throws Exception {
 		return applyManageDao.getExamListForGradeRegistration();
 	}
+	
+	// 고사장 리스트 조회
+	public List<ExamZoneDto> getExamZoneList(Map<String, Object> map) throws Exception {
+		return applyManageDao.getExamZoneList(map);
+	}
+	
+	// 고사장 리스트 총 갯수 조회
+	public int getExamZoneListCount(Map<String, Object> map) throws Exception {
+		return applyManageDao.getExamZoneListCount(map);
+	}
+	
+	// 지역에 해당하는 구 조회
+	public List<ExamZoneDto> getLocalDetailListByLocal(Map<String, Object> map) throws Exception {
+		return applyManageDao.getLocalDetailListByLocal(map);
+	}
+	
+	// 고사장 ID에 따른 1개의 고사장 데이터 조회
+	public ExamZoneDto getExamZone(Map<String, Object> map) throws Exception {
+		return applyManageDao.getExamZone(map);
+	}
+	
 }
