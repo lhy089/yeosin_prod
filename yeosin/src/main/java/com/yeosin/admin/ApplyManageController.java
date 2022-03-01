@@ -361,34 +361,4 @@ public class ApplyManageController {
 	   }
 	   return mav; 
    }
-   
-   //공지사항
-   @RequestMapping(value="/boardNotice", method=RequestMethod.GET)
-   @ResponseBody
-   public ModelAndView boardNotice()  
-   {
-      ModelAndView mav = new ModelAndView();      
-      mav.setViewName("admin/board_notice");
-      return mav;
-   }
-   
-   //시험 자료실
-   @RequestMapping(value="/boardLibrary", method=RequestMethod.GET)
-   @ResponseBody
-   public ModelAndView boardLibrary()  
-   {
-      ModelAndView mav = new ModelAndView();      
-      mav.setViewName("admin/board_library");
-      return mav;
-   }
-   
-   //자주하는 질문
-   @RequestMapping(value="/boardQuestion", method=RequestMethod.GET)
-   @ResponseBody
-   public ModelAndView boardQuestion()  
-   {
-      ModelAndView mav = new ModelAndView();      
-      mav.setViewName("admin/board_question");
-      return mav;
-   }
 }
