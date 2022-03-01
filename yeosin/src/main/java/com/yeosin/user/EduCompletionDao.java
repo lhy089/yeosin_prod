@@ -1,5 +1,6 @@
 package com.yeosin.user;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -29,5 +30,9 @@ public class EduCompletionDao {
 	
 	public int insertEduComepletionInfo(EduCompletionDto eduCompletionInfo) throws Exception {
 		return this.sqlSession.insert(namespace + "insertEduComepletionInfo", eduCompletionInfo);
+	}
+	
+	public int insertAndUpdateEduComepletionInfo(List<EduCompletionDto> eduCompletionList) throws Exception {
+		return this.sqlSession.insert(namespace + "insertAndUpdateEduComepletionInfo", eduCompletionList);
 	}
 }

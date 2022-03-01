@@ -217,16 +217,19 @@ public class UserManageController {
 	public ModelAndView excelUpload(HttpServletRequest req){
 		MultipartHttpServletRequest mult =  (MultipartHttpServletRequest)req;  
 		ModelAndView mav = new ModelAndView("admin/result_manage");
-		List<ApplyDto> list = new ArrayList<>();
+//		List<ApplyDto> list = new ArrayList<>();
+		String result = "";
 		//엑셀 파일이 xls일때와 xlsx일때 서비스 라우팅
 		String excelType = req.getParameter("excelType");
 		String examId = req.getParameter("examId");
+
 		if(excelType.equals("xlsx")){
-			list = userManageService.xlsxExcelReader(mult, examId);
+			result = userManageService.xlsxExcelReader(mult, examId);
 		}else if(excelType.equals("xls")){
-			list = userManageService.xlsExcelReader(mult, examId);
+			//result = userManageService.xlsExcelReader(mult, examId);
 		}
-		mav.addObject("uploadSuccess", true);
+		mav.addObject("uploadSuccess", result);
+		
 		return mav;
 	}
 }

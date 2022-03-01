@@ -27,7 +27,14 @@
   <link rel="stylesheet" href="/www/inc/css/admin.css">
   <script type="text/javascript">
   window.onload = function() {
-	  if("${uploadSuccess}") location.href = "/resultManage";
+	  debugger;
+	  if("${uploadSuccess}" == "FAILED") {
+		  alert("오류가 발생했습니다.");
+		  location.href = "/resultManage";
+	  }else if ("${uploadSuccess}" == "SUCCESS") {
+		  alert("성적 등록을 완료 했습니다.");
+		  location.href = "/resultManage";
+	  }
   }
 	$(document).ready(function() {
 	});

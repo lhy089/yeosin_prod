@@ -447,6 +447,7 @@ public class UserController {
 			eduCompletionHis.setApiSyncId();
 			System.out.println(">>>>> callSyncCertIdApi ApiSyncId : " + eduCompletionHis.getApiSyncId());
 
+			List<EduCompletionDto> eduCompletionList = new ArrayList<EduCompletionDto>();
 			for(int i=0; i<items.length(); i++){            
                 JSONObject item = (JSONObject) items.get(i);
                 EduCompletionDto eduCompletionInfo = new EduCompletionDto();
@@ -465,6 +466,9 @@ public class UserController {
                 eduCompletionInfo.setCertId((String)item.get("diploma_no"));
                 eduCompletionInfo.setSubject((String)item.get("process_cd"));
                 
+                eduCompletionInfo.setApiSyncId(eduCompletionHis.getApiSyncId());
+                eduCompletionList.add(eduCompletionInfo);
+                /*
                 if("Y".equals(userService.getEduCompletionInfo(eduCompletionInfo))) {
 					eduCompletionInfo.setUpApiSyncId(eduCompletionHis.getApiSyncId());
 					userService.updateEduComepletionInfo(eduCompletionInfo);
@@ -472,7 +476,11 @@ public class UserController {
 					eduCompletionInfo.setApiSyncId(eduCompletionHis.getApiSyncId());
 					userService.insertEduComepletionInfo(eduCompletionInfo);
 				}
+				*/
 			}
+			
+			System.out.println("eduCompletionInfo.size1 : " + eduCompletionList.size() );
+			userService.insertAndUpdateEduComepletionInfo(eduCompletionList);
 						
 			eduCompletionHis.setPassStartDate(startDate);
 			eduCompletionHis.setPassEndDate(endDate);
@@ -529,6 +537,7 @@ public class UserController {
 			eduCompletionHis.setApiSyncId();
 			System.out.println(">>>>> callSyncCertIdApi ApiSyncId : " + eduCompletionHis.getApiSyncId());
 			
+			List<EduCompletionDto> eduCompletionList = new ArrayList<EduCompletionDto>();
 			for(int i=0; i<items.length(); i++){            
 				JSONObject item = (JSONObject) items.get(i);
 				EduCompletionDto eduCompletionInfo = new EduCompletionDto();
@@ -548,6 +557,9 @@ public class UserController {
 				eduCompletionInfo.setCertId((String)item.get("diploma_no"));
 				eduCompletionInfo.setSubject((String)item.get("process_cd"));
 
+				eduCompletionInfo.setApiSyncId(eduCompletionHis.getApiSyncId());
+                eduCompletionList.add(eduCompletionInfo);
+                /*
 				if("Y".equals(userService.getEduCompletionInfo(eduCompletionInfo))) {
 					eduCompletionInfo.setUpApiSyncId(eduCompletionHis.getApiSyncId());
 					userService.updateEduComepletionInfo(eduCompletionInfo);
@@ -555,7 +567,11 @@ public class UserController {
 					eduCompletionInfo.setApiSyncId(eduCompletionHis.getApiSyncId());
 					userService.insertEduComepletionInfo(eduCompletionInfo);
 				}
+				*/
 			}
+			
+			System.out.println("eduCompletionInfo.size1 : " + eduCompletionList.size() );
+			userService.insertAndUpdateEduComepletionInfo(eduCompletionList);
 						
 			eduCompletionHis.setPassStartDate(startDate);
 			eduCompletionHis.setPassEndDate(endDate);
@@ -613,6 +629,7 @@ public class UserController {
 			JSONObject result = new JSONObject();
 			result.put("status", "200");
 			result.put("statusMsg", "Success");
+			StringEncrypter ecvrypterAES256 = new StringEncrypter(key, vector);
 			
 			if(examDate == null || "".equals(examDate)) {
 				System.out.println("examDate 가 없습니다.");
@@ -631,9 +648,9 @@ public class UserController {
 
 					JSONObject passUser= new JSONObject();
 					passUser.put("row_num", i+1);
-					passUser.put("user_name", passUserList.get(i).getUserDto().getUserName());
-					passUser.put("user_birth", passUserList.get(i).getUserDto().getBirthDate());
-					passUser.put("user_sex", passUserList.get(i).getUserDto().getGender());
+					passUser.put("user_name", ecvrypterAES256.encrypt(passUserList.get(i).getUserDto().getUserName()));
+					passUser.put("user_birth", ecvrypterAES256.encrypt(passUserList.get(i).getUserDto().getBirthDate()));
+					passUser.put("user_sex", ecvrypterAES256.encrypt(passUserList.get(i).getUserDto().getGender()));
 					passUser.put("diploma_no", passUserList.get(i).getCertId());
 					passUser.put("exam_date", examDate);
 					passUser.put("exam_cert_no", passUserList.get(i).getGradeDto().getPassCertId());

@@ -1,5 +1,7 @@
 package com.yeosin.user;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -82,5 +84,8 @@ public class UserService {
 	}
 	public String getUserByCIDI(UserDto userDto) throws Exception {
 		return userDao.getUserByCIDI(userDto);
+	}
+	public int insertAndUpdateEduComepletionInfo(List<EduCompletionDto> eduCompletionList) throws Exception {
+		return eduCompletionDao.insertAndUpdateEduComepletionInfo(eduCompletionList);
 	}
 }

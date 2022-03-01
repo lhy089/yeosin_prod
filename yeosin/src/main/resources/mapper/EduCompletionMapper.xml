@@ -52,6 +52,20 @@
 		</set>
 		WHERE CERTID = #{certId}
 	</update>
+	 
+	<insert id="insertAndUpdateEduComepletionInfo" parameterType="java.util.List">
+    	INSERT INTO YS_EDUCOMPLETION
+			(USERID, EDUUSERID, USERNAME, BIRTHDATE, GENDER, CERTID, SUBJECT, APISYNCID)
+		VALUES
+    	<foreach collection="list" item="item" separator=" , " >
+        	("${item.userId}", "${item.eduUserId}", "${item.userName}", "${item.birthDate}", "${item.gender}" , "${item.certId}", "${item.subject}", "${item.apiSyncId}")
+   	 	</foreach>
+   	 	ON DUPLICATE KEY UPDATE 
+   	 		USERNAME = VALUES(userName),
+   	 		BIRTHDATE = VALUES(birthDate),
+   	 		GENDER = VALUES(gender),
+   	 		UPAPISYNCID = VALUES(apiSyncId)
+	</insert>
 	
 	
 </mapper>

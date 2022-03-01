@@ -57,9 +57,10 @@ public class UserManageService {
 	}
 	
 	//TODO :: 함수 위치 변경, 로직 나누기
-	public List<ApplyDto> xlsxExcelReader(MultipartHttpServletRequest req, String examId) {
+	public String xlsxExcelReader(MultipartHttpServletRequest req, String examId) {
 		// 반환할 객체를 생성
 		List<ApplyDto> list = new ArrayList<>();
+		String result = "";
 
 		MultipartFile file = req.getFile("excel");
 		XSSFWorkbook workbook = null;
@@ -82,6 +83,7 @@ public class UserManageService {
 				for (int rowIndex = 0; rowIndex < curSheet.getPhysicalNumberOfRows(); rowIndex++) {
 					// row 0은 헤더정보이기 때문에 무시
 					if (rowIndex != 0) {
+						System.out.println("rowIndex :::::::::::: " + rowIndex);
 						curRow = curSheet.getRow(rowIndex);
 						excelData = new ApplyDto();
 						excelData.setUserDto(new UserDto());
@@ -92,9 +94,10 @@ public class UserManageService {
 						if (curRow.getCell(0) != null) {
 							if (!"".equals(curRow.getCell(0).toString())) {
 								// cell 탐색 for문
-								for (int cellIndex = 0; cellIndex < curRow.getPhysicalNumberOfCells(); cellIndex++) {
+								for (int cellIndex = 0; cellIndex < curRow.getLastCellNum(); cellIndex++) {
+									System.out.println("curRow.getLastCellNum() :: " + curRow.getLastCellNum());
 									curCell = curRow.getCell(cellIndex);
-
+									if(curCell == null) continue;
 									if (true) {
 										value = "";
 										// cell 스타일이 다르더라도 String으로 반환 받음
@@ -119,7 +122,7 @@ public class UserManageService {
 											value = new String();
 											break;
 										} // end switch
-
+										System.out.println("curCell.getCellType() :: " + curCell.getCellType() + ", cellIndex :: " + cellIndex + ", value :: " + value);
 										// 현재 colum index에 따라서 vo입력
 										switch (cellIndex) {
 										case 3: // 수험번호
@@ -132,14 +135,14 @@ public class UserManageService {
 											excelData.getUserDto().setBirthDate(value);
 											break;
 										case 6: // 평가종류
-											excelData.setSubjectId("대출".equals(value) ? "LP01" : "LS01");
+											excelData.setSubjectId(value.contains("대출") ? "LP01" : "LS01");
 											break;
 										case 7: // 점수
 											excelData.getGradeDto().setAllScore(Double.parseDouble(value));
 											break;
 										case 8: // 합격여부
-											System.out.println("value ::: " + value);
 											excelData.getGradeDto().setIsPass(excelData.getGradeDto().getAllScore()>=60 ? "Y" : "N");
+											System.out.println(">> score :: " + excelData.getGradeDto().getAllScore() + ", isPass :: " + excelData.getGradeDto().getIsPass());
 											break;
 										default:
 											break;
@@ -158,10 +161,11 @@ public class UserManageService {
 			String passCertIdForm = examInfo.getExamYear().substring(2) + String.format("%02d", Integer.parseInt(examInfo.getExamDegree()));
 			int cnt = 1;
 			List<GradeDto> gradeList = new ArrayList<GradeDto>();
+			System.out.println(">> passCertIdForm :::::::::::: " + passCertIdForm);
 			for(ApplyDto excel : list) {
 				String passCertId = passCertIdForm;
 				GradeDto gradeInfo = new GradeDto();
-				gradeInfo.setReceiptId(applyManageDao.getReceiptIdByStudentCode(excel.getStudentCode()));
+				gradeInfo.setReceiptId(excel.getStudentCode());
 				gradeInfo.setIsQuit("");
 				gradeInfo.setAllScore(excel.getGradeDto().getAllScore());
 				gradeInfo.setIsPass(excel.getGradeDto().getIsPass());
@@ -174,16 +178,19 @@ public class UserManageService {
 					passCertId += String.format("%05d", cnt++);
 					gradeInfo.setPassCertId(passCertId);
 				}
+//				System.out.println("cnt ::: " + cnt + ", gradeInfo.getReceiptId :::::::::::: " + gradeInfo.getReceiptId());
 				gradeList.add(gradeInfo);
 			}
+			
+			System.out.println("gradeList.size :: " + gradeList.size());
 			applyManageDao.insertExcelData(gradeList);
 			applyManageDao.updateGradeStatus(examId);
-			
+			result = "SUCCESS";
 		} catch (Exception e) {
-			e.printStackTrace();
+			result = "FAILED";
+			System.out.println(e.toString());
 		}
-		
-		return list;
+		return result;
 	}
 	
 	public List<ApplyDto> xlsExcelReader(MultipartHttpServletRequest req, String examId) {
