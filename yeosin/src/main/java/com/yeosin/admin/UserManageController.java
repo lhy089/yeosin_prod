@@ -68,6 +68,8 @@ public class UserManageController {
 		}
 		else 
 		{
+			userDto.setPerPageNum(200);
+			
 			UserPageMaker pageMaker = new UserPageMaker();
 			pageMaker.setUserDto(userDto);
 			pageMaker.setTotalCount(userManageService.countUserListTotal(userDto));
