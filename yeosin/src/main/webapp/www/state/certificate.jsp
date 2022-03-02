@@ -51,7 +51,7 @@
 	        </tr>
 	        <tr>
 	          <th>자격구분</th>
-	          <td>${applyDto.examDto.examName}</td>
+	          <td>대출성 상품 판매대리·중개업자 등록<br>자격인증 평가(${applyDto.subjectDto.subjectName})</td>
 	        </tr>
 	        <tr>
 	          <th>인&nbsp;&nbsp;증&nbsp;&nbsp;일</th>

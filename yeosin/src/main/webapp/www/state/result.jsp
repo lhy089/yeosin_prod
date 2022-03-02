@@ -42,24 +42,21 @@
         <col width="*">
         <col width="20%">
         <col width="20%">
-        <col width="20%">
       </colgroup>
       <tr>
         <th>시험명</th>
         <th>응시결과</th>
-        <th>점수</th>
         <th>자격인증서</th>
       </tr>
       <c:forEach var="result" items="${resultList}">
       <tr>
         <td>${result.examDto.examName}</td>
         <td>${result.gradeDto.isPass}</td>
-        <td>${result.gradeDto.allScore}</td>
 		<td>
          <c:set var = "passResult"  value = "${result.gradeDto.isPass}"/>
             <c:choose> 
             <c:when test="${passResult eq '합격'}">
-            	 <a href="/certificate?examDto.gradeStartDate=${result.examDto.gradeStartDate}&gradeDto.passCertId=${result.gradeDto.passCertId}&examDto.examName=${result.examDto.examName}&userDto.userName=${result.userDto.userName}"  class="btn_apply">출력하기</a>
+            	 <a href="/certificate?examDto.gradeStartDate=${result.examDto.gradeStartDate}&gradeDto.passCertId=${result.gradeDto.passCertId}&subjectDto.subjectName=${result.subjectDto.subjectName}&userDto.userName=${result.userDto.userName}"  class="btn_apply">출력하기</a>
             </c:when>   
             <c:otherwise>
                 <p>출력 불가</p>
