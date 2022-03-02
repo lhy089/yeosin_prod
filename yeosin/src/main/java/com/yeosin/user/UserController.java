@@ -626,6 +626,12 @@ public class UserController {
 		@RequestMapping(value = "/callApiSelectPassUser")
 		@ResponseBody
 		public void callApiSelectPassUser(String examDate, HttpSession session, HttpServletResponse response) throws Exception {
+			if(!examDate.contains("2022-")) {
+				response.setCharacterEncoding("UTF-8"); 
+				response.setContentType("text/html;charset=UTF-8"); 
+				response.getWriter().print("2022년도 데이터만 조회됩니다");
+				return;
+			}
 			JSONObject result = new JSONObject();
 			result.put("status", "200");
 			result.put("statusMsg", "Success");
