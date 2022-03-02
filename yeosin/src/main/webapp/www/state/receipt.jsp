@@ -71,7 +71,7 @@ $(document).ready(function() {
 	        </c:when>
 	        </c:choose>
 	        <td>${apply.examDto.examDate}</td>
-	        <td>${apply.examZoneDto.localDetail}</td>
+	        <td>${apply.examZoneDto.local}</td>
 	        <td>${apply.examDto.examDegree}</td>
       	</tr>
       </c:forEach>

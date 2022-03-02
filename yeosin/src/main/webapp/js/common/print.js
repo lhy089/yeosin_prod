@@ -67,7 +67,7 @@ function reportPrintCertificate(param)
     html += '<style>';
    
     html += '@media print { * {-webkit-print-color-adjust:exact;}}';
-    html += '.document{width:100%; height:100%; border:1px solid #707070; box-sizing:border-box; background:url("/www/inc/img/state/bg_certificate.jpg") no-repeat center / contain; padding-top:120px; margin-bottom:70px;}';
+    html += '.document{width:100%; height:92%; border:1px solid #707070; box-sizing:border-box; background:url("/www/inc/img/state/bg_certificate.jpg") no-repeat center / contain; padding-top:120px; margin-bottom:70px;}';
     html += '.docNum{font-family:sandoll-gothicneo3, sans-serif; font-size:5px; line-height:1; color:#000; text-indent:90px; margin-bottom:10px;}';
     html += 'h3{width:100%; height:100px; font-family:ChosunGs, serif; font-size:45px; line-height:80px; color:#000; text-align:center; display:table;}';
     html += 'h3 p{width:100%; height:100%; display:table-cell; vertical-align:middle;}';
