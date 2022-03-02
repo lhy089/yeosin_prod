@@ -60,7 +60,7 @@
   <div class="contentBox">
     <ul class="depth1">
       <li><a href="/apply">원서접수</a></li>
-      <li><a href="/accept">응시현황</a></li>
+      <li><a href="/receipt">응시현황</a></li>
       <li><a href="/examGuide">평가안내</a></li>
       <li><a href="/notice?boardType=1">알림마당</a></li>
       <li><a onclick="return false;" class="btn_change">회원정보수정</a></li>

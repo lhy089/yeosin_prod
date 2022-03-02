@@ -50,7 +50,7 @@
 	          <td>${applyDto.userDto.userName}</td>
 	        </tr>
 	        <tr>
-	          <th>자격구분</th>
+	          <th style="vertical-align: baseline;">자격구분</th>
 	          <td>대출성 상품 판매대리·중개업자 등록<br>자격인증 평가(${applyDto.subjectDto.subjectName})</td>
 	        </tr>
 	        <tr>
@@ -58,7 +58,7 @@
 	          <td>${applyDto.examDto.gradeStartDate}</td>
 	        </tr>
 	      </table>
-	      <div class="evidence">
+	      <div class="evidence" style="margin: 0 auto 60px;">
 	        <p>
 	          위 사람은 「금융소비자 보호에 관한 법률」<br/>
 	          및 같은 법 시행령, 감독규정에 따라 실시한<br/>

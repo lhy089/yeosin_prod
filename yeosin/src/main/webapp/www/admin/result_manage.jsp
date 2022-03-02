@@ -49,7 +49,7 @@
 	}
 
 	function check(examId) {
-		var file = $("#excel").val();
+		var file = $("#excel_"+examId).val();
 		if (file == "" || file == null) {
 			alert("파일을 선택해 주세요");
 			return false;
@@ -112,7 +112,7 @@
         	<td>${examInfo.examDate}</td>
         	<td class="flow flowSub"><p>대출/리스</p></td>
         	<td class="upload">
-        		<input id="excel" name="excel" class="file" type="file" multiple data-show-upload="false" data-show-caption="true">
+        		<input id="excel_${examInfo.examId}" name="excel" class="file" type="file" multiple data-show-upload="false" data-show-caption="true">
 <%--         		<label className="input-file-button" for="input-file" id="excelUp" onclick="check('${examInfo.examId}')">등록하기</label> --%>
 				<button type="button" id="excelUp" onclick="check('${examInfo.examId}')">등록하기</button>
         	</td>

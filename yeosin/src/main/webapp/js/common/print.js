@@ -59,7 +59,7 @@ function reportPrint(param)
 // 자격인증서 프린트 출력
 function reportPrintCertificate(param)
 {
-    const setting = "width=890, height=841";
+    const setting = "width=890, height=650";
     const objWin = window.open('', '', setting);
     
     var html ="";
