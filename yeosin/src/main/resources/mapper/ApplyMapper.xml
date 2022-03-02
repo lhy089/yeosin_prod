@@ -238,7 +238,7 @@
  		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
  		AND 	R.ISCANCEL = 'N'
  		<![CDATA[
-		AND 	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') >= DATE_FORMAT(NOW(), '%Y-%m-%d')
+		AND 	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') >= '2022-01-01'
 		]]> 
 	</select>
 	
@@ -261,7 +261,7 @@
 		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
 		AND 	R.ISCANCEL = 'N'
 		<![CDATA[
-		AND 	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') >= DATE_FORMAT(NOW(), '%Y-%m-%d')
+		AND 	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') >= '2022-01-01'
 		]]> 
 		ORDER BY E.EXAMDATE DESC
 		LIMIT #{pageStart}, #{perPageNum};
