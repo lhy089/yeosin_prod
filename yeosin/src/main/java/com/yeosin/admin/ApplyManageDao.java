@@ -117,4 +117,24 @@ public class ApplyManageDao {
 	public ExamZoneDto getExamZone(Map<String, Object> map) throws Exception {
 		return sqlSession.selectOne(nameSpace + "getExamZone", map);
 	}
+	
+	// 고사장 ID MaxNumber 조회
+	public int getMaxExamZoneId() throws Exception {
+		return sqlSession.selectOne(nameSpace + "getMaxExamZoneId");
+	}
+	
+	// 고사장 저장
+	public int setExamZoneSave(Map<String, Object> map) throws Exception {
+		return sqlSession.insert(nameSpace + "insertExamZone", map);
+	}
+	
+	// 고사장 수정
+	public int setExamZoneModify(Map<String, Object> map) throws Exception {
+		return sqlSession.update(nameSpace + "updateExamZone", map);
+	}
+	
+	// 고사장 삭제
+	public int setExamZoneDelete(Map<String, Object> map) throws Exception {
+		return sqlSession.delete(nameSpace + "deleteExamZone", map);
+	}
 }

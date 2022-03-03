@@ -101,4 +101,23 @@ public class ApplyManageService {
 		return applyManageDao.getExamZone(map);
 	}
 	
+	// 고사장 ID MaxNumber 조회
+	public int getMaxExamZoneId() throws Exception {
+		return applyManageDao.getMaxExamZoneId();
+	}
+	
+	// 고사장 저장
+	public int setExamZoneSave(Map<String, Object> map) throws Exception {
+		return applyManageDao.setExamZoneSave(map);
+	}
+	
+	// 고사장 수정
+	public int setExamZoneModify(Map<String, Object> map) throws Exception {
+		return applyManageDao.setExamZoneModify(map);
+	}
+	
+	// 고사장 삭제
+	public int setExamZoneDelete(Map<String, Object> map) throws Exception {
+		return applyManageDao.setExamZoneDelete(map);
+	}
 }

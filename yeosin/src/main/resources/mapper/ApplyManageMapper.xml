@@ -445,7 +445,8 @@
 			,	EXAMROOMCNT 												-- 시험교실수
 			,	EXAMROOMUSERCNT 											-- 교실당인원수
 			,	EXAMROOMCNT * EXAMROOMUSERCNT			AS EXAMTOTALUSERCNT	-- 전체인원수
-			,	CASE WHEN EXAMZONEMAP IS NULL 
+			,	CASE WHEN EXAMZONEMAP IS NULL OR 
+						  EXAMZONEMAP = ''
 					 THEN 'N'
 					 ELSE 'Y' END						AS EXAMZONEMAP		-- 약도여부
 		FROM 	YS_EXAMZONE
@@ -501,5 +502,41 @@
 		WHERE 	1 = 1
 		AND 	EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};
 	</select>
+	
+	<!-- 고사장 ID MaxNumber 조회 -->
+	<select id="getMaxExamZoneId" resultType="Integer">
+		SELECT 	MAX(CONVERT(REPLACE(EXAMZONEID, 'examzone', ''), SIGNED)) 
+		FROM 	YS_EXAMZONE
+		WHERE 	1 = 1;
+	</select>
+	
+	<!-- 새로운 고사장 등록 -->
+	<insert id="insertExamZone" parameterType="map">
+		INSERT INTO YS_EXAMZONE (EXAMZONEID, LOCAL, LOCALDETAIL, EXAMZONENAME, EXAMROOMCNT, EXAMROOMUSERCNT, TOTALUSERCNT, EXAMZONEMAP, DESCRIPTION) 
+		VALUES (#{examZoneId}, #{local}, #{localDetail}, #{examZoneName}, #{examRoomCnt}, #{examRoomUserCnt}, #{examRoomCnt} * #{examRoomUserCnt}, #{mapFile}, #{address});
+	</insert>
+	
+	<!-- 기존 고사장 수정 -->
+	<insert id="updateExamZone" parameterType="map">
+		UPDATE 	YS_EXAMZONE 
+		SET 	LOCAL = #{local}
+			,	LOCALDETAIL = #{localDetail}
+			, 	EXAMZONENAME = #{examZoneName}
+			, 	EXAMROOMCNT = #{examRoomCnt}
+			,	EXAMROOMUSERCNT = #{examRoomUserCnt}
+			, 	TOTALUSERCNT = #{examRoomCnt} * #{examRoomUserCnt}
+			, 	EXAMZONEMAP = #{mapFile}
+			, 	DESCRIPTION = #{address}
+		WHERE 	EXAMZONEID = #{examZoneId};
+	</insert>
+	
+	<!-- 기존 고사장 삭제(YS_EXAMZONE 테이블에 ON DELETE CASCADE 옵션적용) -->
+	<insert id="deleteExamZone" parameterType="map">
+		<foreach item="examZoneId" index="index" collection="examZoneList">			
+			DELETE 	
+			FROM 	YS_EXAMZONE 
+			WHERE 	EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};			
+		</foreach>
+	</insert>
 	
 </mapper>

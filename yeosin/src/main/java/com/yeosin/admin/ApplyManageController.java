@@ -164,7 +164,7 @@ public class ApplyManageController {
 	   return mav;
    }
 
-	// 좌석배치 확정
+   	// 좌석배치 확정
 	@RequestMapping(value="/SeatConfirmByAjax", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> SeatConfirmByAjax(@RequestParam(value="examZoneCheck[]") List<String> requestArray, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
@@ -210,99 +210,175 @@ public class ApplyManageController {
 		return resultMap;
 	}
 	
-   // 고사장 등록
-   @RequestMapping(value="/siteRegister", method=RequestMethod.GET)
-   @ResponseBody
-   public ModelAndView ExamZoneRegister(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
-   {
-	   response.setCharacterEncoding("UTF-8");
-	   ModelAndView mav = new ModelAndView();
+   	// 고사장 저장 or 수정
+	@RequestMapping(value="/ExamZoneSaveByAjax", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> ExamZoneSaveByAjax(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");      
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		boolean isSuccess = false;
+		
+		// AJAX로 넘겨줄 데이터
+		Map<String, Object> resultMap = new HashMap<String, Object>();
       
-	   UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
-      
-	   if (userInfo == null) 
-	   {
-		   mav.addObject("isAlert", true);
-		   mav.setViewName("member/login");
-	   }
-	   else if (!"S".equals(userInfo.getUserStatus())) 
-	   {
-		   mav.addObject("isAlertNoAuth", true);
-		   mav.setViewName("main");      
-	   }
-	   else
-	   {	   		   
-		   // 조회조건 콤보박스 데이터
-		   Map<String, Object> parameterMap = new HashMap<String, Object>();
-		   parameterMap.put("examZoneId", request.getParameter("examZoneId"));
-		     
-		   // 고사장 데이터
-		   ExamZoneDto examZone = applyManageService.getExamZone(parameterMap);
+		if (userInfo == null || !"S".equals(userInfo.getUserStatus())) 
+		{
+			isSuccess = false;
+		}
+		else 
+		{		
+			int isSaveUpdateSuccess = 0;
+			
+			// 저장, 수정에 따라 호출하는 저장로직 다르게 호출
+			if (requestMap.get("actionCode").equals("Save"))
+			{
+				int MaxExamZoneNumber = applyManageService.getMaxExamZoneId() + 1;
+				String newExamZoneId = "examzone" + String.valueOf(MaxExamZoneNumber);
+				requestMap.replace("examZoneId", newExamZoneId);
+				isSaveUpdateSuccess = applyManageService.setExamZoneSave(requestMap);
+			}
+			else 
+			{
+				isSaveUpdateSuccess = applyManageService.setExamZoneModify(requestMap);
+			}
+			
+			if (isSaveUpdateSuccess == 1) isSuccess = true;
+			else isSuccess = false;
+				
+		}
+		
+		resultMap.put("isSuccess", isSuccess);
 
-		   mav.addObject("examZone", examZone);
-		   mav.setViewName("admin/site_register"); 
-	   }
-	   return mav;	
-   }
+		return resultMap;
+	}
+	
+   	// 고사장 삭제
+	@RequestMapping(value="/ExamZoneDeleteByAjax", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> ExamZoneDeleteByAjax(@RequestParam(value="examZoneCheck[]") List<String> requestArray, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");      
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		boolean isSuccess = false;
+		
+		// AJAX로 넘겨줄 데이터
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+      
+		if (userInfo == null || !"S".equals(userInfo.getUserStatus())) 
+		{
+			isSuccess = false;
+		}
+		else 
+		{
+			// 체크한 고사장에 대한 삭제로직
+			Map<String, Object> parameter = new HashMap<String, Object>();
+			parameter.put("examZoneList", requestArray);
+		
+			int isDeleteSuccess = applyManageService.setExamZoneDelete(parameter);
+			
+			if (isDeleteSuccess == 1) isSuccess = true;
+			else isSuccess = false;
+		}
+		
+		resultMap.put("isSuccess", isSuccess);
+
+		return resultMap;
+	}
+	
+	// 고사장 등록
+	@RequestMapping(value="/siteRegister", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView ExamZoneRegister(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+      
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+      
+		if (userInfo == null) 
+		{
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		}
+		else if (!"S".equals(userInfo.getUserStatus())) 
+		{
+			mav.addObject("isAlertNoAuth", true);
+			mav.setViewName("main");      
+		}
+		else
+		{	   		   
+			// 조회조건 콤보박스 데이터
+			Map<String, Object> parameterMap = new HashMap<String, Object>();
+			parameterMap.put("examZoneId", request.getParameter("examZoneId"));
+		     
+			// 고사장 데이터
+			ExamZoneDto examZone = applyManageService.getExamZone(parameterMap);
+
+			mav.addObject("examZone", examZone);
+			mav.setViewName("admin/site_register"); 
+		}
+		return mav;	
+	}
    
-   // 고사장 리스트
-   @RequestMapping(value="/siteList", method=RequestMethod.GET)
-   @ResponseBody
-   public ModelAndView ExamZoneList(ExamZoneDto examZoneDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception  
-   {
-	   response.setCharacterEncoding("UTF-8");
-	   ModelAndView mav = new ModelAndView();
+	// 고사장 리스트
+	@RequestMapping(value="/siteList", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView ExamZoneList(ExamZoneDto examZoneDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception  
+	{
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
       
-	   UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+	   	UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
       
-	   if (userInfo == null) 
-	   {
-		   mav.addObject("isAlert", true);
-		   mav.setViewName("member/login");
-	   }
-	   else if (!"S".equals(userInfo.getUserStatus())) 
-	   {
-		   mav.addObject("isAlertNoAuth", true);
-		   mav.setViewName("main");      
-	   }
-	   else
-	   {	   
-		   // 조회조건 콤보박스 데이터
-		   Map<String, Object> parameterMap = new HashMap<String, Object>();
-		   parameterMap.put("local", request.getParameter("localCondition"));
-		   List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
-		   List<ExamZoneDto> localDetailList = applyManageService.getLocalDetailListByLocal(parameterMap);
-		   //List<ExamZoneDto> localDetailList = applyManageService.getConditionLocalDetailList();
+	   	if (userInfo == null) 
+	   	{
+		   	mav.addObject("isAlert", true);
+		   	mav.setViewName("member/login");
+	   	}
+	   	else if (!"S".equals(userInfo.getUserStatus())) 
+	   	{
+		   	mav.addObject("isAlertNoAuth", true);
+		   	mav.setViewName("main");      
+	   	}
+	   	else
+	   	{	   
+		   	// 조회조건 콤보박스 데이터
+		   	Map<String, Object> parameterMap = new HashMap<String, Object>();
+		   	parameterMap.put("local", request.getParameter("localCondition"));
+		   	List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
+		   	List<ExamZoneDto> localDetailList = applyManageService.getLocalDetailListByLocal(parameterMap);
+		   	//List<ExamZoneDto> localDetailList = applyManageService.getConditionLocalDetailList();
 		
-		   // 페이징 데이터 준비(페이지당 데이터 목록수)
-		   examZoneDto.setPerPageNum(30);
+		   	// 페이징 데이터 준비(페이지당 데이터 목록수)
+		   	examZoneDto.setPerPageNum(30);
 		     
-		   parameterMap.put("textCondition", request.getParameter("textCondition"));
-		   parameterMap.put("localCondition", request.getParameter("localCondition"));
-		   parameterMap.put("localDetailCondition", request.getParameter("localDetailCondition"));
-		   parameterMap.put("pageStart", examZoneDto.getPageStart());
-		   parameterMap.put("perPageNum", examZoneDto.getPerPageNum());
+		   	parameterMap.put("textCondition", request.getParameter("textCondition"));
+		   	parameterMap.put("localCondition", request.getParameter("localCondition"));
+		   	parameterMap.put("localDetailCondition", request.getParameter("localDetailCondition"));
+		   	parameterMap.put("pageStart", examZoneDto.getPageStart());
+		   	parameterMap.put("perPageNum", examZoneDto.getPerPageNum());
 		     
-		   // 고사장 리스트 데이터
-		   List<ExamZoneDto> examZoneList = applyManageService.getExamZoneList(parameterMap);
+		   	// 고사장 리스트 데이터
+		   	List<ExamZoneDto> examZoneList = applyManageService.getExamZoneList(parameterMap);
 		
-		   // 페이징 하기위한 데이터
-		   ExamZoneDtoPageMaker pageMaker = new ExamZoneDtoPageMaker();
-		   pageMaker.setExamZoneDto(examZoneDto);
-		   pageMaker.setTotalCount(applyManageService.getExamZoneListCount(parameterMap));         
+		   	// 페이징 하기위한 데이터
+		   	ExamZoneDtoPageMaker pageMaker = new ExamZoneDtoPageMaker();
+		   	pageMaker.setExamZoneDto(examZoneDto);
+		   	pageMaker.setTotalCount(applyManageService.getExamZoneListCount(parameterMap));         
 		     
-		   mav.addObject("localList", localList);
-		   mav.addObject("localDetailList", localDetailList);
-		   mav.addObject("examZoneList", examZoneList);
-		   mav.addObject("textCondition", request.getParameter("textCondition"));
-		   mav.addObject("localCondition", request.getParameter("localCondition"));
-		   mav.addObject("localDetailCondition", request.getParameter("localDetailCondition"));
-		   mav.addObject("pageMaker", pageMaker);
-		   mav.addObject("examZoneDto", examZoneDto);
-		   mav.setViewName("admin/site_list"); 
-	   }
-	   return mav;
-   }
+		   	mav.addObject("localList", localList);
+		   	mav.addObject("localDetailList", localDetailList);
+		   	mav.addObject("examZoneList", examZoneList);
+		   	mav.addObject("textCondition", request.getParameter("textCondition"));
+		   	mav.addObject("localCondition", request.getParameter("localCondition"));
+		   	mav.addObject("localDetailCondition", request.getParameter("localDetailCondition"));
+		   	mav.addObject("pageMaker", pageMaker);
+		   	mav.addObject("examZoneDto", examZoneDto);
+		   	mav.setViewName("admin/site_list"); 
+	   	}
+	   	return mav;
+   	}
    
 	// 지역을 선택했을때, 지역에 해당하는 구 조회
 	@RequestMapping(value="/localDetailListByLocal", method=RequestMethod.GET)

@@ -6,7 +6,6 @@ $(document).ready(function(){
 	});
 });
 
-
 // 좌석배치 확정함수(manage_status_site.jsp)
 function doSeatConfirm() 
 {
@@ -39,7 +38,6 @@ function doSeatConfirm()
 			{
 				console.log("AJAX Request 성공");
 				isSuccess = data.isSuccess;
-				alert("좌석배치를 완료했습니다.");
 	        },
 	        error: function() 
 			{
@@ -53,7 +51,168 @@ function doSeatConfirm()
 		isSuccess = false;
 	}
 	
+	if (isSuccess) alert("좌석배치를 완료했습니다.");
+	else alert("좌석배치가 실패했습니다.");
+	
 	return isSuccess;
+}
+
+// 고사장 수정 or 저장함수(site_register.jsp)
+function doExamZoneSave() 
+{
+	var examZoneId = $("#examZoneId").val(); 
+	var local = $("#local").val();
+	var localDetail = $("#localDetail").val();
+	var examZoneName = $("#examZoneName").val();
+	var examRoomCnt = $("#examRoomCnt").val();
+	var examRoomUserCnt = $("#examRoomUserCnt").val();
+	var address = $("#address").val();
+	var mapFile = $("#mapFileDialog").val();
+	var actionCode = "Save";
+	var isSuccess = false;
+		
+	if (examZoneId == null || examZoneId == "null" || examZoneId == "") actionCode = "Save";	
+	else actionCode = "Modify";
+	
+	if (local == null || local == "null" || local == "")
+	{
+		alert("지역은 필수입력입니다.");
+		return isSuccess;
+	}
+	else if (localDetail == null || localDetail == "null" || localDetail == "")
+	{
+		alert("구는 필수입력입니다.");
+		return isSuccess;
+	}
+	else if (examZoneName == null || examZoneName == "null" || examZoneName == "")
+	{
+		alert("고사장명은 필수입력입니다.");
+		return isSuccess;
+	}
+	else if (examRoomCnt == null || examRoomCnt == "null" || examRoomCnt == "")
+	{
+		alert("시험 교실 수는 필수입력입니다.");
+		return isSuccess;
+	}
+	else if (examRoomUserCnt == null || examRoomUserCnt == "null" || examRoomUserCnt == "")
+	{
+		alert("교실당 인원수는 필수입력입니다.");
+		return isSuccess;
+	}
+	else if (address == null || address == "null" || address == "")
+	{
+		alert("주소는 필수입력입니다.");
+		return isSuccess;
+	}	
+	
+	if (confirm("해당 내용으로 저장하시겠습니까?")) 
+	{		
+		$.ajax({
+			url: "/ExamZoneSaveByAjax",
+	        type: "GET",
+	        async: false,
+			data: {
+					examZoneId : examZoneId,
+					local : local,
+					localDetail : localDetail,
+					examZoneName : examZoneName,
+					examRoomCnt : examRoomCnt,
+					examRoomUserCnt : examRoomUserCnt,
+					address : address,
+					mapFile : mapFile,
+					actionCode : actionCode
+				  },
+	        success: function(data) 
+			{
+				console.log("AJAX Request 성공");
+				isSuccess = data.isSuccess;
+	        },
+	        error: function() 
+			{
+	           console.log("AJAX Request 실패");
+	           isSuccess = false;
+	        }
+		});
+	}
+	else 
+	{
+		isSuccess = false;
+	}
+	
+	if (isSuccess) alert("저장이 완료되었습니다.");
+	else alert("저장이 실패되었습니다.");
+	
+	return isSuccess;
+}
+
+// 고사장 삭제함수(site_list.jsp)
+function doExamZoneDelete() 
+{
+	var checkBox = $("input[name=examZoneCheck]:checked");	
+	var checkValueArr = [];		
+	var isSuccess = false;
+			
+	if (checkBox.length < 1)
+	{
+		alert("삭제할 고사장이 한개도 선택되지 않았습니다.");
+		return false;
+	}
+	
+	if (confirm("해당 고사장을 삭제 하시겠습니까?")) 
+	{
+		checkBox.each(function(){
+			var checkValue = $(this).val();
+			checkValueArr.push(checkValue);	
+		});
+		
+		$.ajax({
+			url: "/ExamZoneDeleteByAjax",
+	        type: "GET",
+	        async: false,
+	        dataType : 'json',
+	        data: {
+					examZoneCheck : checkValueArr
+				  },
+	        success: function(data) 
+			{
+				console.log("AJAX Request 성공");
+				isSuccess = data.isSuccess;
+	        },
+	        error: function() 
+			{
+	           console.log("AJAX Request 실패");
+	           isSuccess = false;
+	        }
+		});
+	}
+	else 
+	{
+		isSuccess = false;
+	}
+	
+	if (isSuccess) alert("고사장 삭제를 완료했습니다.");
+	else alert("고사장 삭제를 실패했습니다.");
+	
+	return isSuccess;
+}
+
+// 고사장 약도등록(site_register.jsp)
+function doAddMapFile()
+{
+	$('#mapFileDialog').click();
+	
+	$("#mapFileDialog").change(function(e){
+		
+		$('#mapFile').val($('input[type=file]')[0].files[0].name);
+
+    });
+}
+
+// 고사장 약도삭제(site_register.jsp)
+function doDeleteMapFile()
+{
+	$('#mapFileDialog').val(null);
+	$('#mapFile').val(null);
 }
 
 /*
