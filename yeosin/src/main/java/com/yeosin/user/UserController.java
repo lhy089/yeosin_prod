@@ -658,7 +658,7 @@ public class UserController {
 					passUser.put("user_birth", ecvrypterAES256.encrypt(passUserList.get(i).getUserDto().getBirthDate()));
 					passUser.put("user_sex", ecvrypterAES256.encrypt(passUserList.get(i).getUserDto().getGender()));
 					passUser.put("diploma_no", passUserList.get(i).getCertId());
-					passUser.put("exam_date", examDate);
+					passUser.put("exam_date", passUserList.get(i).getExamDto().getGradeStartDate());
 					passUser.put("exam_cert_no", passUserList.get(i).getGradeDto().getPassCertId());
 					passUserArray.put(passUser);
 				}

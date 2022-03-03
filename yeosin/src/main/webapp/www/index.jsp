@@ -44,7 +44,7 @@
           <li>원서접수 : <span id="receiptDate">${examInfo.receiptStartDate} ~ ${examInfo.receiptEndDate}</span></li>
           <li>수험표발급기간 : <span id="certPrintDate">${examInfo.certPrintStartDate} ~ ${examInfo.certPrintEndDate}</span></li>
           <li>평가일 : <span id="examDate">${examInfo.examDate}</span></li>
-          <li>합격자발표기간 : <span id="gradeDate">${examInfo.gradeStartDate} ~ ${examInfo.gradeEndDate}</span></li>
+          <li>합격자발표일 : <span id="gradeDate">${examInfo.gradeStartDate}</span></li>
         </ul>
       </div>
     </div>
