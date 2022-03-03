@@ -58,7 +58,7 @@
 	          <td>${applyDto.examDto.gradeStartDate}</td>
 	        </tr>
 	      </table>
-	      <div class="evidence" style="margin: 0 auto 60px;">
+	      <div class="evidence" style="margin: 0 auto">
 	        <p>
 	          위 사람은 「금융소비자 보호에 관한 법률」<br/>
 	          및 같은 법 시행령, 감독규정에 따라 실시한<br/>
