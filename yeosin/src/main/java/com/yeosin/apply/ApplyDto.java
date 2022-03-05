@@ -29,6 +29,7 @@ public class ApplyDto {
 	private String paymentCancelDate; // 결제취소일
 	private String subjectId; // 종목코드
 	private String rowNum; // 행순서
+	private String paymentMoid; // 결제고유값
 
 	private int page;  		//현재 페이지 번호	
 	private int perPageNum; //현 페이지당 보여줄 게시글의 갯수
@@ -226,5 +227,13 @@ public class ApplyDto {
 		}else {
 			this.perPageNum = pageCount;
 		}
+	}
+	
+	public String getPaymentMoid() {
+		return paymentMoid;
+	}
+	
+	public void setPaymentMoid(String paymentMoid) {
+		this.paymentMoid = paymentMoid;
 	}
 }

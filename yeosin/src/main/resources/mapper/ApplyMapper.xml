@@ -307,6 +307,7 @@
 			PAYMENTMETHOD	=	#{paymentMethod},
 			EXAMFEE			=	#{examFee},
 			PAYMENTID		=	#{paymentId},
+			PAYMENTMOID		=	#{paymentMoid},
 			PAYMENTDATE		= 	now()
 		WHERE 	1 = 1
 		AND 	USERID = #{userId}
