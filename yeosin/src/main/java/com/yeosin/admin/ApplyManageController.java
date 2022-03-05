@@ -410,12 +410,28 @@ public class ApplyManageController {
    //시험일정등록
    @RequestMapping(value="/manageRegister", method=RequestMethod.GET)
    @ResponseBody
-   public ModelAndView manageRegiste()  
-   {
-      ModelAndView mav = new ModelAndView();      
-      mav.setViewName("admin/manage_register");
-      return mav;
-   }
+   public ModelAndView manageRegister(HttpSession session, HttpServletRequest request, HttpServletResponse response)  throws Exception
+	{
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+
+		UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
+
+		if (userInfo == null) {
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		} else if (!"S".equals(userInfo.getUserStatus())) {
+			mav.addObject("isAlertNoAuth", true);
+			mav.setViewName("main");
+		} else {
+			// 고사장 데이터
+			List<ExamZoneDto> examZoneList= applyManageService.getExamZoneListByExamRegister();
+
+			mav.addObject("examZoneList", examZoneList);
+			mav.setViewName("admin/manage_register");
+		}
+		return mav;
+	}
    
    
    //채점표리스트

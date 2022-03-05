@@ -137,4 +137,9 @@ public class ApplyManageDao {
 	public int setExamZoneDelete(Map<String, Object> map) throws Exception {
 		return sqlSession.delete(nameSpace + "deleteExamZone", map);
 	}
+	
+	// 시험일정등록 고사장 리스트 조회
+	public List<ExamZoneDto> getExamZoneListByExamRegister() throws Exception {
+		return sqlSession.selectList(nameSpace + "getExamZoneListByExamRegister");
+	}
 }

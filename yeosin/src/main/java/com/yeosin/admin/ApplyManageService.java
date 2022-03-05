@@ -120,4 +120,9 @@ public class ApplyManageService {
 	public int setExamZoneDelete(Map<String, Object> map) throws Exception {
 		return applyManageDao.setExamZoneDelete(map);
 	}
+	
+	//시험일정등록 고사장 리스트 조회
+	public List<ExamZoneDto> getExamZoneListByExamRegister() throws Exception {
+		return applyManageDao.getExamZoneListByExamRegister();
+	}
 }

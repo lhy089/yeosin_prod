@@ -539,4 +539,16 @@
 		</foreach>
 	</insert>
 	
+	<!--시험정등록 고사장 리스트  -->
+	<select id="getExamZoneListByExamRegister"  resultType="com.yeosin.apply.ExamZoneDto">
+		SELECT 	
+				EXAMZONENAME 											-- 고사장명
+			,	EXAMROOMCNT 											-- 시험 교실수
+			,	EXAMROOMUSERCNT											-- 교실당 인원수
+			,	EXAMROOMCNT * EXAMROOMUSERCNT 		AS EXAMTOTALUSERCNT 	-- 전체 인원수
+		FROM 	YS_EXAMZONE 
+		WHERE 	1 = 1
+	</select>
+	
+	
 </mapper>
