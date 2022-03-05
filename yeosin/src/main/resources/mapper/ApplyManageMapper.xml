@@ -549,6 +549,102 @@
 		FROM 	YS_EXAMZONE 
 		WHERE 	1 = 1
 	</select>
-	
+
+	<!-- 조회조건 시험명 리스트 -->
+	<select id="getConditionExamNameList" parameterType="map" resultType="com.yeosin.apply.ExamDto">
+		SELECT
+				'전체' 	AS EXAMNAME
+		FROM DUAL
+		UNION
+		SELECT
+				DISTINCT EXAMNAME
+		FROM 	YS_EXAM
+		WHERE 	1 = 1
+
+		<if test='year != null and !year.equals("전체")'>
+			AND EXAMYEAR = #{year, jdbcType=VARCHAR};
+		</if>
+	</select>
+
+	<!-- 조회조건 시험차수 리스트 -->
+	<select id="getConditionExamDegreeList" parameterType="map" resultType="com.yeosin.apply.ExamDto">
+		SELECT
+				'전체' AS EXAMDEGREE
+		FROM DUAL
+		UNION
+		SELECT OD.EXAMDEGREE
+		FROM
+			( 	SELECT
+				DISTINCT EXAMDEGREE
+				FROM YS_EXAM
+				WHERE 1 = 1
+
+		<if test='examName != null and !examName.equals("전체")'>
+			AND EXAMNAME = #{examName, jdbcType=VARCHAR}
+		</if>
+
+				ORDER BY EXAMDEGREE
+			) OD;
+	</select>
+
+	<!-- 관리자의 시험일정 리스트 조회 -->
+	<select id="getExamList" parameterType="map" resultType="com.yeosin.apply.ExamDto">
+		SELECT
+				EXAMID
+			,	EXAMYEAR
+			, 	EXAMNAME
+			, 	EXAMDEGREE
+			,	DATE_FORMAT(EXAMDATE, '%Y-%m-%d') AS EXAMDATE
+		FROM 	YS_EXAM
+		WHERE 	1 = 1
+
+		<if test='yearCondition != null and !yearCondition.equals("전체")'>
+			AND EXAMYEAR LIKE CONCAT('%', #{yearCondition, jdbcType=VARCHAR}, '%')
+		</if>
+		<if
+			test='examNameCondition != null and !examNameCondition.equals("전체")'>
+			AND EXAMNAME LIKE CONCAT('%', #{examNameCondition, jdbcType=VARCHAR}, '%')
+		</if>
+		<if
+			test='degreeCondition != null and !degreeCondition.equals("전체")'>
+			AND EXAMDEGREE LIKE CONCAT('%', #{degreeCondition, jdbcType=VARCHAR}, '%')
+		</if>
+		ORDER BY
+				EXAMYEAR
+			, 	EXAMNAME
+			, 	EXAMDEGREE
+			, 	EXAMDATE
+		LIMIT
+			#{pageStart}, #{perPageNum};
+	</select>
+
+	<!-- 관리자의 시험일정 리스트 총 갯수 조회 -->
+	<select id="getExamListCount" parameterType="map" resultType="Integer">
+		SELECT
+		COUNT(EXAMID)
+		FROM YS_EXAM
+		WHERE 1 = 1
+
+		<if test='yearCondition != null and !yearCondition.equals("전체")'>
+			AND EXAMYEAR = #{yearCondition, jdbcType=VARCHAR}
+		</if>
+		<if
+			test='examNameCondition != null and !examNameCondition.equals("전체")'>
+			AND EXAMNAME = #{examNameCondition, jdbcType=VARCHAR}
+		</if>
+		<if
+			test='degreeCondition != null and !degreeCondition.equals("전체")'>
+			AND EXAMDEGREE = #{degreeCondition, jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 기존 시험 삭제 -->
+	<insert id="deleteExam" parameterType="map">
+		<foreach item="examId" index="index" collection="examList">
+			DELETE
+			FROM YS_EXAM
+			WHERE EXAMID = #{examId, jdbcType=VARCHAR};
+		</foreach>
+	</insert>
 	
 </mapper>

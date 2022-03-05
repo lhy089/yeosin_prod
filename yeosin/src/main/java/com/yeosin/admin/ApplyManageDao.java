@@ -142,4 +142,30 @@ public class ApplyManageDao {
 	public List<ExamZoneDto> getExamZoneListByExamRegister() throws Exception {
 		return sqlSession.selectList(nameSpace + "getExamZoneListByExamRegister");
 	}
+	
+	// 시험명 리스트 조회(조회조건)
+	public List<ExamDto> getExamNameListByYear(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList(nameSpace + "getConditionExamNameList", map);
+	}
+
+	// 시험차수 리스트 조회(조회조건)
+	public List<ExamDto> getExamDegreeListByExamName(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList(nameSpace + "getConditionExamDegreeList", map);
+	}
+
+	// 시험일정 리스트 조회
+	public List<ExamDto> getExamList(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList(nameSpace + "getExamList", map);
+	}
+
+	// 시험일정 리스트 총 갯수 조회
+	public int getExamListCount(Map<String, Object> map) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getExamListCount", map);
+	}
+
+	// 시험 삭제
+	public int setExamDelete(Map<String, Object> map) throws Exception {
+		return sqlSession.delete(nameSpace + "deleteExam", map);
+	}
+	
 }

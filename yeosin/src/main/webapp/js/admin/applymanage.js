@@ -68,6 +68,7 @@ function doExamZoneSave()
 	var examRoomUserCnt = $("#examRoomUserCnt").val();
 	var address = $("#address").val();
 	var mapFile = $("#mapFileDialog").val();
+	var mapFileFullPath = $("#mapFileFullPath").val();
 	var actionCode = "Save";
 	var isSuccess = false;
 		
@@ -106,7 +107,7 @@ function doExamZoneSave()
 	}	
 	
 	if (confirm("해당 내용으로 저장하시겠습니까?")) 
-	{		
+	{				
 		$.ajax({
 			url: "/ExamZoneSaveByAjax",
 	        type: "GET",
@@ -120,6 +121,7 @@ function doExamZoneSave()
 					examRoomUserCnt : examRoomUserCnt,
 					address : address,
 					mapFile : mapFile,
+					mapFileFullPath : mapFileFullPath,
 					actionCode : actionCode
 				  },
 	        success: function(data) 
@@ -202,8 +204,9 @@ function doAddMapFile()
 	$('#mapFileDialog').click();
 	
 	$("#mapFileDialog").change(function(e){
-		
+
 		$('#mapFile').val($('input[type=file]')[0].files[0].name);
+		$('#mapFileFullPath').val(this.files[0].mozFullPath);
 
     });
 }
@@ -213,6 +216,52 @@ function doDeleteMapFile()
 {
 	$('#mapFileDialog').val(null);
 	$('#mapFile').val(null);
+}
+
+// 시험 삭제함수(manage_schedule.jsp)
+function doScheduleDelete() 
+{
+	var checkBox = $("input[name=examCheck]:checked");
+	var checkValueArr = [];
+	var isSuccess = false;
+
+	if (checkBox.length < 1) {
+		alert("삭제할 시험일정이 한개도 선택되지 않았습니다.");
+		return false;
+	}
+
+	if (confirm("해당 시험일정을 삭제 하시겠습니까?")) {
+		checkBox.each(function() {
+			var checkValue = $(this).val();
+			checkValueArr.push(checkValue);
+		});
+
+		$.ajax({
+			url: "/ExamDeleteByAjax",
+			type: "GET",
+			async: false,
+			dataType: 'json',
+			data: {
+				examCheck: checkValueArr
+			},
+			success: function(data) {
+				console.log("AJAX Request 성공");
+				isSuccess = data.isSuccess;
+			},
+			error: function() {
+				console.log("AJAX Request 실패");
+				isSuccess = false;
+			}
+		});
+	}
+	else {
+		isSuccess = false;
+	}
+
+	if (isSuccess) alert("시험일정 삭제를 완료했습니다.");
+	else alert("시험일정 삭제를 실패했습니다.");
+
+	return isSuccess;
 }
 
 /*

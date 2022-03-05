@@ -106,6 +106,8 @@
         	<button style="width:100px; height:40px; font-size:15px;" type="button" onclick="doDeleteMapFile()">삭제</button>
         	<button style="width:100px; height:40px; font-size:15px;" type="button" onclick="doAddMapFile()">추가</button>
         	<input type="text" readonly="readonly" name="" id="mapFile">
+        	<input type="hidden" id="mapFileFullPath">
+        	<input type="hidden" id="mapFileName">
         	<input style="display:none;" type="file" accept="image/*" name="" id="mapFileDialog">
         </td>
       </tr>

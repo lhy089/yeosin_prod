@@ -1,5 +1,6 @@
 package com.yeosin.admin;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.yeosin.apply.ApplyDto;
 import com.yeosin.apply.ApplyPageMaker;
 import com.yeosin.apply.ExamDto;
+import com.yeosin.apply.ExamDtoPageMaker;
 import com.yeosin.apply.ExamZoneDto;
 import com.yeosin.apply.ExamZoneDtoPageMaker;
 import com.yeosin.apply.SubjectDto;
 import com.yeosin.user.UserDto;
+import com.yeosin.util.ImageSaveUtil;
 
 @Controller
 public class ApplyManageController {
@@ -229,6 +232,8 @@ public class ApplyManageController {
 		else 
 		{		
 			int isSaveUpdateSuccess = 0;
+			//byte[] imageMap = ImageSaveUtil.imageToByteArray(String.valueOf(requestMap.get("mapFileFullPath")));
+			//requestMap.replace("mapFile", imageMap);
 			
 			// 저장, 수정에 따라 호출하는 저장로직 다르게 호출
 			if (requestMap.get("actionCode").equals("Save"))
@@ -397,15 +402,61 @@ public class ApplyManageController {
 		return localDetailList;
 	}
    
-   //시험일정관리
-   @RequestMapping(value="/manageSchedule", method=RequestMethod.GET)
-   @ResponseBody
-   public ModelAndView manageSchedule()  
-   {
-      ModelAndView mav = new ModelAndView();      
-      mav.setViewName("admin/manage_schedule");
-      return mav;
-   }
+	// 시험일정관리
+	@RequestMapping(value="/manageSchedule", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView manageSchedule(ExamDto examDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+
+		UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
+
+		if (userInfo == null) {
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		} else if (!"S".equals(userInfo.getUserStatus())) {
+			mav.addObject("isAlertNoAuth", true);
+			mav.setViewName("main");
+		} else {
+			// 조회조건 콤보박스 데이터
+			Map<String, Object> parameterMap = new HashMap<String, Object>();
+			parameterMap.put("year", request.getParameter("yearCondition"));
+			parameterMap.put("examName", request.getParameter("examNameCondition"));
+			List<ExamDto> yearList = applyManageService.getConditionExamYearList();
+			List<ExamDto> examNameList = applyManageService.getExamNameListByYear(parameterMap);
+			List<ExamDto> examDegreeList = applyManageService.getExamDegreeListByExamName(parameterMap);
+
+			// 페이징 데이터 준비(페이지당 데이터 목록수)
+			examDto.setPerPageNum(30);
+
+			parameterMap.put("yearCondition", request.getParameter("yearCondition"));
+			parameterMap.put("examNameCondition", request.getParameter("examNameCondition"));
+			parameterMap.put("degreeCondition", request.getParameter("degreeCondition"));
+			parameterMap.put("pageStart", examDto.getPageStart());
+			parameterMap.put("perPageNum", examDto.getPerPageNum());
+
+			// 시험 일정 데이터
+			List<ExamDto> examList = applyManageService.getExamList(parameterMap);
+
+			// 페이징 하기위한 데이터
+			ExamDtoPageMaker pageMaker = new ExamDtoPageMaker();
+			pageMaker.setExamDto(examDto);
+			pageMaker.setTotalCount(applyManageService.getExamListCount(parameterMap));
+
+			mav.addObject("yearList", yearList);
+			mav.addObject("examNameList", examNameList);
+			mav.addObject("degreeList", examDegreeList);
+			mav.addObject("examList", examList);
+			mav.addObject("yearCondition", request.getParameter("yearCondition"));
+			mav.addObject("examNameCondition", request.getParameter("examNameCondition"));
+			mav.addObject("degreeCondition", request.getParameter("degreeCondition"));
+			mav.addObject("pageMaker", pageMaker);
+			mav.addObject("examDto", examDto);
+			mav.setViewName("admin/manage_schedule");
+		}
+		return mav;
+	}
    
    //시험일정등록
    @RequestMapping(value="/manageRegister", method=RequestMethod.GET)
@@ -533,4 +584,74 @@ public class ApplyManageController {
 	   }
 	   return mav; 
    }
+   
+
+	// 년도를 선택했을때, 년도에 해당하는 시험명 조회
+	@RequestMapping(value = "/examNameConditionByYear", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ExamDto> ExamNameListByLocal(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");
+
+		// AJAX에서 넘어온 데이터
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("year", requestMap.get("year"));
+
+		// AJAX로 넘겨줄 데이터
+		List<ExamDto> examNameList = applyManageService.getExamNameListByYear(parameterMap);
+
+		return examNameList;
+	}
+
+	// 시험명을 선택했을때, 시험명에 해당하는 시험차수 조회
+	@RequestMapping(value = "/degreeConditionByExamName", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ExamDto> ExamDegreeListByExamName(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");
+
+		// AJAX에서 넘어온 데이터
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("examName", requestMap.get("examName"));
+
+		// AJAX로 넘겨줄 데이터
+		List<ExamDto> examDegreeList = applyManageService.getExamDegreeListByExamName(parameterMap);
+
+		return examDegreeList;
+	}
+
+	// 시험 삭제
+	@RequestMapping(value = "/ExamDeleteByAjax", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> ExamDeleteByAjax(@RequestParam(value = "examCheck[]") List<String> requestArray, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		response.setCharacterEncoding("UTF-8");
+		UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
+		boolean isSuccess = false;
+
+		// AJAX로 넘겨줄 데이터
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+
+		if (userInfo == null || !"S".equals(userInfo.getUserStatus())) {
+			isSuccess = false;
+		} else {
+			// 체크한 시험일정에 대한 삭제로직
+			Map<String, Object> parameter = new HashMap<String, Object>();
+			parameter.put("examList", requestArray);
+
+			// 삭제_주석처리
+			//int isDeleteSuccess = applyManageService.setExamDelete(parameter);
+			int isDeleteSuccess = 0;
+
+			if (isDeleteSuccess == 1)
+				isSuccess = true;
+			else
+				isSuccess = false;
+		}
+
+		resultMap.put("isSuccess", isSuccess);
+
+		return resultMap;
+	}
+   
 }

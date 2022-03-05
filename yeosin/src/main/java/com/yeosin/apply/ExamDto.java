@@ -25,6 +25,39 @@ public class ExamDto {
 	private String gradeEndDate; // 성적 공고기간(끝)
 	private String examCost; // 시험비용
 	private String gradeStatus; // 성적등록여부
+	
+	private int page; // 현재 페이지 번호
+	private int perPageNum; // 현 페이지당 보여줄 게시글의 갯수
+
+	public ExamDto() {
+		this.page = 1;
+		this.perPageNum = 30;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public int getPerPageNum() {
+		return perPageNum;
+	}
+
+	public void setPerPageNum(int pageCount) {
+		int cnt = this.perPageNum;
+		if (pageCount != cnt) {
+			this.perPageNum = pageCount;
+		} else {
+			this.perPageNum = pageCount;
+		}
+	}
+
+	public int getPageStart() {
+		return (this.page - 1) * perPageNum;
+	}
 
 	public String getExamCost() {
 		return examCost;
