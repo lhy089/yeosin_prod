@@ -38,7 +38,47 @@ $(document).ready(function() {
 	      $("#page").val(1);
 	      $("#commonform").submit(); 
 	   });
+	   
+	   $("#excelDownload").click(function(){
+	 		saveExcel();
+		});
 });
+
+function saveExcel() {
+	 /*
+		(1)
+	  	 아래 두 가지 요소만 정확하게 선택되면 됨.
+	   	$('.column_thead').find('th')
+	 	$('#columnList').find('tr') 
+	*/
+	var columnList = $.map($('.column_thead').find('th'), function(th){ // 리스트 head 찾기 
+		if(!$(th).hasClass('first')) return $(th).text();
+	});
+	
+	var dataList = new Array();
+	$('#columnList').find('tr').each(function(tr){ // 리스트 body 찾기
+		if(tr == 0) return true;
+		var row = new Array();
+		$(this).children().each(function(idx){
+			if(idx == 0) return;
+			row.push($(this).text());
+		});
+		dataList.push(row.join('▒'));
+	});
+
+	$("#fileName").val("채점리스트 목록");  // 다운로드 받을 엑셀 이름 정의
+	$("#columns").val(columnList.join(','));
+	$("#data").val(dataList.join('▧'));
+	$("#excelForm").submit();
+	/* 
+	(2)
+	<form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
+	/excelDownload > UserManageController 에 있음.
+	완전히 똑같이 호출해도 되고,
+	/excelDownloadForApplyList 와 같이 다른 이름으로 controller에 추가해서 사용 가능.
+	controller 메서드는 그대로 사용.
+	*/;
+ }
 </script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -112,7 +152,7 @@ $(document).ready(function() {
           <th>목록건수</th>
            <td>
 			<select id="onePageDataCountCondition" name="onePageDataCountCondition" class="count">
-	            <c:forEach var="i" begin="30" end="100" step="10">
+	            <c:forEach var="i" begin="50" end="300" step="50">
 	            <c:choose>
 	            <c:when test="${i eq pageCondition}">
 	               <option value="${i}" selected>${i}</option>
@@ -128,7 +168,16 @@ $(document).ready(function() {
       </table>
     </div>
     <a onclick="return false;" id="btn_search" class="btn_apply mb100">조회</a>
-    <table class="list">
+    </form>
+    <form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
+  		<input type="hidden" name="fileName" id="fileName" value="">	
+  		<input type="hidden" name="columns" id="columns" value="">	
+  		<input type="hidden" name="data" id="data" value="">	
+  	</form>
+  	<!-- <ul class="btn_wrap">
+      <li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
+    </ul>-->
+    <table class="list" id="columnList">
       <colgroup>
         <col width="20%">
         <col width="14%">
@@ -142,8 +191,8 @@ $(document).ready(function() {
         <col width="9%">
       </colgroup>
       <tr>
-        <th>고사장</th>
-        <th>수험번호</th>
+        <th class="column_thead">고사장</th>
+        <th class="first">수험번호</th>
         <th>성명</th>
         <th>생년월일</th>
         <th>성별</th>
@@ -194,7 +243,7 @@ $(document).ready(function() {
     
   </div>
 </div>
-</form>
+
 
 </body>
 </html>
