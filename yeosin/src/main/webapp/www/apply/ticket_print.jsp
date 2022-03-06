@@ -29,7 +29,7 @@
   <link href="/www/inc/css/common.css" rel="stylesheet" type="text/css" media="screen">
   <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"> <!--나눔스퀘어 font-->
   
-  <link rel="stylesheet" href="/www/inc/css/apply.css">
+  <link rel="stylesheet" href="/www/inc/css/apply.css?t=<%= new java.util.Date() %>">
   
 <script>
 $(function(){
