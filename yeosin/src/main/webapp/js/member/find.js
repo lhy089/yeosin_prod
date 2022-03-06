@@ -26,15 +26,18 @@ $(document).ready(function(){
 	        	if(data == "null"){
 	        		var url = "/popup?type=noData&data="+data;
 		    		var options = 'top=10, left=10, width=400, height=200, status=no, menubar=no, toolbar=no, resizable=no';
-		    		window.open(url, "아이디/비밀번호 찾기", options);
+		    		var popup = window.open(url, "아이디/비밀번호 찾기", options);
+		    		popup.focus();
 	        	}else if(data == "duple"){
 	        		var url = "/popup?type=duple&data="+data;
 		    		var options = 'top=10, left=10, width=400, height=200, status=no, menubar=no, toolbar=no, resizable=no';
-		    		window.open(url, "아이디/비밀번호 찾기", options);
+		    		var popup = window.open(url, "아이디/비밀번호 찾기", options);
+		    		popup.focus();
 	        	}else {
 	        		var url = "/popup?type=id&data="+data;
 		    		var options = 'top=10, left=10, width=400, height=200, status=no, menubar=no, toolbar=no, resizable=no';
-		    		window.open(url, "아이디/비밀번호 찾기", options);
+		    		var popup = window.open(url, "아이디/비밀번호 찾기", options);
+		    		popup.focus();
 	        	}
 	        },
 	      });

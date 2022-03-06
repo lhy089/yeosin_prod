@@ -49,7 +49,8 @@
   <div class="contentBox">
     <h1>비밀번호 확인</h1>
     <div class="pwdBox">
-      	회원님의 비밀번호는 ${data} 입니다.
+    	비밀번호가 갱신 되었습니다. 
+      	<br>회원님의 비밀번호는 ${data} 입니다.
     </div>
   </div>
 </div>
