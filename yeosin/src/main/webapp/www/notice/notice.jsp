@@ -68,7 +68,14 @@ $(document).ready(function() {
     <ul class="dataList">
       <c:forEach var="notice" items="${noticeList}">	
       	<li>
-        	<a href="/notice_view?boardType=${notice.boardType}&boardSequence=${notice.boardSequence}&page=${pageMaker.boardDto.page}&searchWord=${notice.searchWord}&searchType=${notice.searchType}">${notice.title}</a>
+      		<c:url value="/notice_view" var="noticeUrl">
+            	<c:param name="boardType" value="${notice.boardType}" />
+            	<c:param name="boardSequence" value="${notice.boardSequence}" />
+            	<c:param name="page" value="${pageMaker.boardDto.page}" />
+            	<c:param name="searchWord" value="${notice.searchWord}" />
+            	<c:param name="searchType" value="${notice.searchType}" />
+        	 </c:url>
+        	<a href='${noticeUrl}'>${notice.title}</a>
         	<div>
           		<p class="num">No.${notice.boardSequence}</p>
          	 	<p class="viewCount">조회수 : ${notice.hitCnt}</p>
@@ -83,17 +90,35 @@ $(document).ready(function() {
     <ul class="btn-group pagination">
   	<c:if test="${pageMaker.prev }">
    		<li>
-     		 <a href='<c:url value="/notice?page=${pageMaker.startPage-1}&boardType=1&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}" />'><i class="fa fa-chevron-left">이전</i></a>
+   			<c:url value="/notice" var="preNoticeUrl">
+   				<c:param name="page" value="${pageMaker.startPage-1}" />
+            	<c:param name="boardType" value="1" />
+            	<c:param name="searchWord" value="${boardDto.searchWord}" />
+            	<c:param name="searchType" value="${boardDto.searchType}" />
+        	 </c:url>
+     		 <a href='${preNoticeUrl}'><i class="fa fa-chevron-left">이전</i></a>
   		</li>
  	</c:if>
   	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
     	<li value="${pageNum}"> 
-       		<a href='<c:url value="/notice?page=${pageNum}&boardType=1&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}"/>'><i class="fa">${pageNum}</i></a>
+    		<c:url value="/notice" var="curNoticeUrl">
+   				<c:param name="page" value="${pageNum}" />
+            	<c:param name="boardType" value="1" />
+            	<c:param name="searchWord" value="${boardDto.searchWord}" />
+            	<c:param name="searchType" value="${boardDto.searchType}" />
+        	 </c:url>
+       		<a href='${curNoticeUrl}'><i class="fa">${pageNum}</i></a>
     	</li>
     </c:forEach>
     <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
     	<li>
-      		<a href='<c:url value="/notice?page=${pageMaker.endPage+1}&boardType=1&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}"/>'><i class="fa fa-chevron-right">다음</i></a>
+    		<c:url value="/notice" var="nextNoticeUrl">
+   				<c:param name="page" value="${pageMaker.endPage+1}" />
+            	<c:param name="boardType" value="1" />
+            	<c:param name="searchWord" value="${boardDto.searchWord}" />
+            	<c:param name="searchType" value="${boardDto.searchType}" />
+        	 </c:url>
+      		<a href='${nextNoticeUrl}'><i class="fa fa-chevron-right">다음</i></a>
    		</li>
     </c:if>
 	</ul>

@@ -24,7 +24,6 @@
 
   <link rel="stylesheet" href="/www/inc/css/state.css">
 </head>
-
 <body>
 
 <!--?php include_once "../common/header.php";?-->
@@ -53,10 +52,16 @@
         <td>${result.examDto.examName}</td>
         <td>${result.gradeDto.isPass}</td>
 		<td>
+		<c:url value="/certificate" var="url">
+            	<c:param name="examDto.gradeStartDate" value="${result.examDto.gradeStartDate}" />
+            	<c:param name="gradeDto.passCertId" value="${result.gradeDto.passCertId}" />
+            	<c:param name="subjectDto.subjectName" value="${result.subjectDto.subjectName}" />
+            	<c:param name="userDto.userName" value="${result.userDto.userName}" />
+         </c:url>
          <c:set var = "passResult"  value = "${result.gradeDto.isPass}"/>
             <c:choose> 
             <c:when test="${passResult eq '합격'}">
-            	 <a href="/certificate?examDto.gradeStartDate=${result.examDto.gradeStartDate}&gradeDto.passCertId=${result.gradeDto.passCertId}&subjectDto.subjectName=${result.subjectDto.subjectName}&userDto.userName=${result.userDto.userName}"  class="btn_apply">출력하기</a>
+            	 <a href="${url}"  class="btn_apply">출력하기</a>
             </c:when>   
             <c:otherwise>
                 <p>출력 불가</p>

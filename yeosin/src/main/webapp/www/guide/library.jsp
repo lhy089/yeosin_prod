@@ -69,7 +69,14 @@ $(document).ready(function() {
     <ul class="dataList">
       <c:forEach var="library" items="${libraryList}">	
       	<li>
-        	<a href="/library_view?boardType=${library.boardType}&boardSequence=${library.boardSequence}&page=${pageMaker.boardDto.page}&searchWord=${library.searchWord}&searchType=${library.searchType}">${library.title}</a>
+      		 <c:url value="/library_view" var="libraryUrl">
+            	<c:param name="boardType" value="${library.boardType}" />
+            	<c:param name="boardSequence" value="${library.boardSequence}" />
+            	<c:param name="page" value="${pageMaker.boardDto.page}" />
+            	<c:param name="searchWord" value="${library.searchWord}" />
+            	<c:param name="searchType" value="${library.searchType}" />
+        	 </c:url>
+        	<a href="${libraryUrl}">${library.title}</a>
         	<div>
           		<p class="num">No.${library.boardSequence}</p>
          	 	<p class="viewCount">조회수 : ${library.hitCnt}</p>
@@ -84,17 +91,35 @@ $(document).ready(function() {
     <ul class="btn-group pagination">
   	<c:if test="${pageMaker.prev}">
    		<li>
-     		 <a href='<c:url value="/library?page=${pageMaker.startPage-1}&boardType=3&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}" />'><i class="fa fa-chevron-left">이전</i></a>
+   			<c:url value="/library" var="preLibraryUrl">
+   				<c:param name="page" value="${pageMaker.startPage-1}" />
+            	<c:param name="boardType" value="3" />
+            	<c:param name="searchWord" value="${boardDto.searchWord}" />
+            	<c:param name="searchType" value="${boardDto.searchType}" />
+        	 </c:url>
+     		 <a href='${preLibraryUrl}'><i class="fa fa-chevron-left">이전</i></a>
   		</li>
  	</c:if>
   	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
     	<li value="${pageNum}"> 
-       		<a href='<c:url value="/library?page=${pageNum}&boardType=3&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}"/>'><i class="fa">${pageNum}</i></a>
+    		<c:url value="/library" var="curLibraryUrl">
+   				<c:param name="page" value="${pageNum}" />
+            	<c:param name="boardType" value="3" />
+            	<c:param name="searchWord" value="${boardDto.searchWord}" />
+            	<c:param name="searchType" value="${boardDto.searchType}" />
+        	 </c:url>
+       		<a href='${curLibraryUrl}'><i class="fa">${pageNum}</i></a>
     	</li>
     </c:forEach>
     <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
     	<li>
-      		<a href='<c:url value="/library?page=${pageMaker.endPage+1}&boardType=3&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}"/>'><i class="fa fa-chevron-right">다음</i></a>
+    		<c:url value="/library" var="nextLibraryUrl">
+   				<c:param name="page" value="${pageMaker.endPage+1}" />
+            	<c:param name="boardType" value="3" />
+            	<c:param name="searchWord" value="${boardDto.searchWord}" />
+            	<c:param name="searchType" value="${boardDto.searchType}" />
+        	 </c:url>
+      		<a href='${nextLibraryUrl}'><i class="fa fa-chevron-right">다음</i></a>
    		</li>
     </c:if>
 	</ul>
