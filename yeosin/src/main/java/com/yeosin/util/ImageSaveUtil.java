@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 
 public class ImageSaveUtil {
 	
+	// Image 파일 -> byte[] 타입으로 형변환
 	public static byte[] imageToByteArray(String filePath) throws Exception
 	{
 		byte[] returnValue = null;
@@ -45,5 +46,11 @@ public class ImageSaveUtil {
 		
 		return returnValue;
 	}
+	
+	// byte[] 타입 -> Image 파일로 형변환
+//	public static byte[] ByteArrayToImage(String filePath) throws Exception
+//	{
+//
+//	}
 
 }

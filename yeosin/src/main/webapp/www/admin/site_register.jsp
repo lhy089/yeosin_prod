@@ -101,15 +101,15 @@
         <td><input type="text" name="" id="address" value="${examZone.description}"></td>
       </tr>
       <tr>
-        <th>약도 등록</th>
+      	<!-- 약도저장 보류 -->
+<!--         <th>약도 등록</th>
         <td>
         	<button style="width:100px; height:40px; font-size:15px;" type="button" onclick="doDeleteMapFile()">삭제</button>
         	<button style="width:100px; height:40px; font-size:15px;" type="button" onclick="doAddMapFile()">추가</button>
-        	<input type="text" readonly="readonly" name="" id="mapFile">
-        	<input type="hidden" id="mapFileFullPath">
-        	<input type="hidden" id="mapFileName">
+        	<input type="text" readonly="readonly" name="mapFileName" id="mapFileName">
+        	<input type="hidden" name="mapFileFullName" id="mapFileFullName">
         	<input style="display:none;" type="file" accept="image/*" name="" id="mapFileDialog">
-        </td>
+        </td> -->
       </tr>
     </table>
 <!--     <input style="border:none;" class="btn_apply mb100" type="submit" value="저장"> -->

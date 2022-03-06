@@ -1,5 +1,6 @@
 package com.yeosin.admin;
 
+import java.io.File;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -232,8 +233,10 @@ public class ApplyManageController {
 		else 
 		{		
 			int isSaveUpdateSuccess = 0;
-			//byte[] imageMap = ImageSaveUtil.imageToByteArray(String.valueOf(requestMap.get("mapFileFullPath")));
-			//requestMap.replace("mapFile", imageMap);
+			//String testPath = "C:\\KakaoTalk_20220225_114652413.png";
+			//byte[] imageMap = ImageSaveUtil.imageToByteArray(testPath);
+			//byte[] imageMap = ImageSaveUtil.imageToByteArray(String.valueOf(requestMap.get("mapFileFullName"))); requestMap.replace("mapFile", imageMap);
+			requestMap.put("mapFile", requestMap.get("mapFileFullName"));
 			
 			// 저장, 수정에 따라 호출하는 저장로직 다르게 호출
 			if (requestMap.get("actionCode").equals("Save"))

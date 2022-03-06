@@ -67,8 +67,8 @@ function doExamZoneSave()
 	var examRoomCnt = $("#examRoomCnt").val();
 	var examRoomUserCnt = $("#examRoomUserCnt").val();
 	var address = $("#address").val();
-	var mapFile = $("#mapFileDialog").val();
-	var mapFileFullPath = $("#mapFileFullPath").val();
+	var mapFileName = $("#mapFileName").val();
+	var mapFileFullName = $("#mapFileFullName").val();
 	var actionCode = "Save";
 	var isSuccess = false;
 		
@@ -120,13 +120,14 @@ function doExamZoneSave()
 					examRoomCnt : examRoomCnt,
 					examRoomUserCnt : examRoomUserCnt,
 					address : address,
-					mapFile : mapFile,
-					mapFileFullPath : mapFileFullPath,
+					mapFileName : mapFileName,
+					mapFileFullName : mapFileFullName,
 					actionCode : actionCode
 				  },
 	        success: function(data) 
 			{
 				console.log("AJAX Request 성공");
+				$("#fileForm").submit();
 				isSuccess = data.isSuccess;
 	        },
 	        error: function() 
@@ -205,8 +206,8 @@ function doAddMapFile()
 	
 	$("#mapFileDialog").change(function(e){
 
-		$('#mapFile').val($('input[type=file]')[0].files[0].name);
-		$('#mapFileFullPath').val(this.files[0].mozFullPath);
+		$('#mapFileName').val($('input[id=mapFileDialog]')[0].files[0].name);
+		$('#mapFileFullName').val($('input[id=mapFileDialog]')[0].files[0]);
 
     });
 }
@@ -215,7 +216,8 @@ function doAddMapFile()
 function doDeleteMapFile()
 {
 	$('#mapFileDialog').val(null);
-	$('#mapFile').val(null);
+	$('#mapFileName').val(null);
+	$('#mapFileFullName').val(null);
 }
 
 // 시험 삭제함수(manage_schedule.jsp)
