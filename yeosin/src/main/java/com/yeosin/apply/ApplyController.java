@@ -364,6 +364,7 @@ public class ApplyController {
 							// 결제실패시 해당 접수번호로 등록된 데이터 삭제
 							int delCnt = applyService.setDeleteReceiptInfo(newMaxReceiptNumberStr);
 							System.out.println(">>> setDeleteReceiptInfo delCnt : " + delCnt);
+							mav.addObject("resultCode", resultMap.get("ResultCode"));
 							mav.addObject("isSuccess", "N");
 							mav.setViewName("apply/apply6");
 							return mav;
@@ -398,13 +399,17 @@ public class ApplyController {
 					catch (Exception e)
 					{
 						Map<String,String> cancelResultMap = new HashMap<>();
-						if(!("3001".equals(resultMap.get("ResultCode")) || "4000".equals(resultMap.get("ResultCode")))) {
-							resultMap.put("receiptId", newMaxReceiptNumberStr);
-					      	resultMap.put("userId", userInfo.getUserId());
-					      	resultMap.put("isRollback", "Y");
+						if("3001".equals(resultMap.get("ResultCode")) || "4000".equals(resultMap.get("ResultCode"))) {
+							cancelResultMap.put("receiptId", newMaxReceiptNumberStr);
+							cancelResultMap.put("userId", userInfo.getUserId());
+							cancelResultMap.put("Amt", resultMap.get("Amt"));
+							cancelResultMap.put("Tid", resultMap.get("TID"));
+							cancelResultMap.put("isRollback", "Y");
+							Thread.sleep(2000);
 							cancelResultMap = this.payCancelResult(session, request, response, cancelResultMap);
-							System.out.println(">>> payCancelResult isRollback : " + e.getMessage());
+							System.out.println(">>> payCancelResult isRollback error : " + e.getMessage());
 							System.out.println(">>> receiptId : " + newMaxReceiptNumberStr +", userId : " + userInfo.getUserId());
+							mav.addObject("isRefund", "Y");
 						}
 						// 오류발생시 해당 접수번호로 등록된 데이터 삭제
 						applyService.setDeleteReceiptInfo(newMaxReceiptNumberStr);
@@ -1065,7 +1070,9 @@ public class ApplyController {
 		String cancelMsg 			= "고객요청";	// 취소사유
 
 		if("Y".equals(resultMap.get("isRollback"))) {
-			cancelAmt = (String)request.getParameter("Amt");	// 취소금액
+			tid = (String)resultMap.get("Tid");	// 취소금액
+			cancelAmt = (String)resultMap.get("Amt");	// 취소금액
+			partialCancelCode = "0";	// 취소금액
 		}
 		/*
 		 ****************************************************************************************
@@ -1375,11 +1382,11 @@ public class ApplyController {
 							// 결제실패시 해당 접수번호로 등록된 데이터 삭제
 							int delCnt = applyService.setDeleteReceiptInfo(newMaxReceiptNumberStr);
 							System.out.println(">>> moRecipt2 setDeleteReceiptInfo delCnt : " + delCnt);
+							mav.addObject("resultCode", resultMap.get("ResultCode"));
 							mav.addObject("isSuccess", "N");
 							mav.setViewName("apply/apply6");
 							return mav;
 						}
-
 						String paymentMethod = "";
 						if("CARD".equals(resultMap.get("PayMethod"))) {
 							paymentMethod = "카드";
@@ -1409,13 +1416,17 @@ public class ApplyController {
 					catch (Exception e)
 					{
 						Map<String,String> cancelResultMap = new HashMap<>();
-						if(!("3001".equals(resultMap.get("ResultCode")) || "4000".equals(resultMap.get("ResultCode")))) {
-							resultMap.put("receiptId", newMaxReceiptNumberStr);
-							resultMap.put("userId", userInfo.getUserId());
-							resultMap.put("isRollback", "Y");
+						if("3001".equals(resultMap.get("ResultCode")) || "4000".equals(resultMap.get("ResultCode"))) {
+							cancelResultMap.put("receiptId", newMaxReceiptNumberStr);
+							cancelResultMap.put("userId", userInfo.getUserId());
+							cancelResultMap.put("Amt", resultMap.get("Amt"));
+							cancelResultMap.put("Tid", resultMap.get("TID"));
+							cancelResultMap.put("isRollback", "Y");
+							Thread.sleep(2000);
 							cancelResultMap = this.payCancelResult(session, request, response, cancelResultMap);
-							System.out.println(">>> payCancelResult isRollback : " + e.getMessage());
+							System.out.println(">>> payCancelResult isRollback error : " + e.toString());
 							System.out.println(">>> receiptId : " + newMaxReceiptNumberStr +", userId : " + userInfo.getUserId());
+							mav.addObject("isRefund", "Y");
 						}
 						// 오류발생시 해당 접수번호로 등록된 데이터 삭제
 						applyService.setDeleteReceiptInfo(newMaxReceiptNumberStr);

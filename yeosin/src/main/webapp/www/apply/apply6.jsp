@@ -55,6 +55,15 @@
 	    	<c:otherwise>
 	    		수험번호 : 결제실패
 				<p>접수가 실패하였습니다.</p>
+				<c:choose>
+				<c:when test="${not empty resultCode}">
+					<p>결제 오류 코드 : ${resultCode}</p>
+				</c:when>
+				<c:when test="${isRefund eq 'Y'}">
+					<p>결제가 자동으로 환불 처리 됐습니다.</p>
+					<p>재시도 하신 후 실패할 시 고객센터에 문의 부탁 드립니다.</p>
+				</c:when>
+				</c:choose>
 				<p>출력 불가</p>
 	    	</c:otherwise>
 	    </c:choose>
