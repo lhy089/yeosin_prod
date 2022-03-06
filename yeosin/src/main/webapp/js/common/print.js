@@ -8,6 +8,16 @@ $(document).ready(function(){
       
    // 자격인증서 발급
    $("#btn_print_certificate").click(function(){
+	   
+	   var agent = navigator.userAgent.toLowerCase(); 
+	   if ( 
+	     (navigator.appName === 'Netscape' && navigator.userAgent.search('Trident') !== -1)
+	     || (agent.indexOf("msie") !== -1) 
+	   ) { 
+	       alert('Internet Explorer에서는 출력할 수 없습니다. 다른 브라우저를 이용하시기 바랍니다.');
+	       return;
+	   }
+	   
        const completeParam = makeHtml();
           reportPrintCertificate(completeParam);
       });
