@@ -28,7 +28,7 @@
   <script>
   $(document).ready(function(){
 	  $('#btn_print').click(function() {
-  		window.open('/ticket_print?receiptId=${applyInfo.receiptId}', 'ticketPrint', 'width=1000, height=1340, left=400, top=400, resizable = yes');
+  		window.open('/ticket_print?receiptId=${applyInfo.receiptId}', 'ticketPrint', 'width=1000, height=1340, left=400, top=400, resizable = yes, scrollbars=1');
 	  })
   })
   </script>
