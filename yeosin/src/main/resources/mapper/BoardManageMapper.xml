@@ -3,6 +3,140 @@
 
 <mapper namespace="com.yeosin.admin.BoardManageDao" >
 
+	 <!--게시물관리 리스트-->
+	 <select id="getBoardList" parameterType="com.yeosin.board.BoardDto" resultType="com.yeosin.board.BoardDto">
+		SELECT 	
+				BOARDID
+			,	BOARDTYPE 
+			,	BOARDSEQUENCE 
+			,	TITLE 
+			,	CONTENTS 
+			,	HITCNT 
+			,	USERID 
+			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME 
+			,	CATEGORY
+			,	CATEGORYSEQUENCE 
+		FROM 	YS_BOARD
+		WHERE 	BOARDTYPE = #{boardType}
+		ORDER BY WRITETIME DESC
+		LIMIT #{pageStart}, #{perPageNum}
+   </select>
+   
+    <!--게시물관리 총 갯수-->
+   <select id="countBoardListTotal" resultType="Integer" parameterType="com.yeosin.board.BoardDto" >
+       SELECT
+            count(*)
+        FROM
+           YS_BOARD
+        WHERE
+            BOARDTYPE = #{boardType}
+	</select>
+   
+   <!--게시물관리 파일 조회-->
+   <select id="getFileInfo" resultType="com.yeosin.board.FileDto" parameterType="String">
+	SELECT
+			FILEID
+		,	REALFILENAME
+		, 	LOCALFILENAME
+		,	FILESIZE
+		,	FILEURL
+		,	BOARDID
+	FROM
+		YS_FILE
+	WHERE
+		BOARDID = #{boardId}
+	</select>
+	
+	<!--게시물관리 게시판 조회-->
+	<select id="getBoardInfo" resultType="com.yeosin.board.BoardDto" parameterType="com.yeosin.board.BoardDto">
+	SELECT 	
+				CATEGORY
+			,	TITLE 
+			,	CONTENTS 
+		FROM 	YS_BOARD
+		WHERE 	BOARDID = #{boardId}
+	</select>
+	
+	<!-- 게시물관리 게시판 업데이트 -->
+	<update id="setBoardInfo" parameterType="com.yeosin.board.BoardDto"> 
+	UPDATE YS_BOARD 
+	SET 
+		CATEGORY = #{category},
+		TITLE = #{title},
+		CONTENTS = #{contents} 
+	WHERE BOARDID = #{boardId}
+	</update>
+	
+	<!-- 게시물관리 파일 업데이트 -->
+	<update id="setFileInfo" parameterType="com.yeosin.board.FileDto"> 
+	UPDATE YS_FILE 
+	SET 
+		REALFILENAME = #{realFileName},
+		LOCALFILENAME = #{localFileName},
+		FileEXTSN = #{fileExtsn}
+	WHERE BOARDID = #{boardId}	
+	</update>
+	
+	<!-- Board테이블 BoardId컬럼 MaxNumber 조회 -->
+	<select id="getMaxBoardId" resultType="Integer">
+		SELECT 	MAX(CONVERT(REPLACE(BOARDID, 'board', ''), SIGNED)) 
+		FROM 	YS_BOARD
+		WHERE 	1 = 1;
+	</select>
+	
+	<!-- File테이블 fileId컬럼 MaxNumber 조회 -->
+	<select id="getMaxFileId" resultType="Integer">
+		SELECT 	MAX(CONVERT(REPLACE(FILEID, 'FILE', ''), SIGNED)) 
+		FROM 	YS_FILE
+		WHERE 	1 = 1;
+	</select>
+	
+	<select id="getMaxBoardSequence" resultType="Integer" parameterType="com.yeosin.board.BoardDto">
+		SELECT 	MAX(BOARDSEQUENCE) 
+		FROM 	YS_BOARD
+		WHERE 	BOARDTYPE = #{boardType}
+	</select>
+	
+	<!-- 게시물관리 게시판 추가하기 -->
+	<insert id="insertBoardInfo" parameterType="com.yeosin.board.BoardDto">
+    	INSERT INTO YS_BOARD
+			(BOARDID, BOARDTYPE, BOARDSEQUENCE, TITLE, CONTENTS, HITCNT, USERID, WRITETIME, CATEGORY, CATEGORYSEQUENCE)
+			VALUES(#{boardId}, #{boardType}, #{boardSequence}, #{title}, #{contents}, #{hitCnt}, #{userId}, now(), #{category}, 0);
+	</insert>
+	
+	<!-- 게시물관리 파일 추가하기 -->
+	<insert id="insertFileInfo" parameterType="com.yeosin.board.FileDto">
+		INSERT INTO YS_FILE
+			(FILEID, REALFILENAME, LOCALFILENAME, FILESIZE, FILEURL, BOARDID, FILEEXTSN)
+			VALUES(#{fileId},#{realFileName},#{localFileName},#{fileSize}, '/resource/boardFile',#{boardId}, #{fileExtsn})
+	</insert>
+	
+	<!-- 게시물관리 게시판 리스트 삭제하기 -->
+	<delete id="deleteBoardList" parameterType="List">		
+			DELETE 	
+			FROM 	YS_BOARD 
+			WHERE 	BOARDID IN 
+			<foreach collection="list" item="boardId" index="i" open="(" separator="," close=")">
+				#{boardId}		
+			</foreach>
+	</delete>
+	
+	<!-- 게시물관리 파일 리스트 삭제하기 -->
+	<delete id="deleteFileList" parameterType="List">
+			DELETE 	
+			FROM 	YS_FILE 
+			WHERE 	BOARDID IN 
+			<foreach collection="list" item="boardId" index="i" open="(" separator="," close=")">
+				#{boardId}		
+			</foreach>
+	</delete>
+	
+	<!-- 게시물관리 파일 삭제하기 -->
+	<delete id="deleteFileInfo" parameterType="String">
+		DELETE 	
+		FROM 	YS_FILE
+		WHERE 	BOARDID = #{boardId, jdbcType=VARCHAR};	
+	</delete>
 
-
+	
 </mapper>

@@ -21,23 +21,62 @@
   <meta property="og:image" content="/www/inc/img/openGraph.jpg">
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
-
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
   <link rel="stylesheet" href="/www/inc/css/admin.css">
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+if(${isAlert}) { 
+    alert("로그인 후 이용 가능합니다.");
+}
 
+$(document).ready(function() {
+	$("li[value='${pageMaker.boardDto.page}']").attr("class","on");
+	
+	$("#btn_delete").click(function() {
+		var checkBox = $("input[name=boardCheck]:checked");	
+		
+		if(checkBox.length == 0)
+		{
+			alert('체크된 게시판이 없습니다.');
+			return;
+		}
+		
+		if(confirm("해당 게시판을 삭제하시겠습니까??")){
+			
+			var checkValueArr = [];
+			
+			checkBox.each(function(){
+				var checkValue = $(this).val();
+				checkValueArr.push(checkValue);	
+			});
+			
+			$('#boardCheck').val(checkValueArr);
+			$("#page").val($("#page").val());
+			$("#boardType").val($("#boardType").val());
+			$("#commonform").submit(); 
+		}
+	});
+});
+
+</script>
 <body>
 
 <!-- header 붙여주세요. (/common/admin_header.html) -->
 <%@ include file="/www/common/admin_header.jsp"%>
 <!-- lnb 붙여주세요. (/common/admin_lnb.html) -->
 <%@ include file="/www/common/admin_lnb.jsp"%>
+<form id="commonform" name="commonform" method="get" action="/boardNoticeDelete_action">
+<input type="hidden" name="boardType" id="boardType" value="1">
+<input type="hidden" name="page" id="page" value="${boardDto.page}" >
 
 <div class="board">
   <div class="contentBoxAd">
     <h1 class="title">게시판</h1>
     <h2>공지사항</h2>
     <ul class="btn_wrap">
-      <li><a href="board_notice_input.html">등록하기</a></li>
+      <li><a href="/boardNoticeInput?page=${boardDto.page}&boardType=1">등록하기</a></li>
     </ul>
     <table class="list">
       <colgroup>
@@ -56,26 +95,48 @@
         <th>등록날짜</th>
         <th>수정</th>
       </tr>
-      <tr class="center">
-        <td><input type="checkbox" name="memberCheck" value=""></td>
-        <td>1</td>
-        <td class="flow flowTitle"><a href="board_notice_revise.html">첫번째 제목</a></td>
-        <td></td>  <!--첨부파일 있을 시 'file'클래스 명 추가.-->
-        <td>2022-01-01</td>
-        <td><a href="board_notice_revise.html" class="btn_more">수정하기</a></td>
-      </tr>
-      <tr class="center">
-        <td><input type="checkbox" name="memberCheck" value=""></td>
-        <td>2</td>
-        <td class="flow flowTitle"><a href="#">두번째 제목</a></td>
-        <td class="file"></td>
-        <td>2022-01-02</td>
-        <td><a href="#" class="btn_more">수정하기</a></td>
-      </tr>
+      <c:forEach var="notice" items="${noticeList}" varStatus="status">
+        <tr class="center">
+	    	<td><input type="checkbox" name="boardCheck" value="${notice.boardId}"></td>
+       		 <td>${status.count}</td>
+       		<td class="flow flowTitle"><a href="#">${notice.title}</a></td>
+        	<c:if test="${not empty notice.fileDto}">
+         	 	 <td  class="file"></td> 
+         	</c:if>
+         	<c:if test="${empty notice.fileDto}">
+         	 	 <td></td> 
+         	</c:if>
+        	<td>${notice.writeTime}</td>
+        	<td><a href="/boardNoticeRevise?page=${boardDto.page}&boardId=${notice.boardId}" class="btn_more">수정하기</a></td>
+        </tr>
+	  </c:forEach>
     </table>
-    <a href="#" class="btn_apply mb100">선택 삭제</a>
+    <a onclick="return false;" id="btn_delete" class="btn_apply mb100">선택 삭제</a>
+    
+    <ul class="btn-group pagination">
+  	<c:if test="${pageMaker.prev}">
+   		<li>
+     		 <a href='<c:url value="/boardNotice?page=${pageMaker.startPage-1}&boardType=1" />'><i class="fa fa-chevron-left">이전</i></a>
+  		</li>
+ 	</c:if>
+  	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+    	<li value="${pageNum}"> 
+       		<a href='<c:url value="/boardNotice?page=${pageNum}&boardType=1"/>'><i class="fa">${pageNum}</i></a>
+    	</li>
+    </c:forEach>
+    <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+    	<li>
+      		<a href='<c:url value="/boardNotice?page=${pageMaker.endPage+1}&boardType=1"/>'><i class="fa fa-chevron-right">다음</i></a>
+   		</li>
+    </c:if>
+	</ul>
+	
+	<c:set var="OutputPageTotal" value="${(pageMaker.totalCount/boardDto.perPageNum)+(1-((pageMaker.totalCount/boardDto.perPageNum)%1))%1}" />
+	<fmt:parseNumber var="OutputPage"  value="${OutputPageTotal}" integerOnly="true" type="number"/>
+    <p class="pageCnt">전체 ${pageMaker.totalCount}건, ${boardDto.page} / <c:out value="${OutputPage}"/> 페이지</p>
   </div>
 </div>
+</form>
 
 </body>
 </html>

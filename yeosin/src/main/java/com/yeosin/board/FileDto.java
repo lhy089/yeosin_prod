@@ -8,6 +8,8 @@ public class FileDto {
 	private int fileSize;		//파일 크기
 	private String fileURL;			//파일 URL
 	private String boardId;			//게시글 ID (게시판 테이블)
+	private String fileExtsn; 		//확장자
+	
 	
 	public String getFileId() {
 		return fileId;
@@ -44,5 +46,11 @@ public class FileDto {
 	}
 	public void setBoardId(String boardId) {
 		this.boardId = boardId;
+	}
+	public String getFileExtsn() {
+		return fileExtsn;
+	}
+	public void setFileExtsn(String fileExtsn) {
+		this.fileExtsn = fileExtsn;
 	}
 }
