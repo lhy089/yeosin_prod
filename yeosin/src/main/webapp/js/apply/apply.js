@@ -267,7 +267,8 @@ function localChk(examId, userId)
 	}
 	else 
 	{
-		location.href="/apply2?examId=" + examId + "&local=" + local;
+		var url = encodeURI("/apply2?examId=" + examId + "&local=" + local)
+		location.href= url;
 	}
    	   
 }

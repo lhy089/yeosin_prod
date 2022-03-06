@@ -59,7 +59,7 @@ function reportPrint(param)
 // 자격인증서 프린트 출력
 function reportPrintCertificate(param)
 {
-    const setting = "width=890, height=650";
+    const setting = "width=890, height=1000";
     const objWin = window.open('', '', setting);
     
     var html ="";
@@ -85,9 +85,11 @@ function reportPrintCertificate(param)
     html += '</body></html>';
     
     objWin.document.open();
-    objWin.document.write(html);
     objWin.focus(); 
-    objWin.document.close();
- 
-    setTimeout(function(){objWin.print();objWin.close();}, 1000);
+    setTimeout(function(){
+        objWin.document.write(html);
+        objWin.document.close();
+        objWin.print();
+        objWin.close();
+    }, 1000);
 }
