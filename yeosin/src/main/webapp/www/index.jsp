@@ -135,7 +135,6 @@
       	<a href="#none" onClick="todaycloseWin();" class="btn_closeToday">오늘 하루 보지 않기</a>
       </div>
     </div>
-  </div>
   <!-- //팝업 -->
   
    <!-- 주차 안내 팝업// -->
@@ -182,6 +181,7 @@
       <a href="#none" onClick="todaycloseWin220214();" class="btn_closeToday">오늘 하루 보지 않기</a>
     </div>
   </div>
+ </div>
   <!-- //주차 안내 팝업 -->
 </div>
 <%@ include file="/www/common/footer.jsp"%>
