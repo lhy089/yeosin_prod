@@ -33,13 +33,34 @@
   <div class="contentBox">
     <h1>시험자료실</h1>
     <div class="btnWrap topBtn">
+    	<c:url value="/library_previous" var="preLibraryUrl">
+            	<c:param name="boardType" value="${libraryInfo.boardType}" />
+            	<c:param name="boardSequence" value="${libraryInfo.boardSequence}" />
+            	<c:param name="searchWord" value="${libraryInfo.searchWord}" />
+            	<c:param name="searchType" value="${libraryInfo.searchType}" />
+            	<c:param name="page" value="${libraryInfo.page}" />
+        </c:url>
+        <c:url value="/library_next" var="nextLibraryUrl">
+            	<c:param name="boardType" value="${libraryInfo.boardType}" />
+            	<c:param name="boardSequence" value="${libraryInfo.boardSequence}" />
+            	<c:param name="searchWord" value="${libraryInfo.searchWord}" />
+            	<c:param name="searchType" value="${libraryInfo.searchType}" />
+            	<c:param name="page" value="${libraryInfo.page}" />
+          </c:url>
+          <c:url value="/library" var="listLibraryUrl">
+            	<c:param name="boardType" value="3" />
+            	<c:param name="page" value="${libraryInfo.page}" />
+            	<c:param name="searchWord" value="${libraryInfo.searchWord}" />
+            	<c:param name="searchType" value="${libraryInfo.searchType}" />	
+          </c:url>
+    
       <c:if test="${librarySequence.pageMinBoardSequence != libraryInfo.boardSequence}">
-     		 <a href="/library_previous?boardType=${libraryInfo.boardType}&boardSequence=${libraryInfo.boardSequence}&searchWord=${libraryInfo.searchWord}&searchType=${libraryInfo.searchType}&page=${libraryInfo.page}" class="btn">이전</a>
+     		 <a href="${preLibraryUrl}" class="btn">이전</a>
       	</c:if>
      	<c:if test="${librarySequence.pageMaxBoardSequence != libraryInfo.boardSequence}">
-     		 <a href="/library_next?boardType=${libraryInfo.boardType}&boardSequence=${libraryInfo.boardSequence}&searchWord=${libraryInfo.searchWord}&searchType=${libraryInfo.searchType}&page=${libraryInfo.page}" class="btn">다음</a>
+     		 <a href="${nextLibraryUrl}" class="btn">다음</a>
     	</c:if>
-      <a href="/library?boardType=3&page=${libraryInfo.page}&searchWord=${libraryInfo.searchWord}&searchType=${libraryInfo.searchType}" class="btn">목록</a>
+      <a href="${listLibraryUrl}" class="btn">목록</a>
     </div>
     <div class="content">
       <div class="info">
@@ -48,8 +69,12 @@
           <p class="num">No. ${libraryInfo.boardSequence}</p>
           <p class="date"> ${libraryInfo.writeTime}</p>
           <p class="viewCount">조회수 :  ${libraryInfo.hitCnt}</p>
+          <c:url value="/download" var="downloadUrl">
+            	<c:param name="fileSize" value="${libraryInfo.fileDto.fileSize}" />
+            	<c:param name="localFileName" value="${libraryInfo.fileDto.localFileName}" />
+         </c:url>
           <c:if test="${not empty libraryInfo.fileDto}">
-          <a href="/download?fileSize=${libraryInfo.fileDto.fileSize}&localFileName=${libraryInfo.fileDto.localFileName}" id="btn_download" class="document">${libraryInfo.fileDto.localFileName}</a> <!--문서표시 있을때 해당 태그 추가-->
+          <a href="${downloadUrl}" id="btn_download" class="document">${libraryInfo.fileDto.localFileName}</a> <!--문서표시 있을때 해당 태그 추가-->
           </c:if>
         </div>
       </div>
@@ -61,12 +86,12 @@
     </div>
     <div class="btnWrap bottomBtn">
     	<c:if test="${librarySequence.pageMinBoardSequence != libraryInfo.boardSequence}">
-     		 <a href="/library_previous?boardType=${libraryInfo.boardType}&boardSequence=${libraryInfo.boardSequence}&searchWord=${libraryInfo.searchWord}&searchType=${libraryInfo.searchType}&page=${libraryInfo.page}" class="btn">이전</a>
+     		 <a href="${preLibraryUrl}" class="btn">이전</a>
       	</c:if>
      	<c:if test="${librarySequence.pageMaxBoardSequence != libraryInfo.boardSequence}">
-     		 <a href="/library_next?boardType=${libraryInfo.boardType}&boardSequence=${libraryInfo.boardSequence}&searchWord=${libraryInfo.searchWord}&searchType=${libraryInfo.searchType}&page=${libraryInfo.page}" class="btn">다음</a>
+     		 <a href="${nextLibraryUrl}" class="btn">다음</a>
     	</c:if>
-      <a href="/library?boardType=3&page=${libraryInfo.page}&searchWord=${libraryInfo.searchWord}&searchType=${libraryInfo.searchType}" class="btn">목록</a>
+      <a href="${listLibraryUrl}" class="btn">목록</a>
     </div>
   </div>
 </div>

@@ -89,17 +89,38 @@ $(document).ready(function() {
     <ul class="btn-group pagination">
   	<c:if test="${pageMaker.prev}">
    		<li>
-     		 <a href='<c:url value="/question?page=${pageMaker.startPage-1}&boardType=2&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}&category=${boardDto.category}" />'><i class="fa fa-chevron-left">이전</i></a>
+   			<c:url value="/question" var="preQuestionUrl">
+   				<c:param name="page" value="${pageMaker.startPage-1}" />
+            	<c:param name="boardType" value="2" />
+            	<c:param name="searchWord" value="${boardDto.searchWord}" />
+            	<c:param name="searchType" value="${boardDto.searchType}" />
+            	<c:param name="category" value="${boardDto.category}"/>
+        	 </c:url>
+     		 <a href='${preQuestionUrl}'><i class="fa fa-chevron-left">이전</i></a>
   		</li>
  	</c:if>
   	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
     	<li value="${pageNum}"> 
-       		<a href='<c:url value="/question?page=${pageNum}&boardType=2&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}&category=${boardDto.category}"/>'><i class="fa">${pageNum}</i></a>
+    		<c:url value="/question" var="curQuestionUrl">
+   				<c:param name="page" value="${pageNum}" />
+            	<c:param name="boardType" value="2" />
+            	<c:param name="searchWord" value="${boardDto.searchWord}" />
+            	<c:param name="searchType" value="${boardDto.searchType}" />
+            	<c:param name="category" value="${boardDto.category}"/>
+        	 </c:url>
+       		<a href='${curQuestionUrl}'><i class="fa">${pageNum}</i></a>
     	</li>
     </c:forEach>
     <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
     	<li>
-      		<a href='<c:url value="/question?page=${pageMaker.endPage+1}&boardType=2&searchWord=${boardDto.searchWord}&searchType=${boardDto.searchType}&category=${boardDto.category}"/>'><i class="fa fa-chevron-right">다음</i></a>
+    		<c:url value="/question" var="nextQuestionUrl">
+   				<c:param name="page" value="${pageMaker.endPage+1}" />
+            	<c:param name="boardType" value="2" />
+            	<c:param name="searchWord" value="${boardDto.searchWord}" />
+            	<c:param name="searchType" value="${boardDto.searchType}" />
+            	<c:param name="category" value="${boardDto.category}"/>
+        	 </c:url>
+      		<a href='${nextQuestionUrl}'><i class="fa fa-chevron-right">다음</i></a>
    		</li>
     </c:if>
 	</ul>

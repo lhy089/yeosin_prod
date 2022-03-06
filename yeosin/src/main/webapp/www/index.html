@@ -84,7 +84,7 @@
     </div>
   </section>
 
-  <!-- 팝업// -->
+  <!-- 로그인 안내 팝업// -->
   <script>
     $( document ).ready(function() {
       cookiedata = document.cookie;
@@ -130,7 +130,53 @@
       </div>
     </div>
   </div>
-  <!-- //팝업 -->
+  <!-- //로그인 안내 팝업 -->
+
+  <!-- 주차 안내 팝업// -->
+  <script>
+    $( document ).ready(function() {
+      cookiedata = document.cookie;
+      if ( cookiedata.indexOf("ncookie220214=done") < 0 ){
+        document.getElementById('alert_220214').style.display = "block";    //  팝업창 아이디
+      } else {
+        document.getElementById('alert_220214').style.display = "none";    // 팝업창 아이디
+      }
+    });
+
+    function setCookie220214( name, value, expiredays ) {
+      var todayDate = new Date();
+      todayDate.setDate( todayDate.getDate() + expiredays );
+      document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+    }
+
+    function closeWin220214() {
+      document.getElementById('alert_220214').style.display = "none";    // 팝업창 아이디
+    }
+
+    function todaycloseWin220214() {
+      setCookie220214( "ncookie220214", "done" , 1 );     // 저장될 쿠키명 , 쿠키 value값 , 기간( ex. 1은 하루, 7은 일주일)
+      document.getElementById('alert_220214').style.display = "none";    // 팝업창 아이디
+    }
+  </script>
+  <div class="alertPop" id="alert_220214">
+    <a href="#none" onClick="closeWin220214();" class="btn_close"></a>
+    <p class="text">
+      <br/>
+      시험장이 협소한 관계로<br/>
+      서울 시험장 (대방중학교),<br/>
+      부산 시험장(경남공업고등학교)의 경우<br/>
+      주차가 절대 불가합니다.<br/><br/>
+
+      주차와 관련하여<br/>
+      발생할 수 있는 일에 대해서는<br/>
+      본 기관에서 책임을 지지 않습니다.
+    </p>
+    <div class="closeWrap">
+      <a href="#none" onClick="closeWin220214();" class="btn_close">닫기</a>
+      <a href="#none" onClick="todaycloseWin220214();" class="btn_closeToday">오늘 하루 보지 않기</a>
+    </div>
+  </div>
+  <!-- //주차 안내 팝업 -->
 </div>
 
 <!--?php include_once "common/footer.php";?-->

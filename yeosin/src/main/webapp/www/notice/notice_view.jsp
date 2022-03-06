@@ -32,13 +32,34 @@
   <div class="contentBox">
     <h1>공지사항</h1>
     <div class="btnWrap topBtn">
+    	<c:url value="/notice_previous" var="preNoticeUrl">
+            	<c:param name="boardType" value="1" />
+            	<c:param name="boardSequence" value="${noticeInfo.boardSequence}" />
+            	<c:param name="searchWord" value="${noticeInfo.searchWord}" />
+            	<c:param name="searchType" value="${noticeInfo.searchType}" />
+            	<c:param name="page" value="${noticeInfo.page}" />
+        </c:url>
+        <c:url value="/notice_next" var="nextNoticeUrl">
+            	<c:param name="boardType" value="1" />
+            	<c:param name="boardSequence" value="${noticeInfo.boardSequence}" />
+            	<c:param name="searchWord" value="${noticeInfo.searchWord}" />
+            	<c:param name="searchType" value="${noticeInfo.searchType}" />
+            	<c:param name="page" value="${noticeInfo.page}" />
+          </c:url>
+          <c:url value="/notice" var="listNoticeUrl">
+            	<c:param name="boardType" value="1" />
+            	<c:param name="page" value="${noticeInfo.page}" />
+            	<c:param name="searchWord" value="${noticeInfo.searchWord}" />
+            	<c:param name="searchType" value="${noticeInfo.searchType}" />	
+          </c:url>
       <c:if test="${noticeSequence.pageMinBoardSequence != noticeInfo.boardSequence}">
-      	<a href="/notice_previous?boardType=1&boardSequence=${noticeInfo.boardSequence}&searchWord=${noticeInfo.searchWord}&searchType=${noticeInfo.searchType}&page=${noticeInfo.page}" class="btn">이전</a>
+      	<a href="${preNoticeUrl}" class="btn">이전</a>
        </c:if>
       <c:if test="${noticeSequence.pageMaxBoardSequence != noticeInfo.boardSequence}">
-      	<a href="/notice_next?boardType=1&boardSequence=${noticeInfo.boardSequence}&searchWord=${noticeInfo.searchWord}&searchType=${noticeInfo.searchType}&page=${noticeInfo.page}" class="btn">다음</a>
+      	
+      	<a href="${nextNoticeUrl}" class="btn">다음</a>
       </c:if>
-      <a href="/notice?boardType=1&page=${noticeInfo.page}&searchWord=${noticeInfo.searchWord}&searchType=${noticeInfo.searchType}" class="btn">목록</a>
+      <a href="${listNoticeUrl}" class="btn">목록</a>
     </div>
     <div class="content">
       <div class="info">
@@ -47,8 +68,12 @@
           <p class="num">No.${noticeInfo.boardSequence}</p>
           <p class="date">${noticeInfo.writeTime}</p>
           <p class="viewCount">조회수 : ${noticeInfo.hitCnt}</p>
+           <c:url value="/download" var="downloadUrl">
+            	<c:param name="fileSize" value="${noticeInfo.fileDto.fileSize}" />
+            	<c:param name="localFileName" value="${noticeInfo.fileDto.localFileName}" />
+           </c:url>
           <c:if test="${not empty noticeInfo.fileDto}">
-         	<a href="/download?fileSize=${noticeInfo.fileDto.fileSize}&localFileName=${noticeInfo.fileDto.localFileName}" id="btn_download" class="document">${noticeInfo.fileDto.localFileName}</a> <!--문서표시 있을때 해당 태그 추가-->
+         	<a href="${downloadUrl}" id="btn_download" class="document">${noticeInfo.fileDto.localFileName}</a> <!--문서표시 있을때 해당 태그 추가-->
           </c:if>
         </div>
       </div>
@@ -60,12 +85,12 @@
     </div>
     <div class="btnWrap bottomBtn">
    	  <c:if test="${noticeSequence.pageMinBoardSequence != noticeInfo.boardSequence}">
-      	<a href="/notice_previous?boardType=1&boardSequence=${noticeInfo.boardSequence}&searchWord=${noticeInfo.searchWord}&searchType=${noticeInfo.searchType}&page=${noticeInfo.page} class="btn">이전</a>
+      	<a href="${preNoticeUrl}" class="btn">이전</a>
       </c:if>
       <c:if test="${noticeSequence.pageMaxBoardSequence != noticeInfo.boardSequence}">
-     	<a href="/notice_next?boardType=1&boardSequence=${noticeInfo.boardSequence}&searchWord=${noticeInfo.searchWord}&searchType=${noticeInfo.searchType}&page=${noticeInfo.page}" class="btn">다음</a>
+     	<a href="${nextNoticeUrl}" class="btn">다음</a>
      </c:if>
-      <a href="/notice?boardType=1&page=${noticeInfo.page}&searchWord=${noticeInfo.searchWord}&searchType=${noticeInfo.searchType}" class="btn">목록</a>
+      <a href="${listNoticeUrl}" class="btn">목록</a>
     </div>
   </div>
 </div>
