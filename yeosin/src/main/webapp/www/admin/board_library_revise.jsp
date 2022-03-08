@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="/www/inc/css/admin.css">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/admin/boardmanage.js?t=<%= new java.util.Date() %>"></script>
 <script>
 if(${isAlert}) { 
     alert("로그인 후 이용 가능합니다.");
@@ -32,6 +33,9 @@ if(${isAlert}) {
 
 $(document).ready(function() {
 	$("#btn_revise").click(function() {
+		
+		var size = fileSize();
+		
 		  $("#title").val($("#title").val());
 		  $("#contents").val($("#contents").val());	 
 		  $("#boardId").val($("#boardId").val());
@@ -39,8 +43,7 @@ $(document).ready(function() {
 		  $("#boardType").val($("#boardType").val());
 		  var inputFileName = $('#inputFileName').val();
 		  $("#fileName").val(inputFileName);
-		  //var inputFileSize = $('#file')[0].files[0].size;
-		  //$("#fileSize").val(inputFileSize);
+		  $("#fileSize").val(size);
 		  $("#commonform").submit(); 
 	});
 });

@@ -121,7 +121,7 @@ public class BoardManageController {
 			
 			//File 추가
 			String fileName = request.getParameter("fileName");
-			//int fileSize = Integer.parseInt(request.getParameter("fileSize")) ;
+			int fileSize = Integer.parseInt(request.getParameter("fileSize")) ;
 			
 			if (!fileName.equals("") && fileName != null) {
 				
@@ -135,9 +135,8 @@ public class BoardManageController {
 				fileDto.setRealFileName(fileName);
 				fileDto.setBoardId(boardDto.getBoardId());
 				fileDto.setFileId(newFileId);
-				fileDto.setFileSize(0);
 				fileDto.setFileExtsn(fileExtsn);
-				// fileDto.setFileSize(fileSize);
+				fileDto.setFileSize(fileSize);
 				boardManageService.insertFileInfo(fileDto);
 			}
 			//*File 추가
@@ -225,7 +224,7 @@ public class BoardManageController {
 			FileDto getFileDto = boardManageService.getFileInfo(boardDto.getBoardId());
 			
 			String fileName = request.getParameter("fileName");
-			//int fileSize = Integer.parseInt(request.getParameter("fileSize")) ;
+			int fileSize = Integer.parseInt(request.getParameter("fileSize")) ;
 			
 		
 			if (getFileDto != null) //파일등록이 이미 되어 있을때 
@@ -240,7 +239,7 @@ public class BoardManageController {
 					setFileDto.setRealFileName(fileName);
 					setFileDto.setFileExtsn(fileExtsn);
 					setFileDto.setBoardId(boardDto.getBoardId());
-					// fileDto.setFileSize(fileSize);
+					setFileDto.setFileSize(fileSize);
 
 					boardDto.setFileDto(setFileDto);
 					
@@ -266,9 +265,8 @@ public class BoardManageController {
 					newfileDto.setRealFileName(fileName);
 					newfileDto.setBoardId(boardDto.getBoardId());
 					newfileDto.setFileId(newFileId);
-					newfileDto.setFileSize(0);
 					newfileDto.setFileExtsn(fileExtsn);
-					// fileDto.setFileSize(fileSize);
+					newfileDto.setFileSize(fileSize);
 					boardManageService.insertFileInfo(newfileDto);
 				}
 				
@@ -434,7 +432,7 @@ public class BoardManageController {
 
 			// File 추가
 			String fileName = request.getParameter("fileName");
-			// int fileSize = Integer.parseInt(request.getParameter("fileSize")) ;
+			int fileSize = Integer.parseInt(request.getParameter("fileSize")) ;
 
 			if (!fileName.equals("") && fileName != null) {
 
@@ -448,9 +446,8 @@ public class BoardManageController {
 				fileDto.setRealFileName(fileName);
 				fileDto.setBoardId(boardDto.getBoardId());
 				fileDto.setFileId(newFileId);
-				fileDto.setFileSize(0);
 				fileDto.setFileExtsn(fileExtsn);
-				// fileDto.setFileSize(fileSize);
+				fileDto.setFileSize(fileSize);
 				boardManageService.insertFileInfo(fileDto);
 			}
 			// *File 추가
@@ -535,7 +532,7 @@ public class BoardManageController {
 			FileDto getFileDto = boardManageService.getFileInfo(boardDto.getBoardId());
 
 			String fileName = request.getParameter("fileName");
-			// int fileSize = Integer.parseInt(request.getParameter("fileSize")) ;
+			int fileSize = Integer.parseInt(request.getParameter("fileSize")) ;
 
 			if (getFileDto != null) // 파일등록이 이미 되어 있을때
 			{
@@ -549,7 +546,7 @@ public class BoardManageController {
 					setFileDto.setRealFileName(fileName);
 					setFileDto.setFileExtsn(fileExtsn);
 					setFileDto.setBoardId(boardDto.getBoardId());
-					// fileDto.setFileSize(fileSize);
+					setFileDto.setFileSize(fileSize);
 
 					boardDto.setFileDto(setFileDto);
 
@@ -572,9 +569,8 @@ public class BoardManageController {
 					newfileDto.setRealFileName(fileName);
 					newfileDto.setBoardId(boardDto.getBoardId());
 					newfileDto.setFileId(newFileId);
-					newfileDto.setFileSize(0);
 					newfileDto.setFileExtsn(fileExtsn);
-					// fileDto.setFileSize(fileSize);
+					newfileDto.setFileSize(fileSize);
 					boardManageService.insertFileInfo(newfileDto);
 				}
 

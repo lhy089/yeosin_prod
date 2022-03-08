@@ -73,6 +73,7 @@
 	SET 
 		REALFILENAME = #{realFileName},
 		LOCALFILENAME = #{localFileName},
+		FILESIZE = #{fileSize},
 		FileEXTSN = #{fileExtsn}
 	WHERE BOARDID = #{boardId}	
 	</update>
