@@ -24,6 +24,7 @@ import com.yeosin.apply.ExamDto;
 import com.yeosin.apply.ExamDtoPageMaker;
 import com.yeosin.apply.ExamZoneDto;
 import com.yeosin.apply.ExamZoneDtoPageMaker;
+import com.yeosin.apply.GradeDto;
 import com.yeosin.apply.SubjectDto;
 import com.yeosin.user.UserDto;
 import com.yeosin.util.ImageSaveUtil;
@@ -512,16 +513,13 @@ public class ApplyManageController {
 	   {	
 		  
 		   try {
-			   String str = request.getParameter("onePageDataCountCondition");
-			   
-			   int a = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
-			   
 			   applyDto.setPerPageNum(Integer.parseInt(request.getParameter("onePageDataCountCondition")));
 			   
 			   Map<String, Object> parameterMap = new HashMap<String, Object>();
 			   parameterMap.put("textCondition", request.getParameter("textCondition"));
 			   parameterMap.put("localCondition", request.getParameter("localCondition"));
 			   parameterMap.put("subjectCondition", request.getParameter("subjectCondition"));
+			   parameterMap.put("isPassCondition", request.getParameter("isPassCondition"));
 			   parameterMap.put("pageStart", applyDto.getPageStart());
 			   parameterMap.put("perPageNum", applyDto.getPerPageNum());
 			   
@@ -542,6 +540,7 @@ public class ApplyManageController {
 				mav.addObject("textCondition", request.getParameter("textCondition"));
 				mav.addObject("localCondition", request.getParameter("localCondition"));
 				mav.addObject("subjectCondition", request.getParameter("subjectCondition"));
+				mav.addObject("isPassCondition", request.getParameter("isPassCondition"));
 				mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
 				mav.addObject("pageMaker", pageMaker);
 				mav.setViewName("admin/result_manage");

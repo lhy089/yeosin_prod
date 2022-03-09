@@ -34,17 +34,18 @@ $(document).ready(function() {
 	      $("#textCondition").val($("#textCondition").val());
 	      $("#localCondition").val($("#localCondition").val());
 	      $("#subjectCondition").val($("#subjectCondition").val());
+	      $("#isPassCondition").val($("#isPassCondition").val());
 	      $("#onePageDataCountCondition").val($("#onePageDataCountCondition").val());
 	      $("#page").val(1);
 	      $("#commonform").submit(); 
 	   });
 	   
-	   $("#excelDownload").click(function(){
-	 		saveExcel();
+	   $("#excelResultListDownload").click(function(){
+	 		RuesltListsaveExcel();
 		});
 });
 
-function saveExcel() {
+function RuesltListsaveExcel() {
 	 /*
 		(1)
 	  	 아래 두 가지 요소만 정확하게 선택되면 됨.
@@ -60,7 +61,6 @@ function saveExcel() {
 		if(tr == 0) return true;
 		var row = new Array();
 		$(this).children().each(function(idx){
-			if(idx == 0) return;
 			row.push($(this).text());
 		});
 		dataList.push(row.join('▒'));
@@ -107,7 +107,7 @@ function saveExcel() {
         </colgroup>
         <tr>
           <th>검색</th>
-          <td colspan="5">
+          <td colspan="3">
 			<c:choose>
 			<c:when test="${textCondition eq '' || textCondition eq null}">
 			   <input type="text" id="textCondition" name="textCondition" value="">
@@ -116,6 +116,14 @@ function saveExcel() {
 			   <input type="text" id="textCondition" name="textCondition" value="${textCondition}">
 			</c:otherwise>
 			</c:choose>
+          </td>
+          <th>합격여부</th>
+          <td>
+            <select id="isPassCondition" name="isPassCondition" class="count">
+              <option value="전체" <c:if test="${isPassCondition eq '전체'}">selected="selected"</c:if>>전체</option>
+              <option value="Y" <c:if test="${isPassCondition eq 'Y'}">selected="selected"</c:if>>합격</option>
+             <option value="N" <c:if test="${isPassCondition eq 'N'}">selected="selected"</c:if>>불합격</option>
+            </select>
           </td>
         </tr>
         <tr>
@@ -174,9 +182,9 @@ function saveExcel() {
   		<input type="hidden" name="columns" id="columns" value="">	
   		<input type="hidden" name="data" id="data" value="">	
   	</form>
-  	<!-- <ul class="btn_wrap">
-      <li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
-    </ul>-->
+  	<ul class="btn_wrap">
+      <li><a onclick="return false;" id="excelResultListDownload">엑셀다운로드</a></li>
+    </ul>
     <table class="list" id="columnList">
       <colgroup>
         <col width="20%">
@@ -190,9 +198,9 @@ function saveExcel() {
         <col width="9%">
         <col width="9%">
       </colgroup>
-      <tr>
-        <th class="column_thead">고사장</th>
-        <th class="first">수험번호</th>
+      <tr class="column_thead">
+        <th >고사장</th>
+        <th>수험번호</th>
         <th>성명</th>
         <th>생년월일</th>
         <th>성별</th>

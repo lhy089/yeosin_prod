@@ -337,7 +337,7 @@
 			,	U.GENDER		--	성별
 			,	S.SUBJECTNAME	-- 과목
 			,	G.ALLSCORE		--	총점
-			,	(CASE WHEN G.ISPASS='Y' THEN '합격' ELSE '불합격' END) AS ISPASS	-- 합격여부
+			,	(CASE WHEN G.ISPASS='Y' THEN '합격' WHEN G.ISPASS='N' THEN '불합격' END) AS ISPASS	-- 합격여부
 		FROM	YS_RECEIPT	R
 		INNER JOIN YS_EXAMZONE	EZ ON EZ.EXAMZONEID = R.EXAMZONEID
 		INNER JOIN YS_USER	U ON U.USERID = R.USERID
@@ -357,6 +357,9 @@
 		<if test='subjectCondition != null and !subjectCondition.equals("전체")'>
 			AND (R.SUBJECTID LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%')
 				OR S.SUBJECTNAME LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%'))
+		</if>
+		<if test='isPassCondition != null and !isPassCondition.equals("전체")'>
+			AND (G.ISPASS = #{isPassCondition, jdbcType=VARCHAR})
 		</if>
 		ORDER BY 
 				R.STUDENTCODE DESC
@@ -386,6 +389,9 @@
 		<if test='subjectCondition != null and !subjectCondition.equals("전체")'>
 			AND (R.SUBJECTID LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%')
 				OR S.SUBJECTNAME LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%'))
+		</if>
+		<if test='isPassCondition != null and !isPassCondition.equals("전체")'>
+			AND (G.ISPASS = #{isPassCondition, jdbcType=VARCHAR})
 		</if>
 		ORDER BY 
 				R.STUDENTCODE DESC
