@@ -24,6 +24,7 @@ public class ExamDto {
 	private String gradeStartDate; // 성적 공고기간(시작)
 	private String gradeEndDate; // 성적 공고기간(끝)
 	private String examCost; // 시험비용
+	private String period;	//교시
 	private String gradeStatus; // 성적등록여부
 	
 	private int page; // 현재 페이지 번호
@@ -179,5 +180,11 @@ public class ExamDto {
 	}
 	public void setGradeStatus(String gradeStatus) {
 		this.gradeStatus = gradeStatus;
+	}
+	public String getPeriod() {
+		return period;
+	}
+	public void setPeriod(String period) {
+		this.period = period;
 	}
 }

@@ -22,8 +22,79 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="/www/inc/css/admin.css">
+  <link rel="stylesheet" href="/www/inc/css/admin.css?t=<%= new java.util.Date() %>">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 </head>
+
+<script>
+$(document).ready(function() {
+	
+	if(${alertResult}) { 
+	      alert("시험일정이 등록되었습니다.");
+	}
+	
+	if(${alertError}){
+		alert("오류로 인하여 시험일정이 등록되지 않았습니다.");
+	}
+	
+	   $("#btn_register").click(function() {
+		   
+		   if(confirm("시험일정을 등록하시겠습니까?"))
+			{	
+			   var examYear = "20" + $("#examYear").val();
+			   var examDegree = $("#examDegree").val();
+			   var examDate= $("#examDate").val();
+			   var subjectId = $("input[name=subjectId]:checked");	
+			   var receiptStartDate =  $("#receiptStartDate").val();
+			   var receiptStartTime = $("#receiptStartTime").val();
+			   var receiptEndDate = $("#receiptEndDate").val();
+			   var receiptEndTime = $("#receiptEndTime").val();
+			   var certPrintStartDate = $("#certPrintStartDate").val();
+			   var certPrintEndDate = $("#certPrintEndDate").val();
+			   var gradeStartDate = $("#gradeStartDate").val();
+			   var examCost = $("#examCost").val();
+			   var examZoneId = $("input[name=examZoneId]:checked");
+			   
+			   if(examYear == "20"){
+				   alert("시험연도를 입력해주세요,"); return;
+			   }else if(examDegree == ""){
+				   alert("시험회차를 입력해주세요."); return;
+			   }else if(examDate == ""){
+				   alert("시험일를 입력해주세요."); return;
+			   }else if(subjectId.length == 0){
+				   alert("시험영역을 한개이상 선택해주세요."); return;
+			   }else if (receiptStartDate == "" || receiptStartTime == "" || receiptEndDate == "" || receiptEndTime == ""){
+				   alert("접수기간을 입력해주세요."); return;
+			   }else if(certPrintStartDate == "" || certPrintEndDate == ""){
+				   alert("수험표출력기간을 입력해주세요."); return;
+			   }else if(gradeStartDate == ""){
+				   alert("성적공고기간을 입력해주세요."); return;
+			   }else if(examCost == ""){
+				   alert("시험비용을 입력해주세요."); return;
+			   }else if(examZoneId.length == 0){
+				   alert("고사장 등록을 한개이상 선택해주세요."); return;
+			   }
+				  
+			   $("#examYear").val(examYear);
+			   $("#examDegree").val(examDegree);
+			   $("#examDate").val(examDate);
+			   $("#subjectId").val(subjectId);
+			   $("#receiptStartDate").val(receiptStartDate);
+			   $("#receiptStartTime").val(receiptStartTime);
+			   $("#receiptEndDate").val(receiptEndDate);
+			   $("#receiptEndTime").val(receiptEndTime);
+			   $("#certPrintStartDate").val(certPrintStartDate);
+			   $("#certPrintEndDate").val(certPrintEndDate);
+			   $("#gradeStartDate").val(gradeStartDate);
+			   $("#examCost").val(examCost);
+			   $("#examZoneId").val(examZoneId);
+		      $("#commonform").submit(); 
+		  }
+	   });
+});
+
+</script>
+
 
 <body>
 
@@ -31,14 +102,14 @@
 <%@ include file="/www/common/admin_header.jsp"%>
 <!-- lnb 붙여주세요. (/common/admin_lnb.html) -->
 <%@ include file="/www/common/admin_lnb.jsp"%>
-
+<form id="commonform" name="commonform" method="get" action="/manageRegister_action">
 <div class="manage register">
   <div class="contentBoxAd">
     <h1 class="title">시험운영관리</h1>
     <h2>시험일정 등록</h2>
-    <ul class="btn_wrap">
+    <!-- <ul class="btn_wrap">
       <li><a href="#">엑셀다운로드</a></li>
-    </ul>
+    </ul>-->
     <table>
       <colgroup>
         <col width="25%">
@@ -54,98 +125,128 @@
       </tr>
       <tr>
         <th>시험회차</th>
-        <td>제 20ㅇㅇ - X회차 [연도 2자리 – 회차 1자리 입력]</td>
+        <td>제 20 <input type="text" id="examYear" name="examYear" maxlength="2"> - <input type="text" maxlength="1" id="examDegree" name="examDegree"> 회차 [연도 2자리 – 회차 1자리 입력]</td>
       </tr>
       <tr>
         <th>시험일</th>
         <td>
-          <input type="date" name="" value="">
+          <input type="date" id="examDate" name="examDate" value="">
         </td>
       </tr>
       <tr>
         <th>시험영역</th>
         <td>
-          <label class="type"><input type="checkbox" name="check" value=""> 대출 기타 대출성 상품</label>
-          <label class="type"><input type="checkbox" name="check" value=""> 리스 할부상품</label>
+        	<c:forEach var="subject" items="${subjectList}" varStatus="status">
+	      		<label class="type"><input type="checkbox" name="subjectId" value="${subject.subjectId}"> ${subject.subjectName}</label>
+	 	 	</c:forEach>
         </td>
       </tr>
       <tr>
-        <th>접수시작일</th>
+        <th>접수기간</th>
         <td>
-          <input type="date" name="" value="">
-          <input type="time" name="" value="10:00">
+          <input type="date" name="receiptStartDate" id="receiptStartDate" value="">
+          <input type="time" name="receiptStartTime" id="receiptStartTime" value="10:00">
           -
-          <input type="date" name="" value="">
-          <input type="time" name="" value="10:00">
+          <input type="date" name="receiptEndDate" id="receiptEndDate" value="">
+          <input type="time" name="receiptEndTime" id="receiptEndTime" value="10:00">
         </td>
       </tr>
-      <tr>
-        <th>접수마감일</th>
-        <td>
-          <input type="date" name="" value="">
-          <input type="time" name="" value="10:00">
-          -
-          <input type="date" name="" value="">
-          <input type="time" name="" value="10:00">
-        </td>
-      </tr>
-      <tr>
+      <!-- <tr>
         <th>100%환불 종료일</th>
         <td>
           <input type="date" name="" value="">
         </td>
-      </tr>
+      </tr> -->
       <tr>
         <th>수험표출력기간</th>
         <td>
-          <input type="date" name="" value="">
+          <input type="date" name="certPrintStartDate" id="certPrintStartDate" value="">
+          -
+          <input type="date" name="certPrintEndDate" id="certPrintEndDate" value="">
         </td>
       </tr>
       <tr>
         <th>성적공고기간</th>
         <td>
-          <input type="date" name="" value="">
+          <input type="date" name="gradeStartDate" id="gradeStartDate" value="">
+        </td>
+      </tr>
+       <tr>
+        <th>시험비용</th>
+        <td>
+          <input type="text" name="examCost" id="examCost" class="won"> 원
         </td>
       </tr>
     </table>
 
     <h2>시험일정 고시장 등록</h2>
-    <table>
+     <table class="signUp">
       <colgroup>
-        <col width="25%">
-        <col width="75%">
+        <col width="5%">
+        <col width="*">
+        <col width="20%">
+        <col width="20%">
+        <col width="20%">
       </colgroup>
       <tr>
+        <th></th>
         <th>고사장 선택</th>
-        <td>
-          <select id="" name="">
-            <option value="">- 선택하세요 -</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
         <th>시험 교실 수</th>
-        <td>
-          <input type="number" min="0" name="" value="" placeholder="등록 수보다 같거나 낮은 수">
-        </td>
-      </tr>
-      <tr>
         <th>교실당 인원 수</th>
-        <td>
-          <input type="number" min="0" name="" value="" placeholder="등록 수보다 같거나 낮은 수">
-        </td>
-      </tr>
-      <tr>
         <th>전체 인원 수</th>
-        <td>
-          <input type="number" min="0" name="" value="" placeholder="등록 수보다 같거나 낮은 수">
-        </td>
       </tr>
+       <c:forEach var="examZone" items="${examZoneList}" varStatus="status">
+	      <tr>
+	       <td><input type="checkbox" name="examZoneId" value="${examZone.examZoneId}"></td>
+	        <td>${examZone.examZoneName}</td>
+	        <td>${examZone.examRoomCnt}</td>
+	        <td>${examZone.examRoomUserCnt}</td>
+	        <td>${examZone.examTotalUserCnt}</td>
+	      </tr>
+	  </c:forEach>
     </table>
-    <a href="#" class="btn_plus">추가</a>
-    <a href="#" class="btn_apply mb100">등록하기</a>
+    <!-- <a href="#" class="btn_plus">추가</a> -->
+    <a onclick="return false;" id="btn_register" class="btn_apply mb100">등록하기</a>
   </div>
 </div>
+</form>
+<script>
+$(function(){
+  /* 원화표시 (1000단위당','추가)*/
+  //Null check
+  function isEmpty(value){
+    if(value.length == 0 || value == null){
+      return true;
+    } else {
+      return false;
+    }
+  }
+  //Number check with Regular expression
+  function isNumeric(value){
+    var regExp = /^[0-9]+$/g;
+    return regExp.test(value);
+  }
+  //숫자 세자리 마다 콤마를 추가하여 금액 표기 형태로 변환
+  function currencyFormatter(amount){
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
+  }
+
+  $('.manage table input.won').on('focus',function(){
+    var val = $('.manage table input.won').val();
+    if(!isEmpty(val)){
+      val = val.replace(/,/g,'');
+      $('.manage table input.won').val(val);
+    }
+  });
+  $('.manage table input.won').on('blur',function(){
+    var val = $('.manage table input.won').val();
+    if(!isEmpty(val) && isNumeric(val)){
+      val = currencyFormatter(val);
+      $('.manage table input.won').val(val);
+    }
+  });
+});
+</script>
 
 </body>
 </html>

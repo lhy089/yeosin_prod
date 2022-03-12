@@ -143,6 +143,11 @@ public class ApplyManageDao {
 		return sqlSession.selectList(nameSpace + "getExamZoneListByExamRegister");
 	}
 	
+	//시험일정등록 과목 리스트 조회
+	public List<SubjectDto> getSubjectListByExamRegister() throws Exception{
+		return sqlSession.selectList(nameSpace + "getSubjectListByExamRegister");
+	}
+	
 	// 시험명 리스트 조회(조회조건)
 	public List<ExamDto> getExamNameListByYear(Map<String, Object> map) throws Exception {
 		return sqlSession.selectList(nameSpace + "getConditionExamNameList", map);
@@ -168,6 +173,26 @@ public class ApplyManageDao {
 		return sqlSession.delete(nameSpace + "deleteExam", map);
 	}
 	
+	// 시험 ID 
+	public int getMaxExamId() throws Exception{
+		return sqlSession.selectOne(nameSpace + "getMaxExamId");
+	}
+	
+	// 시험일정등록(EXAM 테이블)
+	public int registerExam(ExamDto examDto) throws Exception{
+		return sqlSession.insert(nameSpace + "registerExam", examDto);
+	}
+	
+	// 시험일정등록(EXAMANDSUBJECTREL 테이블)
+	public int registerExamAndSubjectRel(Map<String, Object> map) throws Exception{
+		return sqlSession.insert(nameSpace + "registerExamAndSubjectRel", map);
+	}
+	
+	// 시험일정등록(EXAMANDEXAMZONEREL 테이블)
+	public int registerExamAndExamZoneRel(Map<String, Object> map) throws Exception{
+		return sqlSession.insert(nameSpace + "registerExamAndExamZoneRel", map);
+	}
+
 	// 시험차수 리스트 조회(조회조건) - 원서접수현황용(원서별, 고사장별)
 	public List<ExamDto> getConditionExamYearAndDegreeList() throws Exception {
 		return sqlSession.selectList(nameSpace + "getConditionExamYearAndDegreeList");
@@ -177,4 +202,5 @@ public class ApplyManageDao {
 	public List<ApplyDto> getConditionIsCancelList() throws Exception {
 		return sqlSession.selectList(nameSpace + "getConditionIsCancelList");
 	}
+	
 }

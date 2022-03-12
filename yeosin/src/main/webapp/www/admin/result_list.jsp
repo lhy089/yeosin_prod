@@ -205,7 +205,6 @@ function RuesltListsaveExcel() {
         <th>생년월일</th>
         <th>성별</th>
         <th>유형</th>
-        <th>고사실</th>
         <th>좌석번호</th>
         <th class="score">점수</th>
         <th class="accept">합격여부</th>
@@ -218,7 +217,6 @@ function RuesltListsaveExcel() {
         	<td>${scorecardInfo.userDto.birthDate}</td>
         	<td>${scorecardInfo.userDto.gender}</td>
         	<td class="flow flowSub"><p>${scorecardInfo.subjectDto.subjectName}</p></td>
-        	<td>00</td>
         	<td>${scorecardInfo.seatNumber}</td>
         	<td>${scorecardInfo.gradeDto.allScore}</td>
         	<td>${scorecardInfo.gradeDto.isPass}</td>

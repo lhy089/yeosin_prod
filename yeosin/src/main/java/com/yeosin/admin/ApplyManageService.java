@@ -126,6 +126,11 @@ public class ApplyManageService {
 		return applyManageDao.getExamZoneListByExamRegister();
 	}
 	
+	//시험일정등록 과목 리스트 조회
+	public List<SubjectDto> getSubjectListByExamRegister() throws Exception{
+		return applyManageDao.getSubjectListByExamRegister();
+	}
+	
 	// 시험명 리스트 조회(조회조건)
 	public List<ExamDto> getExamNameListByYear(Map<String, Object> map) throws Exception {
 		return applyManageDao.getExamNameListByYear(map);
@@ -151,6 +156,26 @@ public class ApplyManageService {
 		return applyManageDao.setExamDelete(map);
 	}
 	
+	// 시험 ID MaxNumber 조회
+	public int getMaxExamId() throws Exception {
+		return applyManageDao.getMaxExamId();
+	}
+	
+	// 시험일정등록(시험테이블)
+	public int registerExam(ExamDto examDto) throws Exception{
+		return applyManageDao.registerExam(examDto);
+	}
+	
+	// 시험일정등록(EXAMANDSUBJECTREL 테이블)
+	public int registerExamAndSubjectRel(Map<String, Object> map) throws Exception{
+		return applyManageDao.registerExamAndSubjectRel(map);
+	}
+	
+	// 시험일정등록(EXAMANDEXAMZONEREL 테이블)
+	public int registerExamAndExamZoneRel(Map<String, Object> map) throws Exception{
+		return applyManageDao.registerExamAndExamZoneRel(map);
+	}
+
 	// 시험차수 리스트 조회(조회조건) - 원서접수현황용(원서별, 고사장별)
 	public List<ExamDto> getConditionExamYearAndDegreeList() throws Exception {
 		return applyManageDao.getConditionExamYearAndDegreeList();
