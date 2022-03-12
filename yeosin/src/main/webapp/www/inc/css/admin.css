@@ -115,10 +115,14 @@ table .center td{padding-left:0; text-align:center;}
 .manage .selectTable table td select{width:252px; height:45px; border:1px solid #c7c6c6; box-sizing:border-box; padding:0 12px; font-family:sandoll-gothicneo3, sans-serif; font-size:21px; letter-spacing:-0.5px;}
 .manage .selectTable table td select.exams{width:320px;}
 .manage .selectTable table td input{width:260px; height:45px; border:1px solid #c7c6c6; box-sizing:border-box; padding:0 12px; font-family:sandoll-gothicneo3, sans-serif; font-size:21px; letter-spacing:-0.5px;}
+.manage table input[type="text"]{width:80px; height:45px; border:1px solid #c7c6c6; font-family:sandoll-gothicneo3, sans-serif; font-size:21px; color:#000; letter-spacing:-0.5px; padding-left:12px; box-sizing:border-box;}
+.manage table input.won{width:160px;}
 .manage table input[type="date"]{width:257px; height:45px; border:1px solid #c7c6c6; border-radius:5px; background:#f8f8f8; font-family:sandoll-gothicneo3, sans-serif; font-size:22px; color:#58585b; padding-left:15px;}
 .manage table input[type="time"]{width:160px; height:45px; border:1px solid #c7c6c6; font-family:sandoll-gothicneo3, sans-serif; font-size:22px; color:#000; padding-left:15px;}
 .manage.register table:first-of-type{margin-bottom:80px;}
 .manage.register table select,.manage.register table input[type="number"]{width:453px; height:45px; border:1px solid #c7c6c6; font-family:sandoll-gothicneo3, sans-serif; font-size:21px; color:#000; letter-spacing:-0.5px; padding-left:12px; box-sizing:border-box;}
+.manage.register .signUp th,.manage.register .signUp td{padding-left:0; text-align:center;}
+
 .manage.register .btn_apply{clear:both; margin-top:65px;}
 .manage .btn_plus{width:105px; height:36px; border:1px solid #8e8c8a; border-radius:5px; box-sizing:border-box; font-family:sandoll-gothicneo3, sans-serif; font-size:21px; color:#58585b; letter-spacing:-0.5px; display:block; overflow:hidden; margin-top:24px; float:right; transition:0.6s;}
 .manage .btn_plus:hover{background:#8e8c8a; color:#fff;}
@@ -148,9 +152,11 @@ table .center td{padding-left:0; text-align:center;}
 .result table th.score{background:#dcf193;}
 .result table th.accept{background:#349980; color:#fff;}
 .result .list th,.result .list td{font-size:21px;}
+.result.list .list{margin-bottom:25px;}
 .result.list .list td.flowArea{width:20%;}
 .result.list .list td.flowSub{width:12%;}
 .result.list .list td.flowArea p,.result .list td.flowSub p{width:100%; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical;}
+.result.list .list select{height:45px; border:1px solid #c7c6c6; font-family:sandoll-gothicneo3, sans-serif; font-size:21px; color:#000; letter-spacing:-0.5px; box-sizing:border-box;}
 .result.manage .list td.flowNum,.result.manage .list td.flowSub{width:22.5%;}
 .result.manage .list td.flowNum p,.result.manage .list td.flowSub p{width:100%; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical;}
 

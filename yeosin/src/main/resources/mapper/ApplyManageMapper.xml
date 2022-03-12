@@ -545,14 +545,24 @@
 		</foreach>
 	</insert>
 	
-	<!--시험정등록 고사장 리스트  -->
+	<!--시험일정등록 고사장 리스트  -->
 	<select id="getExamZoneListByExamRegister"  resultType="com.yeosin.apply.ExamZoneDto">
 		SELECT 	
-				EXAMZONENAME 											-- 고사장명
+				EXAMZONEID												-- 고사장ID
+			,	EXAMZONENAME 											-- 고사장명
 			,	EXAMROOMCNT 											-- 시험 교실수
 			,	EXAMROOMUSERCNT											-- 교실당 인원수
 			,	EXAMROOMCNT * EXAMROOMUSERCNT 		AS EXAMTOTALUSERCNT 	-- 전체 인원수
 		FROM 	YS_EXAMZONE 
+		WHERE 	1 = 1
+	</select>
+	
+	<!--시험일정등록 과목 리스트 -->
+	<select id="getSubjectListByExamRegister" resultType = "com.yeosin.apply.SubjectDto">
+		SELECT 	
+				SUBJECTID											-- 과목ID
+			,	SUBJECTNAME											-- 과목이름		
+		FROM 	YS_SUBJECT
 		WHERE 	1 = 1
 	</select>
 
@@ -653,4 +663,43 @@
 		</foreach>
 	</insert>
 	
+	<!-- 시험 ID MaxNumber 조회 -->
+	<select id="getMaxExamId" resultType="Integer">
+		SELECT 	MAX(CONVERT(REPLACE(EXAMID, 'exam', ''), SIGNED)) 
+		FROM 	YS_EXAM
+		WHERE 	1 = 1;
+	</select>
+	
+	<!-- 시험일정등록(EXAM 테이블) -->
+	<insert id="registerExam" parameterType="com.yeosin.apply.ExamDto">
+	INSERT INTO YS_EXAM
+	(EXAMID, EXAMNAME, EXAMYEAR, SUBJECTID, EXAMTYPE, ISAPPROVAL, EXAMDEGREE,
+	EXAMDATE, EXAMLOCAL, EXAMAREA, RECEIPTSTARTDATE, RECEIPTENDDATE, ALLREFUNDEXITDATE, ISPRACTICALEXAM,
+	CERTPRINTSTARTDATE, CERTPRINTENDDATE, GRADESTARTDATE, GRADEENDDATE, EXAMCOST, PERIOD, GRADESTATUS)
+	VALUES(#{examId}, #{examName}, #{examYear}, '제거대상 컬럼(종목코드)', #{examType}, #{isApproval}, #{examDegree}, #{examDate},
+	'제거대상 컬럼(시험지역)', '제거대상 컬럼(시험지역)', #{receiptStartDate} , #{receiptEndDate} , '0000-00-00 00:00:00', #{isPracticalExam}, 
+	#{certPrintStartDate}, #{certPrintEndDate}, #{gradeStartDate}, #{gradeEndDate}, #{examCost}, #{period}, #{gradeStatus});
+	</insert>	
+		
+	<!-- 시험일정등록(EXAMANDSUBJECTREL 테이블) -->
+	<insert id="registerExamAndSubjectRel" parameterType="map">
+	INSERT INTO YS_EXAMANDSUBJECTREL
+	(EXAMID, SUBJECTID)
+	VALUES
+	<foreach collection="subjectId" item="item" index="i" separator="," >
+			(#{examId}, #{item})		
+	</foreach>
+	</insert>
+	
+	<!-- 시험일정등록(EXAMANDEXAMZONEREL 테이블) -->
+	<insert id="registerExamAndExamZoneRel" parameterType="map">
+	INSERT INTO YS_EXAMANDEXAMZONEREL
+	(EXAMZONEID, EXAMID)
+	VALUES
+	<foreach collection="examZoneId" item="item" index="i" separator="," >
+			(#{item}, #{examId})		
+	</foreach>
+	</insert>
+
+
 </mapper>

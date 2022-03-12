@@ -462,7 +462,7 @@ public class ApplyManageController {
 		return mav;
 	}
    
-   //시험일정등록
+   //시험일정등록화면
    @RequestMapping(value="/manageRegister", method=RequestMethod.GET)
    @ResponseBody
    public ModelAndView manageRegister(HttpSession session, HttpServletRequest request, HttpServletResponse response)  throws Exception
@@ -481,8 +481,77 @@ public class ApplyManageController {
 		} else {
 			// 고사장 데이터
 			List<ExamZoneDto> examZoneList= applyManageService.getExamZoneListByExamRegister();
-
+			List<SubjectDto> subjectList = applyManageService.getSubjectListByExamRegister();
+			
+			mav.addObject("alertResult" , false);
+			mav.addObject("alertError", false);
 			mav.addObject("examZoneList", examZoneList);
+			mav.addObject("subjectList", subjectList);
+			mav.setViewName("admin/manage_register");
+		}
+		return mav;
+	}
+   
+   //시험일정등록하기
+   @RequestMapping(value="/manageRegister_action", method=RequestMethod.GET)
+   @ResponseBody
+   public ModelAndView manageRegister_action(ExamDto examDto, HttpSession session, HttpServletRequest request, HttpServletResponse response)  throws Exception
+	{
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+
+		UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
+
+		if (userInfo == null) {
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		} else if (!"S".equals(userInfo.getUserStatus())) {
+			mav.addObject("isAlertNoAuth", true);
+			mav.setViewName("main");
+		} else {
+			// 고사장 데이터
+			int MaxExamNumber = applyManageService.getMaxExamId() + 1;
+			String newExamId = "exam" + String.valueOf(MaxExamNumber);
+			
+			examDto.setExamId(newExamId);
+			examDto.setExamName("대출성 상품 판매대리·중개업자 등록 자격인증 평가");
+			examDto.setExamType("자격시험");
+			examDto.setIsApproval("Y");
+			examDto.setIsPracticalExam("Y");
+			examDto.setGradeEndDate(examDto.getGradeStartDate());
+			examDto.setPeriod("0");
+			examDto.setGradeStatus("N");
+			examDto.setReceiptStartDate(examDto.getReceiptStartDate() + " " + request.getParameter("receiptStartTime"));
+			examDto.setReceiptEndDate(examDto.getReceiptEndDate() + " " + request.getParameter("receiptEndTime"));
+			
+			boolean alertResult = false;
+			boolean alertError = true;
+				
+			if(request.getParameterValues("subjectId") != null && request.getParameterValues("examZoneId") != null)
+			{
+			
+				Map<String, Object> parameterMap = new HashMap<String, Object>();
+				parameterMap.put("subjectId", request.getParameterValues("subjectId"));
+				parameterMap.put("examId", newExamId);
+				
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("examZoneId",  request.getParameterValues("examZoneId"));
+				map.put("examId", newExamId);
+			
+				applyManageService.registerExam(examDto);
+				applyManageService.registerExamAndSubjectRel(parameterMap);
+				applyManageService.registerExamAndExamZoneRel(map);	
+				alertResult = true;
+				alertError = false;
+			}
+			
+			List<ExamZoneDto> examZoneList= applyManageService.getExamZoneListByExamRegister();
+			List<SubjectDto> subjectList = applyManageService.getSubjectListByExamRegister();
+			
+			mav.addObject("alertResult" , alertResult);
+			mav.addObject("alertError",alertError);
+			mav.addObject("examZoneList", examZoneList);
+			mav.addObject("subjectList", subjectList);
 			mav.setViewName("admin/manage_register");
 		}
 		return mav;
