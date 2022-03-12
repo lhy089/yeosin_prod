@@ -219,7 +219,10 @@
            <td class="flow flowNo">${examList.examName}</td>
            <td class="flow flowNo">${examList.examDegree}</td>
            <td class="flow flowNo">${examList.examDate}</td>
-           <td><a href="/manageRegister?examId=${examList.examId}" class="btn_more">자세히 보기</a></td>
+           <c:set var="examYear" value="${examList.examYear}"/>
+           <c:set var="examDegree" value="${examList.examDegree}"/>
+           <c:set var="hyphen" value="-"/>
+           <td><a href="/manage_status_doc?examDegreeCondition=${examYear}${hyphen}${examDegree}" class="btn_more">자세히 보기</a></td>
          </tr>
        </c:forEach>
       </tr>

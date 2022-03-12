@@ -5,6 +5,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,9 +61,11 @@ public class ApplyManageController {
 		   // 조회조건 콤보박스 데이터
 		   List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
 		   List<SubjectDto> subjectList = applyManageService.getConditionSubjectList();
+		   List<ExamDto> examDegreeList = applyManageService.getConditionExamYearAndDegreeList();
+		   List<ApplyDto> isCancelList = applyManageService.getConditionIsCancelList();
 		   
 		   // 페이징 데이터 준비(페이지당 데이터 목록수)
-		   int pagePerNum = 10;
+		   int pagePerNum = 30;
 		   if (request.getParameterMap().containsKey("onePageDataCountCondition")) 
 		   {
 			   if (request.getParameter("onePageDataCountCondition") != null 
@@ -77,9 +80,18 @@ public class ApplyManageController {
 		   parameterMap.put("textCondition", request.getParameter("textCondition"));
 		   parameterMap.put("localCondition", request.getParameter("localCondition"));
 		   parameterMap.put("subjectCondition", request.getParameter("subjectCondition"));
+		   parameterMap.put("examDegreeCondition", request.getParameter("examDegreeCondition"));
+		   parameterMap.put("isCancelCondition", request.getParameter("isCancelCondition"));
 		   parameterMap.put("pageStart", applyDto.getPageStart());
 		   parameterMap.put("perPageNum", applyDto.getPerPageNum());
 
+		   // 빈 문자열일때 null로 치환
+		   for (Entry<String, Object> entrySet : parameterMap.entrySet()) 
+		   {
+			   if (entrySet.getValue() == null) continue;
+			   if (entrySet.getValue().equals("")) entrySet.setValue(null);
+		   }
+		   
 		   // 접수 리스트 데이터
 		   List<ApplyDto> applyListByDocument = applyManageService.getApplyListByDocument(parameterMap);
 
@@ -90,10 +102,14 @@ public class ApplyManageController {
 			
 		   mav.addObject("localList", localList);
 		   mav.addObject("subjectList", subjectList);
+		   mav.addObject("examDegreeList", examDegreeList);
+		   mav.addObject("isCancelList", isCancelList);
 		   mav.addObject("applyListByDocument", applyListByDocument);
 		   mav.addObject("textCondition", request.getParameter("textCondition"));
 		   mav.addObject("localCondition", request.getParameter("localCondition"));
 		   mav.addObject("subjectCondition", request.getParameter("subjectCondition"));
+		   mav.addObject("examDegreeCondition", request.getParameter("examDegreeCondition"));
+		   mav.addObject("isCancelCondition", request.getParameter("isCancelCondition"));
 		   mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
 		   mav.addObject("pageMaker", pageMaker);
 		   mav.addObject("applyDto", applyDto);
@@ -126,7 +142,8 @@ public class ApplyManageController {
 	   {	   
 		   // 조회조건 콤보박스 데이터
 		   List<ExamZoneDto> localList = applyManageService.getConditionLocalList();
-		   List<ExamDto> examYearList = applyManageService.getConditionExamYearList();
+		   List<ExamDto> examDegreeList = applyManageService.getConditionExamYearAndDegreeList();
+		   //List<ExamDto> examYearList = applyManageService.getConditionExamYearList();
 		
 		   // 페이징 데이터 준비(페이지당 데이터 목록수)
 		   int pagePerNum = 30;
@@ -143,10 +160,17 @@ public class ApplyManageController {
 		   Map<String, Object> parameterMap = new HashMap<String, Object>();
 		   parameterMap.put("textCondition", request.getParameter("textCondition"));
 		   parameterMap.put("localCondition", request.getParameter("localCondition"));
-		   parameterMap.put("examYearCondition", request.getParameter("examYearCondition"));
+		   parameterMap.put("examDegreeCondition", request.getParameter("examDegreeCondition"));
 		   parameterMap.put("pageStart", examZoneDto.getPageStart());
 		   parameterMap.put("perPageNum", examZoneDto.getPerPageNum());
 		     
+		   // 빈 문자열일때 null로 치환
+		   for (Entry<String, Object> entrySet : parameterMap.entrySet()) 
+		   {
+			   if (entrySet.getValue() == null) continue;
+			   if (entrySet.getValue().equals("")) entrySet.setValue(null);
+		   }
+		   
 		   // 접수 리스트 데이터
 		   List<ApplyDto> applyListByExamZone = applyManageService.getApplyListByExamZone(parameterMap);
 		
@@ -156,11 +180,11 @@ public class ApplyManageController {
 		   pageMaker.setTotalCount(applyManageService.getApplyListByExamZoneCount(parameterMap));         
 		     
 		   mav.addObject("localList", localList);
-		   mav.addObject("examYearList", examYearList);
+		   mav.addObject("examDegreeList", examDegreeList);
 		   mav.addObject("applyListByExamZone", applyListByExamZone);
 		   mav.addObject("textCondition", request.getParameter("textCondition"));
 		   mav.addObject("localCondition", request.getParameter("localCondition"));
-		   mav.addObject("examYearCondition", request.getParameter("examYearCondition"));
+		   mav.addObject("examDegreeCondition", request.getParameter("examDegreeCondition"));
 		   mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
 		   mav.addObject("pageMaker", pageMaker);
 		   mav.addObject("examZoneDto", examZoneDto);

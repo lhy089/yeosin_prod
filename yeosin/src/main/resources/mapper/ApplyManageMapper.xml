@@ -136,6 +136,12 @@
 			AND (R.SUBJECTID LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%')
 				OR S.SUBJECTNAME LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%'))
 		</if>
+		<if test='examDegreeCondition != null and !examDegreeCondition.equals("전체")'>
+			AND CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR)) = #{examDegreeCondition, jdbcType=VARCHAR}
+		</if>
+		<if test='isCancelCondition != null and !isCancelCondition.equals("전체")'>
+			AND R.ISCANCEL = #{isCancelCondition, jdbcType=VARCHAR}
+		</if>
 		ORDER BY
 				R.RECEIPTDATE DESC
 		LIMIT 
@@ -208,8 +214,8 @@
 		<if test='localCondition != null and !localCondition.equals("전체")'>
 			AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
 		</if>
-		<if test='examYearCondition != null and !examYearCondition.equals("전체")'>
-			AND CONVERT(E.EXAMYEAR, CHAR) LIKE CONCAT('%', #{examYearCondition, jdbcType=VARCHAR}, '%')
+		<if test='examDegreeCondition != null and !examDegreeCondition.equals("전체")'>
+			AND CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR)) = #{examDegreeCondition, jdbcType=VARCHAR}
 		</if>
 		ORDER BY 
 				E.EXAMDATE DESC
@@ -263,6 +269,12 @@
 			AND (R.SUBJECTID LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%')
 				OR S.SUBJECTNAME LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%'))
 		</if>
+		<if test='examDegreeCondition != null and !examDegreeCondition.equals("전체")'>
+			AND CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR)) = #{examDegreeCondition, jdbcType=VARCHAR}
+		</if>
+		<if test='isCancelCondition != null and !isCancelCondition.equals("전체")'>
+			AND R.ISCANCEL = #{isCancelCondition, jdbcType=VARCHAR}
+		</if>
 		ORDER BY
 				R.RECEIPTDATE DESC;
 	</select>
@@ -299,6 +311,9 @@
 	   </if>
 	   <if test='subjectCondition != null and !subjectCondition.equals("*")'>
 	      AND EX.EXAMYEAR LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%')      
+	   </if>
+ 	   <if test='examDegreeCondition != null and !examDegreeCondition.equals("전체")'>
+		  AND CONCAT(CONVERT(EX.EXAMYEAR, CHAR), '-', CONVERT(EX.EXAMDEGREE, CHAR)) = #{examDegreeCondition, jdbcType=VARCHAR}
 	   </if>
 	   ORDER BY
 	         EX.EXAMDATE DESC;
@@ -652,5 +667,32 @@
 			WHERE EXAMID = #{examId, jdbcType=VARCHAR};
 		</foreach>
 	</insert>
+	
+	<!-- 조회조건 시험차수 리스트 -->
+	<select id="getConditionExamYearAndDegreeList" resultType="com.yeosin.apply.ExamDto">
+		SELECT
+				'전체' AS EXAMDEGREE
+		FROM DUAL
+		UNION
+		SELECT 	
+				DISTINCT CONCAT(EXAMYEAR, '-', EXAMDEGREE)
+		FROM 	YS_EXAM 
+		WHERE 	1 = 1
+		ORDER BY 
+				FIELD(EXAMDEGREE, '전체') DESC, EXAMDEGREE;
+	</select>
+	
+	<!-- 조회조건 취소여부 리스트 -->
+	<select id="getConditionIsCancelList" resultType="com.yeosin.apply.ApplyDto">
+		SELECT
+				'전체' AS ISCANCEL
+		FROM DUAL
+		UNION
+		SELECT 	
+				DISTINCT ISCANCEL
+		FROM 	YS_RECEIPT
+		ORDER BY 
+				FIELD(ISCANCEL, '전체', 'N', 'Y');
+	</select>
 	
 </mapper>

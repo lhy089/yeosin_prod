@@ -168,4 +168,13 @@ public class ApplyManageDao {
 		return sqlSession.delete(nameSpace + "deleteExam", map);
 	}
 	
+	// 시험차수 리스트 조회(조회조건) - 원서접수현황용(원서별, 고사장별)
+	public List<ExamDto> getConditionExamYearAndDegreeList() throws Exception {
+		return sqlSession.selectList(nameSpace + "getConditionExamYearAndDegreeList");
+	}
+	
+	// 취소여부 리스트 조회(조회조건)
+	public List<ApplyDto> getConditionIsCancelList() throws Exception {
+		return sqlSession.selectList(nameSpace + "getConditionIsCancelList");
+	}
 }

@@ -78,9 +78,21 @@
 				</c:forEach>
           	</select>
           </td>
-          <th>시험연도</th>
+          <th>차수</th>
           <td>
-			<select id="examYearCondition" name="examYearCondition">
+            <select id="examDegreeCondition" name="examDegreeCondition">
+	            <c:forEach var="examDegreeList" items="${examDegreeList}" varStatus="status">
+					<c:choose>
+					<c:when test="${examDegreeCondition eq examDegreeList.examDegree}">
+						<option value="${examDegreeList.examDegree}" selected>${examDegreeList.examDegree}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${examDegreeList.examDegree}">${examDegreeList.examDegree}</option>
+					</c:otherwise>
+					</c:choose>
+	            </c:forEach>
+            </select>  
+<%-- 			<select id="examYearCondition" name="examYearCondition">
 				<c:forEach var="examYearList" items="${examYearList}" varStatus="status">
 				   <c:choose>
 				<c:when test="${examYearList eq examYearList.examYear}">
@@ -91,12 +103,12 @@
 				</c:otherwise>
 				</c:choose>
 				</c:forEach>
-            </select>
+            </select> --%>
           </td>
           <th>목록건수</th>
           <td>
 			<select id="onePageDataCountCondition" name="onePageDataCountCondition" class="count">
-	            <c:forEach var="i" begin="30" end="100" step="10">
+	            <c:forEach var="i" begin="30" end="300" step="10">
 	            <c:choose>
 	            <c:when test="${i eq pageCondition}">
 	               <option value="${i}" selected>${i}</option>
@@ -171,17 +183,17 @@
 	<ul class="btn-group pagination">
 	 <c:if test="${pageMaker.prev}">
 	     <li>
-	        <a href='<c:url value="/manage_status_site?page=${pageMaker.startPage-1}&textCondition=${textCondition}&localCondition=${localCondition}&examYearCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}" />'><i class="fa fa-chevron-left">이전</i></a>
+	        <a href='<c:url value="/manage_status_site?page=${pageMaker.startPage-1}&textCondition=${textCondition}&localCondition=${localCondition}&examYearCondition=${subjectCondition}&examDegreeCondition=${examDegreeCondition}&onePageDataCountCondition=${pageCondition}" />'><i class="fa fa-chevron-left">이전</i></a>
 	    </li>
 	</c:if>
 	 <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
 	   <li value="${pageNum}"> 
-	         <a href='<c:url value="/manage_status_site?page=${pageNum}&textCondition=${textCondition}&localCondition=${localCondition}&examYearCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}" />'><i class="fa">${pageNum}</i></a>
+	         <a href='<c:url value="/manage_status_site?page=${pageNum}&textCondition=${textCondition}&localCondition=${localCondition}&examYearCondition=${subjectCondition}&examDegreeCondition=${examDegreeCondition}&onePageDataCountCondition=${pageCondition}" />'><i class="fa">${pageNum}</i></a>
 	   </li>
 	</c:forEach>
 	<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
 	   <li>
-	        <a href='<c:url value="/manage_status_site?page=${pageMaker.endPage+1}&textCondition=${textCondition}&localCondition=${localCondition}&examYearCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}"/>'><i class="fa fa-chevron-right">다음</i></a>
+	        <a href='<c:url value="/manage_status_site?page=${pageMaker.endPage+1}&textCondition=${textCondition}&localCondition=${localCondition}&examYearCondition=${subjectCondition}&examDegreeCondition=${examDegreeCondition}&onePageDataCountCondition=${pageCondition}"/>'><i class="fa fa-chevron-right">다음</i></a>
 	     </li>
 	</c:if>
 	</ul>   
