@@ -48,6 +48,10 @@
 		$("#excelDownload").click(function(){
 	 		saveExcel();
 		});
+		
+// 		$("#loginForce").click(function(){
+// 			loginForce(this.dataset.userId, this.dataset.userName);
+// 		});
 	});
    
    function saveExcel() {
@@ -85,6 +89,30 @@
 	 	controller 메서드는 그대로 사용.
 		*/;
 	  }
+   
+   function loginForce(userId, userName) {
+	   if(confirm(userName + "님으로 접속 하시겠습니까?")) {
+	   $.ajax({
+			url: "/loginForceByMng",
+	        type: "POST",
+	        sendDataType : 'string',
+ 			dataType : 'text',
+	        data: {userId : userId},
+	        success: function(data) 
+			{ debugger;
+	        	if(data == 'U') {
+	          	   $(location).attr("href", "/www/main.jsp");
+	             }else {
+	             	alert("회원 정보가 존재하지 않거나 일치하지 않습니다.")
+	             }
+	        },
+	        error: function() 
+			{
+	           console.log("AJAX Request 실패");
+	        }
+		});
+	   }
+   }
 
  </script>
 
@@ -132,6 +160,15 @@
           <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${userDto.searchSMSType eq 'N'}">checked="checked"</c:if> value="N"> 수신거부</label>
         </td>
       </tr>
+      <tr>
+        <th>목록건수</th>
+        <td>
+          <select id="" name="" class="count">
+            <option value="">200</option>
+          </select>
+        </td>
+        <td colspan="2"></td>
+      </tr>
     </table>
     <a onclick="return false;" id="btn_search" class="btn_apply mb100">조회</a>
 	</form>
@@ -154,13 +191,13 @@
         <col width="6.5%">
         <col width="7%">
         <col width="11%">
-        <col width="4%">
-        <col width="8.5%">
-        <col width="8.5%">
+        <col width="7%">
         <col width="8.5%">
         <col width="11%">
         <col width="11%">
-        <col width="14%">
+        <col width="11%">
+        <col width="auto">
+        <col width="10%">
       </colgroup>
       <tr class="column_thead">
         <th class="first">선택</th>
@@ -168,14 +205,13 @@
         <th>등급</th>
         <th>이름</th>
         <th>아이디</th>
-        <th>상태</th>
         <th>성별</th>
         <th>가입일</th>
-        <th>최근접속일</th>
         <th>생년월일</th>
         <th>연락처</th>
         <th>휴대전화</th>
         <th>이메일</th>
+        <th>상태</th>
       </tr>
       <c:forEach var="user" items="${userList}" varStatus="status">
 	      <tr class="center">
@@ -183,15 +219,14 @@
 	        <td>${status.count}</td>
 	        <td>${user.grade} </td>
 	        <td class="flow flowName"><p>${user.userName}</p></td>
-	        <td class="flow flowId"><p>${user.userId}</p></td>
-	      	<td>${user.userStatus}</td>
+	        <td class="flow flowId" ><p>${user.userId}</p></td>
 	        <td>${user.gender}</td>
 	        <td>${user.joinDate}</td>
-	        <td>${user.lastConnectDate}</td>
 	        <td>${user.birthDate}</td>
 	        <td>${user.callNumber}</td>
 	        <td>${user.phoneNumber}</td>
 	        <td class="flow flowEmail"><p>${user.emailAddress}</p></td>
+	        <td><a onclick="loginForce('${user.userId}','${user.userName}')" id="loginForce" href="#" class="btn_more">접속</a></td>
 	      </tr>
 	  </c:forEach>
     </table>

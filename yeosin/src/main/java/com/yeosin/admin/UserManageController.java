@@ -97,7 +97,7 @@ public class UserManageController {
 	    if (userInfo == null) 
 	    {
 	    	mav.addObject("isAlert", true);
-			mav.setViewName("member/login");
+			mav.setViewName("admin/login");
 	    }
 	    else if (!"S".equals(userInfo.getUserStatus())) 
 	    {
@@ -245,5 +245,23 @@ public class UserManageController {
 			mav.addObject("uploadSuccess", result);
 			return mav;
 		}
+	}
+	
+	@RequestMapping(value="/loginForceByMng", method=RequestMethod.POST)
+	@ResponseBody
+	public String loginForceByMng(String userId, HttpSession session, HttpServletResponse response) throws Exception {
+		String result = "";
+		response.setCharacterEncoding("UTF-8");
+		UserDto user = new UserDto();
+		user.setUserId(userId);
+		// 사용자 정보 조회
+		UserDto userInfo = userService.getLoginUserInfo(user);
+
+		if(userInfo != null) {
+			result = "U";
+			session.setAttribute("loginUserInfo",userInfo);
+		}else {
+		}
+		return result;
 	}
 }
