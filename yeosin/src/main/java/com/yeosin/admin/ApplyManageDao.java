@@ -86,6 +86,10 @@ public class ApplyManageDao {
 		return sqlSession.update(nameSpace + "insertExcelData", gradeList);
 	}
 	
+	public int deleteExcelData(List<GradeDto> gradeList) throws Exception {
+		return sqlSession.delete(nameSpace + "deleteExcelData", gradeList);
+	}
+	
 	public String getReceiptIdByStudentCode(String studentCode) throws Exception {
 		return sqlSession.selectOne(nameSpace + "getReceiptIdByStudentCode", studentCode);
 	}
@@ -94,8 +98,8 @@ public class ApplyManageDao {
 		return sqlSession.selectOne(nameSpace + "getExamInfoByExamId", examId);
 	}
 	
-	public int updateGradeStatus(String examId) throws Exception {
-		return sqlSession.update(nameSpace + "updateGradeStatus", examId);
+	public int updateGradeStatus(Map<String,String> map) throws Exception {
+		return sqlSession.update(nameSpace + "updateGradeStatus", map);
 	}
 	
 	// 고사장 리스트 조회

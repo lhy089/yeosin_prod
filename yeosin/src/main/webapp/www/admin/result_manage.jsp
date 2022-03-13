@@ -31,6 +31,9 @@
 	  if("${uploadSuccess}" == "FAILED") {
 		  alert("오류가 발생했습니다.");
 		  location.href = "/resultManage";
+	  }else if ("${uploadSuccess}" == "NOT FOUND") {
+		  alert("파일을 찾을 수 없습니다.");
+		  location.href = "/resultManage";
 	  }else if ("${uploadSuccess}" == "SUCCESS") {
 		  alert("성적 등록을 완료 했습니다.");
 		  location.href = "/resultManage";
@@ -41,7 +44,7 @@
 
 	function checkFileType(filePath) {
 		var fileFormat = filePath.split(".");
-		if (fileFormat.indexOf("xlsx") > -1) {
+		if (fileFormat.indexOf("xlsx") > -1 || fileFormat.indexOf("xls") > -1) {
 			return true;
 		} else {
 			return false;
@@ -79,7 +82,7 @@
   <div class="contentBoxAd">
     <h1 class="title">성적관리</h1>
     <h2>성적처리</h2>
-    <form id="excelUpForm" method="post" action="/excelUploadForGradeRegistration" role="form" enctype="multipart/form-data">
+    <form id="excelUpForm" name="excelUpForm" action="/excelUploadForGradeRegistration" method="post" enctype="multipart/form-data">
     <input type="hidden" id="excelType" name="excelType" value=""/>
     <input type="hidden" id="examId" name="examId" value=""/>
     <table class="list">
@@ -112,7 +115,7 @@
         	<td>${examInfo.examDate}</td>
         	<td class="flow flowSub"><p>대출/리스</p></td>
         	<td class="upload">
-        		<input id="excel_${examInfo.examId}" name="excel" class="file" type="file" multiple data-show-upload="false" data-show-caption="true">
+        		<input id="excel_${examInfo.examId}" name="excel_${examInfo.examId}" type="file">
 <%--         		<label className="input-file-button" for="input-file" id="excelUp" onclick="check('${examInfo.examId}')">등록하기</label> --%>
 				<button type="button" id="excelUp" onclick="check('${examInfo.examId}')">등록하기</button>
         	</td>

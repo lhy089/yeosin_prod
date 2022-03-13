@@ -57,13 +57,13 @@ public class UserManageService {
 	}
 	
 	//TODO :: 함수 위치 변경, 로직 나누기
-	public String xlsxExcelReader(MultipartHttpServletRequest req, String examId) {
+	public String xlsxExcelReader(MultipartFile file, String examId) throws Exception{
 		// 반환할 객체를 생성
 		List<ApplyDto> list = new ArrayList<>();
 		String result = "";
 
-		MultipartFile file = req.getFile("excel");
 		XSSFWorkbook workbook = null;
+		List<GradeDto> gradeList = new ArrayList<GradeDto>();
 
 		try {
 			// HSSFWorkbook은 엑셀파일 전체 내용을 담고 있는 객체
@@ -160,7 +160,7 @@ public class UserManageService {
 			ExamDto examInfo = applyManageDao.getExamInfoByExamId(examId);
 			String passCertIdForm = examInfo.getExamYear().substring(2) + String.format("%02d", Integer.parseInt(examInfo.getExamDegree()));
 			int cnt = 1;
-			List<GradeDto> gradeList = new ArrayList<GradeDto>();
+
 			System.out.println(">> passCertIdForm :::::::::::: " + passCertIdForm);
 			for(ApplyDto excel : list) {
 				String passCertId = passCertIdForm;
@@ -183,23 +183,32 @@ public class UserManageService {
 			}
 			
 			System.out.println("gradeList.size :: " + gradeList.size());
+			Map<String,String> map = new HashMap<>();
+			map.put("examId", examId);
+			map.put("gradeStatus", "Y");
 			applyManageDao.insertExcelData(gradeList);
-			applyManageDao.updateGradeStatus(examId);
+			applyManageDao.updateGradeStatus(map);
 			result = "SUCCESS";
 		} catch (Exception e) {
+			Map<String,String> map = new HashMap<>();
+			map.put("examId", examId);
+			map.put("gradeStatus", "N");
+//			applyManageDao.deleteExcelData(gradeList);
+			applyManageDao.updateGradeStatus(map);
 			result = "FAILED";
 			System.out.println(e.toString());
 		}
 		return result;
 	}
 	
-	public List<ApplyDto> xlsExcelReader(MultipartHttpServletRequest req, String examId) {
+	public String xlsExcelReader(MultipartFile file, String examId) throws Exception {
 		// 반환할 객체를 생성
 		List<ApplyDto> list = new ArrayList<>();
-
-		MultipartFile file = req.getFile("excel");
+		String result = "";
 		HSSFWorkbook workbook = null;
-
+		List<GradeDto> gradeList = new ArrayList<GradeDto>();
+		
+		System.out.println(file.getContentType());
 		try {
 			// HSSFWorkbook은 엑셀파일 전체 내용을 담고 있는 객체
 			workbook = new HSSFWorkbook(file.getInputStream());
@@ -218,6 +227,7 @@ public class UserManageService {
 				for (int rowIndex = 0; rowIndex < curSheet.getPhysicalNumberOfRows(); rowIndex++) {
 					// row 0은 헤더정보이기 때문에 무시
 					if (rowIndex != 0) {
+						System.out.println("rowIndex :::::::::::: " + rowIndex);
 						curRow = curSheet.getRow(rowIndex);
 						excelData = new ApplyDto();
 						excelData.setUserDto(new UserDto());
@@ -226,11 +236,12 @@ public class UserManageService {
 
 						// row의 첫번째 cell값이 비어있지 않는 경우만 cell탐색
 						if (curRow.getCell(0) != null) {
-							if (!"".equals(curRow.getCell(0).getStringCellValue())) {
+							if (!"".equals(curRow.getCell(0).toString())) {
 								// cell 탐색 for문
-								for (int cellIndex = 0; cellIndex < curRow.getPhysicalNumberOfCells(); cellIndex++) {
+								for (int cellIndex = 0; cellIndex < curRow.getLastCellNum(); cellIndex++) {
+									System.out.println("curRow.getLastCellNum() :: " + curRow.getLastCellNum());
 									curCell = curRow.getCell(cellIndex);
-
+									if(curCell == null) continue;
 									if (true) {
 										value = "";
 										// cell 스타일이 다르더라도 String으로 반환 받음
@@ -240,7 +251,7 @@ public class UserManageService {
 											break;
 										case HSSFCell.CELL_TYPE_NUMERIC:
 											curCell.setCellType(HSSFCell.CELL_TYPE_STRING);
-											value = curCell.getStringCellValue() + "";
+											value = curCell.getStringCellValue();
 											break;
 										case HSSFCell.CELL_TYPE_STRING:
 											value = curCell.getStringCellValue() + "";
@@ -255,7 +266,7 @@ public class UserManageService {
 											value = new String();
 											break;
 										} // end switch
-
+										System.out.println("curCell.getCellType() :: " + curCell.getCellType() + ", cellIndex :: " + cellIndex + ", value :: " + value);
 										// 현재 colum index에 따라서 vo입력
 										switch (cellIndex) {
 										case 3: // 수험번호
@@ -268,23 +279,20 @@ public class UserManageService {
 											excelData.getUserDto().setBirthDate(value);
 											break;
 										case 6: // 평가종류
-											excelData.setSubjectId("대출".equals(value) ? "LP01" : "LS01");
+											excelData.setSubjectId(value.contains("대출") ? "LP01" : "LS01");
 											break;
 										case 7: // 점수
 											excelData.getGradeDto().setAllScore(Double.parseDouble(value));
 											break;
 										case 8: // 합격여부
-											System.out.println("value ::: " + value);
 											excelData.getGradeDto().setIsPass(excelData.getGradeDto().getAllScore()>=60 ? "Y" : "N");
+											System.out.println(">> score :: " + excelData.getGradeDto().getAllScore() + ", isPass :: " + excelData.getGradeDto().getIsPass());
 											break;
 										default:
 											break;
 										}
-
-										System.out.println("cellIndex : " + cellIndex + ", value : " + value);
-									} // end if
-								} // end for
-								// cell 탐색 이후 vo 추가
+									}
+								}
 								list.add(excelData);
 							}
 						}
@@ -292,15 +300,16 @@ public class UserManageService {
 
 				}
 			}
-			
+
 			ExamDto examInfo = applyManageDao.getExamInfoByExamId(examId);
 			String passCertIdForm = examInfo.getExamYear().substring(2) + String.format("%02d", Integer.parseInt(examInfo.getExamDegree()));
 			int cnt = 1;
-			List<GradeDto> gradeList = new ArrayList<GradeDto>();
+
+			System.out.println(">> passCertIdForm :::::::::::: " + passCertIdForm);
 			for(ApplyDto excel : list) {
 				String passCertId = passCertIdForm;
 				GradeDto gradeInfo = new GradeDto();
-				gradeInfo.setReceiptId(applyManageDao.getReceiptIdByStudentCode(excel.getStudentCode()));
+				gradeInfo.setReceiptId(excel.getStudentCode());
 				gradeInfo.setIsQuit("");
 				gradeInfo.setAllScore(excel.getGradeDto().getAllScore());
 				gradeInfo.setIsPass(excel.getGradeDto().getIsPass());
@@ -309,20 +318,31 @@ public class UserManageService {
 				if("Y".equals(excel.getGradeDto().getIsPass())) {
 					if("LP01".equals(excel.getSubjectId())) passCertId += "1";
 					else passCertId += "2";
-					
+
 					passCertId += String.format("%05d", cnt++);
 					gradeInfo.setPassCertId(passCertId);
 				}
+				//							System.out.println("cnt ::: " + cnt + ", gradeInfo.getReceiptId :::::::::::: " + gradeInfo.getReceiptId());
 				gradeList.add(gradeInfo);
 			}
+
+			System.out.println("gradeList.size :: " + gradeList.size());
+			Map<String,String> map = new HashMap<>();
+			map.put("examId", examId);
+			map.put("gradeStatus", "Y");
 			applyManageDao.insertExcelData(gradeList);
-			applyManageDao.updateGradeStatus(examId);
-			
+			applyManageDao.updateGradeStatus(map);
+			result = "SUCCESS";
 		} catch (Exception e) {
-			e.printStackTrace();
+			Map<String,String> map = new HashMap<>();
+			map.put("examId", examId);
+			map.put("gradeStatus", "N");
+			//						applyManageDao.deleteExcelData(gradeList);
+			applyManageDao.updateGradeStatus(map);
+			result = "FAILED";
+			System.out.println(e.toString());
 		}
-		
-		return list;
+		return result;
 	}
 
 }

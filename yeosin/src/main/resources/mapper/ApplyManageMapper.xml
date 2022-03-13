@@ -449,12 +449,21 @@
    	 		MODDATE = now()
 	</insert>
 	
-	<update id="updateGradeStatus" parameterType="String">
+	<update id="updateGradeStatus" parameterType="map">
 		UPDATE 	YS_EXAM
-		SET		GRADESTATUS ='Y'
+		SET		GRADESTATUS =#{gradeStatus}
 		WHERE 	1 = 1
 			AND EXAMID = #{examId}
 	</update>
+	
+	<delete id="deleteExcelData" parameterType="java.util.List">
+		DELETE FROM YS_GRADE
+		WHERE
+			RECEIPTID IN
+    		<foreach collection="list" item="item" index="i" open="(" separator="," close=")">
+      			(SELECT RECEIPTID FROM YS_RECEIPT WHERE STUDENTCODE = "${item.receiptId}")
+    		</foreach>
+	</delete>
 	
 	<!-- 관리자의 고사장 리스트 조회 -->
 	<select id="getExamZoneList" parameterType="map" resultType="com.yeosin.apply.ExamZoneDto">

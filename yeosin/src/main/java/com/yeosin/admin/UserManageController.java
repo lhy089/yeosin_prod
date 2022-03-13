@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -223,13 +224,26 @@ public class UserManageController {
 		String excelType = req.getParameter("excelType");
 		String examId = req.getParameter("examId");
 
-		if(excelType.equals("xlsx")){
-			result = userManageService.xlsxExcelReader(mult, examId);
-		}else if(excelType.equals("xls")){
-			//result = userManageService.xlsExcelReader(mult, examId);
+		MultipartFile file = mult.getFile("excel_"+examId);
+		try {
+			if(file.getSize()==0) {
+				result="NOT FOUND";
+			}else {
+				if(excelType.equals("xlsx")){
+					result = userManageService.xlsxExcelReader(file, examId);
+					if("FAILED".equals(result)) result = userManageService.xlsExcelReader(file, examId);
+				}else if(excelType.equals("xls")){
+					result = userManageService.xlsExcelReader(file, examId);
+					if("FAILED".equals(result)) result = userManageService.xlsxExcelReader(file, examId);
+				}
+
+			}
+			mav.addObject("uploadSuccess", result);
+			return mav;
+		}catch(Exception e) {
+			result = "FAILED";
+			mav.addObject("uploadSuccess", result);
+			return mav;
 		}
-		mav.addObject("uploadSuccess", result);
-		
-		return mav;
 	}
 }
