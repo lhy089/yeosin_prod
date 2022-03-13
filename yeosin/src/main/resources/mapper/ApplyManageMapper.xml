@@ -537,7 +537,8 @@
 			,	EXAMROOMUSERCNT											-- 교실당 인원수
 			,	EXAMROOMCNT * EXAMROOMUSERCNT 		AS TOTALUSERCNT 	-- 전체 인원수
 			, 	DESCRIPTION 											-- 주소
-			,	EXAMZONEMAP 											-- 약도
+			,	REPLACE(EXAMZONEMAP, '/www/inc/img/apply/', '') 		
+													AS EXAMZONEMAP 		-- 약도
 		FROM 	YS_EXAMZONE 
 		WHERE 	1 = 1
 		AND 	EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};

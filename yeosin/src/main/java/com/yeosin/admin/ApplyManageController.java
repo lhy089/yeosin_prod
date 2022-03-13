@@ -285,21 +285,12 @@ public class ApplyManageController {
 		else 
 		{		
 			int isSaveUpdateSuccess = 0;
-			
-			/*
-			 * MultipartRequest multi = new MultipartRequest(request, saveDir, maxSize,
-			 * encoding, new DefaultFileRenamePolicy());
-			 * 
-			 * ServletContext context = .fg (); //어플리케이션에 대한 정보를 ServletContext 객체가 갖게 됨.
-			 * String saveDir = context.getRealPath("Upload"); //절대경로를 가져옴
-			 * System.out.println("절대경로 >> " + saveDir);
-			 */
-			
-			//String testPath = "C:\\KakaoTalk_20220225_114652413.png";
-			//byte[] imageMap = ImageSaveUtil.imageToByteArray(testPath);
+
 			//byte[] imageMap = ImageSaveUtil.imageToByteArray(String.valueOf(requestMap.get("mapFileDialog"))); 
-			//requestMap.replace("mapFile", imageMap);
-			requestMap.put("mapFile", requestMap.get("mapFileFullName"));
+			String defaultPath = "/www/inc/img/apply/";
+			String fileName = String.valueOf(requestMap.get("mapFileName"));
+			String fileFullPath = fileName.trim().isEmpty() ? null : defaultPath + fileName;
+			requestMap.put("mapFile", fileFullPath);
 			
 			// 저장, 수정에 따라 호출하는 저장로직 다르게 호출
 			if (requestMap.get("actionCode").equals("Save"))

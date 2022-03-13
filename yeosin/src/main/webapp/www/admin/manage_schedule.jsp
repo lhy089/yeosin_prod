@@ -189,7 +189,7 @@
     <ul class="btn_wrap">
 		<li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
       	<li><a href="/manageRegister">등록하기</a></li>
-      	<li><a href="/manageSchedule" onclick="return doScheduleDelete()">정보삭제</a></li>
+      	<!-- <li><a href="/manageSchedule" onclick="return doScheduleDelete()">정보삭제</a></li> -->
     </ul>
     <table class="mb100" id="columnList">
       <colgroup>
@@ -222,7 +222,7 @@
            <c:set var="examYear" value="${examList.examYear}"/>
            <c:set var="examDegree" value="${examList.examDegree}"/>
            <c:set var="hyphen" value="-"/>
-           <td><a href="/manage_status_doc?examDegreeCondition=${examYear}${hyphen}${examDegree}" class="btn_more">자세히 보기</a></td>
+           <td><a href="/manageRegister?examId=${examList.examId}" class="btn_more">자세히 보기</a></td>
          </tr>
        </c:forEach>
       </tr>

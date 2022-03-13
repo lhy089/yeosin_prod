@@ -4,11 +4,6 @@ $(document).ready(function(){
 	$("#excelDownload").click(function(){
  		saveExcel($("#docName").val());
 	});
-	
-	// 고사장 등록 버튼
-	$("#btnFile").click(function(){
-       doExamZoneSave();
-   });
 });
 
 // 좌석배치 확정함수(manage_status_site.jsp)
@@ -152,8 +147,6 @@ function doExamZoneSave()
    
    	if (isSuccess) alert("저장이 완료되었습니다.");
    	else alert("저장이 실패되었습니다.");
-   	
-   	var form = $("#form").submitButton.disabled = true;
    
    	return isSuccess;
 }
