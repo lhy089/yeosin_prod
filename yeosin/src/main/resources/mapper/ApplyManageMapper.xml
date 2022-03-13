@@ -359,6 +359,7 @@
 		INNER JOIN YS_EDUCOMPLETION	EC ON (EC.BIRTHDATE = U.BIRTHDATE AND EC.GENDER = U.GENDER AND EC.USERNAME = U.USERNAME)
 		INNER JOIN YS_GRADE	G ON G.RECEIPTID = R.RECEIPTID
 		INNER JOIN YS_SUBJECT S ON EC.SUBJECT = S.SUBJECTID
+		INNER JOIN YS_EXAM E ON E.EXAMID = R.EXAMID
 		WHERE 	1 = 1
 		
 		<if test="textCondition != null and textCondition != ''">
@@ -376,6 +377,10 @@
 		<if test='isPassCondition != null and !isPassCondition.equals("전체")'>
 			AND (G.ISPASS = #{isPassCondition, jdbcType=VARCHAR})
 		</if>
+			AND E.EXAMYEAR = #{examYear}
+			AND E.EXAMNAME = #{examName}
+			AND E.EXAMDEGREE = #{examDegree}
+			AND E.EXAMDATE = #{examDate}
 		ORDER BY 
 				R.STUDENTCODE DESC
       	LIMIT 
@@ -391,6 +396,7 @@
 		INNER JOIN YS_EDUCOMPLETION	EC ON (EC.BIRTHDATE = U.BIRTHDATE AND EC.GENDER = U.GENDER AND EC.USERNAME = U.USERNAME)
 		INNER JOIN YS_GRADE	G ON G.RECEIPTID = R.RECEIPTID
 		INNER JOIN YS_SUBJECT S ON EC.SUBJECT = S.SUBJECTID
+		INNER JOIN YS_EXAM E ON E.EXAMID = R.EXAMID
 		WHERE 	1 = 1
 		
 		<if test="textCondition != null and textCondition != ''">
@@ -408,6 +414,10 @@
 		<if test='isPassCondition != null and !isPassCondition.equals("전체")'>
 			AND (G.ISPASS = #{isPassCondition, jdbcType=VARCHAR})
 		</if>
+			AND E.EXAMYEAR = #{examYear}
+			AND E.EXAMNAME = #{examName}
+			AND E.EXAMDEGREE = #{examDegree}
+			AND E.EXAMDATE = #{examDate}
 		ORDER BY 
 				R.STUDENTCODE DESC
 	</select>

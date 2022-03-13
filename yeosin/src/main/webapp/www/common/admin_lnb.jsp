@@ -21,7 +21,7 @@
   </dl>
   <dl>
     <dt><a href="#none">성적관리</a></dt>
-    <dd><a href="/resultList?onePageDataCountCondition=200">채점표리스트</a></dd>
+    <dd><a href="/resultListIntro?onePageDataCountCondition=200">채점표리스트</a></dd>
     <dd><a href="/resultManage">성적처리</a></dd>
     <!-- <dd><a href="#">성적조회</a></dd> -->
   </dl>
