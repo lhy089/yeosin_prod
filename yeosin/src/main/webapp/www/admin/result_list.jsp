@@ -36,6 +36,10 @@ $(document).ready(function() {
 	      $("#subjectCondition").val($("#subjectCondition").val());
 	      $("#isPassCondition").val($("#isPassCondition").val());
 	      $("#onePageDataCountCondition").val($("#onePageDataCountCondition").val());
+	      $("#examYear").val($("#examYear").val());
+	      $("#examName").val($("#examName").val());
+	      $("#examDegree").val($("#examDegree").val());
+	      $("#examDate").val($("#examDate").val());
 	      $("#page").val(1);
 	      $("#commonform").submit(); 
 	   });
@@ -91,6 +95,11 @@ function RuesltListsaveExcel() {
 <%@ include file="/www/common/admin_lnb.jsp"%>
 
 <form id="commonform" name="commonform" method="get" action="/resultList">
+<input type="hidden" name="examYear" id="examYear" value="${examYear}">
+<input type="hidden" name="examName" id="examName" value="${examName}">
+<input type="hidden" name="examDegree" id="examDegree" value="${examDegree}">
+<input type="hidden" name="examDate" id="examDate" value="${examDate}">
+
 <div class="result list">
   <div class="contentBoxAd">
     <h1 class="title">성적관리</h1>

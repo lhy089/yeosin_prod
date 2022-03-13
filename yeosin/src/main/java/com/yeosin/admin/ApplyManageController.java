@@ -619,6 +619,71 @@ public class ApplyManageController {
 		return mav;
 	}
    
+   //채점표리스트_차수페이지 
+   @RequestMapping(value="/resultListIntro", method=RequestMethod.GET)
+   @ResponseBody
+   public ModelAndView resultListIntro(ExamDto examDto, HttpSession session, HttpServletResponse response, HttpServletRequest request)  
+   {
+	   response.setCharacterEncoding("UTF-8");
+	      ModelAndView mav = new ModelAndView();      
+	      
+	      UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+	      
+		   if (userInfo == null) 
+		   {
+			   mav.addObject("isAlert", true);
+			   mav.setViewName("member/login");
+		   }
+		   else if (!"S".equals(userInfo.getUserStatus())) 
+		   {
+			   mav.addObject("isAlertNoAuth", true);
+			   mav.setViewName("main");      
+		   }
+		   else
+		   {	
+			   try {
+				   examDto.setPerPageNum(Integer.parseInt(request.getParameter("onePageDataCountCondition")));
+				   
+				   // 조회조건 콤보박스 데이터
+					Map<String, Object> parameterMap = new HashMap<String, Object>();
+					parameterMap.put("year", request.getParameter("yearCondition"));
+					parameterMap.put("examName", request.getParameter("examNameCondition"));
+					List<ExamDto> yearList = applyManageService.getConditionExamYearList();
+					List<ExamDto> examNameList = applyManageService.getExamNameListByYear(parameterMap);
+					List<ExamDto> examDegreeList = applyManageService.getExamDegreeListByExamName(parameterMap);
+
+					parameterMap.put("yearCondition", request.getParameter("yearCondition"));
+					parameterMap.put("examNameCondition", request.getParameter("examNameCondition"));
+					parameterMap.put("degreeCondition", request.getParameter("degreeCondition"));
+					parameterMap.put("pageStart", examDto.getPageStart());
+					parameterMap.put("perPageNum", examDto.getPerPageNum());
+
+					// 시험 일정 데이터
+					List<ExamDto> examList = applyManageService.getExamList(parameterMap);
+
+					// 페이징 하기위한 데이터
+					ExamDtoPageMaker pageMaker = new ExamDtoPageMaker();
+					pageMaker.setExamDto(examDto);
+					pageMaker.setTotalCount(applyManageService.getExamListCount(parameterMap));
+
+					mav.addObject("yearList", yearList);
+					mav.addObject("examNameList", examNameList);
+					mav.addObject("degreeList", examDegreeList);
+					mav.addObject("examList", examList);
+					mav.addObject("yearCondition", request.getParameter("yearCondition"));
+					mav.addObject("examNameCondition", request.getParameter("examNameCondition"));
+					mav.addObject("degreeCondition", request.getParameter("degreeCondition"));
+					mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
+					mav.addObject("pageMaker", pageMaker);
+					mav.addObject("examDto", examDto);
+					mav.setViewName("admin/result_list_intro");
+			   } catch (Exception e) {
+			
+			   }
+		   }
+	      
+	      return mav;
+   }
    
    //채점표리스트
    @RequestMapping(value="/resultList", method=RequestMethod.GET)
@@ -651,6 +716,10 @@ public class ApplyManageController {
 			   parameterMap.put("localCondition", request.getParameter("localCondition"));
 			   parameterMap.put("subjectCondition", request.getParameter("subjectCondition"));
 			   parameterMap.put("isPassCondition", request.getParameter("isPassCondition"));
+			   parameterMap.put("examYear", request.getParameter("examYear"));
+			   parameterMap.put("examName", request.getParameter("examName"));
+			   parameterMap.put("examDegree", request.getParameter("examDegree"));
+			   parameterMap.put("examDate", request.getParameter("examDate"));
 			   parameterMap.put("pageStart", applyDto.getPageStart());
 			   parameterMap.put("perPageNum", applyDto.getPerPageNum());
 			   
@@ -672,15 +741,18 @@ public class ApplyManageController {
 				mav.addObject("localCondition", request.getParameter("localCondition"));
 				mav.addObject("subjectCondition", request.getParameter("subjectCondition"));
 				mav.addObject("isPassCondition", request.getParameter("isPassCondition"));
+				mav.addObject("examYear", request.getParameter("examYear"));
+				mav.addObject("examName", request.getParameter("examName"));
+				mav.addObject("examDegree", request.getParameter("examDegree"));
+				mav.addObject("examDate", request.getParameter("examDate"));
 				mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
 				mav.addObject("pageMaker", pageMaker);
-				mav.setViewName("admin/result_manage");
+				mav.setViewName("admin/result_list");
 		   } catch (Exception e) {
 		
 		   }
 	   }
       
-       mav.setViewName("admin/result_list");
       return mav;
    }
    
