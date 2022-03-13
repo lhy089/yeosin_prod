@@ -207,8 +207,8 @@
      </form>
     <ul class="btn_wrap">
       <li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
-      <li><a href="#">등록하기</a></li>
-      <li><a href="#">정보삭제</a></li>
+      <!-- <li><a href="#">등록하기</a></li>
+      <li><a href="#">정보삭제</a></li> -->
     </ul>
     <table class="mb100" id="columnList">
       <colgroup>
@@ -238,7 +238,7 @@
         <td class="flow flowName"><p>${examList.examName}</p></td>
         <td>${examList.examDegree}</td>
         <td>${examList.examDate}</td>
-        <td><a href="/resultList?examYear=${examList.examYear}&examName=${examList.examName}&examDegree=${examList.examDegree}&examDate=${examList.examDate}&onePageDataCountCondition=200" class="btn_more">자세히 보기</a></td>
+        <td><a href="/resultList?examId=${examList.examId}&onePageDataCountCondition=200" class="btn_more">자세히 보기</a></td>
       	</tr>
       </c:forEach>
       </tr>

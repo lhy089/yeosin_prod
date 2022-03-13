@@ -36,10 +36,7 @@ $(document).ready(function() {
 	      $("#subjectCondition").val($("#subjectCondition").val());
 	      $("#isPassCondition").val($("#isPassCondition").val());
 	      $("#onePageDataCountCondition").val($("#onePageDataCountCondition").val());
-	      $("#examYear").val($("#examYear").val());
-	      $("#examName").val($("#examName").val());
-	      $("#examDegree").val($("#examDegree").val());
-	      $("#examDate").val($("#examDate").val());
+	      $("#examId").val($("#examId").val());
 	      $("#page").val(1);
 	      $("#commonform").submit(); 
 	   });
@@ -95,10 +92,7 @@ function RuesltListsaveExcel() {
 <%@ include file="/www/common/admin_lnb.jsp"%>
 
 <form id="commonform" name="commonform" method="get" action="/resultList">
-<input type="hidden" name="examYear" id="examYear" value="${examYear}">
-<input type="hidden" name="examName" id="examName" value="${examName}">
-<input type="hidden" name="examDegree" id="examDegree" value="${examDegree}">
-<input type="hidden" name="examDate" id="examDate" value="${examDate}">
+<input type="hidden" name="examId" id="examId" value="${examId}">
 
 <div class="result list">
   <div class="contentBoxAd">
@@ -236,17 +230,17 @@ function RuesltListsaveExcel() {
     <ul class="btn-group pagination">
 	 <c:if test="${pageMaker.prev}">
 	     <li>
-	        <a href='<c:url value="/resultList?page=${pageMaker.startPage-1}&textCondition=${textCondition}&localCondition=${localCondition}&subjectCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}" />'><i class="fa fa-chevron-left">이전</i></a>
+	        <a href='<c:url value="/resultList?page=${pageMaker.startPage-1}&textCondition=${textCondition}&localCondition=${localCondition}&subjectCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}&examId=${examId}" />'><i class="fa fa-chevron-left">이전</i></a>
 	    </li>
 	</c:if>
 	 <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
 	   <li value="${pageNum}"> 
-	         <a href='<c:url value="/resultList?page=${pageNum}&textCondition=${textCondition}&localCondition=${localCondition}&subjectCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}" />'><i class="fa">${pageNum}</i></a>
+	         <a href='<c:url value="/resultList?page=${pageNum}&textCondition=${textCondition}&localCondition=${localCondition}&subjectCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}&examId=${examId}" />'><i class="fa">${pageNum}</i></a>
 	   </li>
 	</c:forEach>
 	<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
 	   <li>
-	        <a href='<c:url value="/resultList?page=${pageMaker.endPage+1}&textCondition=${textCondition}&localCondition=${localCondition}&subjectCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}"/>'><i class="fa fa-chevron-right">다음</i></a>
+	        <a href='<c:url value="/resultList?page=${pageMaker.endPage+1}&textCondition=${textCondition}&localCondition=${localCondition}&subjectCondition=${subjectCondition}&onePageDataCountCondition=${pageCondition}&examId=${examId}"/>'><i class="fa fa-chevron-right">다음</i></a>
 	     </li>
 	</c:if>
 	</ul>   

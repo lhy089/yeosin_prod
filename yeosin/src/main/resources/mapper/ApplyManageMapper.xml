@@ -377,10 +377,7 @@
 		<if test='isPassCondition != null and !isPassCondition.equals("전체")'>
 			AND (G.ISPASS = #{isPassCondition, jdbcType=VARCHAR})
 		</if>
-			AND E.EXAMYEAR = #{examYear}
-			AND E.EXAMNAME = #{examName}
-			AND E.EXAMDEGREE = #{examDegree}
-			AND E.EXAMDATE = #{examDate}
+			AND E.EXAMID = #{examId}
 		ORDER BY 
 				R.STUDENTCODE DESC
       	LIMIT 
@@ -414,10 +411,7 @@
 		<if test='isPassCondition != null and !isPassCondition.equals("전체")'>
 			AND (G.ISPASS = #{isPassCondition, jdbcType=VARCHAR})
 		</if>
-			AND E.EXAMYEAR = #{examYear}
-			AND E.EXAMNAME = #{examName}
-			AND E.EXAMDEGREE = #{examDegree}
-			AND E.EXAMDATE = #{examDate}
+			AND E.EXAMID = #{examId}
 		ORDER BY 
 				R.STUDENTCODE DESC
 	</select>

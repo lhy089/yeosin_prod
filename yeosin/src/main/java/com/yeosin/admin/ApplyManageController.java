@@ -707,10 +707,7 @@ public class ApplyManageController {
 			   parameterMap.put("localCondition", request.getParameter("localCondition"));
 			   parameterMap.put("subjectCondition", request.getParameter("subjectCondition"));
 			   parameterMap.put("isPassCondition", request.getParameter("isPassCondition"));
-			   parameterMap.put("examYear", request.getParameter("examYear"));
-			   parameterMap.put("examName", request.getParameter("examName"));
-			   parameterMap.put("examDegree", request.getParameter("examDegree"));
-			   parameterMap.put("examDate", request.getParameter("examDate"));
+			   parameterMap.put("examId", request.getParameter("examId"));
 			   parameterMap.put("pageStart", applyDto.getPageStart());
 			   parameterMap.put("perPageNum", applyDto.getPerPageNum());
 			   
@@ -732,10 +729,7 @@ public class ApplyManageController {
 				mav.addObject("localCondition", request.getParameter("localCondition"));
 				mav.addObject("subjectCondition", request.getParameter("subjectCondition"));
 				mav.addObject("isPassCondition", request.getParameter("isPassCondition"));
-				mav.addObject("examYear", request.getParameter("examYear"));
-				mav.addObject("examName", request.getParameter("examName"));
-				mav.addObject("examDegree", request.getParameter("examDegree"));
-				mav.addObject("examDate", request.getParameter("examDate"));
+				mav.addObject("examId", request.getParameter("examId"));
 				mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
 				mav.addObject("pageMaker", pageMaker);
 				mav.setViewName("admin/result_list");
