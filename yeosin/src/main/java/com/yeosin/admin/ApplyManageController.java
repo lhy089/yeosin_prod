@@ -1,12 +1,15 @@
 package com.yeosin.admin;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yeosin.apply.ApplyDto;
@@ -224,8 +228,31 @@ public class ApplyManageController {
 				parameter.put("examZoneId", examZoneId);
 				
 				List<Object> totalReceiptList = applyManageService.getTotalReceiptIdByExamZone(parameter);
-
-				parameter.put("totalReceiptList", totalReceiptList);
+				ExamZoneDto examZoneDto = applyManageService.getExamZoneByExamRoomCntAndExamRoomUserCnt(parameter);
+				int examRoomCnt = Integer.parseInt(examZoneDto.getExamRoomCnt());
+				int examRoomUserCnt = Integer.parseInt(examZoneDto.getExamRoomUserCnt());
+				
+				List<Object> seatNumberList = new ArrayList<Object>();
+				
+				complete :
+				for (int j = 1; j <= examRoomCnt; j++)
+				{
+					for (int k = 1; k <= examRoomUserCnt; k++)
+					{
+						String seatNumber = j + "-" + k;
+						seatNumberList.add(seatNumber);
+						if (totalReceiptList.size() == seatNumberList.size()) break complete;
+					}					
+				}		
+							
+				Iterator<Object> iter = seatNumberList.iterator();
+				for (int j = 0; j < totalReceiptList.size(); j++)
+				{
+					if (String.valueOf(totalReceiptList.get(j)).contains("|")) continue;
+					totalReceiptList.set(j, totalReceiptList.get(j) + "|" + iter.next());
+				}	
+				
+				parameter.put("totalReceiptList", totalReceiptList); // 좌석배치 대상 접수번호 + 좌석번호 합쳐서 보내기
 			
 				int isUpdateSuccess = applyManageService.setExamZoneSeatConfirm(parameter);
 				
@@ -240,7 +267,7 @@ public class ApplyManageController {
 	}
 	
    	// 고사장 저장 or 수정
-	@RequestMapping(value="/ExamZoneSaveByAjax", method=RequestMethod.GET)
+	@RequestMapping(value="/ExamZoneSaveByAjax", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> ExamZoneSaveByAjax(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
@@ -258,9 +285,20 @@ public class ApplyManageController {
 		else 
 		{		
 			int isSaveUpdateSuccess = 0;
+			
+			/*
+			 * MultipartRequest multi = new MultipartRequest(request, saveDir, maxSize,
+			 * encoding, new DefaultFileRenamePolicy());
+			 * 
+			 * ServletContext context = .fg (); //어플리케이션에 대한 정보를 ServletContext 객체가 갖게 됨.
+			 * String saveDir = context.getRealPath("Upload"); //절대경로를 가져옴
+			 * System.out.println("절대경로 >> " + saveDir);
+			 */
+			
 			//String testPath = "C:\\KakaoTalk_20220225_114652413.png";
 			//byte[] imageMap = ImageSaveUtil.imageToByteArray(testPath);
-			//byte[] imageMap = ImageSaveUtil.imageToByteArray(String.valueOf(requestMap.get("mapFileFullName"))); requestMap.replace("mapFile", imageMap);
+			//byte[] imageMap = ImageSaveUtil.imageToByteArray(String.valueOf(requestMap.get("mapFileDialog"))); 
+			//requestMap.replace("mapFile", imageMap);
 			requestMap.put("mapFile", requestMap.get("mapFileFullName"));
 			
 			// 저장, 수정에 따라 호출하는 저장로직 다르게 호출

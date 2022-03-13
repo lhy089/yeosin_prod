@@ -4,6 +4,11 @@ $(document).ready(function(){
 	$("#excelDownload").click(function(){
  		saveExcel($("#docName").val());
 	});
+	
+	// 고사장 등록 버튼
+	$("#btnFile").click(function(){
+       doExamZoneSave();
+   });
 });
 
 // 좌석배치 확정함수(manage_status_site.jsp)
@@ -61,91 +66,96 @@ function doSeatConfirm()
 function doExamZoneSave() 
 {
 	var examZoneId = $("#examZoneId").val(); 
-	var local = $("#local").val();
-	var localDetail = $("#localDetail").val();
-	var examZoneName = $("#examZoneName").val();
-	var examRoomCnt = $("#examRoomCnt").val();
-	var examRoomUserCnt = $("#examRoomUserCnt").val();
-	var address = $("#address").val();
-	var mapFileName = $("#mapFileName").val();
-	var mapFileFullName = $("#mapFileFullName").val();
-	var actionCode = "Save";
-	var isSuccess = false;
-		
-	if (examZoneId == null || examZoneId == "null" || examZoneId == "") actionCode = "Save";	
-	else actionCode = "Modify";
-	
-	if (local == null || local == "null" || local == "")
-	{
+   	var local = $("#local").val();
+   	var localDetail = $("#localDetail").val();
+   	var examZoneName = $("#examZoneName").val();
+   	var examRoomCnt = $("#examRoomCnt").val();
+   	var examRoomUserCnt = $("#examRoomUserCnt").val();
+   	var address = $("#address").val();
+   	var mapFileName = $("#mapFileName").val();
+   	var mapFileFullName = $("#mapFileFullName").val();
+   	var mapFileDialog = $("#mapFileDialog").val();   
+   	var actionCode = "Save";
+   	var isSuccess = false;
+   	   
+   	if (examZoneId == null || examZoneId == "null" || examZoneId == "") actionCode = "Save";   
+   	else actionCode = "Modify";
+   
+   	if (local == null || local == "null" || local == "")
+   	{
 		alert("지역은 필수입력입니다.");
-		return isSuccess;
-	}
-	else if (localDetail == null || localDetail == "null" || localDetail == "")
-	{
-		alert("구는 필수입력입니다.");
-		return isSuccess;
-	}
-	else if (examZoneName == null || examZoneName == "null" || examZoneName == "")
-	{
-		alert("고사장명은 필수입력입니다.");
-		return isSuccess;
-	}
-	else if (examRoomCnt == null || examRoomCnt == "null" || examRoomCnt == "")
-	{
-		alert("시험 교실 수는 필수입력입니다.");
-		return isSuccess;
-	}
-	else if (examRoomUserCnt == null || examRoomUserCnt == "null" || examRoomUserCnt == "")
-	{
-		alert("교실당 인원수는 필수입력입니다.");
-		return isSuccess;
-	}
-	else if (address == null || address == "null" || address == "")
-	{
-		alert("주소는 필수입력입니다.");
-		return isSuccess;
-	}	
-	
-	if (confirm("해당 내용으로 저장하시겠습니까?")) 
-	{				
-		$.ajax({
-			url: "/ExamZoneSaveByAjax",
-	        type: "GET",
-	        async: false,
-			data: {
-					examZoneId : examZoneId,
-					local : local,
-					localDetail : localDetail,
-					examZoneName : examZoneName,
-					examRoomCnt : examRoomCnt,
-					examRoomUserCnt : examRoomUserCnt,
-					address : address,
-					mapFileName : mapFileName,
-					mapFileFullName : mapFileFullName,
-					actionCode : actionCode
-				  },
-	        success: function(data) 
-			{
+      	return isSuccess;
+   	}
+   	else if (localDetail == null || localDetail == "null" || localDetail == "")
+   	{
+      	alert("구는 필수입력입니다.");
+      	return isSuccess;
+   	}
+   	else if (examZoneName == null || examZoneName == "null" || examZoneName == "")
+   	{
+      	alert("고사장명은 필수입력입니다.");
+      	return isSuccess;
+   	}
+   	else if (examRoomCnt == null || examRoomCnt == "null" || examRoomCnt == "")
+   	{
+      	alert("시험 교실 수는 필수입력입니다.");
+      	return isSuccess;
+   	}
+   	else if (examRoomUserCnt == null || examRoomUserCnt == "null" || examRoomUserCnt == "")
+   	{
+      	alert("교실당 인원수는 필수입력입니다.");
+      	return isSuccess;
+   	}
+   	else if (address == null || address == "null" || address == "")
+   	{
+      	alert("주소는 필수입력입니다.");
+      	return isSuccess;
+   	}   
+   
+   	if (confirm("해당 내용으로 저장하시겠습니까?")) 
+   	{            
+      	$.ajax({
+         	url: "/ExamZoneSaveByAjax",
+           	type: "POST",
+           	async: false,
+         	data: {
+               		examZoneId : examZoneId,
+               		local : local,
+               		localDetail : localDetail,
+               		examZoneName : examZoneName,
+               		examRoomCnt : examRoomCnt,
+               		examRoomUserCnt : examRoomUserCnt,
+               		address : address,
+               		mapFileName : mapFileName,
+               		mapFileFullName : mapFileFullName,
+               		actionCode : actionCode,
+               		mapFileDialog : mapFileDialog
+              	  },
+			success: function(data) 
+         	{
 				console.log("AJAX Request 성공");
-				$("#fileForm").submit();
-				isSuccess = data.isSuccess;
-	        },
-	        error: function() 
-			{
-	           console.log("AJAX Request 실패");
-	           isSuccess = false;
-	        }
-		});
-	}
-	else 
-	{
-		isSuccess = false;
-	}
-	
-	if (isSuccess) alert("저장이 완료되었습니다.");
-	else alert("저장이 실패되었습니다.");
-	
-	return isSuccess;
+            	isSuccess = data.isSuccess;   
+            	location.href = "/siteRegister";
+               
+           	},
+           	error: function() 
+         	{
+              	console.log("AJAX Request 실패");
+              	isSuccess = false;
+           	}
+      	});
+   	}
+   	else 
+   	{
+      	isSuccess = false;
+   	}
+   
+   	if (isSuccess) alert("저장이 완료되었습니다.");
+   	else alert("저장이 실패되었습니다.");
+   	
+   	var form = $("#form").submitButton.disabled = true;
+   
+   	return isSuccess;
 }
 
 // 고사장 삭제함수(site_list.jsp)

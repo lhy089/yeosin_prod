@@ -207,4 +207,8 @@ public class ApplyManageDao {
 		return sqlSession.selectList(nameSpace + "getConditionIsCancelList");
 	}
 	
+	// 고사장의 교실수, 교실당 인원수 조회
+	public ExamZoneDto getExamZoneByExamRoomCntAndExamRoomUserCnt(Map<String, Object> map) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getExamZoneByExamRoomCntAndExamRoomUserCnt", map);
+	}
 }

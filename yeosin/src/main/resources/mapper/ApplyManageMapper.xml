@@ -240,9 +240,9 @@
 		<if test="totalReceiptList != null and totalReceiptList.size != 0">
 			<foreach item="receiptId" index="index" collection="totalReceiptList">
 				UPDATE 	YS_RECEIPT
-				SET		SEATNUMBER = #{index} + 1
+				SET		SEATNUMBER = SUBSTRING_INDEX(#{receiptId, jdbcType=VARCHAR}, '|', -1)
 				WHERE 	1 = 1
-				AND		RECEIPTID = #{receiptId, jdbcType=VARCHAR};			
+				AND		RECEIPTID = SUBSTRING_INDEX(#{receiptId, jdbcType=VARCHAR}, '|', 1);			
 			</foreach>
 	 	</if>
 	</update>
@@ -752,4 +752,15 @@
 				FIELD(ISCANCEL, '전체', 'N', 'Y');
 	</select>
 	
+	<!-- 고사장의 교실수, 교실당 인원수 조회 -->
+	<select id="getExamZoneByExamRoomCntAndExamRoomUserCnt" resultType="com.yeosin.apply.ExamZoneDto">
+		SELECT 	
+				EXAMZONEID
+			,	EXAMZONENAME 
+			,	EXAMROOMCNT 
+			,	EXAMROOMUSERCNT 
+		FROM 	YS_EXAMZONE
+		WHERE 	1 = 1
+		AND 	EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};
+	</select>
 </mapper>

@@ -185,4 +185,9 @@ public class ApplyManageService {
 	public List<ApplyDto> getConditionIsCancelList() throws Exception {
 		return applyManageDao.getConditionIsCancelList();
 	}
+	
+	// 고사장의 교실수, 교실당 인원수 조회
+	public ExamZoneDto getExamZoneByExamRoomCntAndExamRoomUserCnt(Map<String, Object> map) throws Exception {
+		return applyManageDao.getExamZoneByExamRoomCntAndExamRoomUserCnt(map);
+	}
 }
