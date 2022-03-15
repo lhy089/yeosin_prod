@@ -106,7 +106,16 @@ $(document).ready(function() {
 <div class="manage register">
   <div class="contentBoxAd">
     <h1 class="title">시험운영관리</h1>
-    <h2>시험일정 등록</h2>
+    <h2>
+    <c:choose>
+		<c:when test="${examDto.examId eq null}">
+			시험일정 등록 
+		</c:when>
+		<c:otherwise>
+			시험일정 수정 
+		</c:otherwise>
+	</c:choose>
+    </h2>
     <!-- <ul class="btn_wrap">
       <li><a href="#">엑셀다운로드</a></li>
     </ul>-->
@@ -117,20 +126,61 @@ $(document).ready(function() {
       </colgroup>
       <tr>
         <th>시험코드</th>
-        <td>LPBQ [기본표기]</td>
+		<c:choose>
+			<c:when test="${examDto.examId eq null}">
+				<td>LPBQ [기본표기]</td>
+			</c:when>
+			<c:otherwise>
+				<td>${examDto.examId}</td>
+			</c:otherwise>
+		</c:choose>
       </tr>
       <tr>
         <th>시험명</th>
-        <td>상품 판매대리 중개업자 자격인증 평가 [기본표기]</td>
+        <c:choose>
+			<c:when test="${examDto.examName eq null}">
+				<td>상품 판매대리 중개업자 자격인증 평가 [기본표기]</td>
+			</c:when>
+			<c:otherwise>
+				<td>${examDto.examName}</td>
+			</c:otherwise>
+		</c:choose>
       </tr>
       <tr>
         <th>시험회차</th>
-        <td>제 20 <input type="text" id="examYear" name="examYear" maxlength="2"> - <input type="text" maxlength="1" id="examDegree" name="examDegree"> 회차 [연도 2자리 – 회차 1자리 입력]</td>
+        <td>
+        제 20 
+        <c:choose>
+			<c:when test="${examDto.examYear eq null}">
+				<input type="text" id="examYear" name="examYear" maxlength="2"> 
+			</c:when>
+			<c:otherwise>
+				<input type="text" id="examYear" name="examYear" maxlength="2" value="${examDto.examYear}"> 
+			</c:otherwise>
+		</c:choose>
+        - 
+        <c:choose>
+			<c:when test="${examDto.examDegree eq null}">
+				<input type="text" maxlength="1" id="examDegree" name="examDegree"> 
+			</c:when>
+			<c:otherwise>
+				<input type="text" maxlength="1" id="examDegree" name="examDegree" value="${examDto.examDegree}"> 
+			</c:otherwise>
+		</c:choose>
+        회차 [연도 2자리 – 회차 1자리 입력]
+        </td>
       </tr>
       <tr>
         <th>시험일</th>
         <td>
-          <input type="date" id="examDate" name="examDate" value="">
+        <c:choose>
+			<c:when test="${examDto.examDate eq null}">
+				<input type="date" id="examDate" name="examDate" value=""> 
+			</c:when>
+			<c:otherwise>
+				<input type="date" id="examDate" name="examDate" value="${examDto.examDate}"> 
+			</c:otherwise>
+		</c:choose>
         </td>
       </tr>
       <tr>
@@ -144,11 +194,39 @@ $(document).ready(function() {
       <tr>
         <th>접수기간</th>
         <td>
-          <input type="date" name="receiptStartDate" id="receiptStartDate" value="">
-          <input type="time" name="receiptStartTime" id="receiptStartTime" value="10:00">
-          -
-          <input type="date" name="receiptEndDate" id="receiptEndDate" value="">
-          <input type="time" name="receiptEndTime" id="receiptEndTime" value="10:00">
+        <c:choose>
+			<c:when test="${examDto.receiptStartDate eq null}">
+	          <input type="date" name="receiptStartDate" id="receiptStartDate" value="">
+			</c:when>
+			<c:otherwise>
+	          <input type="date" name="receiptStartDate" id="receiptStartDate" value="${examDto.receiptStartDate}">
+			</c:otherwise>
+		</c:choose>
+		<c:choose>
+			<c:when test="${examDto.receiptStartDate eq null}">
+	          <input type="time" name="receiptStartTime" id="receiptStartTime" value="10:00">
+			</c:when>
+			<c:otherwise>
+	          <input type="time" name="receiptStartTime" id="receiptStartTime" value="${examDto.receiptStartTime}">
+			</c:otherwise>
+		</c:choose>
+        -
+        <c:choose>
+			<c:when test="${examDto.receiptEndDate eq null}">
+	          <input type="date" name="receiptEndDate" id="receiptEndDate" value="">
+			</c:when>
+			<c:otherwise>
+	          <input type="date" name="receiptEndDate" id="receiptEndDate" value="${examDto.receiptEndDate}">
+			</c:otherwise>
+		</c:choose>
+		<c:choose>
+			<c:when test="${examDto.receiptEndTime eq null}">
+	          <input type="time" name="receiptEndTime" id="receiptEndTime" value="10:00">
+			</c:when>
+			<c:otherwise>
+	          <input type="time" name="receiptEndTime" id="receiptEndTime" value="${examDto.receiptEndTime}">
+			</c:otherwise>
+		</c:choose>
         </td>
       </tr>
       <!-- <tr>
@@ -158,23 +236,51 @@ $(document).ready(function() {
         </td>
       </tr> -->
       <tr>
-        <th>수험표출력기간</th>
+        <th>수험표출력기간</th>		
         <td>
-          <input type="date" name="certPrintStartDate" id="certPrintStartDate" value="">
-          -
-          <input type="date" name="certPrintEndDate" id="certPrintEndDate" value="">
+        <c:choose>
+			<c:when test="${examDto.certPrintStartDate eq null}">
+				<input type="date" name="certPrintStartDate" id="certPrintStartDate" value="">
+			</c:when>
+			<c:otherwise>
+				<input type="date" name="certPrintStartDate" id="certPrintStartDate" value="${examDto.certPrintStartDate}"> 
+			</c:otherwise>
+		</c:choose>
+		-
+		<c:choose>
+			<c:when test="${examDto.certPrintEndDate eq null}">
+				<input type="date" name="certPrintEndDate" id="certPrintEndDate" value="">
+			</c:when>
+			<c:otherwise>
+				<input type="date" name="certPrintEndDate" id="certPrintEndDate" value="${examDto.certPrintEndDate}"> 
+			</c:otherwise>
+		</c:choose>
         </td>
       </tr>
       <tr>
         <th>성적공고기간</th>
         <td>
-          <input type="date" name="gradeStartDate" id="gradeStartDate" value="">
+        <c:choose>
+			<c:when test="${examDto.gradeStartDate eq null}">
+				<input type="date" name="gradeStartDate" id="gradeStartDate" value="">
+			</c:when>
+			<c:otherwise>
+				<input type="date" name="gradeStartDate" id="gradeStartDate" value="${examDto.gradeStartDate}"> 
+			</c:otherwise>
+		</c:choose>
         </td>
       </tr>
        <tr>
         <th>시험비용</th>
         <td>
-          <input type="text" name="examCost" id="examCost" class="won"> 원
+        <c:choose>
+			<c:when test="${examDto.examCost eq null}">
+				<input type="text" name="examCost" id="examCost" class="won"> 원
+			</c:when>
+			<c:otherwise>
+				<input type="text" name="examCost" id="examCost" class="won" value="${examDto.examCost}"> 원
+			</c:otherwise>
+		</c:choose>
         </td>
       </tr>
     </table>
@@ -197,7 +303,9 @@ $(document).ready(function() {
       </tr>
        <c:forEach var="examZone" items="${examZoneList}" varStatus="status">
 	      <tr>
-	       <td><input type="checkbox" name="examZoneId" value="${examZone.examZoneId}"></td>
+	       <td>
+			<input type="checkbox" name="examZoneId" value="${examZone.examZoneId}">
+	       </td>
 	        <td>${examZone.examZoneName}</td>
 	        <td>${examZone.examRoomCnt}</td>
 	        <td>${examZone.examRoomUserCnt}</td>
@@ -206,6 +314,7 @@ $(document).ready(function() {
 	  </c:forEach>
     </table>
     <!-- <a href="#" class="btn_plus">추가</a> -->
+    <input type="hidden" id="examId" name="examId" value="${examDto.examId}">
     <a onclick="return false;" id="btn_register" class="btn_apply mb100">등록하기</a>
   </div>
 </div>

@@ -156,6 +156,11 @@ public class ApplyManageService {
 		return applyManageDao.setExamDelete(map);
 	}
 	
+	// 해당 시험에 접수가 1건이라도 되어있는지 확인
+	public String getContainApply(String examList) throws Exception {
+		return applyManageDao.getContainApply(examList);
+	}
+	
 	// 시험 ID MaxNumber 조회
 	public int getMaxExamId() throws Exception {
 		return applyManageDao.getMaxExamId();
@@ -189,5 +194,25 @@ public class ApplyManageService {
 	// 고사장의 교실수, 교실당 인원수 조회
 	public ExamZoneDto getExamZoneByExamRoomCntAndExamRoomUserCnt(Map<String, Object> map) throws Exception {
 		return applyManageDao.getExamZoneByExamRoomCntAndExamRoomUserCnt(map);
+	}
+	
+	// 시험 ID에 대한 시험데이터 조회
+	public ExamDto getExamInfo(String examId) throws Exception {
+		return applyManageDao.getExamInfo(examId);
+	}
+	
+	// 시험 ID에 대한 고사장 데이터 조회
+	public List<ExamZoneDto> getExamZoneListByExamModify(String examId) throws Exception {
+		return applyManageDao.getExamZoneListByExamModify(examId);
+	}
+	
+	// 시험 ID에 대한 시험영역 데이터 조회
+	public List<SubjectDto> getSubjectListByExamModify(String examId) throws Exception {
+		return applyManageDao.getSubjectListByExamModify(examId);
+	}
+	
+	// 시험 ID에 대한 수정
+	public int modifyExam(ExamDto examDto) throws Exception {
+		return applyManageDao.modifyExam(examDto);
 	}
 }

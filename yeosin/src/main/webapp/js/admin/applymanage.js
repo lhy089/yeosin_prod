@@ -229,13 +229,15 @@ function doScheduleDelete()
 	var checkBox = $("input[name=examCheck]:checked");
 	var checkValueArr = [];
 	var isSuccess = false;
+	var isContainApply = false;
 
 	if (checkBox.length < 1) {
 		alert("삭제할 시험일정이 한개도 선택되지 않았습니다.");
 		return false;
 	}
 
-	if (confirm("해당 시험일정을 삭제 하시겠습니까?")) {
+	if (confirm("해당 시험일정을 삭제 하시겠습니까?")) 
+	{
 		checkBox.each(function() {
 			var checkValue = $(this).val();
 			checkValueArr.push(checkValue);
@@ -252,6 +254,7 @@ function doScheduleDelete()
 			success: function(data) {
 				console.log("AJAX Request 성공");
 				isSuccess = data.isSuccess;
+				isContainApply = data.isContainApply;
 			},
 			error: function() {
 				console.log("AJAX Request 실패");
@@ -259,12 +262,26 @@ function doScheduleDelete()
 			}
 		});
 	}
-	else {
+	else 
+	{
 		isSuccess = false;
 	}
 
-	if (isSuccess) alert("시험일정 삭제를 완료했습니다.");
-	else alert("시험일정 삭제를 실패했습니다.");
+	if (isSuccess && !isContainApply) 
+	{
+		isSuccess = true;
+		alert("시험일정 삭제를 완료했습니다.");
+	}
+	else if (isSuccess && isContainApply)
+	{
+		isSuccess = false;
+		alert("이미 접수된 건수가 있는 시험이 존재하여 삭제할 수 없습니다.");
+	} 
+	else 
+	{
+		isSuccess = false;
+		alert("시험일정 삭제를 실패했습니다.");
+	}
 
 	return isSuccess;
 }

@@ -177,6 +177,11 @@ public class ApplyManageDao {
 		return sqlSession.delete(nameSpace + "deleteExam", map);
 	}
 	
+	// 해당 시험에 접수가 1건이라도 되어있는지 확인
+	public String getContainApply(String examList) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getContainApply", examList);
+	}
+	
 	// 시험 ID 
 	public int getMaxExamId() throws Exception{
 		return sqlSession.selectOne(nameSpace + "getMaxExamId");
@@ -210,5 +215,25 @@ public class ApplyManageDao {
 	// 고사장의 교실수, 교실당 인원수 조회
 	public ExamZoneDto getExamZoneByExamRoomCntAndExamRoomUserCnt(Map<String, Object> map) throws Exception {
 		return sqlSession.selectOne(nameSpace + "getExamZoneByExamRoomCntAndExamRoomUserCnt", map);
+	}
+	
+	// 시험 ID에 대한 시험데이터 조회
+	public ExamDto getExamInfo(String examId) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getExamInfo", examId);
+	}
+	
+	// 시험 ID에 대한 고사장 데이터 조회
+	public List<ExamZoneDto> getExamZoneListByExamModify(String examId) throws Exception {
+		return sqlSession.selectList(nameSpace + "getExamZoneListByExamModify", examId);
+	}
+	
+	// 시험 ID에 대한 시험영역 데이터 조회
+	public List<SubjectDto> getSubjectListByExamModify(String examId) throws Exception {
+		return sqlSession.selectList(nameSpace + "getSubjectListByExamModify", examId);
+	}
+	
+	// 시험 ID에 대한 수정
+	public int modifyExam(ExamDto examDto) throws Exception {
+		return sqlSession.update(nameSpace + "modifyExam", examDto);
 	}
 }

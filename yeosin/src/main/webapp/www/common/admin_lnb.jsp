@@ -16,7 +16,7 @@
   <dl>
     <dt><a href="#none">시험운영관리</a></dt>
     <dd><a href="/manageSchedule">시험일정관리</a></dd>
-    <dd><a href="/manageRegister">시험일정등록</a></dd>
+    <dd><a href="/manageRegister?examId=null">시험일정등록</a></dd>
     <dd><a href="/manage_status_doc">원서접수현황</a></dd>
   </dl>
   <dl>

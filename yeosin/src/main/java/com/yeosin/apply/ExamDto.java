@@ -17,6 +17,8 @@ public class ExamDto {
 	private String examArea; // 시험영역
 	private String receiptStartDate; // 접수 시작일
 	private String receiptEndDate; // 접수 마감일
+	private String receiptStartTime; // 접수 시작일(시,분)
+	private String receiptEndTime; // 접수 마감일(시,분)
 	private String allRefundExitDate; // 100% 환불 종료일
 	private String isPracticalExam; // 실기시험여부
 	private String certPrintStartDate; // 수험표 출력기간(시작)
@@ -186,5 +188,20 @@ public class ExamDto {
 	}
 	public void setPeriod(String period) {
 		this.period = period;
+	}
+	public String getReceiptStartTime() {
+		return receiptStartTime;
+	}
+
+	public void setReceiptStartTime(String receiptStartTime) {
+		this.receiptStartTime = receiptStartTime;
+	}
+
+	public String getReceiptEndTime() {
+		return receiptEndTime;
+	}
+
+	public void setReceiptEndTime(String receiptEndTime) {
+		this.receiptEndTime = receiptEndTime;
 	}
 }

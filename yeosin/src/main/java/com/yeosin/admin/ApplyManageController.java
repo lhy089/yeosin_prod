@@ -518,7 +518,7 @@ public class ApplyManageController {
    //시험일정등록화면
    @RequestMapping(value="/manageRegister", method=RequestMethod.GET)
    @ResponseBody
-   public ModelAndView manageRegister(HttpSession session, HttpServletRequest request, HttpServletResponse response)  throws Exception
+   public ModelAndView manageRegister(@RequestParam("examId") String examId, HttpSession session, HttpServletRequest request, HttpServletResponse response)  throws Exception
 	{
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
@@ -533,13 +533,20 @@ public class ApplyManageController {
 			mav.setViewName("main");
 		} else {
 			// 고사장 데이터
-			List<ExamZoneDto> examZoneList= applyManageService.getExamZoneListByExamRegister();
+			List<ExamZoneDto> examZoneList = applyManageService.getExamZoneListByExamRegister();
 			List<SubjectDto> subjectList = applyManageService.getSubjectListByExamRegister();
+			// 기존 시험 데이터
+			ExamDto examDto = applyManageService.getExamInfo(examId);
+			List<ExamZoneDto> examZoneListByExamId = applyManageService.getExamZoneListByExamModify(examId);
+			List<SubjectDto> subjectListByExamId = applyManageService.getSubjectListByExamModify(examId);
 			
 			mav.addObject("alertResult" , false);
 			mav.addObject("alertError", false);
 			mav.addObject("examZoneList", examZoneList);
 			mav.addObject("subjectList", subjectList);
+			mav.addObject("examDto", examDto);
+			mav.addObject("examZoneListModify", examZoneListByExamId);
+			mav.addObject("subjectListModify", subjectListByExamId);
 			mav.setViewName("admin/manage_register");
 		}
 		return mav;
@@ -562,50 +569,105 @@ public class ApplyManageController {
 			mav.addObject("isAlertNoAuth", true);
 			mav.setViewName("main");
 		} else {
-			// 고사장 데이터
-			int MaxExamNumber = applyManageService.getMaxExamId() + 1;
-			String newExamId = "exam" + String.valueOf(MaxExamNumber);
 			
-			examDto.setExamId(newExamId);
-			examDto.setExamName("대출성 상품 판매대리·중개업자 등록 자격인증 평가");
-			examDto.setExamType("자격시험");
-			examDto.setIsApproval("Y");
-			examDto.setIsPracticalExam("Y");
-			examDto.setGradeEndDate(examDto.getGradeStartDate());
-			examDto.setPeriod("0");
-			examDto.setGradeStatus("N");
-			examDto.setReceiptStartDate(examDto.getReceiptStartDate() + " " + request.getParameter("receiptStartTime"));
-			examDto.setReceiptEndDate(examDto.getReceiptEndDate() + " " + request.getParameter("receiptEndTime"));
-			
-			boolean alertResult = false;
-			boolean alertError = true;
-				
-			if(request.getParameterValues("subjectId") != null && request.getParameterValues("examZoneId") != null)
+			// 시험 ID가 안넘어왔다면 등록처리
+			if (request.getParameter("examId") == null || request.getParameter("examId").trim().isEmpty())
 			{
-			
-				Map<String, Object> parameterMap = new HashMap<String, Object>();
-				parameterMap.put("subjectId", request.getParameterValues("subjectId"));
-				parameterMap.put("examId", newExamId);
+				int MaxExamNumber = applyManageService.getMaxExamId() + 1;
+				String newExamId = "exam" + String.valueOf(MaxExamNumber);
 				
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("examZoneId",  request.getParameterValues("examZoneId"));
-				map.put("examId", newExamId);
-			
-				applyManageService.registerExam(examDto);
-				applyManageService.registerExamAndSubjectRel(parameterMap);
-				applyManageService.registerExamAndExamZoneRel(map);	
-				alertResult = true;
-				alertError = false;
+				examDto.setExamId(newExamId);
+				examDto.setExamName("대출성 상품 판매대리·중개업자 등록 자격인증 평가");
+				examDto.setExamType("자격시험");
+				examDto.setIsApproval("Y");
+				examDto.setIsPracticalExam("Y");
+				examDto.setGradeEndDate(examDto.getGradeStartDate());
+				examDto.setPeriod("0");
+				examDto.setGradeStatus("N");
+				examDto.setReceiptStartDate(examDto.getReceiptStartDate() + " " + request.getParameter("receiptStartTime"));
+				examDto.setReceiptEndDate(examDto.getReceiptEndDate() + " " + request.getParameter("receiptEndTime"));
+				
+				boolean alertResult = false;
+				boolean alertError = true;
+					
+				if(request.getParameterValues("subjectId") != null && request.getParameterValues("examZoneId") != null)
+				{
+				
+					Map<String, Object> parameterMap = new HashMap<String, Object>();
+					parameterMap.put("subjectId", request.getParameterValues("subjectId"));
+					parameterMap.put("examId", newExamId);
+					
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("examZoneId",  request.getParameterValues("examZoneId"));
+					map.put("examId", newExamId);
+				
+					applyManageService.registerExam(examDto);
+					applyManageService.registerExamAndSubjectRel(parameterMap);
+					applyManageService.registerExamAndExamZoneRel(map);	
+					alertResult = true;
+					alertError = false;
+				}
+				
+				List<ExamZoneDto> examZoneList= applyManageService.getExamZoneListByExamRegister();
+				List<SubjectDto> subjectList = applyManageService.getSubjectListByExamRegister();
+				
+				mav.addObject("alertResult" , alertResult);
+				mav.addObject("alertError",alertError);
+				mav.addObject("examZoneList", examZoneList);
+				mav.addObject("subjectList", subjectList);
+				mav.setViewName("admin/manage_register");	
 			}
-			
-			List<ExamZoneDto> examZoneList= applyManageService.getExamZoneListByExamRegister();
-			List<SubjectDto> subjectList = applyManageService.getSubjectListByExamRegister();
-			
-			mav.addObject("alertResult" , alertResult);
-			mav.addObject("alertError",alertError);
-			mav.addObject("examZoneList", examZoneList);
-			mav.addObject("subjectList", subjectList);
-			mav.setViewName("admin/manage_register");
+			// 시험 ID가 넘어왔다면 수정처리
+			else 
+			{		
+				// 구현예정
+				/*
+				examDto.setExamId(request.getParameter("examId"));
+				examDto.setExamName("대출성 상품 판매대리·중개업자 등록 자격인증 평가");
+				examDto.setExamType("자격시험");
+				examDto.setIsApproval("Y");
+				examDto.setIsPracticalExam("Y");
+				examDto.setGradeEndDate(examDto.getGradeStartDate());
+				examDto.setPeriod("0");
+				examDto.setGradeStatus("N");
+				examDto.setReceiptStartDate(request.getParameter("receiptStartDate") + " " + request.getParameter("receiptStartTime"));
+				examDto.setReceiptEndDate(request.getParameter("receiptStartDate") + " " + request.getParameter("receiptEndTime"));
+				
+				boolean alertResult = false;
+				boolean alertError = true;
+					
+				if(request.getParameterValues("subjectId") != null && request.getParameterValues("examZoneId") != null)
+				{
+				
+					Map<String, Object> parameterMap = new HashMap<String, Object>();
+					parameterMap.put("examId", request.getParameter("examId"));
+					parameterMap.put("subjectId", request.getParameterValues("subjectId"));
+					parameterMap.put("examZoneId",  request.getParameterValues("examZoneId"));
+
+					applyManageService.modifyExam(examDto);
+					applyManageService.deleteExamAndExamZoneRel(parameterMap);
+					applyManageService.registerExamAndExamZoneRel(parameterMap);
+					applyManageService.deleteExamAndSubjectRel(parameterMap);
+					applyManageService.registerExamAndSubjectRel(parameterMap);
+					
+					alertResult = true;
+					alertError = false;
+				}
+				
+				List<ExamZoneDto> examZoneList= applyManageService.getExamZoneListByExamRegister();
+				List<SubjectDto> subjectList = applyManageService.getSubjectListByExamRegister();
+				List<ExamZoneDto> examZoneListByExamId = applyManageService.getExamZoneListByExamModify(request.getParameter("examId"));
+				List<SubjectDto> subjectListByExamId = applyManageService.getSubjectListByExamModify(request.getParameter("examId"));
+				
+				mav.addObject("alertResult" , alertResult);
+				mav.addObject("alertError",alertError);
+				mav.addObject("examZoneList", examZoneList);
+				mav.addObject("subjectList", subjectList);
+				mav.addObject("examZoneListModify", examZoneListByExamId);
+				mav.addObject("subjectListModify", subjectListByExamId);
+				*/
+				mav.setViewName("admin/manage_register");
+			}
 		}
 		return mav;
 	}
@@ -817,29 +879,50 @@ public class ApplyManageController {
 	{
 		response.setCharacterEncoding("UTF-8");
 		UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
-		boolean isSuccess = false;
+		boolean isSuccess = true;
+		boolean isContainApply = false;
 
 		// AJAX로 넘겨줄 데이터
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
-		if (userInfo == null || !"S".equals(userInfo.getUserStatus())) {
+		if (userInfo == null || !"S".equals(userInfo.getUserStatus())) 
+		{
 			isSuccess = false;
-		} else {
+		} 
+		else 
+		{
 			// 체크한 시험일정에 대한 삭제로직
 			Map<String, Object> parameter = new HashMap<String, Object>();
 			parameter.put("examList", requestArray);
 
-			// 삭제_주석처리
-			//int isDeleteSuccess = applyManageService.setExamDelete(parameter);
+			// 해당 시험에 접수한 데이터가 1건이라도 존재하는지 확인	
+			String isApply = "N";
+			for (int i = 0; i < requestArray.size(); i++)
+			{
+				String result = applyManageService.getContainApply(requestArray.get(i));
+				if (result.equals("Y"))
+				{
+					isApply = result;
+					break;
+				}
+			}
+			
+			// 시험 리스트에 에 접수된 데이터가 한개도 없다면 삭제진행
 			int isDeleteSuccess = 0;
-
-			if (isDeleteSuccess == 1)
-				isSuccess = true;
-			else
-				isSuccess = false;
+			if (isApply.equals("N"))
+			{
+				isDeleteSuccess = applyManageService.setExamDelete(parameter);
+				if (isDeleteSuccess == 1) isSuccess = true;
+				else isSuccess = false;
+			}
+			else 
+			{
+				isContainApply = true;
+			}
 		}
 
 		resultMap.put("isSuccess", isSuccess);
+		resultMap.put("isContainApply", isContainApply);
 
 		return resultMap;
 	}

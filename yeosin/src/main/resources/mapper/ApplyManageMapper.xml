@@ -692,6 +692,18 @@
 		</foreach>
 	</insert>
 	
+	<!-- 해당 시험에 접수가 1건이라도 되어있는지 확인 -->
+	<select id="getContainApply" parameterType="String" resultType="String">
+		SELECT 	
+				CASE WHEN COUNT(*) > 0 
+					 THEN 'Y'
+					 ELSE 'N' END 			AS	ISAPPLY 
+		FROM 	YS_RECEIPT
+		WHERE 	1 = 1
+		AND 	ISCANCEL = 'N'
+		AND 	EXAMID = #{examId, jdbcType=VARCHAR};
+	</select>
+	
 	<!-- 시험 ID MaxNumber 조회 -->
 	<select id="getMaxExamId" resultType="Integer">
 		SELECT 	MAX(CONVERT(REPLACE(EXAMID, 'exam', ''), SIGNED)) 
@@ -768,4 +780,52 @@
 		WHERE 	1 = 1
 		AND 	EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};
 	</select>
+	
+	<!-- 시험 ID에 대한 시험데이터 조회 -->
+	<select id="getExamInfo" parameterType="String" resultType="com.yeosin.apply.ExamDto">
+		SELECT 	
+				EXAMID 			
+			,	EXAMNAME 
+			,	RIGHT(EXAMYEAR, 2)								AS EXAMYEAR  		
+			,	EXAMDEGREE
+			,	DATE_FORMAT(EXAMDATE, '%Y-%m-%d')				AS EXAMDATE 
+			, 	DATE_FORMAT(RECEIPTSTARTDATE, '%Y-%m-%d') 		AS RECEIPTSTARTDATE
+			,	DATE_FORMAT(RECEIPTENDDATE, '%Y-%m-%d')			AS RECEIPTENDDATE
+			, 	DATE_FORMAT(RECEIPTSTARTDATE, '%H:%i') 			AS RECEIPTSTARTTIME
+			,	DATE_FORMAT(RECEIPTENDDATE, '%H:%i')			AS RECEIPTENDTIME
+			, 	DATE_FORMAT(CERTPRINTSTARTDATE, '%Y-%m-%d') 	AS CERTPRINTSTARTDATE
+			,	DATE_FORMAT(CERTPRINTENDDATE, '%Y-%m-%d') 		AS CERTPRINTENDDATE
+			,	DATE_FORMAT(GRADESTARTDATE, '%Y-%m-%d') 		AS GRADESTARTDATE
+			,	DATE_FORMAT(GRADEENDDATE, '%Y-%m-%d') 			AS GRADEENDDATE
+			,	EXAMCOST 
+		FROM 	YS_EXAM
+		WHERE 	1 = 1
+		AND 	EXAMID = #{examId, jdbcType=VARCHAR};
+	</select>
+	
+	<!-- 시험 ID에 대한 고사장 데이터 조회 -->
+	<select id="getExamZoneListByExamModify" parameterType="String" resultType="com.yeosin.apply.ExamAndExamzoneRelDto">
+		SELECT 	
+				EXAMID 
+			,	EXAMZONEID 
+		FROM 	YS_EXAMANDEXAMZONEREL
+		WHERE 	1 = 1 
+		AND 	EXAMID = #{examId, jdbcType=VARCHAR};
+	</select>
+	
+	<!-- 시험 ID에 대한 시험영역 데이터 조회 -->
+	<select id="getSubjectListByExamModify" parameterType="String" resultType="com.yeosin.apply.ExamAndSubjectRelDto">
+		SELECT 	
+				EXAMID 
+			,	SUBJECTID 
+		FROM 	YS_EXAMANDSUBJECTREL
+		WHERE 	1 = 1 
+		AND 	EXAMID = #{examId, jdbcType=VARCHAR};
+	</select>
+	
+	<!-- 시험 ID에 대한 수정 -->
+	<update id="modifyExam" parameterType="com.yeosin.apply.ExamDto">
+
+	</update>
+	
 </mapper>

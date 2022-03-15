@@ -189,7 +189,7 @@
     <ul class="btn_wrap">
 		<li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
       	<li><a href="/manageRegister">등록하기</a></li>
-      	<!-- <li><a href="/manageSchedule" onclick="return doScheduleDelete()">정보삭제</a></li> -->
+      	<li><a href="/manageSchedule" onclick="return doScheduleDelete()">정보삭제</a></li>
     </ul>
     <table class="mb100" id="columnList">
       <colgroup>
