@@ -227,6 +227,7 @@
         <th>시험명</th>
         <th>시험차수</th>
         <th>시험일</th>
+        <th>처리여부</th>
         <th>비고</th>
       </tr>
       <tr class="center">
@@ -238,6 +239,7 @@
         <td class="flow flowName"><p>${examList.examName}</p></td>
         <td>${examList.examDegree}</td>
         <td>${examList.examDate}</td>
+        <td>${isProcessList[status.index]}</td>
         <td><a href="/resultList?examId=${examList.examId}&onePageDataCountCondition=200" class="btn_more">자세히 보기</a></td>
       	</tr>
       </c:forEach>

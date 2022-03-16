@@ -713,7 +713,21 @@ public class ApplyManageController {
 
 					// 시험 일정 데이터
 					List<ExamDto> examList = applyManageService.getExamList(parameterMap);
-
+					List<String> isProcessList = new ArrayList<String>();
+					
+					for(int i = 0 ; i < examList.size(); i++)
+					{
+						
+						String str = examList.get(i).getExamId();
+						int GradeCnt = applyManageService.getGradeCntByExamId(examList.get(i).getExamId());
+						
+						if(GradeCnt > 0)
+							isProcessList.add("처리");
+						else
+							isProcessList.add("미처리");
+						
+					}
+					
 					// 페이징 하기위한 데이터
 					ExamDtoPageMaker pageMaker = new ExamDtoPageMaker();
 					pageMaker.setExamDto(examDto);
@@ -723,6 +737,7 @@ public class ApplyManageController {
 					mav.addObject("examNameList", examNameList);
 					mav.addObject("degreeList", examDegreeList);
 					mav.addObject("examList", examList);
+					mav.addObject("isProcessList",isProcessList);
 					mav.addObject("yearCondition", request.getParameter("yearCondition"));
 					mav.addObject("examNameCondition", request.getParameter("examNameCondition"));
 					mav.addObject("degreeCondition", request.getParameter("degreeCondition"));
