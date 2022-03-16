@@ -25,6 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yeosin.apply.ApplyDto;
 import com.yeosin.apply.ApplyPageMaker;
+import com.yeosin.apply.ExamAndExamzoneRelDto;
+import com.yeosin.apply.ExamAndSubjectRelDto;
 import com.yeosin.apply.ExamDto;
 import com.yeosin.apply.ExamDtoPageMaker;
 import com.yeosin.apply.ExamZoneDto;
@@ -536,17 +538,35 @@ public class ApplyManageController {
 			List<ExamZoneDto> examZoneList = applyManageService.getExamZoneListByExamRegister();
 			List<SubjectDto> subjectList = applyManageService.getSubjectListByExamRegister();
 			// 기존 시험 데이터
-			ExamDto examDto = applyManageService.getExamInfo(examId);
-			List<ExamZoneDto> examZoneListByExamId = applyManageService.getExamZoneListByExamModify(examId);
-			List<SubjectDto> subjectListByExamId = applyManageService.getSubjectListByExamModify(examId);
+			ExamDto examDto = applyManageService.getExamInfo(examId);		
+			List<ExamAndExamzoneRelDto> examZoneListByExamId = applyManageService.getExamZoneListByExamModify(examId);
+			for (ExamAndExamzoneRelDto examZoneRel : examZoneListByExamId) 
+			{
+				for (ExamZoneDto examZone : examZoneList)
+				{
+					if (examZoneRel.getExamzoneId().equals(examZone.getExamZoneId()))
+					{
+						examZone.setExamAndExamzoneRelDto(examZoneRel);
+					}
+				}
+			}			
+			List<ExamAndSubjectRelDto> subjectListByExamId = applyManageService.getSubjectListByExamModify(examId);
+			for (ExamAndSubjectRelDto subjectRel : subjectListByExamId) 
+			{
+				for (SubjectDto subject : subjectList)
+				{
+					if (subjectRel.getSubjectId().equals(subject.getSubjectId()))
+					{
+						subject.setExamAndSubjectRelDto(subjectRel);
+					}
+				}
+			}
 			
 			mav.addObject("alertResult" , false);
 			mav.addObject("alertError", false);
 			mav.addObject("examZoneList", examZoneList);
 			mav.addObject("subjectList", subjectList);
 			mav.addObject("examDto", examDto);
-			mav.addObject("examZoneListModify", examZoneListByExamId);
-			mav.addObject("subjectListModify", subjectListByExamId);
 			mav.setViewName("admin/manage_register");
 		}
 		return mav;

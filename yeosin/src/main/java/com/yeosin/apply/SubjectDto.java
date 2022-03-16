@@ -7,7 +7,14 @@ public class SubjectDto {
 		
 	private String subjectId; // 종목 ID
 	private String subjectName; // 종목명
+	private ExamAndSubjectRelDto examAndSubjectRelDto;
 	
+	public ExamAndSubjectRelDto getExamAndSubjectRelDto() {
+		return examAndSubjectRelDto;
+	}
+	public void setExamAndSubjectRelDto(ExamAndSubjectRelDto examAndSubjectRelDto) {
+		this.examAndSubjectRelDto = examAndSubjectRelDto;
+	}
 	public String getSubjectId() {
 		return subjectId;
 	}

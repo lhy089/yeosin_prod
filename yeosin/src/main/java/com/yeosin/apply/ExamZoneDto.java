@@ -22,6 +22,7 @@ public class ExamZoneDto {
 	private LocalCenterDto localCenterDto; // 지역센터 DTO
 	private ExamDto examDto; // 시험 DTO
 	private ApplyDto applyDto; // 접수 DTO
+	private ExamAndExamzoneRelDto examAndExamzoneRelDto;
 	
 	private int page;        		// 현재 페이지 번호   
 	private int perPageNum; 		// 현 페이지당 보여줄 게시글의 갯수
@@ -74,6 +75,12 @@ public class ExamZoneDto {
 	}
 	public void setLocalCenterDto(LocalCenterDto localCenterDto) {
 		this.localCenterDto = localCenterDto;
+	}
+	public ExamAndExamzoneRelDto getExamAndExamzoneRelDto() {
+		return examAndExamzoneRelDto;
+	}
+	public void setExamAndExamzoneRelDto(ExamAndExamzoneRelDto examAndExamzoneRelDto) {
+		this.examAndExamzoneRelDto = examAndExamzoneRelDto;
 	}
 	public String getReceiptSeat() {
 		return receiptSeat;

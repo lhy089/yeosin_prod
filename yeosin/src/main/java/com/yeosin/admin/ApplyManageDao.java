@@ -223,12 +223,12 @@ public class ApplyManageDao {
 	}
 	
 	// 시험 ID에 대한 고사장 데이터 조회
-	public List<ExamZoneDto> getExamZoneListByExamModify(String examId) throws Exception {
+	public List<ExamAndExamzoneRelDto> getExamZoneListByExamModify(String examId) throws Exception {
 		return sqlSession.selectList(nameSpace + "getExamZoneListByExamModify", examId);
 	}
 	
 	// 시험 ID에 대한 시험영역 데이터 조회
-	public List<SubjectDto> getSubjectListByExamModify(String examId) throws Exception {
+	public List<ExamAndSubjectRelDto> getSubjectListByExamModify(String examId) throws Exception {
 		return sqlSession.selectList(nameSpace + "getSubjectListByExamModify", examId);
 	}
 	
