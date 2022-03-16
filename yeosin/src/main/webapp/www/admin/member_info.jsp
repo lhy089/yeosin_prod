@@ -42,6 +42,7 @@
 		   $("#isCheckMemberGrade").val($("#isCheckMemberGrade").val());
 		   $('input[name=searchEmailType]').val($('input[name=searchEmailType]:checked').val());
 		   $('input[name=searchSMSType]').val($('input[name=searchSMSType]:checked').val());
+		   $("#onePageDataCountCondition").val($("#onePageDataCountCondition").val());
 		   $("#commonform").submit(); 
 		});
 		
@@ -138,13 +139,21 @@
       <tr>
         <th>검색어</th>
         <td><input type="text" id="searchWord"  name="searchWord" value="${userDto.searchWord}"></td>
-        <th>회원구분</th>
-        <td>
-          <label class="type"><input type="checkbox" name="isCheckGeneralGrade" id="isCheckGeneralGrade"  <c:if test="${userDto.isCheckGeneralGrade eq 'Y'}">checked="checked"</c:if> value="Y"> 일반</label>
-          <label class="type"><input type="checkbox" name="isCheckManagerGrade" id="isCheckManagerGrade" <c:if test="${userDto.isCheckManagerGrade eq 'Y'}">checked="checked"</c:if> value="Y"> 관리자</label>
-          <label class="type"><input type="checkbox" name="isCheckAssistantGrade" id="isCheckAssistantGrade" <c:if test="${userDto.isCheckAssistantGrade eq 'Y'}">checked="checked"</c:if> value="Y"> 부관리자</label>
-          <label class="type"><input type="checkbox" name="isCheckMemberGrade" id="isCheckMemberGrade" <c:if test="${userDto.isCheckMemberGrade eq 'Y'}">checked="checked"</c:if> value="Y"> 회원</label>
-        </td>
+        <th>목록건수</th>
+           <td>
+			<select id="onePageDataCountCondition" name="onePageDataCountCondition" class="count">
+	            <c:forEach var="i" begin="50" end="300" step="50">
+	            <c:choose>
+	            <c:when test="${i eq pageCondition}">
+	               <option value="${i}" selected>${i}</option>
+	            </c:when>
+	            <c:otherwise>
+	               <option value="${i}">${i}</option>
+	            </c:otherwise>
+	            </c:choose>
+	            </c:forEach>
+            </select>
+          </td>
       </tr>
       <tr>
         <th>이메일 수신 여부</th>
@@ -160,15 +169,6 @@
           <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${userDto.searchSMSType eq 'N'}">checked="checked"</c:if> value="N"> 수신거부</label>
         </td>
       </tr>
-      <tr>
-        <th>목록건수</th>
-        <td>
-          <select id="" name="" class="count">
-            <option value="">200</option>
-          </select>
-        </td>
-        <td colspan="2"></td>
-      </tr>
     </table>
     <a onclick="return false;" id="btn_search" class="btn_apply mb100">조회</a>
 	</form>
@@ -179,30 +179,30 @@
   		<input type="hidden" name="data" id="data" value="">	
   	</form>
     <ul class="btn_wrap">
-      <li><a href="#">수정</a></li>
+<!--       <li><a href="#">수정</a></li> -->
       <li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
-      <li><a href="#">회원등급</a></li>
-      <li><a href="#">정보삭제</a></li>
+<!--       <li><a href="#">회원등급</a></li> -->
+<!--       <li><a href="#">정보삭제</a></li> -->
     </ul>
     <table class="memberList" id="columnList">
       <colgroup>
         <col width="4%">
-        <col width="4%">
-        <col width="6.5%">
+<!--         <col width="4%"> -->
+        <col width="5%">
         <col width="7%">
         <col width="11%">
-        <col width="7%">
-        <col width="8.5%">
+        <col width="5%">
+        <col width="13%">
         <col width="11%">
         <col width="11%">
         <col width="11%">
         <col width="auto">
-        <col width="10%">
+        <col width="12%">
       </colgroup>
       <tr class="column_thead">
         <th class="first">선택</th>
         <th>번호</th>
-        <th>등급</th>
+<!--         <th>등급</th> -->
         <th>이름</th>
         <th>아이디</th>
         <th>성별</th>
@@ -217,7 +217,7 @@
 	      <tr class="center">
 	        <td><input type="checkbox" name="memberCheck" value=""></td>
 	        <td>${status.count}</td>
-	        <td>${user.grade} </td>
+<%-- 	        <td>${user.grade} </td> --%>
 	        <td class="flow flowName"><p>${user.userName}</p></td>
 	        <td class="flow flowId" ><p>${user.userId}</p></td>
 	        <td>${user.gender}</td>
@@ -233,17 +233,17 @@
     <ul class="btn-group pagination">
   	<c:if test="${pageMaker.prev }">
    		<li>
-     		 <a href='<c:url value="/member_info?page=${pageMaker.startPage-1}&searchWord=${userDto.searchWord}&isCheckGeneralGrade=${userDto.isCheckGeneralGrade}&isCheckManagerGrade=${userDto.isCheckManagerGrade}&isCheckAssistantGrade=${userDto.isCheckAssistantGrade}&isCheckMemberGrade=${userDto.isCheckMemberGrade}&searchEmailType=${userDto.searchEmailType}&searchSMSType=${userDto.searchSMSType}" />'><i class="fa fa-chevron-left">이전</i></a>
+     		 <a href='<c:url value="/member_info?page=${pageMaker.startPage-1}&searchWord=${userDto.searchWord}&isCheckGeneralGrade=${userDto.isCheckGeneralGrade}&isCheckManagerGrade=${userDto.isCheckManagerGrade}&isCheckAssistantGrade=${userDto.isCheckAssistantGrade}&isCheckMemberGrade=${userDto.isCheckMemberGrade}&searchEmailType=${userDto.searchEmailType}&searchSMSType=${userDto.searchSMSType}&onePageDataCountCondition=${pageCondition}" />'><i class="fa fa-chevron-left">이전</i></a>
   		</li>
  	</c:if>
   	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
     	<li value="${pageNum}"> 
-       		<a href='<c:url value="/member_info?page=${pageNum}&searchWord=${userDto.searchWord}&isCheckGeneralGrade=${userDto.isCheckGeneralGrade}&isCheckManagerGrade=${userDto.isCheckManagerGrade}&isCheckAssistantGrade=${userDto.isCheckAssistantGrade}&isCheckMemberGrade=${userDto.isCheckMemberGrade}&searchEmailType=${userDto.searchEmailType}&searchSMSType=${userDto.searchSMSType}"/>'><i class="fa">${pageNum}</i></a>
+       		<a href='<c:url value="/member_info?page=${pageNum}&searchWord=${userDto.searchWord}&isCheckGeneralGrade=${userDto.isCheckGeneralGrade}&isCheckManagerGrade=${userDto.isCheckManagerGrade}&isCheckAssistantGrade=${userDto.isCheckAssistantGrade}&isCheckMemberGrade=${userDto.isCheckMemberGrade}&searchEmailType=${userDto.searchEmailType}&searchSMSType=${userDto.searchSMSType}&onePageDataCountCondition=${pageCondition}"/>'><i class="fa">${pageNum}</i></a>
     	</li>
     </c:forEach>
     <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
     	<li>
-      		<a href='<c:url value="/member_info?page=${pageMaker.endPage+1}&searchWord=${userDto.searchWord}&isCheckGeneralGrade=${userDto.isCheckGeneralGrade}&isCheckManagerGrade=${userDto.isCheckManagerGrade}&isCheckAssistantGrade=${userDto.isCheckAssistantGrade}&isCheckMemberGrade=${userDto.isCheckMemberGrade}&searchEmailType=${userDto.searchEmailType}&searchSMSType=${userDto.searchSMSType}"/>'><i class="fa fa-chevron-right">다음</i></a>
+      		<a href='<c:url value="/member_info?page=${pageMaker.endPage+1}&searchWord=${userDto.searchWord}&isCheckGeneralGrade=${userDto.isCheckGeneralGrade}&isCheckManagerGrade=${userDto.isCheckManagerGrade}&isCheckAssistantGrade=${userDto.isCheckAssistantGrade}&isCheckMemberGrade=${userDto.isCheckMemberGrade}&searchEmailType=${userDto.searchEmailType}&searchSMSType=${userDto.searchSMSType}&onePageDataCountCondition=${pageCondition}"/>'><i class="fa fa-chevron-right">다음</i></a>
    		</li>
     </c:if>
 	</ul>

@@ -8,7 +8,7 @@ h1.title{width:100%; border-bottom:3px solid #066e4a; box-sizing:border-box; fon
 h2{height:24px; font-family:sandoll-gothicneo3, sans-serif; color:#000; font-weight:bold; font-size:24px; line-height:24px; margin-bottom:25px;}
 h2::before{content:''; width:7px; height:100%; display:inline-block; margin-right:8px; background:#066e4a; vertical-align:middle; letter-spacing:-1px;}
 h2 em{font-style:normal; color:#066e4a; letter-spacing:-1.2px;}
-.logo{width:216px; position:absolute; bottom:80px; left:50%; transform:translateX(-50%); -webkit-transform:translateX(-50%); margin:0; margin-left:260px;}
+.logo{width:216px; position:absolute; bottom:80px; left:50%; transform:translateX(-50%); -webkit-transform:translateX(-50%); margin:0; /*margin-left:260px;*/}
 .btn_apply{width:200px; height:50px; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; background:#066e4a; color:#fff; line-height:50px; text-align:center; margin:0 auto; transition:0.6s;}
 .btn_apply:hover{opacity:0.8;}
 .btn_wrap{text-align:right; margin-bottom:25px;}

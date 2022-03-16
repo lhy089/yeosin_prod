@@ -51,7 +51,7 @@ public class UserManageController {
 	//회원정보
 	@RequestMapping(value="/member_info", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView member_info(UserDto userDto, HttpSession session, HttpServletResponse response) throws Exception 
+	public ModelAndView member_info(UserDto userDto, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception 
 	{		
 		response.setCharacterEncoding("UTF-8");
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
@@ -69,7 +69,8 @@ public class UserManageController {
 		}
 		else 
 		{
-			userDto.setPerPageNum(200);
+			String pageInit = request.getParameter("onePageDataCountCondition")==null ? "50" : request.getParameter("onePageDataCountCondition");
+			userDto.setPerPageNum(Integer.parseInt(pageInit));
 			
 			UserPageMaker pageMaker = new UserPageMaker();
 			pageMaker.setUserDto(userDto);
@@ -81,6 +82,7 @@ public class UserManageController {
 			mav.addObject("userDto", userDto);
 			mav.addObject("userList", userList);
 			mav.addObject("isAlert",false);
+			mav.addObject("pageCondition", pageInit);
 			mav.setViewName("admin/member_info");
 		}
 

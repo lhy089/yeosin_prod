@@ -72,7 +72,7 @@
 </head>
 
 <body>
-
+<%@ include file="/www/common/admin_header.jsp"%>
 <div class="login">
   <header>
     <div class="contentBox">

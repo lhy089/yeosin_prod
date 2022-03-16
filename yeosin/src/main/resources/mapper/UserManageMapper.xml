@@ -40,45 +40,6 @@
 		<if test='searchSMSType=="N"'>
 			AND ISRECEIVESMS = 'N'
 		</if>
-	  		AND	(
-		
-		<if test='isCheckGeneralGrade == "Y"'>
-				USERSTATUS = 'NON'
-		</if>
-		
-		<if test='isCheckManagerGrade == "Y"'>
-			<choose>
-				<when test='isCheckGeneralGrade=="Y"'>
-					OR USERSTATUS = 'S'
-				</when>
-				<otherwise>
-					USERSTATUS = 'S'
-				</otherwise>
-			</choose>
-		</if>
-		
-		<if test='isCheckAssistantGrade == "Y"'>
-			<choose>
-				<when test='isCheckGeneralGrade=="Y" or isCheckGeneralGrade=="Y"'>
-					OR USERSTATUS = 'NON'
-				</when>
-				<otherwise>
-					USERSTATUS = 'NON'
-				</otherwise>
-			</choose>
-		</if>
-		
-		<if test='isCheckMemberGrade == "Y"'>
-			<choose>
-				<when test='isCheckGeneralGrade=="Y" or isCheckManagerGrade =="Y" or isCheckAssistantGrade == "Y"'>
-					OR USERSTATUS = 'U' OR USERSTATUS = 'D' OR USERSTATUS='C'
-				</when>
-				<otherwise>
-					USERSTATUS = 'U' OR USERSTATUS = 'D' OR USERSTATUS='C'
-				</otherwise>
-			</choose>
-		</if>
-			)
 		LIMIT #{pageStart}, #{perPageNum};
    </select>
    
@@ -105,45 +66,6 @@
 		<if test='searchSMSType=="N"'>
 			AND ISRECEIVESMS = 'N'
 		</if>
-	  		AND	(
-		
-		<if test='isCheckGeneralGrade == "Y"'>
-				USERSTATUS = 'NON'
-		</if>
-		
-		<if test='isCheckManagerGrade == "Y"'>
-			<choose>
-				<when test='isCheckGeneralGrade=="Y"'>
-					OR USERSTATUS = 'S'
-				</when>
-				<otherwise>
-					USERSTATUS = 'S'
-				</otherwise>
-			</choose>
-		</if>
-		
-		<if test='isCheckAssistantGrade == "Y"'>
-			<choose>
-				<when test='isCheckGeneralGrade=="Y" or isCheckGeneralGrade=="Y"'>
-					OR USERSTATUS = 'NON'
-				</when>
-				<otherwise>
-					USERSTATUS = 'NON'
-				</otherwise>
-			</choose>
-		</if>
-		
-		<if test='isCheckMemberGrade == "Y"'>
-			<choose>
-				<when test='isCheckGeneralGrade=="Y" or isCheckManagerGrade =="Y" or isCheckAssistantGrade == "Y"'>
-					OR USERSTATUS = 'U' OR USERSTATUS = 'D' OR USERSTATUS='C'
-				</when>
-				<otherwise>
-					USERSTATUS = 'U' OR USERSTATUS = 'D' OR USERSTATUS='C'
-				</otherwise>
-			</choose>
-		</if>
-			)
    </select>
    
    <insert id="insertEduCompletionHis" parameterType="com.yeosin.user.EduCompletionHisDto">

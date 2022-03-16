@@ -92,7 +92,7 @@ function refereshSession()
       <p class="date"></p>
       <% UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
          if(userInfo == null)
-            out.print("<h1><span>/span></h1>");
+            out.print("<h1><span></span></h1>");
          else
             out.print("<h1><span>" + userInfo.getUserName() + "</span>님 환영합니다</h1>");
    %>
