@@ -145,6 +145,11 @@ public class ApplyManageService {
 	public List<ExamDto> getExamList(Map<String, Object> map) throws Exception {
 		return applyManageDao.getExamList(map);
 	}
+	
+	// 성적 처리 여부 확인 
+	public int getGradeCntByExamId(String examId) throws Exception{
+		return applyManageDao.getGradeCntByExamId(examId);
+	}
 
 	// 시험일정 리스트 총 갯수 조회
 	public int getExamListCount(Map<String, Object> map) throws Exception {

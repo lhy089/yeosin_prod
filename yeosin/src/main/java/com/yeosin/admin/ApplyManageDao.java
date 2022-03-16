@@ -166,6 +166,11 @@ public class ApplyManageDao {
 	public List<ExamDto> getExamList(Map<String, Object> map) throws Exception {
 		return sqlSession.selectList(nameSpace + "getExamList", map);
 	}
+	
+	// 성적 처리 여부 확인
+	public int getGradeCntByExamId(String examId) throws Exception{
+		return sqlSession.selectOne(nameSpace + "getGradeCntByExamId", examId);
+	}
 
 	// 시험일정 리스트 총 갯수 조회
 	public int getExamListCount(Map<String, Object> map) throws Exception {
