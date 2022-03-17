@@ -241,4 +241,14 @@ public class ApplyManageDao {
 	public int modifyExam(ExamDto examDto) throws Exception {
 		return sqlSession.update(nameSpace + "modifyExam", examDto);
 	}
+	
+	// 시험일정등록(EXAMANDEXAMZONEREL 테이블)
+	public int deleteExamAndExamZoneRel(Map<String, Object> map) throws Exception{
+		return sqlSession.insert(nameSpace + "deleteExamAndExamZoneRel", map);
+	}
+	   
+	// 시험일정등록(EXAMANDSUBJECTREL 테이블)
+	public int deleteExamAndSubjectRel(Map<String, Object> map) throws Exception{
+		return sqlSession.insert(nameSpace + "deleteExamAndSubjectRel", map);
+	}
 }

@@ -837,8 +837,39 @@
 	</select>
 	
 	<!-- 시험 ID에 대한 수정 -->
-	<update id="modifyExam" parameterType="com.yeosin.apply.ExamDto">
-
-	</update>
+   	<update id="modifyExam" parameterType="com.yeosin.apply.ExamDto">
+		UPDATE YS_EXAM
+      	SET    	EXAMNAME=#{examName}
+         	,  	EXAMYEAR=#{examYear}
+         	,	SUBJECTID='제거대상 컬럼(종목코드)'
+			,  	EXAMTYPE=#{examType}
+         	,  	ISAPPROVAL=#{isApproval}
+         	,  	EXAMDEGREE=#{examDegree}
+         	,  	EXAMDATE=#{examDate}
+         	,  	EXAMLOCAL='제거대상 컬럼(시험지역)'
+         	,  	EXAMAREA='제거대상 컬럼(시험지역)'
+         	,  	RECEIPTSTARTDATE=#{receiptStartDate}
+         	,  	RECEIPTENDDATE=#{receiptEndDate}
+         	,  	ALLREFUNDEXITDATE='0000-00-00 00:00:00'
+         	,  	ISPRACTICALEXAM=#{isPracticalExam}
+         	,  	CERTPRINTSTARTDATE=#{certPrintStartDate}
+         	,  	CERTPRINTENDDATE=#{certPrintEndDate}
+         	,  	GRADESTARTDATE=#{gradeStartDate}
+         	,  	GRADEENDDATE=#{gradeEndDate}
+         	,  	EXAMCOST=#{examCost}
+         	,  	PERIOD=#{period}
+         	,  	GRADESTATUS=#{gradeStatus}         
+		WHERE  	EXAMID=#{examId, jdbcType=VARCHAR};
+   </update>
+   
+   <!-- 시험 ID에 대한 EXAMANDEXAMZONEREL 삭제 -->
+   <delete id="deleteExamAndExamZoneRel" parameterType="String">
+      DELETE FROM YS_EXAMANDEXAMZONEREL WHERE EXAMID = #{examId, jdbcType=VARCHAR};
+   </delete>
+   
+   <!-- 시험 ID에 대한 EXAMANDSUBJECTREL 삭제 -->
+   <delete id="deleteExamAndSubjectRel" parameterType="String">
+      DELETE FROM YS_EXAMANDSUBJECTREL WHERE EXAMID = #{examId, jdbcType=VARCHAR};
+   </delete>
 	
 </mapper>
