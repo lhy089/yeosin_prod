@@ -8,8 +8,9 @@
 			 	USERID
 			,
 			 	CASE 
-      		   		WHEN USERSTATUS != 'D'	THEN '회원'
-        		ELSE '탈퇴'
+      		   		WHEN (USERSTATUS = 'U' || USERSTATUS = 'S')	THEN '활동'
+      		   		WHEN USERSTATUS = 'D'	THEN '탈퇴'
+      		   		WHEN USERSTATUS = 'C'	THEN '휴면'
       		  	END AS USERSTATUS
 			,	GRADE 
 			,	USERNAME 
@@ -19,7 +20,8 @@
 			,	DATE_FORMAT(BIRTHDATE, '%Y-%m-%d') AS BIRTHDATE 
 			,	CALLNUMBER
 			,	PHONENUMBER
-			,	EMAILADDRESS 
+			,	EMAILADDRESS
+			, 	DATE_FORMAT(DORMANTACCOUNTDATE, '%Y-%m-%d') AS DORMANTACCOUNTDATE 
 		FROM 	YS_USER U
 		WHERE 	1 = 1
 		<if test="searchWord != null and searchWord != ''">

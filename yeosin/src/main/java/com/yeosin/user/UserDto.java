@@ -24,6 +24,7 @@ public class UserDto {
 	private String userStatus;	// 사용자 상태 > U:활성화, C:비밀번호 변경 필요, D:탈퇴
 	private String ciCode;		// 개인식별번호
 	private String diCode;		// 중복식별번호
+	private String dormantAccountDate; // 휴면계정전환일
 	
 	private EduCompletionDto eduCompletionDto;
 	
@@ -151,6 +152,12 @@ public class UserDto {
 	}
 	public void setDiCode(String diCode) {
 		this.diCode = diCode;
+	}
+	public String getDormantAccountDate() {
+		return dormantAccountDate;
+	}
+	public void setDormantAccountDate(String dormantAccountDate) {
+		this.dormantAccountDate = dormantAccountDate;
 	}
 	public String getIsCheckGeneralGrade() {
 		return isCheckGeneralGrade;

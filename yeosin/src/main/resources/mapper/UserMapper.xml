@@ -199,7 +199,8 @@
    
    <update id='dormantAccountProcessing'>
 	  UPDATE YS_USER 
-	  SET USERSTATUS = 'C' 
+	  SET USERSTATUS = 'C' ,
+	  DORMANTACCOUNTDATE = NOW()
 	  WHERE DATE_SUB(NOW() , INTERVAL 1 YEAR) > LASTCONNECTDATE 
 	  AND USERSTATUS = 'U';
    </update>

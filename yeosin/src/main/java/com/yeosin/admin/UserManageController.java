@@ -77,7 +77,16 @@ public class UserManageController {
 			pageMaker.setTotalCount(userManageService.countUserListTotal(userDto));
 			
 			List<UserDto> userList = userManageService.getUserInfo(userDto);
-
+			
+			for(int i = 0; i < userList.size(); i++)
+			{
+				UserDto tempUserDto = userList.get(i);
+				if("휴면".equals(tempUserDto.getUserStatus()))
+				{
+					tempUserDto.setJoinDate(tempUserDto.getJoinDate() + " (" + tempUserDto.getDormantAccountDate() + ")");
+				}
+			}
+			
 			mav.addObject("pageMaker", pageMaker);
 			mav.addObject("userDto", userDto);
 			mav.addObject("userList", userList);

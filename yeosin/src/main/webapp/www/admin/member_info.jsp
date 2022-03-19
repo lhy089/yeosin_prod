@@ -211,6 +211,7 @@
         <th>연락처</th>
         <th>휴대전화</th>
         <th>이메일</th>
+        <th>회원상태</th>
         <th>상태</th>
       </tr>
       <c:forEach var="user" items="${userList}" varStatus="status">
@@ -226,6 +227,7 @@
 	        <td>${user.callNumber}</td>
 	        <td>${user.phoneNumber}</td>
 	        <td class="flow flowEmail"><p>${user.emailAddress}</p></td>
+	        <td>${user.userStatus}</td>
 	        <td><a onclick="loginForce('${user.userId}','${user.userName}')" id="loginForce" href="#" class="btn_more">접속</a></td>
 	      </tr>
 	  </c:forEach>
