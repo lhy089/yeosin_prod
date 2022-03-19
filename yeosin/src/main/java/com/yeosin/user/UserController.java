@@ -86,14 +86,17 @@ public class UserController {
 		
 		if (userInfo != null) {
 			// 세션추가
-			userService.UpdateLastConnectDate(user);
 			
 			if (userInfo.getUserStatus().equals("C"))
 				result = "C";
 			else if (userInfo.getUserStatus().equals("U")) {
+				userService.UpdateLastConnectDate(user);
+				
 				result = "U";
 				session.setAttribute("loginUserInfo", userInfo);
 			} else if (userInfo.getUserStatus().equals("S")) {
+				userService.UpdateLastConnectDate(user);
+				
 				result = "S";
 				session.setAttribute("loginUserInfo", userInfo);
 				session.setMaxInactiveInterval(3600);

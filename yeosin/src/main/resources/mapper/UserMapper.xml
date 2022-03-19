@@ -173,7 +173,8 @@
 	
 	<update id="updateUserStatus" parameterType="com.yeosin.user.UserDto">
 		UPDATE YS_USER
-		SET USERSTATUS = 'U'
+		SET USERSTATUS = 'U',
+			LASTCONNECTDATE = now()
 		WHERE USERID = #{userId}
 			AND USERSTATUS NOT IN ('D','S')
 	</update>
