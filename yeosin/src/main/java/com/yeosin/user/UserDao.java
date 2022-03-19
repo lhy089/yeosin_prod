@@ -21,6 +21,10 @@ public class UserDao {
 		return this.sqlSession.selectOne(namespace + "getLoginUserInfo", user);
 	}
 	
+	public int UpdateLastConnectDate(UserDto user) {
+		return this.sqlSession.update(namespace + "UpdateLastConnectDate", user);
+	}
+	
 	public UserDto getLoginUserInfo1(UserDto user) {
 		return this.sqlSession.selectOne(namespace + "getLoginUserInfo1", user);
 	}
@@ -55,5 +59,8 @@ public class UserDao {
 	public String getUserByCIDI(UserDto user) {
 		return this.sqlSession.selectOne(namespace + "getUserByCIDI", user);
 	}
-	
+
+	public int dormantAccountProcessing() {
+		return this.sqlSession.update(namespace + "dormantAccountProcessing");
+	}
 }

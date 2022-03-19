@@ -22,6 +22,10 @@ public class UserService {
 		return userDao.getLoginUserInfo(user);
 	}
 	
+	public int UpdateLastConnectDate(UserDto user) throws Exception {
+		return userDao.UpdateLastConnectDate(user);
+	}
+	
 	public UserDto getLoginUserInfo1(UserDto user) throws Exception  {
 		return userDao.getLoginUserInfo1(user);
 	}
@@ -87,5 +91,10 @@ public class UserService {
 	}
 	public int insertAndUpdateEduComepletionInfo(List<EduCompletionDto> eduCompletionList) throws Exception {
 		return eduCompletionDao.insertAndUpdateEduComepletionInfo(eduCompletionList);
+	}
+	
+	//휴면계정처리
+	public int dormantAccountProcessing() throws Exception{
+		return userDao.dormantAccountProcessing();
 	}
 }
