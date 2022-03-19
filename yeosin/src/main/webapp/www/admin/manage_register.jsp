@@ -161,10 +161,10 @@ $(document).ready(function() {
         - 
         <c:choose>
 			<c:when test="${examDto.examDegree eq null}">
-				<input type="text" maxlength="1" id="examDegree" name="examDegree"> 
+				<input type="text" maxlength="2" id="examDegree" name="examDegree"> 
 			</c:when>
 			<c:otherwise>
-				<input type="text" maxlength="1" id="examDegree" name="examDegree" value="${examDto.examDegree}"> 
+				<input type="text" maxlength="2" id="examDegree" name="examDegree" value="${examDto.examDegree}"> 
 			</c:otherwise>
 		</c:choose>
         회차 [연도 2자리 – 회차 1자리 입력]
@@ -331,7 +331,15 @@ $(document).ready(function() {
     </table>
     <!-- <a href="#" class="btn_plus">추가</a> -->
     <input type="hidden" id="examId" name="examId" value="${examDto.examId}">
-    <a onclick="return false;" id="btn_register" class="btn_apply mb100">등록하기</a>
+    
+    <c:choose>
+		<c:when test="${examDto.examId eq null}">
+			<a onclick="return false;" id="btn_register" class="btn_apply mb100">등록하기</a>
+		</c:when>
+		<c:otherwise>
+			<a onclick="return false;" id="btn_register" class="btn_apply mb100">수정하기</a>
+		</c:otherwise>
+	</c:choose>
   </div>
 </div>
 </form>

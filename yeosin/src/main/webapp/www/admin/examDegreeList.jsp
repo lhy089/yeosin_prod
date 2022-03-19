@@ -113,8 +113,8 @@
 <div class="manage schedule">
   <div class="contentBoxAd">
     <h1 class="title">시험운영관리</h1>
-    <h2>시험일정관리</h2>
-    <form action="/manageSchedule" method="get">
+    <h2>시험차수별 리스트</h2>
+    <form action="/manageExamDegreeList" method="get">
     <div class="selectTable">
       <table>
         <colgroup>
@@ -183,13 +183,11 @@
         <input type="hidden" name="fileName" id="fileName" value="">   
         <input type="hidden" name="columns" id="columns" value="">   
         <input type="hidden" name="data" id="data" value="">
-        <input type="hidden" name="docName" id="docName" value="시험일정관리리스트">   
+        <input type="hidden" name="docName" id="docName" value="시험차수별 리스트">   
      </form>
 
     <ul class="btn_wrap">
 		<li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
-      	<!-- <li><a href="/manageRegister">등록하기</a></li> -->
-      	<li><a href="/manageSchedule" onclick="return doScheduleDelete()">정보삭제</a></li>
     </ul>
     <table class="mb100" id="columnList">
       <colgroup>
@@ -222,7 +220,7 @@
            <c:set var="examYear" value="${examList.examYear}"/>
            <c:set var="examDegree" value="${examList.examDegree}"/>
            <c:set var="hyphen" value="-"/>
-           <td><a href="/manageRegister?examId=${examList.examId}" class="btn_more">자세히 보기</a></td>
+           <td><a href="/manage_status_doc?examDegreeCondition=${examList.examYear}-${examList.examDegree}" class="btn_more">자세히 보기</a></td>
          </tr>
        </c:forEach>
       </tr>
