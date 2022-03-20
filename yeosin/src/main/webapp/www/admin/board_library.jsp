@@ -22,6 +22,7 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
   <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
   <link rel="stylesheet" href="/www/inc/css/admin.css">
@@ -104,7 +105,7 @@ $(document).ready(function() {
       <c:forEach var="library" items="${libraryList}" varStatus="status">
         <tr class="center">
 	    	<td><input type="checkbox" name="boardCheck" value="${library.boardId}"></td>
-       		 <td>${status.count}</td>
+       		 <td>${fn:length(libraryList) - status.index}</td>
        		<td class="flow flowTitle"><a href="#">${library.title}</a></td>
         	<c:if test="${not empty library.fileDto}">
          	 	 <td  class="file"></td> 

@@ -449,7 +449,9 @@
     	<foreach collection="list" item="item" separator=" , " >
         	((SELECT RECEIPTID FROM YS_RECEIPT WHERE STUDENTCODE = "${item.receiptId}"), "${item.isQuit}", "${item.allScore}", "${item.isPass}", "${item.isQual}" , "${item.passCertId}", now(), now())
    	 	</foreach>
-   	 	ON DUPLICATE KEY UPDATE ISQUIT = "",
+   	 	ON DUPLICATE KEY UPDATE 
+   	 		ALLSCORE = VALUES(allScore),
+   	 		ISPASS = VALUES(isPass),
    	 		MODDATE = now()
 	</insert>
 	

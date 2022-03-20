@@ -21,6 +21,7 @@
   <meta property="og:image" content="/www/inc/img/openGraph.jpg">
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
   <link rel="stylesheet" href="/www/inc/css/admin.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -97,7 +98,7 @@ $(document).ready(function() {
       <c:forEach var="question" items="${questionList}" varStatus="status">
         <tr class="center">
 	    	<td><input type="checkbox" name="boardCheck" value="${question.boardId}"></td>
-       		 <td>${status.count}</td>
+       		 <td>${fn:length(questionList) - status.index}</td>
        		<td>${question.category}</td>
        		<td class="flow flowTitle"><a href="#">${question.title}</a></td>
         	<td>${question.writeTime}</td>

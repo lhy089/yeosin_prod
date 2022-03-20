@@ -73,7 +73,7 @@
             	<c:param name="localFileName" value="${noticeInfo.fileDto.localFileName}" />
            </c:url>
           <c:if test="${not empty noticeInfo.fileDto}">
-         	<a href="${downloadUrl}" id="btn_download" class="document">${noticeInfo.fileDto.localFileName}</a> <!--문서표시 있을때 해당 태그 추가-->
+         	<a href="${downloadUrl}" id="btn_download" class="document">${noticeInfo.fileDto.realFileName}</a> <!--문서표시 있을때 해당 태그 추가-->
           </c:if>
         </div>
       </div>

@@ -29,6 +29,7 @@
 	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 	<script>
 	 $(document).ready(function(){ 
+		 $("li[value='${examDto.page}']").attr("class","on");
 	
 	    // 년도 선택했을때 시험명 리스트 초기화
 	    $("#yearCondition").change(function(){

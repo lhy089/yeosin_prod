@@ -69,7 +69,7 @@ public class UserManageController {
 		}
 		else 
 		{
-			String pageInit = request.getParameter("onePageDataCountCondition")==null ? "50" : request.getParameter("onePageDataCountCondition");
+			String pageInit = request.getParameter("onePageDataCountCondition")==null ? "200" : request.getParameter("onePageDataCountCondition");
 			userDto.setPerPageNum(Integer.parseInt(pageInit));
 			
 			UserPageMaker pageMaker = new UserPageMaker();

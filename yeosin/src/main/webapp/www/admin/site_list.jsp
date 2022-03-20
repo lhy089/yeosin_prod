@@ -29,7 +29,7 @@
 	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 	<script>
 	$(document).ready(function(){ 
-
+		 $("li[value='${examZoneDto.page}']").attr("class","on");
 		// 지역 선택했을때 구 리스트 초기화
 		$("#localCondition").change(function(){
 			

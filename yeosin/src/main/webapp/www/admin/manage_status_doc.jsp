@@ -27,6 +27,11 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/admin/applymanage.js?t=<%= new java.util.Date() %>"></script>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+	<script>
+	 $(document).ready(function(){ 
+		 $("li[value='${applyDto.page}']").attr("class","on");
+	 })
+	 </script>
 </head>
 
 <body>
