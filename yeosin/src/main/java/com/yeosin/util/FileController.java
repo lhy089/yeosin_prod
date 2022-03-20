@@ -31,7 +31,7 @@ public class FileController {
 		try {
 			// 다운로드 받을 파일명을 가져온다.
 			String fileName = fileInfo.getLocalFileName();
-			String encordedFilename = URLEncoder.encode(fileName,"UTF-8").replace("+", "%20");
+			String encordedFilename = URLEncoder.encode(fileInfo.getRealFileName(),"UTF-8").replace("+", "%20");
 			// 다운로드 경로 (내려받을 파일경로를 설정한다.)
 			String filePath = boardPath+fileName;
 			//String filePath = request.getServletContext().getRealPath("\\resources\\boardFile\\" + fileName);

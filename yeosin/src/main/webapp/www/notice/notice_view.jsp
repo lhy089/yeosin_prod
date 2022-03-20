@@ -71,6 +71,7 @@
            <c:url value="/download" var="downloadUrl">
             	<c:param name="fileSize" value="${noticeInfo.fileDto.fileSize}" />
             	<c:param name="localFileName" value="${noticeInfo.fileDto.localFileName}" />
+            	<c:param name="realFileName" value="${noticeInfo.fileDto.realFileName}" />
            </c:url>
           <c:if test="${not empty noticeInfo.fileDto}">
          	<a href="${downloadUrl}" id="btn_download" class="document">${noticeInfo.fileDto.realFileName}</a> <!--문서표시 있을때 해당 태그 추가-->
