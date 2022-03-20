@@ -55,7 +55,7 @@ $(document).ready(function() {
 <%@ include file="/www/common/admin_header.jsp"%>
 <!-- lnb 붙여주세요. (/common/admin_lnb.html) -->
 <%@ include file="/www/common/admin_lnb.jsp"%>
-<form id="commonform" name="commonform" method="get" action="/boardNoticeRevise_action">
+<form id="commonform" name="commonform" method="post" action="/boardNoticeRevise_action" enctype="multipart/form-data">
 <input type="hidden" name="boardType" id="boardType" value="1">
 <input type="hidden" name="page" id="page" value="${boardDto.page}" >
 <input type="hidden" name="boardId" id="boardId" value="${boardDto.boardId}">

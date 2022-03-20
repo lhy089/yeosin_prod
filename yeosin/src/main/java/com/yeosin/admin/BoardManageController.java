@@ -1,8 +1,10 @@
 package com.yeosin.admin;
 
-import java.util.HashMap;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,16 +12,19 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yeosin.board.BoardDto;
 import com.yeosin.board.FileDto;
 import com.yeosin.board.PageMaker;
 import com.yeosin.user.UserDto;
+import com.yeosin.util.FileController;
 
 @Controller
 public class BoardManageController {
@@ -90,9 +95,9 @@ public class BoardManageController {
 	}
 	
 	//공지사항 추가하기
-	@RequestMapping(value = "/boardNoticeInput_action", method = RequestMethod.GET)
+	@RequestMapping(value = "/boardNoticeInput_action", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView boardNoticeInput_action(BoardDto boardDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView boardNoticeInput_action(BoardDto boardDto, MultipartFile file, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 
@@ -123,15 +128,24 @@ public class BoardManageController {
 			String fileName = request.getParameter("fileName");
 			int fileSize = Integer.parseInt(request.getParameter("fileSize")) ;
 			
-			if (!fileName.equals("") && fileName != null) {
+			if (!fileName.equals("") && fileName != null && file.getSize() != 0) {
+				String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
 				
+				File copyFile = new File(FileController.boardPath, LocalFileName);
+					
+				if(!new File(FileController.boardPath).exists()) {
+					new File(FileController.boardPath).mkdirs();
+				}
+					
+				FileCopyUtils.copy(file.getBytes(), copyFile);
+					
 				int MaxFileIdNumber = boardManageService.getMaxFileId() + 1;
 				String newFileId = "FILE" +  String.valueOf(MaxFileIdNumber);
 				String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
 			
 				FileDto fileDto = new FileDto();
 
-				fileDto.setLocalFileName(fileName);
+				fileDto.setLocalFileName(LocalFileName);
 				fileDto.setRealFileName(fileName);
 				fileDto.setBoardId(boardDto.getBoardId());
 				fileDto.setFileId(newFileId);
@@ -187,7 +201,7 @@ public class BoardManageController {
 			
 			if(fileDto != null)
 			{
-				fileName = fileDto.getLocalFileName();
+				fileName = fileDto.getRealFileName();
 			}
 			
 			mav.addObject("isAlert", false);
@@ -201,9 +215,9 @@ public class BoardManageController {
 	}
 	
 	//공지사항 수정하기
-	@RequestMapping(value = "/boardNoticeRevise_action", method = RequestMethod.GET)
+	@RequestMapping(value = "/boardNoticeRevise_action", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView boardNoticeRevise_action(BoardDto boardDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView boardNoticeRevise_action(BoardDto boardDto, MultipartFile file, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 
@@ -229,20 +243,28 @@ public class BoardManageController {
 		
 			if (getFileDto != null) //파일등록이 이미 되어 있을때 
 			{
-				//다른 파일로 교체 할때
-				if (!fileName.equals("") && fileName != null && !getFileDto.getLocalFileName().equals(fileName)) {
+				if (!fileName.equals("") && fileName != null && file.getSize() != 0) {
+					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+						
+					File copyFile = new File(FileController.boardPath, LocalFileName);
+						
+					if(!new File(FileController.boardPath).exists()) {
+						new File(FileController.boardPath).mkdirs();
+					}
+							
+					FileCopyUtils.copy(file.getBytes(), copyFile);
+						
 					FileDto setFileDto = new FileDto();
-					
+						
 					String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
-
-					setFileDto.setLocalFileName(fileName);
+	
+					setFileDto.setLocalFileName(LocalFileName);
 					setFileDto.setRealFileName(fileName);
 					setFileDto.setFileExtsn(fileExtsn);
 					setFileDto.setBoardId(boardDto.getBoardId());
 					setFileDto.setFileSize(fileSize);
-
+	
 					boardDto.setFileDto(setFileDto);
-					
 					boardManageService.setFileInfo(setFileDto);
 				}
 				else if(fileName.equals("") || fileName == null)
@@ -253,15 +275,25 @@ public class BoardManageController {
 			}
 			else  //파일등록이 안되어 있을때
 			{
-				if (!fileName.equals("") && fileName != null) //파일을 새로 등록할때
+				if (!fileName.equals("") && fileName != null && file.getSize() != 0) //파일을 새로 등록할때
 				{
+					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+					
+					File copyFile = new File(FileController.boardPath, LocalFileName);
+					
+					if(!new File(FileController.boardPath).exists()) {
+						new File(FileController.boardPath).mkdirs();
+					}
+						
+					FileCopyUtils.copy(file.getBytes(), copyFile);
+					
 					int MaxFileIdNumber = boardManageService.getMaxFileId() + 1;
 					String newFileId = "FILE" +  String.valueOf(MaxFileIdNumber);
 					String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
 				
 					FileDto newfileDto = new FileDto();
 
-					newfileDto.setLocalFileName(fileName);
+					newfileDto.setLocalFileName(LocalFileName);
 					newfileDto.setRealFileName(fileName);
 					newfileDto.setBoardId(boardDto.getBoardId());
 					newfileDto.setFileId(newFileId);
@@ -401,9 +433,9 @@ public class BoardManageController {
 	}
 	
 	//시험 자료실 추가하기
-	@RequestMapping(value = "/boardLibraryInput_action", method = RequestMethod.GET)
+	@RequestMapping(value = "/boardLibraryInput_action", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView boardLibraryInput_action(BoardDto boardDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView boardLibraryInput_action(BoardDto boardDto, MultipartFile file, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 
@@ -434,7 +466,16 @@ public class BoardManageController {
 			String fileName = request.getParameter("fileName");
 			int fileSize = Integer.parseInt(request.getParameter("fileSize")) ;
 
-			if (!fileName.equals("") && fileName != null) {
+			if (!fileName.equals("") && fileName != null && file.getSize() != 0) {
+				String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+				
+				File copyFile = new File(FileController.boardPath, LocalFileName);
+				
+				if(!new File(FileController.boardPath).exists()) {
+					new File(FileController.boardPath).mkdirs();
+				}
+					
+				FileCopyUtils.copy(file.getBytes(), copyFile);
 
 				int MaxFileIdNumber = boardManageService.getMaxFileId() + 1;
 				String newFileId = "FILE" + String.valueOf(MaxFileIdNumber);
@@ -442,7 +483,7 @@ public class BoardManageController {
 
 				FileDto fileDto = new FileDto();
 
-				fileDto.setLocalFileName(fileName);
+				fileDto.setLocalFileName(LocalFileName);
 				fileDto.setRealFileName(fileName);
 				fileDto.setBoardId(boardDto.getBoardId());
 				fileDto.setFileId(newFileId);
@@ -495,7 +536,7 @@ public class BoardManageController {
 			
 			if(fileDto != null)
 			{
-				fileName = fileDto.getLocalFileName();
+				fileName = fileDto.getRealFileName();
 			}
 			
 			mav.addObject("isAlert", false);
@@ -509,9 +550,9 @@ public class BoardManageController {
 	}
 	
 	//시험 자료실 수정하기
-	@RequestMapping(value = "/boardLibraryRevise_action", method = RequestMethod.GET)
+	@RequestMapping(value = "/boardLibraryRevise_action", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView boardLibraryRevise_action(BoardDto boardDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView boardLibraryRevise_action(BoardDto boardDto, MultipartFile file, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 
@@ -537,12 +578,23 @@ public class BoardManageController {
 			if (getFileDto != null) // 파일등록이 이미 되어 있을때
 			{
 				// 다른 파일로 교체 할때
-				if (!fileName.equals("") && fileName != null && !getFileDto.getLocalFileName().equals(fileName)) {
+				if (!fileName.equals("") && fileName != null && file.getSize() != 0) {
+					
+					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+					
+					File copyFile = new File(FileController.boardPath, LocalFileName);
+					
+					if(!new File(FileController.boardPath).exists()) {
+						new File(FileController.boardPath).mkdirs();
+					}
+						
+					FileCopyUtils.copy(file.getBytes(), copyFile);
+					
 					FileDto setFileDto = new FileDto();
 
 					String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
 
-					setFileDto.setLocalFileName(fileName);
+					setFileDto.setLocalFileName(LocalFileName);
 					setFileDto.setRealFileName(fileName);
 					setFileDto.setFileExtsn(fileExtsn);
 					setFileDto.setBoardId(boardDto.getBoardId());
@@ -557,15 +609,26 @@ public class BoardManageController {
 
 			} else // 파일등록이 안되어 있을때
 			{
-				if (!fileName.equals("") && fileName != null) // 파일을 새로 등록할때
+				if (!fileName.equals("") && fileName != null && file.getSize() != 0) // 파일을 새로 등록할때
 				{
+					
+					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+					
+					File copyFile = new File(FileController.boardPath, LocalFileName);
+					
+					if(!new File(FileController.boardPath).exists()) {
+						new File(FileController.boardPath).mkdirs();
+					}
+						
+					FileCopyUtils.copy(file.getBytes(), copyFile);
+					
 					int MaxFileIdNumber = boardManageService.getMaxFileId() + 1;
 					String newFileId = "FILE" + String.valueOf(MaxFileIdNumber);
 					String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
 
 					FileDto newfileDto = new FileDto();
 
-					newfileDto.setLocalFileName(fileName);
+					newfileDto.setLocalFileName(LocalFileName);
 					newfileDto.setRealFileName(fileName);
 					newfileDto.setBoardId(boardDto.getBoardId());
 					newfileDto.setFileId(newFileId);

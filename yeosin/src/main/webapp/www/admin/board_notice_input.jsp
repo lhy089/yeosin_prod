@@ -55,7 +55,7 @@ $(document).ready(function() {
 <%@ include file="/www/common/admin_header.jsp"%>
 <!-- lnb 붙여주세요. (/common/admin_lnb.html) -->
 <%@ include file="/www/common/admin_lnb.jsp"%>
-<form id="commonform" name="commonform" method="get" action="/boardNoticeInput_action">
+<form id="commonform" name="commonform" method="post" action="/boardNoticeInput_action" enctype="multipart/form-data">
 <input type="hidden" name="boardType" id="boardType" value="1">
 <input type="hidden" name="page" id="page" value="${boardDto.page}" >
 <input type="hidden" name="fileName" id="fileName">
@@ -83,7 +83,7 @@ $(document).ready(function() {
         <td class="info">
           <input name="inputFileName" id="inputFileName" class="upload-name" value="" disabled="disabled">
           <label for="file">파일선택</label>
-          <input type="file" id="file" class="upload-hidden">
+          <input type="file" id="file" name="file" class="upload-hidden">
           <a href="#" class="btn_more reset">삭제</a>
         </td>
       </tr>
