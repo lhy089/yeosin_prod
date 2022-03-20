@@ -105,13 +105,19 @@ public class ApplyManageController {
 		   // 페이징 하기위한 데이터
 		   ApplyPageMaker pageMaker = new ApplyPageMaker();
 		   pageMaker.setApplyDto(applyDto);
-		   pageMaker.setTotalCount(applyManageService.getApplyListByDocumentCount(parameterMap));			
+		   pageMaker.setTotalCount(applyManageService.getApplyListByDocumentCount(parameterMap));
+		   
+		   // 엑셀 다운로드용 데이터
+		   parameterMap.replace("pageStart", 0);
+		   parameterMap.replace("perPageNum", applyDto.getPage() * applyDto.getPerPageNum());
+		   List<ApplyDto> applyListByDocumentAndExcel = applyManageService.getApplyListByDocument(parameterMap);
 			
 		   mav.addObject("localList", localList);
 		   mav.addObject("subjectList", subjectList);
 		   mav.addObject("examDegreeList", examDegreeList);
 		   mav.addObject("isCancelList", isCancelList);
 		   mav.addObject("applyListByDocument", applyListByDocument);
+		   mav.addObject("applyListByDocumentAndExcel", applyListByDocumentAndExcel);
 		   mav.addObject("textCondition", request.getParameter("textCondition"));
 		   mav.addObject("localCondition", request.getParameter("localCondition"));
 		   mav.addObject("subjectCondition", request.getParameter("subjectCondition"));
@@ -184,11 +190,17 @@ public class ApplyManageController {
 		   // 페이징 하기위한 데이터
 		   ExamZoneDtoPageMaker pageMaker = new ExamZoneDtoPageMaker();
 		   pageMaker.setExamZoneDto(examZoneDto);
-		   pageMaker.setTotalCount(applyManageService.getApplyListByExamZoneCount(parameterMap));         
+		   pageMaker.setTotalCount(applyManageService.getApplyListByExamZoneCount(parameterMap));  
+		   
+		   // 엑셀 다운로드용 데이터
+		   parameterMap.replace("pageStart", 0);
+		   parameterMap.replace("perPageNum", examZoneDto.getPage() * examZoneDto.getPerPageNum());
+		   List<ApplyDto> applyListByExamZoneAndExcel = applyManageService.getApplyListByExamZone(parameterMap);
 		     
 		   mav.addObject("localList", localList);
 		   mav.addObject("examDegreeList", examDegreeList);
 		   mav.addObject("applyListByExamZone", applyListByExamZone);
+		   mav.addObject("applyListByExamZoneAndExcel", applyListByExamZoneAndExcel);
 		   mav.addObject("textCondition", request.getParameter("textCondition"));
 		   mav.addObject("localCondition", request.getParameter("localCondition"));
 		   mav.addObject("examDegreeCondition", request.getParameter("examDegreeCondition"));
@@ -430,11 +442,17 @@ public class ApplyManageController {
 		   	// 페이징 하기위한 데이터
 		   	ExamZoneDtoPageMaker pageMaker = new ExamZoneDtoPageMaker();
 		   	pageMaker.setExamZoneDto(examZoneDto);
-		   	pageMaker.setTotalCount(applyManageService.getExamZoneListCount(parameterMap));         
+		   	pageMaker.setTotalCount(applyManageService.getExamZoneListCount(parameterMap));    
+		   	
+			// 엑셀 다운로드용 데이터
+			parameterMap.replace("pageStart", 0);
+			parameterMap.replace("perPageNum", examZoneDto.getPage() * examZoneDto.getPerPageNum());
+			List<ExamZoneDto> examZoneListByExcel = applyManageService.getExamZoneList(parameterMap);
 		     
 		   	mav.addObject("localList", localList);
 		   	mav.addObject("localDetailList", localDetailList);
 		   	mav.addObject("examZoneList", examZoneList);
+		   	mav.addObject("examZoneListByExcel", examZoneListByExcel);
 		   	mav.addObject("textCondition", request.getParameter("textCondition"));
 		   	mav.addObject("localCondition", request.getParameter("localCondition"));
 		   	mav.addObject("localDetailCondition", request.getParameter("localDetailCondition"));
@@ -503,11 +521,17 @@ public class ApplyManageController {
 			ExamDtoPageMaker pageMaker = new ExamDtoPageMaker();
 			pageMaker.setExamDto(examDto);
 			pageMaker.setTotalCount(applyManageService.getExamListCount(parameterMap));
+			
+			// 엑셀 다운로드용 데이터
+			parameterMap.replace("pageStart", 0);
+			parameterMap.replace("perPageNum", examDto.getPage() * examDto.getPerPageNum());
+			List<ExamDto> examListByExcel = applyManageService.getExamList(parameterMap);
 
 			mav.addObject("yearList", yearList);
 			mav.addObject("examNameList", examNameList);
 			mav.addObject("degreeList", examDegreeList);
 			mav.addObject("examList", examList);
+			mav.addObject("examListByExcel", examListByExcel);
 			mav.addObject("yearCondition", request.getParameter("yearCondition"));
 			mav.addObject("examNameCondition", request.getParameter("examNameCondition"));
 			mav.addObject("degreeCondition", request.getParameter("degreeCondition"));
@@ -1034,11 +1058,17 @@ public class ApplyManageController {
 			ExamDtoPageMaker pageMaker = new ExamDtoPageMaker();
 			pageMaker.setExamDto(examDto);
 			pageMaker.setTotalCount(applyManageService.getExamListCount(parameterMap));
+			
+			// 엑셀 다운로드용 데이터
+			parameterMap.replace("pageStart", 0);
+			parameterMap.replace("perPageNum", examDto.getPage() * examDto.getPerPageNum());
+			List<ExamDto> examListByExcel = applyManageService.getExamList(parameterMap);
 
 			mav.addObject("yearList", yearList);
 			mav.addObject("examNameList", examNameList);
 			mav.addObject("degreeList", examDegreeList);
 			mav.addObject("examList", examList);
+			mav.addObject("examListByExcel", examListByExcel);
 			mav.addObject("yearCondition", request.getParameter("yearCondition"));
 			mav.addObject("examNameCondition", request.getParameter("examNameCondition"));
 			mav.addObject("degreeCondition", request.getParameter("degreeCondition"));
@@ -1046,6 +1076,7 @@ public class ApplyManageController {
 			mav.addObject("examDto", examDto);
 			mav.setViewName("admin/examDegreeList");
 		}
+		
 		return mav;
 	}
    

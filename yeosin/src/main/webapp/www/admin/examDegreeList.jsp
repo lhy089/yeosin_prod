@@ -189,7 +189,7 @@
     <ul class="btn_wrap">
 		<li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
     </ul>
-    <table class="mb100" id="columnList">
+    <table class="mb100">
       <colgroup>
         <col width="4%">
         <col width="4%">
@@ -199,8 +199,8 @@
         <col width="14%">
         <col width="14%">
       </colgroup>
-	  <tr class="column_thead">
-        <th class="first">선택</th>
+	  <tr>
+        <th>선택</th>
         <th>번호</th>
         <th>시험년도</th>
         <th>시험명</th>
@@ -226,20 +226,60 @@
       </tr>
     </table>
     <br>
+    <!-- 엑셀 다운로드 영역 -->
+    <div style="display:none">
+	    <table class="mb100" id="columnList">
+	      <colgroup>
+	        <col width="4%">
+	        <col width="4%">
+	        <col width="14%">
+	        <col width="*">
+	        <col width="14%">
+	        <col width="14%">
+	        <col width="14%">
+	      </colgroup>
+		  <tr class="column_thead">
+	        <th class="first">선택</th>
+	        <th>번호</th>
+	        <th>시험년도</th>
+	        <th>시험명</th>
+	        <th>시험차수</th>
+	        <th>시험일</th>
+	        <th>비고</th>
+	      </tr>
+	      <tr class="center">
+			<c:forEach var="examListByExcel" items="${examListByExcel}" varStatus="status">    
+	         <tr class="center">
+	           <td class="flow flowNo"><input type="checkbox" name="examCheck" value="${examListByExcel.examId}"></td>
+	           <td class="flow flowNo">${status.count}</td>
+	           <td class="flow flowNo">${examListByExcel.examYear}</td>
+	           <td class="flow flowNo">${examListByExcel.examName}</td>
+	           <td class="flow flowNo">${examListByExcel.examDegree}</td>
+	           <td class="flow flowNo">${examListByExcel.examDate}</td>
+	           <c:set var="examYear" value="${examListByExcel.examYear}"/>
+	           <c:set var="examDegree" value="${examListByExcel.examDegree}"/>
+	           <c:set var="hyphen" value="-"/>
+	           <td><a href="/manage_status_doc?examDegreeCondition=${examListByExcel.examYear}-${examListByExcel.examDegree}" class="btn_more">자세히 보기</a></td>
+	         </tr>
+	       </c:forEach>
+	      </tr>
+	    </table>
+    </div>
+    <br>
 	<ul class="btn-group pagination">
 	 <c:if test="${pageMaker.prev}">
 	     <li>
-	        <a href='<c:url value="/manageSchedule?page=${pageMaker.startPage-1}&yearCondition=${yearCondition}&examNameCondition=${examNameCondition}&degreeCondition=${degreeCondition}" />'><i class="fa fa-chevron-left">이전</i></a>
+	        <a href='<c:url value="/manageExamDegreeList?page=${pageMaker.startPage-1}&yearCondition=${yearCondition}&examNameCondition=${examNameCondition}&degreeCondition=${degreeCondition}" />'><i class="fa fa-chevron-left">이전</i></a>
 	    </li>
 	</c:if>
 	 <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
 	   <li value="${pageNum}"> 
-	         <a href='<c:url value="/manageSchedule?page=${pageNum}&yearCondition=${yearCondition}&examNameCondition=${examNameCondition}&degreeCondition=${degreeCondition}" />'><i class="fa">${pageNum}</i></a>
+	         <a href='<c:url value="/manageExamDegreeList?page=${pageNum}&yearCondition=${yearCondition}&examNameCondition=${examNameCondition}&degreeCondition=${degreeCondition}" />'><i class="fa">${pageNum}</i></a>
 	   </li>
 	</c:forEach>
 	<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
 	   <li>
-	        <a href='<c:url value="/manageSchedule?page=${pageMaker.endPage+1}&yearCondition=${yearCondition}&examNameCondition=${examNameCondition}&degreeCondition=${degreeCondition}"/>'><i class="fa fa-chevron-right">다음</i></a>
+	        <a href='<c:url value="/manageExamDegreeList?page=${pageMaker.endPage+1}&yearCondition=${yearCondition}&examNameCondition=${examNameCondition}&degreeCondition=${degreeCondition}"/>'><i class="fa fa-chevron-right">다음</i></a>
 	     </li>
 	</c:if>
 	</ul>   

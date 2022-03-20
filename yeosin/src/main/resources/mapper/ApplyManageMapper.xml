@@ -683,15 +683,15 @@
 		FROM YS_EXAM
 		WHERE 1 = 1
 
-		<if test='yearCondition != null and !yearCondition.equals("전체")'>
+		<if test='yearCondition != null and !yearCondition.equals("전체") and !yearCondition.equals("")'>
 			AND EXAMYEAR = #{yearCondition, jdbcType=VARCHAR}
 		</if>
 		<if
-			test='examNameCondition != null and !examNameCondition.equals("전체")'>
+			test='examNameCondition != null and !examNameCondition.equals("전체") and !examNameCondition.equals("")'>
 			AND EXAMNAME = #{examNameCondition, jdbcType=VARCHAR}
 		</if>
 		<if
-			test='degreeCondition != null and !degreeCondition.equals("전체")'>
+			test='degreeCondition != null and !degreeCondition.equals("전체") and !degreeCondition.equals("")'>
 			AND EXAMDEGREE = #{degreeCondition, jdbcType=VARCHAR}
 		</if>
 	</select>

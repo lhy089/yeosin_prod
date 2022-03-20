@@ -130,14 +130,14 @@
   		<input type="hidden" name="fileName" id="fileName" value="">	
   		<input type="hidden" name="columns" id="columns" value="">	
   		<input type="hidden" name="data" id="data" value="">
-  		<input type="hidden" name="docName" id="docName" value="원서접수현황(고사장별)">	
+  		<input type="hidden" name="docName" id="docName" value="원서접수현황(고사장별) 리스트">	
   	</form>
 	<ul class="btn_wrap">
 		<li><a href="/manage_status_site" onclick="return doSeatConfirm()">좌석배치 확정</a></li>
     	<li><a href="/manage_status_doc">원서별 확인</a></li>
     	<li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
     </ul>
-    <table class="list" id="columnList">
+    <table class="list">
       <colgroup>
 <%--         <col width="4%">
         <col width="4%">
@@ -150,8 +150,8 @@
         <col width="10.5%">
         <col width="10.5%"> --%>
       </colgroup>
-      <tr class="column_thead">
-        <th class="first">선택</th>
+      <tr>
+        <th>선택</th>
         <th>번호</th>
         <th>시험회차</th>
         <th>시험명</th>
@@ -180,6 +180,39 @@
 	  </c:forEach>  
     </table>
 	<br>
+	<!-- 엑셀 다운로드용 영역 -->
+	<div style="display:none">
+	    <table class="list" id="columnList">
+	      <tr class="column_thead">
+	        <th class="first">선택</th>
+	        <th>번호</th>
+	        <th>시험회차</th>
+	        <th>시험명</th>
+	        <th>수험지역</th>
+	        <th>고사장</th>
+	        <th>총좌석수</th>
+	        <th>접수현황</th>
+	        <th>남은수량</th>
+	        <th>접수일시</th>
+	        <th>시험일</th>
+	      </tr>
+	      <c:forEach var="applyListByExamZoneAndExcel" items="${applyListByExamZoneAndExcel}" varStatus="status">   
+		      <tr class="center">
+		        <td class="flow flowNo"><input type="checkbox" name="examZoneCheck" value="${applyListByExamZoneAndExcel.examDto.examId}.${applyListByExamZoneAndExcel.examZoneId}"></td>
+		        <td class="flow flowNo">${status.count}</td>
+		        <td class="flow flowNo">${applyListByExamZoneAndExcel.examDto.examDegree}</td>
+		        <td class="flow flowArea">${applyListByExamZoneAndExcel.examDto.examName}</td>
+		        <td class="flow flowNo">${applyListByExamZoneAndExcel.local}</td>
+		        <td class="flow flowNo">${applyListByExamZoneAndExcel.examZoneName}</td>
+		        <td class="flow flowNo">${applyListByExamZoneAndExcel.examTotalUserCnt}</td>
+		        <td class="flow flowNo">${applyListByExamZoneAndExcel.receiptSeat}</td>
+		        <td class="flow flowNo">${applyListByExamZoneAndExcel.leftOverSeat}</td>
+		        <td class="flow flowNo">${applyListByExamZoneAndExcel.applyDto.receiptDate}</td>
+		        <td class="flow flowNo">${applyListByExamZoneAndExcel.examDto.examDate}</td>
+		      </tr>
+		  </c:forEach>  
+	    </table>	
+	</div>
 	<ul class="btn-group pagination">
 	 <c:if test="${pageMaker.prev}">
 	     <li>

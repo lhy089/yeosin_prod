@@ -183,7 +183,7 @@
         <input type="hidden" name="fileName" id="fileName" value="">   
         <input type="hidden" name="columns" id="columns" value="">   
         <input type="hidden" name="data" id="data" value="">
-        <input type="hidden" name="docName" id="docName" value="시험일정관리리스트">   
+        <input type="hidden" name="docName" id="docName" value="시험일정관리 리스트">   
      </form>
 
     <ul class="btn_wrap">
@@ -191,7 +191,7 @@
       	<!-- <li><a href="/manageRegister">등록하기</a></li> -->
       	<li><a href="/manageSchedule" onclick="return doScheduleDelete()">정보삭제</a></li>
     </ul>
-    <table class="mb100" id="columnList">
+    <table class="mb100">
       <colgroup>
         <col width="4%">
         <col width="4%">
@@ -201,8 +201,8 @@
         <col width="14%">
         <col width="14%">
       </colgroup>
-	  <tr class="column_thead">
-        <th class="first">선택</th>
+	  <tr>
+        <th>선택</th>
         <th>번호</th>
         <th>시험년도</th>
         <th>시험명</th>
@@ -227,6 +227,46 @@
        </c:forEach>
       </tr>
     </table>
+    <br>
+    <!-- 엑셀 다운로드 영역 -->
+    <div style="display:none">
+	    <table class="mb100" id="columnList">
+	      <colgroup>
+	        <col width="4%">
+	        <col width="4%">
+	        <col width="14%">
+	        <col width="*">
+	        <col width="14%">
+	        <col width="14%">
+	        <col width="14%">
+	      </colgroup>
+		  <tr class="column_thead">
+	        <th class="first">선택</th>
+	        <th>번호</th>
+	        <th>시험년도</th>
+	        <th>시험명</th>
+	        <th>시험차수</th>
+	        <th>시험일</th>
+	        <th>비고</th>
+	      </tr>
+	      <tr class="center">
+			<c:forEach var="examListByExcel" items="${examListByExcel}" varStatus="status">    
+	         <tr class="center">
+	           <td class="flow flowNo"><input type="checkbox" name="examCheck" value="${examListByExcel.examId}"></td>
+	           <td class="flow flowNo">${status.count}</td>
+	           <td class="flow flowNo">${examListByExcel.examYear}</td>
+	           <td class="flow flowNo">${examListByExcel.examName}</td>
+	           <td class="flow flowNo">${examListByExcel.examDegree}</td>
+	           <td class="flow flowNo">${examListByExcel.examDate}</td>
+	           <c:set var="examYear" value="${examListByExcel.examYear}"/>
+	           <c:set var="examDegree" value="${examListByExcel.examDegree}"/>
+	           <c:set var="hyphen" value="-"/>
+	           <td><a href="/manage_status_doc?examDegreeCondition=${examListByExcel.examYear}-${examListByExcel.examDegree}" class="btn_more">자세히 보기</a></td>
+	         </tr>
+	       </c:forEach>
+	      </tr>
+	    </table>
+    </div>
     <br>
 	<ul class="btn-group pagination">
 	 <c:if test="${pageMaker.prev}">
