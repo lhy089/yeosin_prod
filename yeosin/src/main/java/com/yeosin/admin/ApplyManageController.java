@@ -318,6 +318,19 @@ public class ApplyManageController {
 			else 
 			{
 				isSaveUpdateSuccess = applyManageService.setExamZoneModify(requestMap);
+				
+				String openExamId = applyManageService.getOpenReceiptExamId();
+	            
+	            if (openExamId != null && !openExamId.isEmpty())
+	            {
+	               Map<String, Object> updateMap = new HashMap<String, Object>();
+	               updateMap.put("examZoneId", requestMap.get("examZoneId"));
+	               updateMap.put("examId", openExamId);
+	               updateMap.put("examRoomCnt", requestMap.get("examRoomCnt"));
+	               updateMap.put("examRoomUserCnt", requestMap.get("examRoomUserCnt"));
+	               
+	               applyManageService.modifyExamAndExamZoneRel(updateMap);
+	            }
 			}
 			
 			if (isSaveUpdateSuccess == 1) isSuccess = true;
@@ -647,14 +660,21 @@ public class ApplyManageController {
                Map<String, Object> parameterMap = new HashMap<String, Object>();
                parameterMap.put("subjectId", request.getParameterValues("subjectId"));
                parameterMap.put("examId", newExamId);
-               
-               Map<String, Object> map = new HashMap<String, Object>();
-               map.put("examZoneId",  request.getParameterValues("examZoneId"));
-               map.put("examId", newExamId);
             
                applyManageService.registerExam(examDto);
                applyManageService.registerExamAndSubjectRel(parameterMap);
-               applyManageService.registerExamAndExamZoneRel(map);   
+               
+               for (int i =0; i < request.getParameterValues("examZoneId").length; i++ )
+               {
+                  Map<String, Object> insertRelMap = new HashMap<String, Object>();
+                  insertRelMap.put("examId", newExamId);
+                  insertRelMap.put("examZoneId", request.getParameterValues("examZoneId")[i]);
+                  insertRelMap.put("examRoomCnt", request.getParameterValues("examRoomCntList")[0].split("/")[i]);
+                  insertRelMap.put("examRoomUserCnt", request.getParameterValues("examRoomUserCntList")[0].split("/")[i]);
+                  
+                   applyManageService.registerExamAndExamZoneRel(insertRelMap);           
+               }   
+               
                alertResult = true;
                alertError = false;
             }
@@ -709,7 +729,18 @@ public class ApplyManageController {
 
                applyManageService.modifyExam(examDto);
                applyManageService.deleteExamAndExamZoneRel(parameterMap);
-               applyManageService.registerExamAndExamZoneRel(parameterMap);
+               
+               for (int i =0; i < request.getParameterValues("examZoneId").length; i++ )
+               {
+                  Map<String, Object> insertRelMap = new HashMap<String, Object>();
+                  insertRelMap.put("examId", request.getParameter("examId"));
+                  insertRelMap.put("examZoneId", request.getParameterValues("examZoneId")[i]);
+                  insertRelMap.put("examRoomCnt", request.getParameterValues("examRoomCntList")[0].split("/")[i]);
+                  insertRelMap.put("examRoomUserCnt", request.getParameterValues("examRoomUserCntList")[0].split("/")[i]);
+                  
+                   applyManageService.registerExamAndExamZoneRel(insertRelMap);           
+               }
+               
                applyManageService.deleteExamAndSubjectRel(parameterMap);
                applyManageService.registerExamAndSubjectRel(parameterMap);
                

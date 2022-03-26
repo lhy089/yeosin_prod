@@ -54,6 +54,25 @@ $(document).ready(function() {
 			   var gradeStartDate = $("#gradeStartDate").val();
 			   var examCost = $("#examCost").val();
 			   var examZoneId = $("input[name=examZoneId]:checked");
+			   var examRoomCntList ="";
+	            var examRoomUserCntList ="";
+	            
+	            examZoneId.each(function(i){
+	               
+	               var tr = examZoneId.parent().parent().eq(i);
+	               var td = tr.children();
+	               
+	               var examRoomCnt = td.eq(2).text();
+	               var examRoomUserCnt = td.eq(3).text();
+	               
+	               examRoomCntList += examRoomCnt +"/";
+	               examRoomUserCntList += examRoomUserCnt +"/";
+	               
+	            });
+	            
+	            examRoomCntList = examRoomCntList.substring(0, examRoomCntList.length-1);
+	            examRoomUserCntList = examRoomUserCntList.substring(0, examRoomUserCntList.length-1);
+
 			   
 			   if(examYear == "20"){
 				   alert("시험연도를 입력해주세요,"); return;
@@ -88,7 +107,9 @@ $(document).ready(function() {
 			   $("#gradeStartDate").val(gradeStartDate);
 			   $("#examCost").val(examCost);
 			   $("#examZoneId").val(examZoneId);
-		      $("#commonform").submit(); 
+			   $("#examRoomCntList").val(examRoomCntList);
+	           $("#examRoomUserCntList").val(examRoomUserCntList);
+		       $("#commonform").submit(); 
 		  }
 	   });
 });
@@ -331,6 +352,8 @@ $(document).ready(function() {
     </table>
     <!-- <a href="#" class="btn_plus">추가</a> -->
     <input type="hidden" id="examId" name="examId" value="${examDto.examId}">
+    <input type="hidden" id="examRoomCntList" name="examRoomCntList" value="">
+    <input type="hidden" id="examRoomUserCntList" name="examRoomUserCntList" value="">
     
     <c:choose>
 		<c:when test="${examDto.examId eq null}">

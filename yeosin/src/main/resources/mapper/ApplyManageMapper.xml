@@ -176,7 +176,7 @@
 			,	EZ.LOCAL																							-- 수험지역
 			,	EZ.EXAMZONEID 																						-- 고사장 ID
 			,	EZ.EXAMZONENAME 																					-- 고사장명
-			, 	EZ.EXAMROOMCNT * EZ.EXAMROOMUSERCNT  										AS	TOTALUSERCNT		-- 총좌석수
+			, 	EZR.EXAMROOMCNT * EZR.EXAMROOMUSERCNT  										AS	TOTALUSERCNT		-- 총좌석수			
 			,	RT.RECEIPTCOUNT 															AS 	RECEIPTSEAT			-- 접수현황
 			,	(EZ.EXAMROOMCNT * EZ.EXAMROOMUSERCNT) - RT.RECEIPTCOUNT 					AS 	LEFTOVERSEAT		-- 남은수량
 			,	CONCAT(DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d'), 
@@ -749,12 +749,10 @@
 	
 	<!-- 시험일정등록(EXAMANDEXAMZONEREL 테이블) -->
 	<insert id="registerExamAndExamZoneRel" parameterType="map">
-	INSERT INTO YS_EXAMANDEXAMZONEREL
-	(EXAMZONEID, EXAMID)
-	VALUES
-	<foreach collection="examZoneId" item="item" index="i" separator="," >
-			(#{item}, #{examId})		
-	</foreach>
+		INSERT INTO YS_EXAMANDEXAMZONEREL
+		(EXAMZONEID, EXAMID, EXAMROOMCNT, EXAMROOMUSERCNT)
+		VALUES
+		(#{examZoneId}, #{examId}, #{examRoomCnt}, #{examRoomUserCnt})
 	</insert>
 
 	<!-- 조회조건 시험차수 리스트 -->
@@ -873,5 +871,26 @@
    <delete id="deleteExamAndSubjectRel" parameterType="String">
       DELETE FROM YS_EXAMANDSUBJECTREL WHERE EXAMID = #{examId, jdbcType=VARCHAR};
    </delete>
+   
+   <!-- 현재 접수 진행 중인 시험 id 찾기 -->
+   <select id="getOpenReceiptExamId" resultType="String">
+      <![CDATA[
+      SELECT 
+         EXAMID
+      FROM    YS_EXAM 
+      WHERE    RECEIPTSTARTDATE <= SYSDATE() 
+      AND    SYSDATE() <= RECEIPTENDDATE   
+      LIMIT 1;
+   ]]>
+   </select>
+   
+   <!-- 시험 ID에 대한 수정 -->
+      <update id="modifyExamAndExamZoneRel" parameterType="map">
+      UPDATE    YS_EXAMANDEXAMZONEREL
+      SET    EXAMROOMCNT = #{examRoomCnt}
+         ,    EXAMROOMUSERCNT = #{examRoomUserCnt}
+      WHERE    EXAMZONEID  = #{examZoneId}
+      AND    EXAMID =  #{examId}
+   </update>
 	
 </mapper>

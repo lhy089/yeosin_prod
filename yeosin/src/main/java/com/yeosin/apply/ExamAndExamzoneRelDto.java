@@ -9,6 +9,8 @@ public class ExamAndExamzoneRelDto {
 	private String examzoneId; // 고사장 ID
 	private String examId; // 시험코드
 	private ExamZoneDto examZoneDto; // 시험Zone DTO
+	private Integer examRoomCnt;      //시험교실 수
+	private Integer examRoomUserCnt;   //교실당 인원 수
 	   
 	public String getKeyId() {
 		return keyId;
@@ -33,5 +35,21 @@ public class ExamAndExamzoneRelDto {
 	}
 	public void setExamZoneDto(ExamZoneDto examZoneDto) {
 		this.examZoneDto = examZoneDto;
+	}	
+
+	public Integer getExamRoomCnt() {
+		return examRoomCnt;
+	}
+
+	public void setExamRoomCnt(Integer examRoomCnt) {
+		this.examRoomCnt = examRoomCnt;
+	}
+
+	public Integer getExamRoomUserCnt() {
+		return examRoomUserCnt;
+	}
+
+	public void setExamRoomUserCnt(Integer examRoomUserCnt) {
+		this.examRoomUserCnt = examRoomUserCnt;
 	}
 }

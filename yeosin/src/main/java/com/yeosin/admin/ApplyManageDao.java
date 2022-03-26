@@ -251,4 +251,14 @@ public class ApplyManageDao {
 	public int deleteExamAndSubjectRel(Map<String, Object> map) throws Exception{
 		return sqlSession.insert(nameSpace + "deleteExamAndSubjectRel", map);
 	}
+	
+	// 현재 접수 진행 중인 시험 id 찾기
+	public String getOpenReceiptExamId() throws Exception {
+		return sqlSession.selectOne(nameSpace + "getOpenReceiptExamId");
+	}
+
+	// 고사장 수정 후 ExamAndExamZoneRel update
+	public int modifyExamAndExamZoneRel(Map<String, Object> map) throws Exception {
+		return sqlSession.update(nameSpace + "modifyExamAndExamZoneRel", map);
+	}
 }

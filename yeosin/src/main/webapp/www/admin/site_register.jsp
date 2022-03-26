@@ -29,19 +29,17 @@
 	<script>
 	$(document).ready(function(){ 
 		
-		var examZoneId = $("#examZoneId").val() 
+		var examZoneId = $("#examZoneId").val();
 		
 		if (examZoneId == null || examZoneId == "null" || examZoneId == "")
 		{
-			$("#screenTitle").append("고사장 등록")
+			$("#screenTitle").append("고사장 등록");
 		}
 		else 
 		{
-			$("#screenTitle").append("고사장 수정")
+			$("#screenTitle").append("고사장 수정");
 		}
-		$("#screenTitle").append()
-
-	});
+		$("#screenTitle").append();
 	</script>
 </head>
 
@@ -102,7 +100,7 @@
       </tr>
       <tr>
 		<th>약도 등록</th>
-        <td>
+         <td>
         	<button style="width:100px; height:40px; font-size:15px;" type="button" onclick="doDeleteMapFile()">삭제</button>
         	<button style="width:100px; height:40px; font-size:15px;" type="button" onclick="doAddMapFile()">추가</button>
         	<input type="text" readonly="readonly" name="mapFileName" id="mapFileName" value="${examZone.examZoneMap}">
