@@ -1,6 +1,9 @@
 package com.yeosin.admin;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.yeosin.apply.ApplyDto;
-import com.yeosin.apply.GradeDto;
-import com.yeosin.board.PageMaker;
 import com.yeosin.user.EduCompletionDto;
 import com.yeosin.user.EduCompletionHisDto;
 import com.yeosin.user.UserDto;
@@ -97,6 +98,112 @@ public class UserManageController {
 
 		return mav;
 	}
+	
+	//회원수정화면
+	@RequestMapping(value="/member_modify", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView member_modify(UserDto userDto, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception 
+	{		
+		response.setCharacterEncoding("UTF-8");
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		ModelAndView mav = new ModelAndView();
+
+		if (userInfo == null) 
+		{
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		} 
+		else if (!"S".equals(userInfo.getUserStatus())) 
+		{
+		    mav.addObject("isAlertNoAuth", true);
+		    mav.setViewName("main");      
+		}
+		else 
+		{
+			userDto =  userManageService.getUserInfoByUserId(request.getParameter("memberCheck"));
+			 
+			Calendar cal = Calendar.getInstance();
+			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+			cal.setTime(df.parse(userDto.getLastConnectDate()));
+		
+			if(userDto.getUserStatus().equals("C"))
+			{
+				cal.add(Calendar.YEAR, 1);
+				userDto.setDormantAccountDate(df.format(cal.getTime()));
+			}
+			else if(userDto.getUserStatus().equals("D"))
+			{
+				cal.add(Calendar.YEAR, 3);
+				userDto.setDormantAccountDate(df.format(cal.getTime()));
+			}
+			else
+			{
+				userDto.setDormantAccountDate("");
+			}
+			
+			mav.addObject("userDto", userDto);
+			mav.setViewName("admin/member_modify");
+		}
+
+		return mav;
+	}
+	
+	//회원수정하기
+	@RequestMapping(value="/member_modify_action", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView member_modify_action(UserDto userDto, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception 
+	{		
+		response.setCharacterEncoding("UTF-8");
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		ModelAndView mav = new ModelAndView();
+
+		if (userInfo == null) 
+		{
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		} 
+		else if (!"S".equals(userInfo.getUserStatus())) 
+		{
+		    mav.addObject("isAlertNoAuth", true);
+		    mav.setViewName("main");      
+		}
+		else 
+		{
+			if(userDto.getIsReceiveEmail()==null) userDto.setIsReceiveEmail("N");
+			if(userDto.getIsReceiveSms()==null) userDto.setIsReceiveSms("N");	
+			if(userDto.getPassword()!=null && !"".equals(userDto.getPassword())) userDto.setPassword(EncryptUtils.getSha256(userDto.getPassword()));
+			// 사용자 정보 조회
+			int cnt = userService.updateUserInfo(userDto);
+			
+			String pageInit = request.getParameter("onePageDataCountCondition")==null ? "200" : request.getParameter("onePageDataCountCondition");
+			userDto.setPerPageNum(Integer.parseInt(pageInit));
+			
+			UserPageMaker pageMaker = new UserPageMaker();
+			pageMaker.setUserDto(userDto);
+			pageMaker.setTotalCount(userManageService.countUserListTotal(userDto));
+			
+			List<UserDto> userList = userManageService.getUserInfo(userDto);
+			
+			for(int i = 0; i < userList.size(); i++)
+			{
+				UserDto tempUserDto = userList.get(i);
+				if("휴면".equals(tempUserDto.getUserStatus()))
+				{
+					tempUserDto.setJoinDate(tempUserDto.getJoinDate() + " (" + tempUserDto.getDormantAccountDate() + ")");
+				}
+			}
+			
+			mav.addObject("pageMaker", pageMaker);
+			mav.addObject("userDto", userDto);
+			mav.addObject("userList", userList);
+			mav.addObject("isAlert",false);
+			mav.addObject("pageCondition", pageInit);
+			mav.setViewName("admin/member_info");
+		}
+
+		return mav;
+	}
+	
 	
 	@RequestMapping(value="/manageHome", method=RequestMethod.GET)
 	@ResponseBody

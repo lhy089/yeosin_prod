@@ -113,4 +113,22 @@
 		FROM YS_EDUCOMPLETIONHIS
 		ORDER BY APISYNCDATE DESC
 	</select> 
+	
+	<select id="getUserInfoByUserId" parameterType="String" resultType="com.yeosin.user.UserDto">
+		SELECT 
+				USERID
+			,  	USERNAME
+			,	BIRTHDATE 
+			,	CALLNUMBER 
+			,	PHONENUMBER 
+			,	EMAILADDRESS 
+			,	JOINDATE 
+			, 	GENDER
+			,	LASTCONNECTDATE 
+			,	ISRECEIVEEMAIL 
+			,	ISRECEIVESMS
+			, 	USERSTATUS
+		FROM YS_USER Y
+		WHERE Y.USERID = #{userId}; 
+	</select>
 </mapper>

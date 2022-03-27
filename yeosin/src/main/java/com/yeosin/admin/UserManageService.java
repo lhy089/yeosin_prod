@@ -56,6 +56,11 @@ public class UserManageService {
 		return userManageDao.getEduCompletionHisList();
 	}
 	
+	//관리자 회원 수정
+	public UserDto getUserInfoByUserId(String userId) throws Exception{
+		return userManageDao.getUserInfoByUserId(userId);
+	}
+	
 	//TODO :: 함수 위치 변경, 로직 나누기
 	public String xlsxExcelReader(MultipartFile file, String examId) throws Exception{
 		// 반환할 객체를 생성
@@ -344,6 +349,8 @@ public class UserManageService {
 		}
 		return result;
 	}
+	
+	
 
 }
 

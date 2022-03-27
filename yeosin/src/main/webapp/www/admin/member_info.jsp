@@ -22,7 +22,6 @@
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
   <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
   <link rel="stylesheet" href="/www/inc/css/admin.css">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -30,7 +29,7 @@
    if(${isAlert}) { 
 	      alert("로그인 후 이용 가능합니다.");
 	}
-   
+      
    $(document).ready(function() {
 	   $("li[value='${pageMaker.userDto.page}']").attr("class","on");
 		
@@ -48,6 +47,19 @@
 		
 		$("#excelDownload").click(function(){
 	 		saveExcel();
+		});
+		
+		$("#btn_detail").click(function(){
+			  $("#searchWord").val($("#searchWord").val());
+			   $("#isCheckGeneralGrade").val($("#isCheckGeneralGrade").val());
+			   $("#isCheckManagerGrade").val($("#isCheckManagerGrade").val());	   
+			   $("#isCheckAssistantGrade").val($("#isCheckAssistantGrade").val());
+			   $("#isCheckMemberGrade").val($("#isCheckMemberGrade").val());
+			   $('input[name=searchEmailType]').val($('input[name=searchEmailType]:checked').val());
+			   $('input[name=searchSMSType]').val($('input[name=searchSMSType]:checked').val());
+			   $("#onePageDataCountCondition").val($("#onePageDataCountCondition").val());
+			   $('input[name=memberCheck]').val($('input[name=memberCheck]:checked').val());
+			   $("#modifyForm").submit(); 
 		});
 		
 // 		$("#loginForce").click(function(){
@@ -139,21 +151,12 @@
       <tr>
         <th>검색어</th>
         <td><input type="text" id="searchWord"  name="searchWord" value="${userDto.searchWord}"></td>
-        <th>목록건수</th>
-           <td>
-			<select id="onePageDataCountCondition" name="onePageDataCountCondition" class="count">
-	            <c:forEach var="i" begin="50" end="300" step="50">
-	            <c:choose>
-	            <c:when test="${i eq pageCondition}">
-	               <option value="${i}" selected>${i}</option>
-	            </c:when>
-	            <c:otherwise>
-	               <option value="${i}">${i}</option>
-	            </c:otherwise>
-	            </c:choose>
-	            </c:forEach>
-            </select>
-          </td>
+        <th>회원구분</th>
+        <td>
+          <label class="type"><input type="checkbox" name="check" value=""> 일반회원</label>
+          <label class="type"><input type="checkbox" name="check" value=""> 관리자</label>
+          <label class="type"><input type="checkbox" name="check" value=""> 부관리자</label>
+        </td>
       </tr>
       <tr>
         <th>이메일 수신 여부</th>
@@ -169,6 +172,24 @@
           <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${userDto.searchSMSType eq 'N'}">checked="checked"</c:if> value="N"> 수신거부</label>
         </td>
       </tr>
+       <tr>
+       <th>목록건수</th>
+           <td>
+			<select id="onePageDataCountCondition" name="onePageDataCountCondition" class="count">
+	            <c:forEach var="i" begin="50" end="300" step="50">
+	            <c:choose>
+	            <c:when test="${i eq pageCondition}">
+	               <option value="${i}" selected>${i}</option>
+	            </c:when>
+	            <c:otherwise>
+	               <option value="${i}">${i}</option>
+	            </c:otherwise>
+	            </c:choose>
+	            </c:forEach>
+            </select>
+          </td>
+          <td colspan="2"></td>
+      </tr>
     </table>
     <a onclick="return false;" id="btn_search" class="btn_apply mb100">조회</a>
 	</form>
@@ -179,30 +200,31 @@
   		<input type="hidden" name="data" id="data" value="">	
   	</form>
     <ul class="btn_wrap">
-<!--       <li><a href="#">수정</a></li> -->
+ 	  <li><a onclick="return false;" id="btn_detail">자세히보기</a></li>
       <li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
-<!--       <li><a href="#">회원등급</a></li> -->
-<!--       <li><a href="#">정보삭제</a></li> -->
+ <!-- <li><a href="#">회원등급</a></li>
+      <li><a href="#">정보삭제</a></li> -->
     </ul>
+    <form  id="modifyForm" name="modifyForm" method="get"  action="/member_modify">
     <table class="memberList" id="columnList">
       <colgroup>
         <col width="4%">
-<!--         <col width="4%"> -->
-        <col width="5%">
+        <col width="4%">
+        <col width="6.5%">
         <col width="7%">
         <col width="11%">
-        <col width="5%">
-        <col width="13%">
+        <col width="4%">
+        <col width="8.5%">
+        <col width="8.5%">
         <col width="11%">
         <col width="11%">
-        <col width="11%">
-        <col width="auto">
-        <col width="12%">
+        <col width="14%">
+        <col width="8.5%">
       </colgroup>
       <tr class="column_thead">
         <th class="first">선택</th>
         <th>번호</th>
-<!--         <th>등급</th> -->
+		<th>상태</th>
         <th>이름</th>
         <th>아이디</th>
         <th>성별</th>
@@ -211,14 +233,14 @@
         <th>연락처</th>
         <th>휴대전화</th>
         <th>이메일</th>
-        <th>회원상태</th>
         <th>상태</th>
       </tr>
       <c:forEach var="user" items="${userList}" varStatus="status">
 	      <tr class="center">
-	        <td><input type="checkbox" name="memberCheck" value=""></td>
+	        <!-- <td><input type="checkbox" name="memberCheck" value=""></td> -->
+      		<td><input type="radio" name="memberCheck" value="${user.userId}"></td>
 	        <td>${status.count}</td>
-<%-- 	        <td>${user.grade} </td> --%>
+			<td>${user.userStatus}</td>
 	        <td class="flow flowName"><p>${user.userName}</p></td>
 	        <td class="flow flowId" ><p>${user.userId}</p></td>
 	        <td>${user.gender}</td>
@@ -227,11 +249,11 @@
 	        <td>${user.callNumber}</td>
 	        <td>${user.phoneNumber}</td>
 	        <td class="flow flowEmail"><p>${user.emailAddress}</p></td>
-	        <td>${user.userStatus}</td>
 	        <td><a onclick="loginForce('${user.userId}','${user.userName}')" id="loginForce" href="#" class="btn_more">접속</a></td>
 	      </tr>
 	  </c:forEach>
     </table>
+    </form>
     <ul class="btn-group pagination">
   	<c:if test="${pageMaker.prev }">
    		<li>

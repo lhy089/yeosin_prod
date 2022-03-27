@@ -39,5 +39,9 @@ public class UserManageDao {
 	public List<EduCompletionHisDto> getEduCompletionHisList() throws Exception {
 		return sqlSession.selectList(namespace + "getEduCompletionHisList");
 	}
+	
+	public UserDto getUserInfoByUserId(String userId) throws Exception{
+		return sqlSession.selectOne(namespace + "getUserInfoByUserId", userId);
+	}
 }
 	

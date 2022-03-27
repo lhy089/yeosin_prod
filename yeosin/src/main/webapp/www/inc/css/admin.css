@@ -68,6 +68,17 @@ table select.count{width:250px; height:45px; border:1px solid #c7c6c6; font-fami
 .member.info .memberList td.flowName p,.member.info .memberList td.flowId p,.member.info .memberList td.flowEmail p{width:100%; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical;}
 .member.info .memberList td .btn_more{width:65px; height:35px; line-height:35px; display:inline-block; border:1px solid #c7c6c6; border-radius:5px; box-sizing:border-box; background:#f8f8f8; font-size:21px; color:#000; letter-spacing:-0.5px; text-align:center; transition:0.6s;}
 .member.info .memberList td .btn_more:hover{background:#c7c6c6;}
+.member.info table.modify th,.member.info table.modify td{padding:15px 0; box-sizing:border-box;}
+.member.info table.modify td{padding-left:12px;}
+.member.info table.modify td input{height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:9px; font-family:sandoll-gothicneo3, sans-serif; font-size:20px; color:#58585b; letter-spacing:-0.5px; text-indent:12px;}
+.member.info table.modify td p{margin:10px 0; line-height:1.2;}
+.member.info table.modify td p strong{color:#ff334c;}
+.member.info table.modify td a{padding:0 13px; display:inline-block; border:1px solid #c7c6c6; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; line-height:48px; color:#58585b; background:#f8f8f8; border-radius:5px; vertical-align:middle; margin-left:14px; transition:0.6s;}
+.member.info table.modify td a:hover{background:#c7c6c6;}
+.member.info table.modify td select{width:206px; height:50px; border:1px solid #c7c6c6; box-sizing:border-box; margin-right:9px; font-family:sandoll-gothicneo3, sans-serif; font-size:20px; color:#58585b; letter-spacing:-0.5px; text-indent:12px;}
+.member.info table.modify td input[type="tel"]{width:206px;}
+.member.info table.modify td input[type="checkbox"]{width:20px; height:20px; margin-top:0;}
+.member.info table.modify td input[type="email"]{width:420px;}
 .member.course{}
 .member.course table{margin-bottom:60px;}
 .member.course .inputTable{margin-bottom:15px;}
