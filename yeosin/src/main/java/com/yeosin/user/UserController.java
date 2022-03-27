@@ -478,6 +478,7 @@ public class UserController {
 		public void dormantAccountProcessing() throws Exception {
 			
 			userService.dormantAccountProcessing();
+			userService.secessionDateProcessing();
 		}
 
 		// 수료번호 api 호출

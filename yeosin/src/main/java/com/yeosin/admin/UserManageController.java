@@ -122,19 +122,17 @@ public class UserManageController {
 		{
 			userDto =  userManageService.getUserInfoByUserId(request.getParameter("memberCheck"));
 			 
-			Calendar cal = Calendar.getInstance();
-			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-			cal.setTime(df.parse(userDto.getLastConnectDate()));
-		
 			if(userDto.getUserStatus().equals("C"))
 			{
+				Calendar cal = Calendar.getInstance();
+				DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+				cal.setTime(df.parse(userDto.getLastConnectDate()));
 				cal.add(Calendar.YEAR, 1);
 				userDto.setDormantAccountDate(df.format(cal.getTime()));
 			}
 			else if(userDto.getUserStatus().equals("D"))
 			{
-				cal.add(Calendar.YEAR, 3);
-				userDto.setDormantAccountDate(df.format(cal.getTime()));
+				userDto.setDormantAccountDate(userDto.getSecessionDate());
 			}
 			else
 			{

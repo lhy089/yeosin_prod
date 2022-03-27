@@ -97,4 +97,9 @@ public class UserService {
 	public int dormantAccountProcessing() throws Exception{
 		return userDao.dormantAccountProcessing();
 	}
+	
+	//탈퇴처리
+	public int secessionDateProcessing() throws Exception{
+		return userDao.secessionDateProcessing();
+	}
 }

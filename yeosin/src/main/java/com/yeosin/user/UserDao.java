@@ -63,4 +63,8 @@ public class UserDao {
 	public int dormantAccountProcessing() {
 		return this.sqlSession.update(namespace + "dormantAccountProcessing");
 	}
+	
+	public int secessionDateProcessing() {
+		return this.sqlSession.update(namespace + "secessionDateProcessing");
+	}
 }

@@ -123,7 +123,8 @@
 	<update id="withdrawUser" parameterType="string">
 		UPDATE YS_USER
 		<set>
-			USERSTATUS = 'D'
+			USERSTATUS = 'D',
+			SECESSIONDATE = NOW()
 		</set>
 		WHERE USERID = #{userId}
 	</update>
@@ -199,9 +200,16 @@
    
    <update id='dormantAccountProcessing'>
 	  UPDATE YS_USER 
-	  SET USERSTATUS = 'C' ,
-	  DORMANTACCOUNTDATE = NOW()
+	  SET USERSTATUS = 'C' 
 	  WHERE DATE_SUB(NOW() , INTERVAL 1 YEAR) > LASTCONNECTDATE 
 	  AND USERSTATUS = 'U';
+   </update>
+   
+   <update id='secessionDateProcessing'>
+	  UPDATE YS_USER 
+	  SET USERSTATUS = 'D' ,
+	  SECESSIONDATE = NOW()
+	  WHERE DATE_SUB(NOW() , INTERVAL 3 YEAR) > LASTCONNECTDATE 
+	  AND (USERSTATUS = 'U' OR USERSTATUS = 'C');
    </update>
 </mapper>
