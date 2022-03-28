@@ -26,13 +26,11 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
  <script> 
- window.onpageshow = function(event) {
-	 if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
-	 // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
-	 location.reload();
-	         }
-	 }
- 
+ $(window).bind("pageshow", function(event) {
+	    if ( event.originalEvent && event.originalEvent.persisted) {// BFCahe
+	        window.location.reload();
+	    }
+	}); 
  
    if(${isAlert}) { 
 	      alert("로그인 후 이용 가능합니다.");
@@ -58,6 +56,14 @@
 		});
 		
 		$("#btn_detail").click(function(){
+				
+			if($('input:radio[name=memberCheck]').is(':checked') == false)
+			{
+				alert('선택된 회원이 없습니다.');
+				return;
+			}
+			
+			
 			  $("#searchWord").val($("#searchWord").val());
 			   $("#isCheckGeneralGrade").val($("#isCheckGeneralGrade").val());
 			   $("#isCheckManagerGrade").val($("#isCheckManagerGrade").val());	   
