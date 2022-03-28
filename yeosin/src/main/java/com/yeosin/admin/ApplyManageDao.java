@@ -261,4 +261,24 @@ public class ApplyManageDao {
 	public int modifyExamAndExamZoneRel(Map<String, Object> map) throws Exception {
 		return sqlSession.update(nameSpace + "modifyExamAndExamZoneRel", map);
 	}
+	
+	// 고사장 파일등록여부 체크
+	public FileDto getExamZoneFileInfo(String fileId) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getExamZoneFileInfo", fileId);
+	}
+	
+	// 고사장 약도등록
+	public int saveExamZoneMapFileInfo(FileDto fileDto) throws Exception {
+		return sqlSession.insert(nameSpace + "saveExamZoneMapFileInfo", fileDto);
+	}
+	
+	// 고사장 약도수정
+	public int updateExamZoneMapFileInfo(FileDto fileDto) throws Exception {
+		return sqlSession.update(nameSpace + "updateExamZoneMapFileInfo", fileDto);
+	}
+	
+	// 고사장 약도삭제
+	public int deleteExamZoneMapFileInfo(String fileId) throws Exception {
+		return sqlSession.delete(nameSpace + "deleteExamZoneMapFileInfo", fileId);
+	}
 }

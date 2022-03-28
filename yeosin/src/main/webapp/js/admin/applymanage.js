@@ -67,10 +67,6 @@ function doExamZoneSave()
    	var examRoomCnt = $("#examRoomCnt").val();
    	var examRoomUserCnt = $("#examRoomUserCnt").val();
    	var address = $("#address").val();
-   	var mapFileName = $("#mapFileName").val();
-   	var mapFileFullName = $("#mapFileFullName").val();
-   	var mapFileDialog = $("#mapFileDialog").val();   
-   	var actionCode = "Save";
    	var isSuccess = false;
    	   
    	if (examZoneId == null || examZoneId == "null" || examZoneId == "") actionCode = "Save";   
@@ -109,23 +105,17 @@ function doExamZoneSave()
    
    	if (confirm("해당 내용으로 저장하시겠습니까?")) 
    	{            
+		var form = $("#examZoneSaveForm")[0];
+		var formData = new FormData(form);
       	$.ajax({
+			type: "post",
+           	enctype: 'multipart/form-data', 
          	url: "/ExamZoneSaveByAjax",
-           	type: "POST",
+         	data: formData,
+         	dataType: 'json',
+        	processData : false, 
+           	contentType : false,
            	async: false,
-         	data: {
-               		examZoneId : examZoneId,
-               		local : local,
-               		localDetail : localDetail,
-               		examZoneName : examZoneName,
-               		examRoomCnt : examRoomCnt,
-               		examRoomUserCnt : examRoomUserCnt,
-               		address : address,
-               		mapFileName : mapFileName,
-               		mapFileFullName : mapFileFullName,
-               		actionCode : actionCode,
-               		mapFileDialog : mapFileDialog
-              	  },
 			success: function(data) 
          	{
 				console.log("AJAX Request 성공");
@@ -205,12 +195,11 @@ function doExamZoneDelete()
 // 고사장 약도등록(site_register.jsp)
 function doAddMapFile()
 {
-	$('#mapFileDialog').click();
+	$('#file').click();
 	
-	$("#mapFileDialog").change(function(e){
+	$("#file").change(function(e){
 
-		$('#mapFileName').val($('input[id=mapFileDialog]')[0].files[0].name);
-		$('#mapFileFullName').val($('input[id=mapFileDialog]')[0].files[0]);
+		$('#inputFileName').val($('input[id=file]')[0].files[0].name);
 
     });
 }
@@ -218,9 +207,14 @@ function doAddMapFile()
 // 고사장 약도삭제(site_register.jsp)
 function doDeleteMapFile()
 {
-	$('#mapFileDialog').val(null);
-	$('#mapFileName').val(null);
-	$('#mapFileFullName').val(null);
+	$('#inputFileName').val(null);
+	$('#file').val(null);
+}
+
+// 고사장 약도다운로드(site_register.jsp)
+function doDownloadMapFile()
+{
+	location.href = "/examZoneMapDownload";
 }
 
 // 시험 삭제함수(manage_schedule.jsp)

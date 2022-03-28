@@ -40,6 +40,7 @@
 			$("#screenTitle").append("고사장 수정");
 		}
 		$("#screenTitle").append();
+	});
 	</script>
 </head>
 
@@ -50,10 +51,11 @@
 <!-- lnb 붙여주세요. (/common/admin_lnb.html) -->
 <%@ include file="/www/common/admin_lnb.jsp"%>
 
+<form id="examZoneSaveForm" name="examZoneSaveForm" method="post" enctype="multipart/form-data">
 <div class="site register">
   <div class="contentBoxAd">
     <h1 class="title">고사장설정</h1>
-   	<input type="hidden" id="examZoneId" value="<%=request.getParameter("examZoneId")%>" />
+   	<input type="hidden" name="examZoneId" id="examZoneId" value="<%=request.getParameter("examZoneId")%>" />
     <h2 id="screenTitle">
   		<!-- 고사장 등록 or 고사장 수정 -->
 	</h2>
@@ -63,56 +65,76 @@
         <col width="75%">
       </colgroup>
       <tr>
-<!--         <th>지역</th>
-        <td>
-          <select id="" name="">
-            <option value=""></option>
-          </select>
-        </td> -->
         <th>지역</th>
-        <td><input type="text" name="" id="local" value="${examZone.local}"></td>
+        <td><input type="text" name="local" id="local" value="${examZone.local}"></td>
       </tr>
       <tr>
-<!--         <th>구</th>
-        <td>
-          <select id="" name="">
-            <option value=""></option>
-          </select>
-        </td> -->
         <th>구</th>
-        <td><input type="text" name="" id="localDetail" value="${examZone.localDetail}"></td>
+        <td><input type="text" name="localDetail" id="localDetail" value="${examZone.localDetail}"></td>
       </tr>
       <tr>
         <th>고사장명</th>
-        <td><input type="text" name="" id="examZoneName" value="${examZone.examZoneName}"></td>
+        <td><input type="text" name="examZoneName" id="examZoneName" value="${examZone.examZoneName}"></td>
       </tr>
       <tr>
         <th>시험 교실 수</th>
-        <td><input type="number" name="" id="examRoomCnt" value="${examZone.examRoomCnt}"></td>
+        <td><input type="number" name="examRoomCnt" id="examRoomCnt" value="${examZone.examRoomCnt}"></td>
       </tr>
       <tr>
         <th>교실당 인원 수</th>
-        <td><input type="number" name="" id="examRoomUserCnt" value="${examZone.examRoomUserCnt}"></td>
+        <td><input type="number" name="examRoomUserCnt" id="examRoomUserCnt" value="${examZone.examRoomUserCnt}"></td>
       </tr>
       <tr>
         <th>주소</th>
-        <td><input type="text" name="" id="address" value="${examZone.description}"></td>
+        <td><input type="text" name="address" id="address" value="${examZone.description}"></td>
       </tr>
       <tr>
 		<th>약도 등록</th>
          <td>
+         	<button style="width:100px; height:40px; font-size:15px;" type="button" onclick="doAddMapFile()">추가</button>
         	<button style="width:100px; height:40px; font-size:15px;" type="button" onclick="doDeleteMapFile()">삭제</button>
-        	<button style="width:100px; height:40px; font-size:15px;" type="button" onclick="doAddMapFile()">추가</button>
-        	<input type="text" readonly="readonly" name="mapFileName" id="mapFileName" value="${examZone.examZoneMap}">
-        	<input type="hidden" name="mapFileFullName" id="mapFileFullName">
-        	<input style="display:none;" type="file" accept="image/*" name="" id="mapFileDialog">
+	        <c:choose>
+				<c:when test="${examZone.fileDto.fileId eq null}">
+
+				</c:when>
+				<c:otherwise>
+					<c:url value="/examZoneMapDownload" var="downloadUrl">
+            			<c:param name="fileSize" value="${examZone.fileDto.fileSize}" />
+            			<c:param name="localFileName" value="${examZone.fileDto.localFileName}" />
+            			<c:param name="realFileName" value="${examZone.fileDto.realFileName}" />
+           			</c:url>
+           			<a style="width:100px; height:40px; font-size:20px;" href="${downloadUrl}" id="btn_download">다운로드</a>
+				</c:otherwise>
+			</c:choose>
+          	<input name="inputFileName" id="inputFileName" class="upload-name" value="${examZone.examZoneMap}" disabled="disabled">
+          	<input style="display:none" type="file" id="file" name="file" class="upload-hidden">
+          	<input type="hidden" name="fileId" id="fileId" value="${examZone.fileDto.fileId}">
         </td>
       </tr>
     </table>
 	<a href="/siteRegister" onclick="return doExamZoneSave()" class="btn_apply mb100">저장</a>
-	<!-- <input style="border:none;" class="btn_apply mb100" type="button" id="btnFile" value="저장"> -->
   </div>
 </div>
+</form>
+
+<script>
+$(function(){
+  	/* 첨부파일 */
+  	var fileTarget = $('.upload-hidden');
+  
+  	fileTarget.on('change', function(){
+	if (window.FileReader) 
+	{
+	  var filename = $(this)[0].files[0].name;
+	} 
+	else 
+	{
+	  var filename = $(this).val().split('/').pop().split('\\').pop();
+	}
+	$(this).siblings('.upload-name').val(filename);
+  });
+});
+</script>
 
 </body>
 </html>

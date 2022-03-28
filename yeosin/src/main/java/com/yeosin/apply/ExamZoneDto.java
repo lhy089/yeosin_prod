@@ -1,4 +1,5 @@
 package com.yeosin.apply;
+import com.yeosin.board.*;
 
 /*
  *	고사장 테이블 DTO 
@@ -18,11 +19,12 @@ public class ExamZoneDto {
 	private String leftOverSeat;  	//잔여좌석수
 	private String receiptSeat;  	//접수좌석수
 	private String rowNum; 			// 행순서
-	
+
 	private LocalCenterDto localCenterDto; // 지역센터 DTO
 	private ExamDto examDto; // 시험 DTO
 	private ApplyDto applyDto; // 접수 DTO
 	private ExamAndExamzoneRelDto examAndExamzoneRelDto;
+	private FileDto fileDto; // 파일 DTO
 	
 	private int page;        		// 현재 페이지 번호   
 	private int perPageNum; 		// 현 페이지당 보여줄 게시글의 갯수
@@ -81,6 +83,12 @@ public class ExamZoneDto {
 	}
 	public void setExamAndExamzoneRelDto(ExamAndExamzoneRelDto examAndExamzoneRelDto) {
 		this.examAndExamzoneRelDto = examAndExamzoneRelDto;
+	}
+	public FileDto getFileDto() {
+		return fileDto;
+	}
+	public void setFileDto(FileDto fileDto) {
+		this.fileDto = fileDto;
 	}
 	public String getReceiptSeat() {
 		return receiptSeat;
