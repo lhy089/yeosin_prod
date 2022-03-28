@@ -98,6 +98,9 @@
    <update id="updateUserInfo" parameterType="com.yeosin.user.UserDto">
 		UPDATE YS_USER
 		<set>
+			<if test="userName !=null and userName != ''">
+				USERNAME = #{userName},
+			</if>
 			<if test="password !=null and password != ''">
 				PASSWORD = #{password},
 			</if>

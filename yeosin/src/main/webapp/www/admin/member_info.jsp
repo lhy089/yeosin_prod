@@ -25,14 +25,22 @@
   <link rel="stylesheet" href="/www/inc/css/admin.css">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
- <script>
+ <script> 
+ window.onpageshow = function(event) {
+	 if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+	 // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
+	 location.reload();
+	         }
+	 }
+ 
+ 
    if(${isAlert}) { 
 	      alert("로그인 후 이용 가능합니다.");
 	}
       
    $(document).ready(function() {
 	   $("li[value='${pageMaker.userDto.page}']").attr("class","on");
-		
+	   
 		$("#btn_search").click(function() {
 		   $("#searchWord").val($("#searchWord").val());
 		   $("#isCheckGeneralGrade").val($("#isCheckGeneralGrade").val());

@@ -52,6 +52,17 @@ $(document).ready(function() {
 			
 			//if(!isValid()) return false;
 			
+			var password = $('#password').val();
+			var password2 = $('#password2').val();
+		
+			if (password != password2) {
+				alert("비밀번호가 일치하지 않습니다.");
+				$('#password').val("");
+				$('#password2').val("");
+				$('#password').focus();
+				return false;
+			}
+			
 			if(confirm("해당 회원정보를 수정하시겠습니까?")){
 				var callNumber = "";
 				var phoneNumber = "";
