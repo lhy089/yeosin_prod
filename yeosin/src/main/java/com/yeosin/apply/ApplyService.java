@@ -158,4 +158,8 @@ public class ApplyService {
 	public List<ApplyDto> selectPassUser(String examDate) throws Exception {
 		return applyDao.selectPassUser(examDate);
 	}
+	
+	public List<SubjectDto> getSujectListByExamId(String examId) throws Exception {
+		return applyDao.getSujectListByExamId(examId);
+	}
 }

@@ -81,4 +81,8 @@ public class ApplyDao {
 	public List<ApplyDto> selectPassUser(String examDate) throws Exception {
 		return sqlSession.selectList(nameSpace + "selectPassUser", examDate);
 	}
+	
+	public List<SubjectDto> getSujectListByExamId(String examId) throws Exception {
+		return sqlSession.selectList(nameSpace + "getSujectListByExamId", examId);
+	}
 }

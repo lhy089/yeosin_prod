@@ -358,4 +358,15 @@
 		ORDER BY RECEIPT.RECEIPTID 
 	</select>
 	
+	<!-- 원서 접수시 시험에 해당하는 교육과정 리스트 조회 -->
+   <select id="getSujectListByExamId"  parameterType="String" resultType="com.yeosin.apply.SubjectDto">
+		SELECT 	
+				A.EXAMID 
+			,	A.SUBJECTID 
+			,	B.SUBJECTNAME 
+		FROM 	YS_EXAMANDSUBJECTREL	A 
+		INNER JOIN YS_SUBJECT  			B	ON	B.SUBJECTID = A.SUBJECTID 	
+		WHERE  	A.EXAMID = #{examId, jdbcType=VARCHAR}
+	</select>
+	
 </mapper>
