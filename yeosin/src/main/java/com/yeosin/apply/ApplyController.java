@@ -134,7 +134,10 @@ public class ApplyController {
 		if (userInfo != null) 
 		{		
 			ExamDto examInfo = applyService.getExamInfo2(request.getParameter("examId"));
+			List<SubjectDto> subjectInfo = applyService.getSujectListByExamId(request.getParameter("examId"));
+			
 			mav.addObject("examInfo", examInfo);
+			mav.addObject("subjectInfo", subjectInfo);
 			mav.addObject("userInfo", userInfo);
 			mav.addObject("local", request.getParameter("local"));
 			mav.setViewName("apply/apply3");
