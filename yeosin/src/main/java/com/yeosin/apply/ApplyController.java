@@ -350,6 +350,7 @@ public class ApplyController {
 				insertApplyDto.setExamZoneId(request.getParameter("exmaZoneId"));
 				insertApplyDto.setStudentCode(nineLenthStudentCode);
 				insertApplyDto.setSubjectId(request.getParameter("subjectId"));
+				insertApplyDto.setCicode(userInfo.getCiCode());
 				System.out.println(">>> apply6 ReceiptAndPaymentView CertId : " + request.getParameter("eduNum"));
 				System.out.println(">>> apply6 ReceiptAndPaymentView subjectId : " + request.getParameter("subjectId"));
 				
@@ -1208,6 +1209,7 @@ public class ApplyController {
 				insertApplyDto.setExamZoneId(sessionApplyInfo.getExamZoneId());
 				insertApplyDto.setSubjectId(sessionApplyInfo.getSubjectId());
 				insertApplyDto.setStudentCode(newStudentCode);
+				insertApplyDto.setCicode(userInfo.getCiCode());
 				
 				System.out.println(">>> examId : " + insertApplyDto.getExamId());
 				System.out.println(">>> certId : " + insertApplyDto.getCertId());
@@ -1369,6 +1371,7 @@ public class ApplyController {
 				insertApplyDto.setExamZoneId(examZoneId);
 				insertApplyDto.setStudentCode(nineLenthStudentCode);
 				insertApplyDto.setSubjectId(subjectId);
+				insertApplyDto.setCicode(userInfo.getCiCode());
 				System.out.println(">>> moRecipt2 CertId : " + certId);
 				System.out.println(">>> moRecipt2 subjectId : " + subjectId);
 

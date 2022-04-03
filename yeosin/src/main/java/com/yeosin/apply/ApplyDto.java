@@ -30,6 +30,7 @@ public class ApplyDto {
 	private String subjectId; // 종목코드
 	private String rowNum; // 행순서
 	private String paymentMoid; // 결제고유값
+	private String cicode; // CICODE
 
 	private int page;  		//현재 페이지 번호	
 	private int perPageNum; //현 페이지당 보여줄 게시글의 갯수
@@ -235,5 +236,13 @@ public class ApplyDto {
 	
 	public void setPaymentMoid(String paymentMoid) {
 		this.paymentMoid = paymentMoid;
+	}
+	
+	public String getCicode() {
+		return cicode;
+	}
+
+	public void setCicode(String cicode) {
+		this.cicode = cicode;
 	}
 }

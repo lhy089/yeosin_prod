@@ -224,11 +224,11 @@
 		INNER JOIN YS_USER			U	ON	U.USERID = R.USERID
 		INNER JOIN YS_SUBJECT  	 	S 	ON 	S.SUBJECTID = R.SUBJECTID
 		WHERE 	1 = 1
-		AND 	R.USERID = #{userId}
-		AND     E.EXAMDATE >= DATE_ADD(NOW(), INTERVAL -36 MONTH)
+		AND 	R.CICODE = (SELECT DISTINCT(YR.CICODE) FROM YS_RECEIPT YR WHERE YR.USERID = #{userId})
 		<![CDATA[
-      	AND		DATE_FORMAT(E.GRADESTARTDATE, '%Y-%m-%d %H:%i:%S') < DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%S');
+      	AND		DATE_FORMAT(E.GRADESTARTDATE, '%Y-%m-%d %H:%i:%S') < DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%S')
       	]]>
+      	ORDER BY  E.GRADESTARTDATE DESC;
    </select>
    
     <!-- 로그인 유저의 원서접수 현황 총 갯수 조회 -->
@@ -238,11 +238,8 @@
  		INNER JOIN YS_EXAM	E	ON	E.EXAMID = R.EXAMID
  		INNER JOIN YS_EXAMZONE EZ ON EZ.EXAMZONEID = R.EXAMZONEID
  		WHERE	1 = 1
- 		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
+ 		AND 	R.CICODE = (SELECT DISTINCT(YR.CICODE) FROM YS_RECEIPT YR WHERE YR.USERID = #{userId})
  		AND 	R.ISCANCEL = 'N'
- 		<![CDATA[
-		AND 	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') >= '2022-01-01'
-		]]> 
 	</select>
 	
 	<!-- 로그인 유저의 원서접수 리스트 조회(LIMIT 페이징) -->
@@ -262,11 +259,8 @@
 		INNER JOIN YS_EXAM 					E	ON 	E.EXAMID = R.EXAMID 	
 		INNER JOIN YS_EXAMZONE				EZ 	ON 	EZ.EXAMZONEID = R.EXAMZONEID
 		WHERE 	1 = 1
-		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
+		AND 	R.CICODE = (SELECT DISTINCT(YR.CICODE) FROM YS_RECEIPT YR WHERE YR.USERID = #{userId})
 		AND 	R.ISCANCEL = 'N'
-		<![CDATA[
-		AND 	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') >= '2022-01-01'
-		]]> 
 		ORDER BY E.EXAMDATE DESC
 		LIMIT #{pageStart}, #{perPageNum};
    </select>
@@ -287,9 +281,9 @@
 	<!-- 새로운 접수 Insert (결제 완료건에 대해) -->
 	<insert id="setReceiptInfo" parameterType="com.yeosin.apply.ApplyDto">
 		INSERT INTO YS_RECEIPT (RECEIPTID, USERID, EXAMID, CERTID, RECEIPTDATE, ISCANCEL
-								, STUDENTCODE, SEATNUMBER, EXAMZONEID, PAYMENTMETHOD, CARDNAME, PAYMENTDATE, EXAMFEE, PAYMENTID, SUBJECTID)
+								, STUDENTCODE, SEATNUMBER, EXAMZONEID, PAYMENTMETHOD, CARDNAME, PAYMENTDATE, EXAMFEE, PAYMENTID, SUBJECTID, CICODE)
 		VALUES (#{receiptId}, #{userId}, #{examId}, #{certId}, NOW(), 'N'
-				, #{studentCode}, null, #{examZoneId}, #{paymentMethod}, #{cardName}, now(), #{examFee}, #{paymentId}, #{subjectId});
+				, #{studentCode}, null, #{examZoneId}, #{paymentMethod}, #{cardName}, now(), #{examFee}, #{paymentId}, #{subjectId}, #{cicode});
 	</insert>
 	
    <!-- 해당시험에 이미 접수된 건이 있는지 확인 -->
