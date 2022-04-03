@@ -34,13 +34,13 @@ public class UserDto {
 	private int perPageNum; //현 페이지당 보여줄 게시글의 갯수
 	
 	//관리자 회원정보 페이지 관련 변수
-	private String searchWord; // 검색어 
-	private String isCheckGeneralGrade; //일반등급 체크여부 > Y:체크 , N:체크x
-	private String isCheckManagerGrade;//관리자등급 체크여부 > Y:체크, N:체크x
-	private String isCheckAssistantGrade; //부관리자등급 체크 여부 > Y:체크, N:체크x
-	private String isCheckMemberGrade; //멤버등급 체크여부 > Y:체크, N:체크x
-	private String searchEmailType; //이메일 수신여부 검색타입 > A:전체, Y:수신허용, N:수신거부
-	private String searchSMSType; //SMS 수신여부 검색타입> A:전체, Y:수신허용, N:수신거부
+//	private String searchWord; // 검색어 
+//	private String isCheckGeneralGrade; //일반등급 체크여부 > Y:체크 , N:체크x
+//	private String isCheckManagerGrade;//관리자등급 체크여부 > Y:체크, N:체크x
+//	private String isCheckAssistantGrade; //부관리자등급 체크 여부 > Y:체크, N:체크x
+//	private String isCheckMemberGrade; //멤버등급 체크여부 > Y:체크, N:체크x
+//	private String searchEmailType; //이메일 수신여부 검색타입 > A:전체, Y:수신허용, N:수신거부
+//	private String searchSMSType; //SMS 수신여부 검색타입> A:전체, Y:수신허용, N:수신거부
 	
 	public UserDto() 
 	{
@@ -167,48 +167,48 @@ public class UserDto {
 	public void setSecessionDate(String secessionDate) {
 		this.secessionDate = secessionDate;
 	}
-	public String getIsCheckGeneralGrade() {
-		return isCheckGeneralGrade;
-	}
-	public void setIsCheckGeneralGrade(String isCheckGeneralGrade) {
-		this.isCheckGeneralGrade = isCheckGeneralGrade;
-	}
-	public String getIsCheckManagerGrade() {
-		return isCheckManagerGrade;
-	}
-	public void setIsCheckManagerGrade(String isCheckManagerGrade) {
-		this.isCheckManagerGrade = isCheckManagerGrade;
-	}
-	public String getIsCheckAssistantGrade() {
-		return isCheckAssistantGrade;
-	}
-	public void setIsCheckAssistantGrade(String isCheckAssistantGrade) {
-		this.isCheckAssistantGrade = isCheckAssistantGrade;
-	}
-	public String getIsCheckMemberGrade() {
-		return isCheckMemberGrade;
-	}
-	public void setIsCheckMemberGrade(String isCheckMemberGrade) {
-		this.isCheckMemberGrade = isCheckMemberGrade;
-	}
-	public String getSearchEmailType() {
-		return searchEmailType;
-	}
-	public void setSearchEmailType(String searchEmailType) {
-		this.searchEmailType = searchEmailType;
-	}
-	public String getSearchSMSType() {
-		return searchSMSType;
-	}
-	public void setSearchSMSType(String searchSMSType) {
-		this.searchSMSType = searchSMSType;
-	}
-	public String getSearchWord() {
-		return searchWord;
-	}
-	public void setSearchWord(String searchWord) {
-		this.searchWord = searchWord;
-	}
+//	public String getIsCheckGeneralGrade() {
+//		return isCheckGeneralGrade;
+//	}
+//	public void setIsCheckGeneralGrade(String isCheckGeneralGrade) {
+//		this.isCheckGeneralGrade = isCheckGeneralGrade;
+//	}
+//	public String getIsCheckManagerGrade() {
+//		return isCheckManagerGrade;
+//	}
+//	public void setIsCheckManagerGrade(String isCheckManagerGrade) {
+//		this.isCheckManagerGrade = isCheckManagerGrade;
+//	}
+//	public String getIsCheckAssistantGrade() {
+//		return isCheckAssistantGrade;
+//	}
+//	public void setIsCheckAssistantGrade(String isCheckAssistantGrade) {
+//		this.isCheckAssistantGrade = isCheckAssistantGrade;
+//	}
+//	public String getIsCheckMemberGrade() {
+//		return isCheckMemberGrade;
+//	}
+//	public void setIsCheckMemberGrade(String isCheckMemberGrade) {
+//		this.isCheckMemberGrade = isCheckMemberGrade;
+//	}
+//	public String getSearchEmailType() {
+//		return searchEmailType;
+//	}
+//	public void setSearchEmailType(String searchEmailType) {
+//		this.searchEmailType = searchEmailType;
+//	}
+//	public String getSearchSMSType() {
+//		return searchSMSType;
+//	}
+//	public void setSearchSMSType(String searchSMSType) {
+//		this.searchSMSType = searchSMSType;
+//	}
+//	public String getSearchWord() {
+//		return searchWord;
+//	}
+//	public void setSearchWord(String searchWord) {
+//		this.searchWord = searchWord;
+//	}
 	public int getPageStart() {
 		return (this.page-1) * perPageNum;
 	}

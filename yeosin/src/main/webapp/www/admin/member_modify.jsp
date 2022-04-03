@@ -117,33 +117,45 @@ $(document).ready(function() {
         <td><input type="text" name="" value=""></td>
         <th>회원구분</th>
         <td>
-          <label class="type"><input type="checkbox" name="check" value=""> 일반회원</label>
-          <label class="type"><input type="checkbox" name="check" value=""> 관리자</label>
-          <label class="type"><input type="checkbox" name="check" value=""> 부관리자</label>
+          <input type="hidden" id="generalUser" name="generalUser">
+          <input type="hidden" id="dormancyUser" name="dormancyUser">
+          <input type="hidden" id="secessionUser" name="secessionUser">
+          <label class="type"><input type="checkbox" id="checkGeneral" name="checkUserStatus" <c:if test="${generalUser eq 'Y'}">checked="checked"</c:if>> 일반</label>  
+          <label class="type"><input type="checkbox" id="checkDormancy" name="checkUserStatus" <c:if test="${dormancyUser eq 'Y'}">checked="checked"</c:if>> 휴면</label>
+          <label class="type"><input type="checkbox" id="checkSecession" name="checkUserStatus"<c:if test="${secessionUser eq 'Y'}">checked="checked"</c:if>> 탈퇴</label>
         </td>
       </tr>
       <tr>
         <th>이메일 수신 여부</th>
         <td>
-          <label class="agree"><input type="radio" name="email" value=""> 전체</label>
-          <label class="agree"><input type="radio" name="email" value=""> 수신허용</label>
-          <label class="agree"><input type="radio" name="email" value=""> 수신거부</label>
+           <label class="agree"><input type="radio" name="searchEmailType" <c:if test="${searchEmailType eq 'A'}">checked="checked"</c:if> value="A"> 전체</label>
+          <label class="agree"><input type="radio" name="searchEmailType" <c:if test="${searchEmailType eq 'Y'}">checked="checked"</c:if> value="Y"> 수신허용</label>
+          <label class="agree"><input type="radio" name="searchEmailType" <c:if test="${searchEmailType eq 'N'}">checked="checked"</c:if> value="N"> 수신거부</label>
         </td>
         <th>문자(SMS) 수신 여부</th>
         <td>
-          <label class="agree"><input type="radio" name="sms" value=""> 전체</label>
-          <label class="agree"><input type="radio" name="sms" value=""> 수신허용</label>
-          <label class="agree"><input type="radio" name="sms" value=""> 수신거부</label>
+         <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${searchSMSType eq 'A'}">checked="checked"</c:if> value="A"> 전체</label>
+          <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${searchSMSType eq 'Y'}">checked="checked"</c:if> value="Y"> 수신허용</label>
+          <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${searchSMSType eq 'N'}">checked="checked"</c:if> value="N"> 수신거부</label>
         </td>
       </tr>
       <tr>
         <th>목록건수</th>
-        <td>
-          <select id="" name="" class="count">
-            <option value="">200</option>
-          </select>
-        </td>
-        <td colspan="2"></td>
+            <td>
+			<select id="onePageDataCountCondition" name="onePageDataCountCondition" class="count">
+	            <c:forEach var="i" begin="50" end="300" step="50">
+	            <c:choose>
+	            <c:when test="${i eq pageCondition}">
+	               <option value="${i}" selected>${i}</option>
+	            </c:when>
+	            <c:otherwise>
+	               <option value="${i}">${i}</option>
+	            </c:otherwise>
+	            </c:choose>
+	            </c:forEach>
+            </select>
+          </td>
+          <td colspan="2"></td>
       </tr>
     </table>
     <a href="#" class="btn_apply mb100">조회</a>

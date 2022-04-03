@@ -3,7 +3,7 @@
 <mapper namespace="com.yeosin.admin.UserManageDao" >
 
 	<!-- 회원 유저 조회 -->
-	<select id="getUserInfo" parameterType="com.yeosin.user.UserDto" resultType="com.yeosin.user.UserDto">
+	<select id="getUserInfo" parameterType="map" resultType="com.yeosin.user.UserDto">
 		SELECT 	
 			 	USERID
 			,
@@ -42,10 +42,24 @@
 		<if test='searchSMSType=="N"'>
 			AND ISRECEIVESMS = 'N'
 		</if>
+		<if test='generalUser != null and dormancyUser != null and secessionUser != null'>
+			AND ( 1 = 1
+ 			<if test='generalUser == "N"'>
+				AND USERSTATUS != 'U'
+			</if>
+			<if test='dormancyUser =="N"'>
+				AND USERSTATUS != 'C'
+			</if>
+			<if test='secessionUser=="N"'>
+				AND USERSTATUS != 'D'
+			</if>
+			)
+		</if>
+			AND USERSTATUS != 'S'
 		LIMIT #{pageStart}, #{perPageNum};
    </select>
    
-   <select id="countUserListTotal" parameterType="com.yeosin.user.UserDto" resultType="Integer">
+   <select id="countUserListTotal" parameterType="map" resultType="Integer">
 		SELECT 	
 			 count(*)
 		FROM 	YS_USER U
@@ -68,6 +82,20 @@
 		<if test='searchSMSType=="N"'>
 			AND ISRECEIVESMS = 'N'
 		</if>
+		<if test='generalUser != null and dormancyUser != null and secessionUser != null'>
+			AND ( 1 = 1
+ 			<if test='generalUser == "N"'>
+				AND USERSTATUS != 'U'
+			</if>
+			<if test='dormancyUser =="N"'>
+				AND USERSTATUS != 'C'
+			</if>
+			<if test='secessionUser=="N"'>
+				AND USERSTATUS != 'D'
+			</if>
+			)
+		</if>
+		AND USERSTATUS != 'S'
    </select>
    
    <insert id="insertEduCompletionHis" parameterType="com.yeosin.user.EduCompletionHisDto">

@@ -36,12 +36,12 @@ public class UserManageService {
 	
 	
 	// 지역 리스트 조회(조회조건)
-	public List<UserDto> getUserInfo(UserDto userDto) throws Exception {
-		return userManageDao.getUserInfo(userDto);
+	public List<UserDto> getUserInfo(Map<String, Object> map) throws Exception {
+		return userManageDao.getUserInfo(map);
 	}
 	
-	public int countUserListTotal(UserDto userDto) throws Exception{
-		return userManageDao.countUserListTotal(userDto);
+	public int countUserListTotal(Map<String, Object> map) throws Exception{
+		return userManageDao.countUserListTotal(map);
 	}
 	
 	public List<EduCompletionDto> getEduCompletionList(EduCompletionDto eduCompletionInfo) throws Exception {

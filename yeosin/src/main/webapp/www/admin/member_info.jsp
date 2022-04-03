@@ -35,16 +35,26 @@
    if(${isAlert}) { 
 	      alert("로그인 후 이용 가능합니다.");
 	}
+   
+   document.addEventListener('keydown', function(event) {
+	   if (event.keyCode === 13) {
+	     event.preventDefault();
+	   };
+	 }, true);
       
    $(document).ready(function() {
 	   $("li[value='${pageMaker.userDto.page}']").attr("class","on");
 	   
 		$("#btn_search").click(function() {
+		
+			var generalUser = $("input:checkbox[id=checkGeneral]").is(":checked") ? "Y" : "N";
+			var dormancyUser = $("input:checkbox[id=checkDormancy]").is(":checked") ? "Y" : "N";
+			var secessionUser = $("input:checkbox[id=checkSecession]").is(":checked")? "Y" : "N";
+					
 		   $("#searchWord").val($("#searchWord").val());
-		   $("#isCheckGeneralGrade").val($("#isCheckGeneralGrade").val());
-		   $("#isCheckManagerGrade").val($("#isCheckManagerGrade").val());	   
-		   $("#isCheckAssistantGrade").val($("#isCheckAssistantGrade").val());
-		   $("#isCheckMemberGrade").val($("#isCheckMemberGrade").val());
+		   $("#generalUser").val(generalUser);
+		   $("#dormancyUser").val(dormancyUser);
+		   $("#secessionUser").val(secessionUser);
 		   $('input[name=searchEmailType]').val($('input[name=searchEmailType]:checked').val());
 		   $('input[name=searchSMSType]').val($('input[name=searchSMSType]:checked').val());
 		   $("#onePageDataCountCondition").val($("#onePageDataCountCondition").val());
@@ -63,12 +73,14 @@
 				return;
 			}
 			
+			var generalUser = $("input:checkbox[id=checkGeneral]").val();
+			var dormancyUser = $("input:checkbox[id=checkDormancy]").val();
+			var secessionUser = $("input:checkbox[id=checkSecession]").val();
 			
 			  $("#searchWord").val($("#searchWord").val());
-			   $("#isCheckGeneralGrade").val($("#isCheckGeneralGrade").val());
-			   $("#isCheckManagerGrade").val($("#isCheckManagerGrade").val());	   
-			   $("#isCheckAssistantGrade").val($("#isCheckAssistantGrade").val());
-			   $("#isCheckMemberGrade").val($("#isCheckMemberGrade").val());
+			   $("#generalUser").val(generalUser);
+			   $("#dormancyUser").val(dormancyUser);
+			   $("#secessionUser").val(secessionUser);
 			   $('input[name=searchEmailType]').val($('input[name=searchEmailType]:checked').val());
 			   $('input[name=searchSMSType]').val($('input[name=searchSMSType]:checked').val());
 			   $("#onePageDataCountCondition").val($("#onePageDataCountCondition").val());
@@ -164,26 +176,29 @@
       </colgroup>
       <tr>
         <th>검색어</th>
-        <td><input type="text" id="searchWord"  name="searchWord" value="${userDto.searchWord}"></td>
+        <td><input type="text" id="searchWord"  name="searchWord" value="${searchWord}"></td>
         <th>회원구분</th>
         <td>
-          <label class="type"><input type="checkbox" name="check" value=""> 일반회원</label>
-          <label class="type"><input type="checkbox" name="check" value=""> 관리자</label>
-          <label class="type"><input type="checkbox" name="check" value=""> 부관리자</label>
+          <input type="hidden" id="generalUser" name="generalUser">
+          <input type="hidden" id="dormancyUser" name="dormancyUser">
+          <input type="hidden" id="secessionUser" name="secessionUser">
+          <label class="type"><input type="checkbox" id="checkGeneral" name="checkUserStatus" <c:if test="${generalUser eq 'Y'}">checked="checked"</c:if>> 일반</label>  
+          <label class="type"><input type="checkbox" id="checkDormancy" name="checkUserStatus" <c:if test="${dormancyUser eq 'Y'}">checked="checked"</c:if>> 휴면</label>
+          <label class="type"><input type="checkbox" id="checkSecession" name="checkUserStatus"<c:if test="${secessionUser eq 'Y'}">checked="checked"</c:if>> 탈퇴</label>
         </td>
       </tr>
       <tr>
         <th>이메일 수신 여부</th>
         <td>
-          <label class="agree"><input type="radio" name="searchEmailType" <c:if test="${userDto.searchEmailType eq 'A'}">checked="checked"</c:if> value="A"> 전체</label>
-          <label class="agree"><input type="radio" name="searchEmailType" <c:if test="${userDto.searchEmailType eq 'Y'}">checked="checked"</c:if> value="Y"> 수신허용</label>
-          <label class="agree"><input type="radio" name="searchEmailType" <c:if test="${userDto.searchEmailType eq 'N'}">checked="checked"</c:if> value="N"> 수신거부</label>
+          <label class="agree"><input type="radio" name="searchEmailType" <c:if test="${searchEmailType eq 'A'}">checked="checked"</c:if> value="A"> 전체</label>
+          <label class="agree"><input type="radio" name="searchEmailType" <c:if test="${searchEmailType eq 'Y'}">checked="checked"</c:if> value="Y"> 수신허용</label>
+          <label class="agree"><input type="radio" name="searchEmailType" <c:if test="${searchEmailType eq 'N'}">checked="checked"</c:if> value="N"> 수신거부</label>
         </td>
         <th>문자(SMS) 수신 여부</th>
         <td>
-          <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${userDto.searchSMSType eq 'A'}">checked="checked"</c:if> value="A"> 전체</label>
-          <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${userDto.searchSMSType eq 'Y'}">checked="checked"</c:if> value="Y"> 수신허용</label>
-          <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${userDto.searchSMSType eq 'N'}">checked="checked"</c:if> value="N"> 수신거부</label>
+          <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${searchSMSType eq 'A'}">checked="checked"</c:if> value="A"> 전체</label>
+          <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${searchSMSType eq 'Y'}">checked="checked"</c:if> value="Y"> 수신허용</label>
+          <label class="agree"><input type="radio" name="searchSMSType" <c:if test="${searchSMSType eq 'N'}">checked="checked"</c:if> value="N"> 수신거부</label>
         </td>
       </tr>
        <tr>
@@ -271,17 +286,17 @@
     <ul class="btn-group pagination">
   	<c:if test="${pageMaker.prev }">
    		<li>
-     		 <a href='<c:url value="/member_info?page=${pageMaker.startPage-1}&searchWord=${userDto.searchWord}&isCheckGeneralGrade=${userDto.isCheckGeneralGrade}&isCheckManagerGrade=${userDto.isCheckManagerGrade}&isCheckAssistantGrade=${userDto.isCheckAssistantGrade}&isCheckMemberGrade=${userDto.isCheckMemberGrade}&searchEmailType=${userDto.searchEmailType}&searchSMSType=${userDto.searchSMSType}&onePageDataCountCondition=${pageCondition}" />'><i class="fa fa-chevron-left">이전</i></a>
-  		</li>
+     		 <a href='<c:url value="/member_info?page=${pageMaker.startPage-1}&searchWord=${searchWord}&searchEmailType=${searchEmailType}&searchSMSType=${searchSMSType}&onePageDataCountCondition=${pageCondition}&generalUser=${generalUser}&dormancyUser=${dormancyUser}&secessionUser=${secessionUser}" />'><i class="fa fa-chevron-left">이전</i></a>
+  		</li>`
  	</c:if>
   	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
     	<li value="${pageNum}"> 
-       		<a href='<c:url value="/member_info?page=${pageNum}&searchWord=${userDto.searchWord}&isCheckGeneralGrade=${userDto.isCheckGeneralGrade}&isCheckManagerGrade=${userDto.isCheckManagerGrade}&isCheckAssistantGrade=${userDto.isCheckAssistantGrade}&isCheckMemberGrade=${userDto.isCheckMemberGrade}&searchEmailType=${userDto.searchEmailType}&searchSMSType=${userDto.searchSMSType}&onePageDataCountCondition=${pageCondition}"/>'><i class="fa">${pageNum}</i></a>
+       		<a href='<c:url value="/member_info?page=${pageNum}&searchWord=${searchWord}&searchEmailType=${searchEmailType}&searchSMSType=${searchSMSType}&onePageDataCountCondition=${pageCondition}&generalUser=${generalUser}&dormancyUser=${dormancyUser}&secessionUser=${secessionUser}"/>'><i class="fa">${pageNum}</i></a>
     	</li>
     </c:forEach>
     <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
     	<li>
-      		<a href='<c:url value="/member_info?page=${pageMaker.endPage+1}&searchWord=${userDto.searchWord}&isCheckGeneralGrade=${userDto.isCheckGeneralGrade}&isCheckManagerGrade=${userDto.isCheckManagerGrade}&isCheckAssistantGrade=${userDto.isCheckAssistantGrade}&isCheckMemberGrade=${userDto.isCheckMemberGrade}&searchEmailType=${userDto.searchEmailType}&searchSMSType=${userDto.searchSMSType}&onePageDataCountCondition=${pageCondition}"/>'><i class="fa fa-chevron-right">다음</i></a>
+      		<a href='<c:url value="/member_info?page=${pageMaker.endPage+1}&searchWord=${searchWord}&searchEmailType=${searchEmailType}&searchSMSType=${searchSMSType}&onePageDataCountCondition=${pageCondition}&generalUser=${generalUser}&dormancyUser=${dormancyUser}&secessionUser=${secessionUser}"/>'><i class="fa fa-chevron-right">다음</i></a>
    		</li>
     </c:if>
 	</ul>

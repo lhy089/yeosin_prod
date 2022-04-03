@@ -1,6 +1,7 @@
 package com.yeosin.admin;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,12 @@ public class UserManageDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	public List<UserDto> getUserInfo(UserDto userDto) throws Exception{
-		return this.sqlSession.selectList(namespace + "getUserInfo", userDto);
+	public List<UserDto> getUserInfo(Map<String, Object> map) throws Exception{
+		return this.sqlSession.selectList(namespace + "getUserInfo", map);
 	}
 	
-	public int countUserListTotal(UserDto userDto) throws Exception{
-		return this.sqlSession.selectOne(namespace + "countUserListTotal", userDto);
+	public int countUserListTotal(Map<String, Object> map) throws Exception{
+		return this.sqlSession.selectOne(namespace + "countUserListTotal", map);
 	}
 	
 	public List<EduCompletionDto> getEduCompletionList(EduCompletionDto eduCompletionInfo) throws Exception {

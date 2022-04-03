@@ -4,7 +4,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -71,13 +73,28 @@ public class UserManageController {
 		else 
 		{
 			String pageInit = request.getParameter("onePageDataCountCondition")==null ? "200" : request.getParameter("onePageDataCountCondition");
+			
+			Map<String, Object> parameterMap = new HashMap<String, Object>();
+			parameterMap.put("searchEmailType", request.getParameter("searchEmailType"));
+			parameterMap.put("searchSMSType", request.getParameter("searchSMSType"));
+			parameterMap.put("searchWord", request.getParameter("searchWord"));
+			parameterMap.put("generalUser", request.getParameter("generalUser") == null? "N" : request.getParameter("generalUser"));
+			parameterMap.put("dormancyUser", request.getParameter("dormancyUser") == null? "N" : request.getParameter("dormancyUser"));
+			parameterMap.put("secessionUser", request.getParameter("secessionUser") == null? "N" : request.getParameter("secessionUser"));
+			parameterMap.put("userName", userDto.getUserName());
+			parameterMap.put("userId", userDto.getUserId());
+			parameterMap.put("phoneNumber", userDto.getPhoneNumber());
+			parameterMap.put("emailAddress", userDto.getEmailAddress());
+			parameterMap.put("pageStart", userDto.getPageStart());
+			parameterMap.put("perPageNum", userDto.getPerPageNum());
+		
 			userDto.setPerPageNum(Integer.parseInt(pageInit));
 			
 			UserPageMaker pageMaker = new UserPageMaker();
 			pageMaker.setUserDto(userDto);
-			pageMaker.setTotalCount(userManageService.countUserListTotal(userDto));
+			pageMaker.setTotalCount(userManageService.countUserListTotal(parameterMap));
 			
-			List<UserDto> userList = userManageService.getUserInfo(userDto);
+			List<UserDto> userList = userManageService.getUserInfo(parameterMap);
 			
 			for(int i = 0; i < userList.size(); i++)
 			{
@@ -88,6 +105,12 @@ public class UserManageController {
 				}
 			}
 			
+			mav.addObject("generalUser", request.getParameter("generalUser"));
+			mav.addObject("dormancyUser", request.getParameter("dormancyUser"));
+			mav.addObject("secessionUser", request.getParameter("secessionUser"));
+			mav.addObject("searchEmailType", request.getParameter("searchEmailType"));
+			mav.addObject("searchSMSType", request.getParameter("searchSMSType"));
+			mav.addObject("searchWord", request.getParameter("searchWord"));
 			mav.addObject("pageMaker", pageMaker);
 			mav.addObject("userDto", userDto);
 			mav.addObject("userList", userList);
@@ -122,7 +145,7 @@ public class UserManageController {
 		{
 			userDto =  userManageService.getUserInfoByUserId(request.getParameter("memberCheck"));
 			 
-			if(userDto.getUserStatus().equals("C"))
+			if(userDto.getUserStatus().equals("C") && userDto.getLastConnectDate() != null)
 			{
 				Calendar cal = Calendar.getInstance();
 				DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
@@ -173,14 +196,27 @@ public class UserManageController {
 			// 사용자 정보 조회
 			int cnt = userService.updateUserInfo(userDto);
 			
-			String pageInit = request.getParameter("onePageDataCountCondition")==null ? "200" : request.getParameter("onePageDataCountCondition");
+
+			
+			String pageInit = request.getParameter("onePageDataCountCondition")==null ? "200" : request.getParameter("onePageDataCountCondition");			
+			Map<String, Object> parameterMap = new HashMap<String, Object>();
+			parameterMap.put("generalUser", request.getParameter("generalUser") == null? "Y" : request.getParameter("generalUser"));
+			parameterMap.put("dormancyUser", request.getParameter("dormancyUser") == null? "Y" : request.getParameter("dormancyUser"));
+			parameterMap.put("secessionUser", request.getParameter("secessionUser") == null? "Y" : request.getParameter("secessionUser"));
+			parameterMap.put("userName", userDto.getUserName());
+			parameterMap.put("userId", userDto.getUserId());
+			parameterMap.put("phoneNumber", userDto.getPhoneNumber());
+			parameterMap.put("emailAddress", userDto.getEmailAddress());
+			parameterMap.put("pageStart", userDto.getPageStart());
+			parameterMap.put("perPageNum", userDto.getPerPageNum());
+			
 			userDto.setPerPageNum(Integer.parseInt(pageInit));
 			
 			UserPageMaker pageMaker = new UserPageMaker();
 			pageMaker.setUserDto(userDto);
-			pageMaker.setTotalCount(userManageService.countUserListTotal(userDto));
+			pageMaker.setTotalCount(userManageService.countUserListTotal(parameterMap));
 			
-			List<UserDto> userList = userManageService.getUserInfo(userDto);
+			List<UserDto> userList = userManageService.getUserInfo(parameterMap);
 			
 			for(int i = 0; i < userList.size(); i++)
 			{
@@ -191,6 +227,12 @@ public class UserManageController {
 				}
 			}
 			
+			mav.addObject("generalUser", request.getParameter("generalUser") == null? "Y" : request.getParameter("generalUser"));
+			mav.addObject("dormancyUser", request.getParameter("dormancyUser") == null? "Y" : request.getParameter("dormancyUser"));
+			mav.addObject("secessionUser", request.getParameter("secessionUser") == null? "Y" : request.getParameter("secessionUser"));
+			mav.addObject("searchEmailType", request.getParameter("searchEmailType")==null? "A" : request.getParameter("searchEmailType"));
+			mav.addObject("searchSMSType", request.getParameter("searchSMSType")==null? "A" : request.getParameter("searchSMSType"));
+			mav.addObject("searchWord", request.getParameter("searchWord")==null? "" : request.getParameter("searchWord"));
 			mav.addObject("pageMaker", pageMaker);
 			mav.addObject("userDto", userDto);
 			mav.addObject("userList", userList);
