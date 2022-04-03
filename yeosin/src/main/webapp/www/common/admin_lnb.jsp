@@ -4,7 +4,7 @@
   <a href="/www/main.jsp"><p class="logoLnb"></p></a>
   <dl>
     <dt><a href="#none">회원관리</a></dt>
-    <dd><a href="/member_info?searchWord=&isCheckGeneralGrade=Y&isCheckManagerGrade=Y&isCheckAssistantGrade=Y&isCheckMemberGrade=Y&searchEmailType=A&searchSMSType=A">회원정보</a></dd>
+    <dd><a href="/member_info?searchWord=&generalUser=Y&dormancyUser=Y&secessionUser=Y&searchEmailType=A&searchSMSType=A">회원정보</a></dd>
     <dd><a href="/memberCourseMng">교육수료정보</a></dd>
 <!--     <dd><a href="/memberCount">접속자 집계</a></dd> -->
   </dl>

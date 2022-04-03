@@ -33,7 +33,7 @@
 <div class="home">
   <div class="contentBoxAd">
     <ul>
-      <li><a href="/member_info?searchWord=&isCheckGeneralGrade=Y&isCheckManagerGrade=Y&isCheckAssistantGrade=Y&isCheckMemberGrade=Y&searchEmailType=A&searchSMSType=A">회원관리</a></li>
+      <li><a href="/member_info?searchWord=&searchEmailType=A&searchSMSType=A&generalUser=Y&dormancyUser=Y&secessionUser=Y">회원관리</a></li>
       <li><a href="/siteRegister">고사장설정</a></li>
       <li><a href="/manageSchedule">시험운영관리</a></li>
       <li><a href="/resultListIntro?onePageDataCountCondition=200">성적관리</a></li>
