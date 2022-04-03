@@ -206,7 +206,8 @@
 		SELECT 	
 				E.EXAMID 			-- 시험 ID 
 			,	E.EXAMNAME 			-- 시험명
-			, 	DATE_FORMAT(E.GRADESTARTDATE , '%Y-%m-%d') AS GRADESTARTDATE -- 성적공고기간 시작(합격 발표일)
+			,	CONCAT(E.EXAMYEAR, '-', E.EXAMDEGREE) 		AS EXAMDEGREE 		-- 차수
+			, 	DATE_FORMAT(E.GRADESTARTDATE , '%Y-%m-%d') 	AS GRADESTARTDATE 	-- 성적공고기간 시작(합격 발표일)
 			, 	R.RECEIPTID			-- 접수번호
 			, 	(
 				CASE

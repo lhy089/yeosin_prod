@@ -41,15 +41,18 @@
         <col width="*">
         <col width="20%">
         <col width="20%">
+        <col width="20%">
       </colgroup>
       <tr>
         <th>시험명</th>
-        <th>응시결과</th>
+        <th>시험차수</th>
+        <th>응시결과</th>        
         <th>자격인증서</th>
       </tr>
       <c:forEach var="result" items="${resultList}">
       <tr>
         <td>${result.examDto.examName}</td>
+        <td>${result.examDto.examDegree}</td>
         <td>${result.gradeDto.isPass}</td>
 		<td>
 		<c:url value="/certificate" var="url">
