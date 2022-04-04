@@ -72,9 +72,10 @@
           <c:url value="/download" var="downloadUrl">
             	<c:param name="fileSize" value="${libraryInfo.fileDto.fileSize}" />
             	<c:param name="localFileName" value="${libraryInfo.fileDto.localFileName}" />
+            	<c:param name="realFileName" value="${libraryInfo.fileDto.realFileName}" />
          </c:url>
           <c:if test="${not empty libraryInfo.fileDto}">
-          <a href="${downloadUrl}" id="btn_download" class="document">${libraryInfo.fileDto.localFileName}</a> <!--문서표시 있을때 해당 태그 추가-->
+          <a href="${downloadUrl}" id="btn_download" class="document">${libraryInfo.fileDto.realFileName}</a> <!--문서표시 있을때 해당 태그 추가-->
           </c:if>
         </div>
       </div>

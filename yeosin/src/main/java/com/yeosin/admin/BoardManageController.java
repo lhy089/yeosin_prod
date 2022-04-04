@@ -130,11 +130,12 @@ public class BoardManageController {
 			
 			if (!fileName.equals("") && fileName != null && file.getSize() != 0) {
 				String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+				String boardPath = request.getServletContext().getRealPath("/resources/boardFile");
 				
-				File copyFile = new File(FileController.boardPath, LocalFileName);
+				File copyFile = new File(boardPath, LocalFileName);
 					
-				if(!new File(FileController.boardPath).exists()) {
-					new File(FileController.boardPath).mkdirs();
+				if(!new File(boardPath).exists()) {
+					new File(boardPath).mkdirs();
 				}
 					
 				FileCopyUtils.copy(file.getBytes(), copyFile);
@@ -245,11 +246,12 @@ public class BoardManageController {
 			{
 				if (!fileName.equals("") && fileName != null && file.getSize() != 0) {
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+					String boardPath = request.getServletContext().getRealPath("/resources/boardFile");
+				
+					File copyFile = new File(boardPath, LocalFileName);
 						
-					File copyFile = new File(FileController.boardPath, LocalFileName);
-						
-					if(!new File(FileController.boardPath).exists()) {
-						new File(FileController.boardPath).mkdirs();
+					if(!new File(boardPath).exists()) {
+						new File(boardPath).mkdirs();
 					}
 							
 					FileCopyUtils.copy(file.getBytes(), copyFile);
@@ -278,11 +280,12 @@ public class BoardManageController {
 				if (!fileName.equals("") && fileName != null && file.getSize() != 0) //파일을 새로 등록할때
 				{
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+					String boardPath = request.getServletContext().getRealPath("/resources/boardFile");
 					
-					File copyFile = new File(FileController.boardPath, LocalFileName);
+					File copyFile = new File(boardPath, LocalFileName);
 					
-					if(!new File(FileController.boardPath).exists()) {
-						new File(FileController.boardPath).mkdirs();
+					if(!new File(boardPath).exists()) {
+						new File(boardPath).mkdirs();
 					}
 						
 					FileCopyUtils.copy(file.getBytes(), copyFile);
@@ -468,11 +471,12 @@ public class BoardManageController {
 
 			if (!fileName.equals("") && fileName != null && file.getSize() != 0) {
 				String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+				String boardPath = request.getServletContext().getRealPath("/resources/boardFile");
 				
-				File copyFile = new File(FileController.boardPath, LocalFileName);
+				File copyFile = new File(boardPath, LocalFileName);
 				
-				if(!new File(FileController.boardPath).exists()) {
-					new File(FileController.boardPath).mkdirs();
+				if(!new File(boardPath).exists()) {
+					new File(boardPath).mkdirs();
 				}
 					
 				FileCopyUtils.copy(file.getBytes(), copyFile);
@@ -581,11 +585,12 @@ public class BoardManageController {
 				if (!fileName.equals("") && fileName != null && file.getSize() != 0) {
 					
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+					String boardPath = request.getServletContext().getRealPath("/resources/boardFile");
 					
-					File copyFile = new File(FileController.boardPath, LocalFileName);
+					File copyFile = new File(boardPath, LocalFileName);
 					
-					if(!new File(FileController.boardPath).exists()) {
-						new File(FileController.boardPath).mkdirs();
+					if(!new File(boardPath).exists()) {
+						new File(boardPath).mkdirs();
 					}
 						
 					FileCopyUtils.copy(file.getBytes(), copyFile);
@@ -613,11 +618,12 @@ public class BoardManageController {
 				{
 					
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+					String boardPath = request.getServletContext().getRealPath("/resources/boardFile");
 					
-					File copyFile = new File(FileController.boardPath, LocalFileName);
+					File copyFile = new File(boardPath, LocalFileName);
 					
-					if(!new File(FileController.boardPath).exists()) {
-						new File(FileController.boardPath).mkdirs();
+					if(!new File(boardPath).exists()) {
+						new File(boardPath).mkdirs();
 					}
 						
 					FileCopyUtils.copy(file.getBytes(), copyFile);
