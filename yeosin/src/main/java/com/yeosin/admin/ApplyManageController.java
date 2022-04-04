@@ -17,10 +17,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,7 +36,9 @@ import com.yeosin.apply.ExamZoneDto;
 import com.yeosin.apply.ExamZoneDtoPageMaker;
 import com.yeosin.apply.GradeDto;
 import com.yeosin.apply.SubjectDto;
+import com.yeosin.board.FileDto;
 import com.yeosin.user.UserDto;
+import com.yeosin.util.FileController;
 import com.yeosin.util.ImageSaveUtil;
 
 @Controller
@@ -42,6 +46,9 @@ public class ApplyManageController {
    
    @Autowired
    private ApplyManageService applyManageService;
+   
+   @Autowired
+   private BoardManageService boardManageService;
    
    // 원서접수 리스트 조회(원서별)
    @RequestMapping(value="/manage_status_doc", method=RequestMethod.GET)
@@ -281,10 +288,10 @@ public class ApplyManageController {
 		return resultMap;
 	}
 	
-   	// 고사장 저장 or 수정
+   	// 고사장 저장 or 수정(Ajax 버전)
 	@RequestMapping(value="/ExamZoneSaveByAjax", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> ExamZoneSaveByAjax(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	public Map<String, Object> ExamZoneSaveByAjax(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletRequest request, HttpServletResponse response, MultipartFile file) throws Exception 
 	{
 		response.setCharacterEncoding("UTF-8");      
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
@@ -292,7 +299,7 @@ public class ApplyManageController {
 		
 		// AJAX로 넘겨줄 데이터
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-      
+		
 		if (userInfo == null || !"S".equals(userInfo.getUserStatus())) 
 		{
 			isSuccess = false;
@@ -300,21 +307,103 @@ public class ApplyManageController {
 		else 
 		{		
 			int isSaveUpdateSuccess = 0;
-
-			//byte[] imageMap = ImageSaveUtil.imageToByteArray(String.valueOf(requestMap.get("mapFileDialog"))); 
-			String defaultPath = "/www/inc/img/apply/";
-			String fileName = String.valueOf(requestMap.get("mapFileName"));
-			String fileFullPath = fileName.trim().isEmpty() ? null : defaultPath + fileName;
-			requestMap.put("mapFile", fileFullPath);
+			// 저장인지 업데이트인지 판별
+			String actionCode = null;
+			if (String.valueOf(requestMap.get("examZoneId")).isEmpty() || requestMap.get("examZoneId") == null) actionCode = "Save";
+			else actionCode = "Update";
+			// 새로운 고사장 ID 채번
+			int MaxExamZoneNumber = applyManageService.getMaxExamZoneId() + 1;
+			String newExamZoneId = "examzone" + String.valueOf(MaxExamZoneNumber); 
+			String examZoneId = null;
 			
-			// 저장, 수정에 따라 호출하는 저장로직 다르게 호출
-			if (requestMap.get("actionCode").equals("Save"))
+			if (actionCode.equals("Save")) examZoneId = newExamZoneId;
+			else examZoneId = String.valueOf(requestMap.get("examZoneId"));
+				
+			/////////////////////////// 파일 관련 프로세스 처리 ///////////////////////////
+			FileDto getFileDto = applyManageService.getExamZoneFileInfo(String.valueOf(requestMap.get("fileId")));
+			
+			String fileName = String.valueOf(file.getOriginalFilename());
+			int fileSize = (int)file.getSize();
+			
+			// 파일이 이미 등록되어 있을때(수정, 삭제)
+			if (getFileDto != null) 
 			{
-				int MaxExamZoneNumber = applyManageService.getMaxExamZoneId() + 1;
-				String newExamZoneId = "examzone" + String.valueOf(MaxExamZoneNumber);
-				requestMap.replace("examZoneId", newExamZoneId);
+				// 수정
+				if (!fileName.equals("") && fileName != null && file.getSize() != 0) 
+				{
+					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+					File copyFile = new File(FileController.examZonePath, LocalFileName);
+						
+					if (!new File(FileController.examZonePath).exists()) 
+					{
+						new File(FileController.examZonePath).mkdirs();
+					}
+							
+					FileCopyUtils.copy(file.getBytes(), copyFile);	
+					
+					FileDto updateFileDto = new FileDto();	
+					String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
+					requestMap.put("examZoneMap", String.valueOf(requestMap.get("fileId")));
+	
+					updateFileDto.setFileId(String.valueOf(requestMap.get("fileId")));
+					updateFileDto.setLocalFileName(LocalFileName);
+					updateFileDto.setRealFileName(fileName);
+					updateFileDto.setFileExtsn(fileExtsn);
+					updateFileDto.setBoardId(examZoneId);
+					updateFileDto.setFileSize(fileSize);
+
+					applyManageService.updateExamZoneMapFileInfo(updateFileDto);
+				}
+				// 삭제
+				else if (fileName.equals("") || fileName == null)
+				{
+					applyManageService.deleteExamZoneMapFileInfo(String.valueOf(requestMap.get("fileId")));
+				}
+				
+			}
+			// 파일등록이 안되어 있을때(저장)
+			else 
+			{
+				// 저장
+				if (!fileName.equals("") && fileName != null && file.getSize() != 0) // 파일을 새로 등록할때
+				{
+					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+					
+					File copyFile = new File(FileController.examZonePath, LocalFileName);
+					
+					if (!new File(FileController.examZonePath).exists()) 
+					{
+						new File(FileController.examZonePath).mkdirs();
+					}
+						
+					FileCopyUtils.copy(file.getBytes(), copyFile);
+					
+					int MaxFileIdNumber = boardManageService.getMaxFileId() + 1;
+					String newFileId = "FILE" +  String.valueOf(MaxFileIdNumber);
+					String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
+					requestMap.put("examZoneMap", newFileId);
+				
+					FileDto fileDto = new FileDto();
+
+					fileDto.setLocalFileName(LocalFileName);
+					fileDto.setRealFileName(fileName);
+					fileDto.setBoardId(examZoneId);
+					fileDto.setFileId(newFileId);
+					fileDto.setFileExtsn(fileExtsn);
+					fileDto.setFileSize(fileSize);
+					applyManageService.saveExamZoneMapFileInfo(fileDto);
+				}
+				
+			}
+			/////////////////////////// 파일 관련 프로세스 처리 끝 ///////////////////////////
+			
+			// 저장일때
+			if (actionCode.equals("Save"))
+			{
+				requestMap.replace("examZoneId", examZoneId);
 				isSaveUpdateSuccess = applyManageService.setExamZoneSave(requestMap);
 			}
+			// 수정일때
 			else 
 			{
 				isSaveUpdateSuccess = applyManageService.setExamZoneModify(requestMap);
@@ -324,7 +413,7 @@ public class ApplyManageController {
 	            if (openExamId != null && !openExamId.isEmpty())
 	            {
 	               Map<String, Object> updateMap = new HashMap<String, Object>();
-	               updateMap.put("examZoneId", requestMap.get("examZoneId"));
+	               updateMap.put("examZoneId", examZoneId);
 	               updateMap.put("examId", openExamId);
 	               updateMap.put("examRoomCnt", requestMap.get("examRoomCnt"));
 	               updateMap.put("examRoomUserCnt", requestMap.get("examRoomUserCnt"));
@@ -332,10 +421,9 @@ public class ApplyManageController {
 	               applyManageService.modifyExamAndExamZoneRel(updateMap);
 	            }
 			}
-			
+
 			if (isSaveUpdateSuccess == 1) isSuccess = true;
-			else isSuccess = false;
-				
+			else isSuccess = false;				
 		}
 		
 		resultMap.put("isSuccess", isSuccess);

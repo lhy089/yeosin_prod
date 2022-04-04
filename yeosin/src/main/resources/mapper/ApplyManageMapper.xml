@@ -523,21 +523,44 @@
 	</select>
 	
 	<!-- 고사장 등록에 해당하는 고사장 1개에 대한 데이터 조회 -->
-	<select id="getExamZone" parameterType="map" resultType="com.yeosin.apply.ExamZoneDto">
+	<resultMap id="ExamZoneAndFileMap" type="com.yeosin.apply.ExamZoneDto">
+		<result column="LOCAL" property="local" />
+		<result column="LOCALDETAIL" property="localDetail" />
+		<result column="EXAMZONEID" property="examZoneId" />
+		<result column="EXAMZONENAME" property="examZoneName" />
+		<result column="EXAMROOMCNT" property="examRoomCnt" />
+		<result column="EXAMROOMUSERCNT" property="examRoomUserCnt" />
+		<result column="TOTALUSERCNT" property="examTotalUserCnt" />
+		<result column="DESCRIPTION" property="description" />
+		<result column="EXAMZONEMAP" property="examZoneMap" />		
+	<association property="fileDto" javaType="com.yeosin.board.FileDto">
+		<result column="FILEID" property="fileId" />
+		<result column="FILESIZE" property="fileSize" />
+		<result column="LOCALFILENAME" property="localFileName" />
+		<result column="REALFILENAME" property="realFileName" />
+		<result column="FILEURL" property="fileURL" />
+	</association>
+	</resultMap>	
+	<select id="getExamZone" parameterType="map" resultMap="ExamZoneAndFileMap">
 		SELECT 	
-				LOCAL 													-- 지역 
-			,	LOCALDETAIL 											-- 구 
-			,	EXAMZONEID 												-- 고사장 ID
-			,	EXAMZONENAME 											-- 고사장명
-			,	EXAMROOMCNT 											-- 시험 교실수
-			,	EXAMROOMUSERCNT											-- 교실당 인원수
-			,	EXAMROOMCNT * EXAMROOMUSERCNT 		AS TOTALUSERCNT 	-- 전체 인원수
-			, 	DESCRIPTION 											-- 주소
-			,	REPLACE(EXAMZONEMAP, '/www/inc/img/apply/', '') 		
-													AS EXAMZONEMAP 		-- 약도
-		FROM 	YS_EXAMZONE 
+				EZ.LOCAL 													-- 지역 
+			,	EZ.LOCALDETAIL 												-- 구 
+			,	EZ.EXAMZONEID 												-- 고사장 ID
+			,	EZ.EXAMZONENAME 											-- 고사장명
+			,	EZ.EXAMROOMCNT 												-- 시험 교실수
+			,	EZ.EXAMROOMUSERCNT											-- 교실당 인원수
+			,	EZ.EXAMROOMCNT * EZ.EXAMROOMUSERCNT 		AS TOTALUSERCNT -- 전체 인원수
+			, 	EZ.DESCRIPTION 												-- 주소
+			,	F.REALFILENAME 								AS EXAMZONEMAP 	-- 약도
+			,	F.FILEID 													-- 파일 ID
+			,	F.FILESIZE 													-- 파일 Size
+			,	F.LOCALFILENAME  											-- 파일명(가변값)
+			,	F.REALFILENAME 												-- 파일명(고정값)
+			,	F.FILEURL 													-- 파일 URL
+		FROM 	YS_EXAMZONE 				EZ
+		LEFT JOIN YS_FILE 					F 	ON 	F.FILEID = EZ.EXAMZONEMAP 
 		WHERE 	1 = 1
-		AND 	EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};
+		AND 	EZ.EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};
 	</select>
 	
 	<!-- 고사장 ID MaxNumber 조회 -->
@@ -550,7 +573,7 @@
 	<!-- 새로운 고사장 등록 -->
 	<insert id="insertExamZone" parameterType="map">
 		INSERT INTO YS_EXAMZONE (EXAMZONEID, LOCAL, LOCALDETAIL, EXAMZONENAME, EXAMROOMCNT, EXAMROOMUSERCNT, TOTALUSERCNT, EXAMZONEMAP, DESCRIPTION) 
-		VALUES (#{examZoneId}, #{local}, #{localDetail}, #{examZoneName}, #{examRoomCnt}, #{examRoomUserCnt}, #{examRoomCnt} * #{examRoomUserCnt}, #{mapFile}, #{address});
+		VALUES (#{examZoneId}, #{local}, #{localDetail}, #{examZoneName}, #{examRoomCnt}, #{examRoomUserCnt}, #{examRoomCnt} * #{examRoomUserCnt}, #{examZoneMap}, #{address});
 	</insert>
 	
 	<!-- 기존 고사장 수정 -->
@@ -562,7 +585,7 @@
 			, 	EXAMROOMCNT = #{examRoomCnt}
 			,	EXAMROOMUSERCNT = #{examRoomUserCnt}
 			, 	TOTALUSERCNT = #{examRoomCnt} * #{examRoomUserCnt}
-			, 	EXAMZONEMAP = #{mapFile}
+			, 	EXAMZONEMAP = #{examZoneMap}
 			, 	DESCRIPTION = #{address}
 		WHERE 	EXAMZONEID = #{examZoneId};
 	</insert>
@@ -885,12 +908,50 @@
    </select>
    
    <!-- 시험 ID에 대한 수정 -->
-      <update id="modifyExamAndExamZoneRel" parameterType="map">
+   <update id="modifyExamAndExamZoneRel" parameterType="map">
       UPDATE    YS_EXAMANDEXAMZONEREL
       SET    EXAMROOMCNT = #{examRoomCnt}
          ,    EXAMROOMUSERCNT = #{examRoomUserCnt}
       WHERE    EXAMZONEID  = #{examZoneId}
       AND    EXAMID =  #{examId}
    </update>
+   
+	<!-- 고사장 파일등록여부 체크 -->
+	<select id="getExamZoneFileInfo" parameterType="String" resultType="com.yeosin.board.FileDto">
+		SELECT 	
+				FILEID 
+			,	REALFILENAME 
+			,	LOCALFILENAME 
+			,	FILESIZE 
+			,	FILEURL 
+			, 	BOARDID 
+			,	FILEEXTSN 
+		FROM 	YS_FILE
+		WHERE 	1 = 1 
+		AND 	FILEID = #{fileId, jdbcType=VARCHAR};
+	</select>
+	
+   	<!-- 고사장 약도 추가하기 -->
+	<insert id="saveExamZoneMapFileInfo" parameterType="com.yeosin.board.FileDto">
+		INSERT INTO YS_FILE (FILEID, REALFILENAME, LOCALFILENAME, FILESIZE, FILEURL, BOARDID, FILEEXTSN)
+		VALUES(#{fileId}, #{realFileName}, #{localFileName}, #{fileSize}, '/resource/examzoneFile', #{boardId}, #{fileExtsn});
+	</insert>
+	
+	<!-- 고사장 약도 수정하기 -->
+	<update id="updateExamZoneMapFileInfo" parameterType="com.yeosin.board.FileDto"> 
+		UPDATE	YS_FILE 
+		SET 	REALFILENAME = #{realFileName, jdbcType=VARCHAR}			
+			,	LOCALFILENAME = #{localFileName, jdbcType=VARCHAR}
+			,	FILESIZE = #{fileSize, jdbcType=VARCHAR}
+			,	FileEXTSN = #{fileExtsn, jdbcType=VARCHAR}
+		WHERE 	FILEID = #{fileId, jdbcType=VARCHAR}	
+	</update>
+	
+	<!-- 고사장 약도 삭제하기 -->
+	<delete id="deleteExamZoneMapFileInfo" parameterType="String">
+		DELETE 	
+		FROM 	YS_FILE
+		WHERE 	FILEID = #{boardId, jdbcType=VARCHAR};	
+	</delete>
 	
 </mapper>

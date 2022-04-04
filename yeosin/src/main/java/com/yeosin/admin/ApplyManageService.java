@@ -240,4 +240,24 @@ public class ApplyManageService {
 	public int modifyExamAndExamZoneRel(Map<String, Object> map) throws Exception {
 		return applyManageDao.modifyExamAndExamZoneRel(map);
 	}
+	
+	// 고사장 파일등록여부 체크
+	public FileDto getExamZoneFileInfo(String fileId) throws Exception {
+		return applyManageDao.getExamZoneFileInfo(fileId);
+	}
+	
+	// 고사장 약도등록
+	public int saveExamZoneMapFileInfo(FileDto fileDto) throws Exception {
+		return applyManageDao.saveExamZoneMapFileInfo(fileDto);
+	}
+	
+	// 고사장 약도수정
+	public int updateExamZoneMapFileInfo(FileDto fileDto) throws Exception {
+		return applyManageDao.updateExamZoneMapFileInfo(fileDto);
+	}
+	
+	// 고사장 약도삭제
+	public int deleteExamZoneMapFileInfo(String fileId) throws Exception {
+		return applyManageDao.deleteExamZoneMapFileInfo(fileId);
+	}
 }
