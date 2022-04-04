@@ -12,6 +12,33 @@ public class EduCompletionDto {
 	private String apiSyncId;
 	private String upApiSyncId;
 	private String searchWord;
+	private int page; // 현재 페이지 번호
+	private int perPageNum; // 현 페이지당 보여줄 게시글의 갯수
+
+	public EduCompletionDto() {
+		this.page = 1;
+		this.perPageNum = 30;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getPerPageNum() {
+		return perPageNum;
+	}
+	public void setPerPageNum(int pageCount) {
+		int cnt = this.perPageNum;
+		if (pageCount != cnt) {
+			this.perPageNum = pageCount;
+		} else {
+			this.perPageNum = pageCount;
+		}
+	}
+	public int getPageStart() {
+		return (this.page - 1) * perPageNum;
+	}
 	
 	public String getUserId() {
 		return userId;

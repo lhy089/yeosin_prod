@@ -132,7 +132,7 @@
         </td>
         <th>취소여부</th>
         <td>
-           <select id="isCancelCondition" name="isCancelCondition">
+		<select id="isCancelCondition" name="isCancelCondition">
             <c:forEach var="isCancelList" items="${isCancelList}" varStatus="status">
 				<c:choose>
 				<c:when test="${isCancelCondition eq isCancelList.isCancel}">
@@ -143,7 +143,7 @@
 				</c:otherwise>
 				</c:choose>
             </c:forEach>
-           </select>        
+           </select>      
         </td>
         </tr>      
       </table>

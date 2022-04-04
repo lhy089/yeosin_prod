@@ -44,16 +44,24 @@ public class UserManageService {
 		return userManageDao.countUserListTotal(map);
 	}
 	
-	public List<EduCompletionDto> getEduCompletionList(EduCompletionDto eduCompletionInfo) throws Exception {
-		return userManageDao.getEduCompletionList(eduCompletionInfo);
+	public List<EduCompletionDto> getEduCompletionList(Map<String, Object> parameterMap) throws Exception {
+		return userManageDao.getEduCompletionList(parameterMap);
+	}
+	
+	public int getEduCompletionListCount(Map<String, Object> parameterMap) throws Exception {
+		return userManageDao.getEduCompletionListCount(parameterMap);
 	}
 	
 	public int insertEduCompletionHis(EduCompletionHisDto eduCompletionHis) throws Exception {
 		return userManageDao.insertEduCompletionHis(eduCompletionHis);
 	}
 	
-	public List<EduCompletionHisDto> getEduCompletionHisList() throws Exception {
-		return userManageDao.getEduCompletionHisList();
+	public List<EduCompletionHisDto> getEduCompletionHisList(Map<String, Object> parameterMap) throws Exception {
+		return userManageDao.getEduCompletionHisList(parameterMap);
+	}
+	
+	public int getEduCompletionHisListCount(Map<String, Object> parameterMap) throws Exception {
+		return userManageDao.getEduCompletionHisListCount(parameterMap);
 	}
 	
 	//관리자 회원 수정

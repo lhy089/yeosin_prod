@@ -134,6 +134,23 @@
 			</c:choose>
           </td>
         </tr>
+        <tr>
+        <th>목록건수</th>
+          <td>
+            <select id="onePageDataCountCondition" name="onePageDataCountCondition" class="count">
+ 				<c:forEach var="i" begin="30" end="300" step="10">
+					<c:choose>
+					<c:when test="${i eq pageCondition}">
+						<option value="${i}" selected>${i}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${i}">${i}</option>
+					</c:otherwise>
+					</c:choose>
+				</c:forEach>
+            </select>
+          </td>
+        </tr>
       </table>
     </div>
     <input style="border:none;" class="btn_apply mb100" type="submit" value="조회"/>
@@ -238,17 +255,17 @@
 	<ul class="btn-group pagination">
 	 <c:if test="${pageMaker.prev}">
 	     <li>
-	        <a href='<c:url value="/siteList?page=${pageMaker.startPage-1}&textCondition=${textCondition}&localCondition=${localCondition}" />'><i class="fa fa-chevron-left">이전</i></a>
+	        <a href='<c:url value="/siteList?page=${pageMaker.startPage-1}&textCondition=${textCondition}&localCondition=${localCondition}&onePageDataCountCondition=${pageCondition}" />'><i class="fa fa-chevron-left">이전</i></a>
 	    </li>
 	</c:if>
 	 <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
 	   <li value="${pageNum}"> 
-	         <a href='<c:url value="/siteList?page=${pageNum}&textCondition=${textCondition}&localCondition=${localCondition}" />'><i class="fa">${pageNum}</i></a>
+	         <a href='<c:url value="/siteList?page=${pageNum}&textCondition=${textCondition}&localCondition=${localCondition}&onePageDataCountCondition=${pageCondition}" />'><i class="fa">${pageNum}</i></a>
 	   </li>
 	</c:forEach>
 	<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
 	   <li>
-	        <a href='<c:url value="/siteList?page=${pageMaker.endPage+1}&textCondition=${textCondition}&localCondition=${localCondition}"/>'><i class="fa fa-chevron-right">다음</i></a>
+	        <a href='<c:url value="/siteList?page=${pageMaker.endPage+1}&textCondition=${textCondition}&localCondition=${localCondition}&onePageDataCountCondition=${pageCondition}"/>'><i class="fa fa-chevron-right">다음</i></a>
 	     </li>
 	</c:if>
 	</ul>   

@@ -28,6 +28,8 @@
   <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"> <!--test용-->
   <link rel="stylesheet" href="/www/inc/css/common.css"><!--test용-->
   <link rel="stylesheet" href="/www/inc/css/admin.css">
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 </head>
 
 <body>
@@ -68,7 +70,7 @@
     </table>
     <a href="#" class="btn_apply mb100">조회</a>
     -->
-
+	<form action="/memberCourseMng" method="get">
     <table class="inputTable">
       <colgroup>
         <col width="14%">
@@ -87,7 +89,26 @@
         <th>호출 주소 설정</th>
         <td><input type="text" name="" value=""></td>
       </tr>
+      <tr>
+        <th>목록건수</th>
+          <td>
+            <select id="onePageDataCountCondition" name="onePageDataCountCondition" class="count">
+ 				<c:forEach var="i" begin="30" end="300" step="10">
+					<c:choose>
+					<c:when test="${i eq pageCondition}">
+						<option value="${i}" selected>${i}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${i}">${i}</option>
+					</c:otherwise>
+					</c:choose>
+				</c:forEach>
+            </select>
+          </td>
+        </tr>
     </table>
+    <input style="border:none;" class="btn_apply mb100" type="submit" value="조회"/>
+    </form>
     <p class="red">※ 날자를 미지정 시 매일 같은 시간 실행됩니다.</p>
 
     <table class="memberList">
@@ -121,6 +142,27 @@
       	</tr>
       </c:forEach>
     </table>
+	<br>
+	<ul class="btn-group pagination">
+	 <c:if test="${pageMaker.prev}">
+	     <li>
+	        <a href='<c:url value="/memberCourseMng?page=${pageMaker.startPage-1}&onePageDataCountCondition=${pageCondition}" />'><i class="fa fa-chevron-left">이전</i></a>
+	    </li>
+	</c:if>
+	 <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+	   <li value="${pageNum}"> 
+	         <a href='<c:url value="/memberCourseMng?page=${pageNum}&onePageDataCountCondition=${pageCondition}" />'><i class="fa">${pageNum}</i></a>
+	   </li>
+	</c:forEach>
+	<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+	   <li>
+	        <a href='<c:url value="/memberCourseMng?page=${pageMaker.endPage+1}&onePageDataCountCondition=${pageCondition}"/>'><i class="fa fa-chevron-right">다음</i></a>
+	     </li>
+	</c:if>
+	</ul>   
+	<c:set var="OutputPageTotal" value="${(pageMaker.totalCount/eduCompletionHisDto.perPageNum)+(1-((pageMaker.totalCount/eduCompletionHisDto.perPageNum)%1))%1}" />
+	<fmt:parseNumber var="OutputPage"  value="${OutputPageTotal}" integerOnly="true" type="number"/>
+	<p class="pageCnt">전체 ${pageMaker.totalCount}건, ${eduCompletionHisDto.page} / <c:out value="${OutputPage}"/> 페이지</p>	
   </div>
 </div>
 

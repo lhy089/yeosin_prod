@@ -24,7 +24,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yeosin.user.EduCompletionDto;
+import com.yeosin.user.EduCompletionDtoPageMaker;
 import com.yeosin.user.EduCompletionHisDto;
+import com.yeosin.user.EduCompletionHisDtoPageMaker;
 import com.yeosin.user.UserDto;
 import com.yeosin.user.UserPageMaker;
 import com.yeosin.user.UserService;
@@ -71,9 +73,19 @@ public class UserManageController {
 		    mav.setViewName("main");      
 		}
 		else 
-		{
-			String pageInit = request.getParameter("onePageDataCountCondition")==null ? "200" : request.getParameter("onePageDataCountCondition");
-			
+		{			
+			// 페이징 데이터 준비(페이지당 데이터 목록수)
+			int pagePerNum = 30;
+			if (request.getParameterMap().containsKey("onePageDataCountCondition")) 
+			{
+				if (request.getParameter("onePageDataCountCondition") != null 
+						&& !request.getParameter("onePageDataCountCondition").trim().isEmpty())
+				{
+					pagePerNum = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
+				}
+			}
+			userDto.setPerPageNum(pagePerNum);
+			   
 			Map<String, Object> parameterMap = new HashMap<String, Object>();
 			parameterMap.put("searchEmailType", request.getParameter("searchEmailType"));
 			parameterMap.put("searchSMSType", request.getParameter("searchSMSType"));
@@ -87,8 +99,6 @@ public class UserManageController {
 			parameterMap.put("emailAddress", userDto.getEmailAddress());
 			parameterMap.put("pageStart", userDto.getPageStart());
 			parameterMap.put("perPageNum", userDto.getPerPageNum());
-		
-			userDto.setPerPageNum(Integer.parseInt(pageInit));
 			
 			UserPageMaker pageMaker = new UserPageMaker();
 			pageMaker.setUserDto(userDto);
@@ -115,7 +125,7 @@ public class UserManageController {
 			mav.addObject("userDto", userDto);
 			mav.addObject("userList", userList);
 			mav.addObject("isAlert",false);
-			mav.addObject("pageCondition", pageInit);
+			mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
 			mav.setViewName("admin/member_info");
 		}
 
@@ -268,9 +278,10 @@ public class UserManageController {
 		return mav;
 	}
 	
+	// 교육수료정보
 	@RequestMapping(value="/memberCourseMng", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView memberCourseMng(HttpSession session, HttpServletResponse response) throws Exception {
+	public ModelAndView memberCourseMng(EduCompletionHisDto eduCompletionHisDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
@@ -287,10 +298,34 @@ public class UserManageController {
 	    }
 	    else 
 	    {
+	    	// 페이징 데이터 준비(페이지당 데이터 목록수)
+	    	int pagePerNum = 30;
+	    	if (request.getParameterMap().containsKey("onePageDataCountCondition")) 
+	    	{
+	    		if (request.getParameter("onePageDataCountCondition") != null 
+	    				&& !request.getParameter("onePageDataCountCondition").trim().isEmpty())
+	    		{
+	    			pagePerNum = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
+	    		}
+	    	}
+	    	eduCompletionHisDto.setPerPageNum(pagePerNum);
+			   
+	    	Map<String, Object> parameterMap = new HashMap<String, Object>();
+	    	parameterMap.put("pageStart", eduCompletionHisDto.getPageStart());
+	    	parameterMap.put("perPageNum", eduCompletionHisDto.getPerPageNum());
+	    	
 	    	List<EduCompletionHisDto> eduCompletionHisList = new ArrayList<EduCompletionHisDto>();
-			eduCompletionHisList = userManageService.getEduCompletionHisList();
+			eduCompletionHisList = userManageService.getEduCompletionHisList(parameterMap);
+			
+			// 페이징 하기위한 데이터
+			EduCompletionHisDtoPageMaker pageMaker = new EduCompletionHisDtoPageMaker();
+			pageMaker.setEduCompletionHisDto(eduCompletionHisDto);
+			pageMaker.setTotalCount(userManageService.getEduCompletionHisListCount(parameterMap));
 			
 			mav.addObject("eduCompletionHisList", eduCompletionHisList);
+			mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
+			mav.addObject("pageMaker", pageMaker);
+			mav.addObject("eduCompletionHisDto", eduCompletionHisDto);
 			mav.setViewName("admin/member_course");
 	    }
 		return mav;
@@ -298,7 +333,7 @@ public class UserManageController {
 	
 	@RequestMapping(value="/memberCourseViewMng", method=RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView memberCourseViewMng(EduCompletionDto eduCompletionInfo, HttpSession session, HttpServletResponse response) throws Exception {
+	public ModelAndView memberCourseViewMng(EduCompletionDto eduCompletionDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 		
@@ -316,11 +351,38 @@ public class UserManageController {
 	    }
 	    else 
 	    {
+	    	// 페이징 데이터 준비(페이지당 데이터 목록수)
+	    	int pagePerNum = 30;
+	    	if (request.getParameterMap().containsKey("onePageDataCountCondition")) 
+	    	{
+	    		if (request.getParameter("onePageDataCountCondition") != null 
+	    				&& !request.getParameter("onePageDataCountCondition").trim().isEmpty())
+	    		{
+	    			pagePerNum = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
+	    		}
+	    	}
+	    	eduCompletionDto.setPerPageNum(pagePerNum);
+	    	
+	    	Map<String, Object> parameterMap = new HashMap<String, Object>();
+	    	parameterMap.put("apiSyncId", request.getParameter("apiSyncId"));
+	    	parameterMap.put("searchWord", eduCompletionDto.getSearchWord());
+	    	parameterMap.put("gender", eduCompletionDto.getGender());
+	    	parameterMap.put("subject", eduCompletionDto.getSubject());
+	    	parameterMap.put("pageStart", eduCompletionDto.getPageStart());
+	    	parameterMap.put("perPageNum", eduCompletionDto.getPerPageNum());
+	    	
 	    	List<EduCompletionDto> eduCompletionList = new ArrayList<EduCompletionDto>();
-			eduCompletionList = userManageService.getEduCompletionList(eduCompletionInfo);
+			eduCompletionList = userManageService.getEduCompletionList(parameterMap);
 			
-			mav.addObject("eduCompletionInfo", eduCompletionInfo);
+			// 페이징 하기위한 데이터
+			EduCompletionDtoPageMaker pageMaker = new EduCompletionDtoPageMaker();
+			pageMaker.setEduCompletionDto(eduCompletionDto);
+			pageMaker.setTotalCount(userManageService.getEduCompletionListCount(parameterMap));
+			
+			mav.addObject("eduCompletionInfo", eduCompletionDto);
 			mav.addObject("eduCompletionList", eduCompletionList);
+			mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
+			mav.addObject("pageMaker", pageMaker);
 			mav.setViewName("admin/member_course_view");
 	    }
 		

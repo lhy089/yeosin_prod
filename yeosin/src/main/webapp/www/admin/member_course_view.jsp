@@ -23,8 +23,9 @@
   <meta property="og:image" content="/www/inc/img/openGraph.jpg">
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
-
   <link rel="stylesheet" href="/www/inc/css/admin.css">
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
   <script>
   $(document).ready(function(){ 
  	$("#excelDownload").click(function(){
@@ -99,6 +100,7 @@
   <div class="contentBoxAd">
     <h1 class="title">회원관리</h1>
     <form action="/memberCourseViewMng" method="GET" onsubmit="return setSubjectValue();">
+    <input type="hidden" value="<%=request.getParameter("apiSyncId")%>" id="apiSyncId" name="apiSyncId"/>
     <h2>교육수료정보</h2>
     <table>
       <colgroup>
@@ -124,6 +126,23 @@
           <label class="agree"><input type="radio" name="gender" <c:if test="${eduCompletionInfo.gender eq '여'}">checked="checked"</c:if> value="여"> 여</label>
         </td>
       </tr>
+      <tr>
+        <th>목록건수</th>
+          <td>
+            <select id="onePageDataCountCondition" name="onePageDataCountCondition" class="count">
+ 				<c:forEach var="i" begin="30" end="300" step="10">
+					<c:choose>
+					<c:when test="${i eq pageCondition}">
+						<option value="${i}" selected>${i}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${i}">${i}</option>
+					</c:otherwise>
+					</c:choose>
+				</c:forEach>
+            </select>
+          </td>
+        </tr>
     </table>
      <input style="border:none;" class="btn_apply mb100" type="submit" value="조회"/>
 <!--     <a id ="btn_search" type="submit" class="btn_apply mb100">조회</a> -->
@@ -170,6 +189,27 @@
       	</tr>
       </c:forEach>
     </table>
+    <br>
+	<ul class="btn-group pagination">
+	 <c:if test="${pageMaker.prev}">
+	     <li>
+	        <a href='<c:url value="/memberCourseViewMng?apiSyncId=${eduCompletionDto.apiSyncId}&page=${pageMaker.startPage-1}&onePageDataCountCondition=${pageCondition}" />'><i class="fa fa-chevron-left">이전</i></a>
+	    </li>
+	</c:if>
+	 <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+	   <li value="${pageNum}"> 
+	         <a href='<c:url value="/memberCourseViewMng?apiSyncId=${eduCompletionDto.apiSyncId}&page=${pageNum}&onePageDataCountCondition=${pageCondition}" />'><i class="fa">${pageNum}</i></a>
+	   </li>
+	</c:forEach>
+	<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+	   <li>
+	        <a href='<c:url value="/memberCourseViewMng?apiSyncId=${eduCompletionDto.apiSyncId}&page=${pageMaker.endPage+1}&onePageDataCountCondition=${pageCondition}"/>'><i class="fa fa-chevron-right">다음</i></a>
+	     </li>
+	</c:if>
+	</ul>   
+	<c:set var="OutputPageTotal" value="${(pageMaker.totalCount/eduCompletionInfo.perPageNum)+(1-((pageMaker.totalCount/eduCompletionInfo.perPageNum)%1))%1}" />
+	<fmt:parseNumber var="OutputPage"  value="${OutputPageTotal}" integerOnly="true" type="number"/>
+	<p class="pageCnt">전체 ${pageMaker.totalCount}건, ${eduCompletionInfo.page} / <c:out value="${OutputPage}"/> 페이지</p>	
     <a href="/memberCourseMng" class="btn_apply mb100">뒤로가기</a>
   </div>
 </div>

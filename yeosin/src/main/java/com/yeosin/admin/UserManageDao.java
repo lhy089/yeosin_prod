@@ -29,16 +29,24 @@ public class UserManageDao {
 		return this.sqlSession.selectOne(namespace + "countUserListTotal", map);
 	}
 	
-	public List<EduCompletionDto> getEduCompletionList(EduCompletionDto eduCompletionInfo) throws Exception {
-		return sqlSession.selectList(namespace + "getEduCompletionList", eduCompletionInfo);
+	public List<EduCompletionDto> getEduCompletionList(Map<String, Object> parameterMap) throws Exception {
+		return sqlSession.selectList(namespace + "getEduCompletionList", parameterMap);
+	}
+	
+	public int getEduCompletionListCount(Map<String, Object> parameterMap) throws Exception {
+		return sqlSession.selectOne(namespace + "getEduCompletionListCount", parameterMap);
 	}
 	
 	public int insertEduCompletionHis(EduCompletionHisDto eduCompletionHis) throws Exception {
 		return sqlSession.insert(namespace + "insertEduCompletionHis", eduCompletionHis);
 	}
 	
-	public List<EduCompletionHisDto> getEduCompletionHisList() throws Exception {
-		return sqlSession.selectList(namespace + "getEduCompletionHisList");
+	public List<EduCompletionHisDto> getEduCompletionHisList(Map<String, Object> parameterMap) throws Exception {
+		return sqlSession.selectList(namespace + "getEduCompletionHisList", parameterMap);
+	}
+	
+	public int getEduCompletionHisListCount(Map<String, Object> parameterMap) throws Exception {
+		return sqlSession.selectOne(namespace + "getEduCompletionHisListCount", parameterMap);
 	}
 	
 	public UserDto getUserInfoByUserId(String userId) throws Exception{

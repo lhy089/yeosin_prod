@@ -163,7 +163,7 @@ function RuesltListsaveExcel() {
           <th>목록건수</th>
            <td>
 			<select id="onePageDataCountCondition" name="onePageDataCountCondition" class="count">
-	            <c:forEach var="i" begin="50" end="300" step="50">
+	            <c:forEach var="i" begin="30" end="300" step="10">
 	            <c:choose>
 	            <c:when test="${i eq pageCondition}">
 	               <option value="${i}" selected>${i}</option>

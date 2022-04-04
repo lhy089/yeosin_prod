@@ -105,7 +105,7 @@
 			(#{apiSyncId}, now(), #{passStartDate}, #{passEndDate}, #{apiSyncType})
 	</insert>
 	
-	<select id="getEduCompletionList" parameterType="com.yeosin.user.EduCompletionHisDto" resultType="com.yeosin.user.EduCompletionDto">
+	<select id="getEduCompletionList" parameterType="map" resultType="com.yeosin.user.EduCompletionDto">
 		SELECT 
 				USERNAME
 			,	BIRTHDATE
@@ -129,18 +129,47 @@
 				AND SUBJECT = #{subject}
 			</if>
 		ORDER BY USERNAME
+      	LIMIT 
+            	#{pageStart}, #{perPageNum};
 	</select> 
 	
-	<select id="getEduCompletionHisList" resultType="com.yeosin.user.EduCompletionHisDto">
+	<select id="getEduCompletionListCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
+		FROM 	YS_EDUCOMPLETION
+		WHERE 	1 = 1
+			<if test="apiSyncId !=null and apiSyncId != ''">
+				AND (APISYNCID = #{apiSyncId} OR APISYNCID = #{apiSyncId})
+			</if>
+			<if test="searchWord !=null and searchWord != ''">
+				AND (USERNAME LIKE CONCAT('%', #{searchWord},'%') OR CERTID LIKE CONCAT('%', #{searchWord},'%'))
+			</if>
+			<if test="gender !=null and gender != ''">
+				AND GENDER = #{gender}
+			</if>
+			<if test="subject !=null and subject != ''">
+				AND SUBJECT = #{subject}
+			</if>
+	</select>
+	
+	<select id="getEduCompletionHisList" parameterType="map" resultType="com.yeosin.user.EduCompletionHisDto">
 		SELECT
 				APISYNCID
 			,	APISYNCDATE
 			,	PASSSTARTDATE
 			,	PASSENDDATE 
 			,	APISYNCTYPE 
-		FROM YS_EDUCOMPLETIONHIS
-		ORDER BY APISYNCDATE DESC
+		FROM 	YS_EDUCOMPLETIONHIS
+		ORDER BY 
+			APISYNCDATE DESC
+		LIMIT 
+			#{pageStart}, #{perPageNum};
 	</select> 
+	
+	<select id="getEduCompletionHisListCount" parameterType="map" resultType="Integer">
+		SELECT
+				COUNT(*)
+		FROM 	YS_EDUCOMPLETIONHIS;
+	</select>
 	
 	<select id="getUserInfoByUserId" parameterType="String" resultType="com.yeosin.user.UserDto">
 		SELECT 

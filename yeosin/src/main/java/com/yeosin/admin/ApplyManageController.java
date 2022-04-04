@@ -529,7 +529,16 @@ public class ApplyManageController {
 		   	//List<ExamZoneDto> localDetailList = applyManageService.getConditionLocalDetailList();
 		
 		   	// 페이징 데이터 준비(페이지당 데이터 목록수)
-		   	examZoneDto.setPerPageNum(30);
+		   	int pagePerNum = 30;
+		   	if (request.getParameterMap().containsKey("onePageDataCountCondition")) 
+		   	{
+		   		if (request.getParameter("onePageDataCountCondition") != null 
+		   				&& !request.getParameter("onePageDataCountCondition").trim().isEmpty())
+		   		{
+		   			pagePerNum = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
+		   		}
+		   	}
+		   	examZoneDto.setPerPageNum(pagePerNum);
 		     
 		   	parameterMap.put("textCondition", request.getParameter("textCondition"));
 		   	parameterMap.put("localCondition", request.getParameter("localCondition"));
@@ -557,6 +566,7 @@ public class ApplyManageController {
 		   	mav.addObject("textCondition", request.getParameter("textCondition"));
 		   	mav.addObject("localCondition", request.getParameter("localCondition"));
 		   	mav.addObject("localDetailCondition", request.getParameter("localDetailCondition"));
+		   	mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
 		   	mav.addObject("pageMaker", pageMaker);
 		   	mav.addObject("examZoneDto", examZoneDto);
 		   	mav.setViewName("admin/site_list"); 
@@ -607,7 +617,16 @@ public class ApplyManageController {
 			List<ExamDto> examDegreeList = applyManageService.getExamDegreeListByExamName(parameterMap);
 
 			// 페이징 데이터 준비(페이지당 데이터 목록수)
-			examDto.setPerPageNum(30);
+			int pagePerNum = 30;
+			if (request.getParameterMap().containsKey("onePageDataCountCondition")) 
+			{
+				if (request.getParameter("onePageDataCountCondition") != null 
+						&& !request.getParameter("onePageDataCountCondition").trim().isEmpty())
+				{
+					pagePerNum = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
+				}
+			}
+			examDto.setPerPageNum(pagePerNum);
 
 			parameterMap.put("yearCondition", request.getParameter("yearCondition"));
 			parameterMap.put("examNameCondition", request.getParameter("examNameCondition"));
@@ -636,6 +655,7 @@ public class ApplyManageController {
 			mav.addObject("yearCondition", request.getParameter("yearCondition"));
 			mav.addObject("examNameCondition", request.getParameter("examNameCondition"));
 			mav.addObject("degreeCondition", request.getParameter("degreeCondition"));
+			mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
 			mav.addObject("pageMaker", pageMaker);
 			mav.addObject("examDto", examDto);
 			mav.setViewName("admin/manage_schedule");
@@ -1162,7 +1182,16 @@ public class ApplyManageController {
 			List<ExamDto> examDegreeList = applyManageService.getExamDegreeListByExamName(parameterMap);
 
 			// 페이징 데이터 준비(페이지당 데이터 목록수)
-			examDto.setPerPageNum(30);
+			int pagePerNum = 30;
+			if (request.getParameterMap().containsKey("onePageDataCountCondition")) 
+			{
+				if (request.getParameter("onePageDataCountCondition") != null 
+						&& !request.getParameter("onePageDataCountCondition").trim().isEmpty())
+				{
+					pagePerNum = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
+				}
+			}
+			examDto.setPerPageNum(pagePerNum);
 
 			parameterMap.put("yearCondition", request.getParameter("yearCondition"));
 			parameterMap.put("examNameCondition", request.getParameter("examNameCondition"));
@@ -1191,6 +1220,7 @@ public class ApplyManageController {
 			mav.addObject("yearCondition", request.getParameter("yearCondition"));
 			mav.addObject("examNameCondition", request.getParameter("examNameCondition"));
 			mav.addObject("degreeCondition", request.getParameter("degreeCondition"));
+			mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
 			mav.addObject("pageMaker", pageMaker);
 			mav.addObject("examDto", examDto);
 			mav.setViewName("admin/examDegreeList");
