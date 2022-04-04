@@ -157,6 +157,13 @@
 	</form>
 	<!-- 엑셀 다운로드 Form 태그 -->
     <form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
+    	<input type="hidden" name="menuId" id="menuId" value="siteList">
+		<input type="hidden" name="localConditionForExcel" id="localConditionForExcel" value="${localCondition}">
+		<input type="hidden" name="localDetailConditionForExcel" id="localDetailConditionForExcel" value="${localDetailCondition}">
+		<input type="hidden" name="textConditionForExcel" id="textConditionForExcel" value="${textCondition}">
+		<input type="hidden" name="onePageDataCountConditionForExcel" id="onePageDataCountConditionForExcel" value="${pageCondition}">
+		<input type="hidden" name="pageForExcel" id="pageForExcel" value="${examZoneDto.page}">
+		
   		<input type="hidden" name="fileName" id="fileName" value="">	
   		<input type="hidden" name="columns" id="columns" value="">	
   		<input type="hidden" name="data" id="data" value="">
@@ -167,7 +174,7 @@
       <li><a href="/siteRegister">등록하기</a></li>
       <li><a href="/siteList" onclick="return doExamZoneDelete()">정보삭제</a></li>
     </ul>
-    <table class="mb100">
+    <table class="mb100" id="columnList">
       <colgroup>
         <col width="4%">
         <col width="4%">
@@ -180,8 +187,8 @@
         <col width="7.5%">
         <col width="12%">
       </colgroup>
-      <tr>
-        <th>선택</th>
+     <tr class="column_thead">
+	    <th class="first">선택</th>
         <th>번호</th>
         <th>지역</th>
         <th>구</th>
@@ -207,51 +214,6 @@
 	      </tr>
 	  </c:forEach> 
     </table>
-    <br>
-    <!-- 엑셀 다운로드 영역 -->
-    <div style="display:none">
-		<table class="mb100" id="columnList">
-	      <colgroup>
-	        <col width="4%">
-	        <col width="4%">
-	        <col width="12%">
-	        <col width="12%">
-	        <col width="18.5%">
-	        <col width="10%">
-	        <col width="10%">
-	        <col width="10%">
-	        <col width="7.5%">
-	        <col width="12%">
-	      </colgroup>
-	      <tr class="column_thead">
-	        <th class="first">선택</th>
-	        <th>번호</th>
-	        <th>지역</th>
-	        <th>구</th>
-	        <th>고사장명</th>
-	        <th>시험교실 수</th>
-	        <th>교실당 인원수</th>
-	        <th>전체 인원수</th>
-	        <th>약도여부</th>
-	        <th>비고</th>
-	      </tr>
-	      <c:forEach var="examZoneListByExcel" items="${examZoneListByExcel}" varStatus="status">   
-		      <tr class="center">
-		        <td class="flow flowNo"><input type="checkbox" name="examZoneCheck" value="${examZoneListByExcel.examZoneId}"></td>
-		        <td class="flow flowNo">${status.count}</td>
-		        <td class="flow flowNo">${examZoneListByExcel.local}</td>
-		        <td class="flow flowNo">${examZoneListByExcel.localDetail}</td>
-		        <td class="flow flowNo">${examZoneListByExcel.examZoneName}</td>
-		        <td class="flow flowNo">${examZoneListByExcel.examRoomCnt}</td>
-		        <td class="flow flowNo">${examZoneListByExcel.examRoomUserCnt}</td>
-		        <td class="flow flowNo">${examZoneListByExcel.examTotalUserCnt}</td>
-		        <td class="flow flowNo">${examZoneListByExcel.examZoneMap}</td>
-		        <td><a href="/siteRegister?examZoneId=${examZoneListByExcel.examZoneId}" class="btn_more">자세히 보기</a></td>
-		      </tr>
-		  </c:forEach> 
-		</table>
-    </div>
-    <br>
 	<ul class="btn-group pagination">
 	 <c:if test="${pageMaker.prev}">
 	     <li>

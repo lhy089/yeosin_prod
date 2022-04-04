@@ -151,6 +151,16 @@
     <input style="border:none;" class="btn_apply mb100" type="submit" value="조회"/>
     </form>
     <form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
+        <input type="hidden" name="menuId" id="menuId" value="statusDoc">
+<%--     	<input type="hidden" name="examId" id="examId" value="${examId}"> --%>
+		<input type="hidden" name="textConditionForExcel" id="textConditionForExcel" value="${textCondition}">
+		<input type="hidden" name="isCancelConditionForExcel" id="isCancelConditionForExcel" value="${isCancelCondition}">
+		<input type="hidden" name="localConditionForExcel" id="localConditionForExcel" value="${localCondition}">
+		<input type="hidden" name="subjectConditionForExcel" id="subjectConditionForExcel" value="${subjectCondition}">
+		<input type="hidden" name="examDegreeConditionForExcel" id="examDegreeConditionForExcel" value="${examDegreeCondition}">
+		<input type="hidden" name="onePageDataCountConditionForExcel" id="onePageDataCountConditionForExcel" value="${pageCondition}">
+		<input type="hidden" name="pageForExcel" id="pageForExcel" value="${applyDto.page}">
+		
   		<input type="hidden" name="fileName" id="fileName" value="">	
   		<input type="hidden" name="columns" id="columns" value="">	
   		<input type="hidden" name="data" id="data" value="">
@@ -160,7 +170,7 @@
       <li><a href="/manage_status_site">고사장별 확인</a></li>
       <li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
     </ul>
-    <table class="list">
+    <table class="list" id="columnList">
       <colgroup>
 <%--         <col width="4%">
         <col width="4%">
@@ -173,8 +183,8 @@
         <col width="10.5%">
         <col width="10.5%"> --%>
       </colgroup>
-      <tr>
-        <th>선택</th>
+      <tr class="column_thead">
+	    <th class="first">선택</th>
         <th>번호</th>
         <th>시험회차</th>
         <th>수험번호</th>
@@ -214,52 +224,6 @@
 	      </tr>
 	  </c:forEach>
     </table>
-    <br>
-    <!-- 엑셀 다운로드용 영역 -->
-    <div style="display:none">
-		<table class="list" id="columnList">
-	      <tr class="column_thead">
-	        <th class="first">선택</th>
-	        <th>번호</th>
-	        <th>시험회차</th>
-	        <th>수험번호</th>
-	        <th>이름</th>
-	        <th>아이디</th>
-	        <th>생년월일</th>
-	        <th>전화번호</th>
-	        <th>결제방식</th>
-	        <th>수험지역</th>
-	        <th>고사장</th>
-	        <th>좌석배치</th>
-	        <th>과목</th>
-	        <th>성별</th>
-	        <th>접수일</th>
-	        <th>시험일</th>
-	        <th>취소여부</th>
-	      </tr>
-	      <c:forEach var="applyListByDocumentAndExcel" items="${applyListByDocumentAndExcel}" varStatus="status">
-		      <tr class="center">
-		        <td class="flow flowNo"><input type="checkbox" name="applyCheck" value=""></td>
-		        <td class="flow flowNo">${status.count}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.examDto.examDegree}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.studentCode}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.userDto.userName}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.userId}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.userDto.birthDate}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.userDto.phoneNumber}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.paymentMethod}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.examZoneDto.local}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.examZoneDto.examZoneName}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.seatNumber}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.subjectDto.subjectName}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.userDto.gender}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.receiptDate}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.examDto.examDate}</td>
-		        <td class="flow flowNo">${applyListByDocumentAndExcel.isCancel}</td>
-		      </tr>
-		  </c:forEach>
-	    </table>
-    </div>
     <ul class="btn-group pagination">
   	<c:if test="${pageMaker.prev}">
    		<li>

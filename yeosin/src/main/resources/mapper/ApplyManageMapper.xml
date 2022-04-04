@@ -129,17 +129,17 @@
 				OR U.USERNAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
 				OR R.USERID LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%'))
 		</if>
-		<if test='localCondition != null and !localCondition.equals("전체")'>
+		<if test='localCondition != null and localCondition != "" and !localCondition.equals("전체")'>
 			AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
 		</if>
-		<if test='subjectCondition != null and !subjectCondition.equals("*")'>
+		<if test='subjectCondition != null and subjectCondition != "" and !subjectCondition.equals("*")'>
 			AND (R.SUBJECTID LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%')
 				OR S.SUBJECTNAME LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%'))
 		</if>
-		<if test='examDegreeCondition != null and !examDegreeCondition.equals("전체")'>
+		<if test='examDegreeCondition != null and examDegreeCondition != "" and !examDegreeCondition.equals("전체")'>
 			AND CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR)) = #{examDegreeCondition, jdbcType=VARCHAR}
 		</if>
-		<if test='isCancelCondition != null and !isCancelCondition.equals("전체")'>
+		<if test='isCancelCondition != null and isCancelCondition != "" and !isCancelCondition.equals("전체")'>
 			AND R.ISCANCEL = #{isCancelCondition, jdbcType=VARCHAR}
 		</if>
 		ORDER BY
@@ -367,14 +367,14 @@
 				OR U.USERNAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
 				OR R.STUDENTCODE LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%'))
 		</if>
-		<if test='localCondition != null and !localCondition.equals("전체")'>
+		<if test='localCondition != null and localCondition != "" and !localCondition.equals("전체")'>
 			AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
 		</if>
-		<if test='subjectCondition != null and !subjectCondition.equals("전체")'>
+		<if test='subjectCondition != nul and subjectCondition != "" and !subjectCondition.equals("전체")'>
 			AND (R.SUBJECTID LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%')
 				OR S.SUBJECTNAME LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%'))
 		</if>
-		<if test='isPassCondition != null and !isPassCondition.equals("전체")'>
+		<if test='isPassCondition != null and isPassCondition != "" and !isPassCondition.equals("전체")'>
 			AND (G.ISPASS = #{isPassCondition, jdbcType=VARCHAR})
 		</if>
 			AND E.EXAMID = #{examId}

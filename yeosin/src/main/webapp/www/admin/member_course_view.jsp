@@ -39,39 +39,13 @@
   	- 선택 : (2)번은 그대로 사용하거나 변경/추가해서 사용 가능. 
   */  
   function saveExcel() {
-	 /*
-		(1)
-	  	 아래 두 가지 요소만 정확하게 선택되면 됨.
-	   	$('.column_thead').find('th')
-	 	$('#columnList').find('tr') 
-	*/
   	var columnList = $.map($('.column_thead').find('th'), function(th){ // 리스트 head 찾기 
 		if(!$(th).hasClass('first')) return $(th).text();
 	});
-	
-	var dataList = new Array();
-	$('#columnList').find('tr').each(function(tr){ // 리스트 body 찾기
-		if(tr == 0) return true;
-		var row = new Array();
-		$(this).children().each(function(idx){
-			if(idx == 0) return;
-			row.push($(this).text());
-		});
-		dataList.push(row.join('▒'));
-	});
-	
+  	
 	$("#fileName").val("수료증번호 목록");  // 다운로드 받을 엑셀 이름 정의
 	$("#columns").val(columnList.join(','));
-	$("#data").val(dataList.join('▧'));
 	$("#excelForm").submit();
-	/* 
-		(2)
-		<form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
-		/excelDownload > UserManageController 에 있음.
-	 	완전히 똑같이 호출해도 되고,
-	 	/excelDownloadForApplyList 와 같이 다른 이름으로 controller에 추가해서 사용 가능.
-	 	controller 메서드는 그대로 사용.
-	*/;
   }
   
   function setSubjectValue() {
@@ -150,6 +124,14 @@
 
 	  
   	<form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
+  		<input type="hidden" name="menuId" id="menuId" value="memberCourseView">
+		<input type="hidden" name="genderForExcel" id="genderForExcel" value="${eduCompletionInfo.gender}">
+		<input type="hidden" name="subjectForExcel" id="subjectForExcel" value="${eduCompletionInfo.subject}">
+		<input type="hidden" name="searchWordForExcel" id="searchWordForExcel" value="${eduCompletionInfo.searchWord}">
+		<input type="hidden" name="apiSyncIdForExcel" id="apiSyncIdForExcel" value="${eduCompletionInfo.apiSyncId}">
+		<input type="hidden" name="onePageDataCountConditionForExcel" id="onePageDataCountConditionForExcel" value="${pageCondition}">
+		<input type="hidden" name="pageForExcel" id="pageForExcel" value="${eduCompletionInfo.page}">
+		
   		<input type="hidden" name="fileName" id="fileName" value="수료증번호 목록">	
   		<input type="hidden" name="columns" id="columns" value="">	
   		<input type="hidden" name="data" id="data" value="">	

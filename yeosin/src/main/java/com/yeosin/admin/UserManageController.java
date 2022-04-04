@@ -125,7 +125,7 @@ public class UserManageController {
 			mav.addObject("userDto", userDto);
 			mav.addObject("userList", userList);
 			mav.addObject("isAlert",false);
-			mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
+			mav.addObject("pageCondition", pagePerNum);
 			mav.setViewName("admin/member_info");
 		}
 
@@ -387,21 +387,6 @@ public class UserManageController {
 	    }
 		
 		return mav;
-	}
-	
-	
-	@RequestMapping(value="/excelDownload", method=RequestMethod.POST)
-	@ResponseBody
-	public void excelDownloadForMemberCourseView(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		try {
-			String column = request.getParameter("columns") == null ? "" : request.getParameter("columns");
-			String data = request.getParameter("data") == null ? "" : request.getParameter("data");
-			String fileName = request.getParameter("fileName");
-			HSSFWorkbook wb = ExcelUtil.excelDownloadByDetailList(column, data);
-			ExcelUtil.downLoadFile(wb, fileName, request, response);
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
 	}
 	
 	// 로그인 처리

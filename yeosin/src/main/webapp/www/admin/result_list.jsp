@@ -47,38 +47,13 @@ $(document).ready(function() {
 });
 
 function RuesltListsaveExcel() {
-	 /*
-		(1)
-	  	 아래 두 가지 요소만 정확하게 선택되면 됨.
-	   	$('.column_thead').find('th')
-	 	$('#columnList').find('tr') 
-	*/
 	var columnList = $.map($('.column_thead').find('th'), function(th){ // 리스트 head 찾기 
 		if(!$(th).hasClass('first')) return $(th).text();
-	});
-	
-	var dataList = new Array();
-	$('#columnList').find('tr').each(function(tr){ // 리스트 body 찾기
-		if(tr == 0) return true;
-		var row = new Array();
-		$(this).children().each(function(idx){
-			row.push($(this).text());
-		});
-		dataList.push(row.join('▒'));
 	});
 
 	$("#fileName").val("채점리스트 목록");  // 다운로드 받을 엑셀 이름 정의
 	$("#columns").val(columnList.join(','));
-	$("#data").val(dataList.join('▧'));
 	$("#excelForm").submit();
-	/* 
-	(2)
-	<form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
-	/excelDownload > UserManageController 에 있음.
-	완전히 똑같이 호출해도 되고,
-	/excelDownloadForApplyList 와 같이 다른 이름으로 controller에 추가해서 사용 가능.
-	controller 메서드는 그대로 사용.
-	*/;
  }
 </script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -181,6 +156,15 @@ function RuesltListsaveExcel() {
     <a onclick="return false;" id="btn_search" class="btn_apply mb100">조회</a>
     </form>
     <form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
+    	<input type="hidden" name="menuId" id="menuId" value="resultList">
+    	<input type="hidden" name="examId" id="examId" value="${examId}">
+		<input type="hidden" name="textConditionForExcel" id="textConditionForExcel" value="${textCondition}">
+		<input type="hidden" name="isPassConditionForExcel" id="isPassConditionForExcel" value="${isPassCondition}">
+		<input type="hidden" name="localConditionForExcel" id="localConditionForExcel" value="${localCondition}">
+		<input type="hidden" name="subjectConditionForExcel" id="subjectConditionForExcel" value="${subjectCondition}">
+		<input type="hidden" name="onePageDataCountConditionForExcel" id="onePageDataCountConditionForExcel" value="${pageCondition}">
+		<input type="hidden" name="pageForExcel" id="pageForExcel" value="${applyDto.page}">
+		
   		<input type="hidden" name="fileName" id="fileName" value="">	
   		<input type="hidden" name="columns" id="columns" value="">	
   		<input type="hidden" name="data" id="data" value="">	

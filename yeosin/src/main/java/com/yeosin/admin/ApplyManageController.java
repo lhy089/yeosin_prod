@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -37,8 +38,10 @@ import com.yeosin.apply.ExamZoneDtoPageMaker;
 import com.yeosin.apply.GradeDto;
 import com.yeosin.apply.SubjectDto;
 import com.yeosin.board.FileDto;
+import com.yeosin.user.EduCompletionDto;
 import com.yeosin.user.UserDto;
-import com.yeosin.util.FileController;
+import com.yeosin.user.UserPageMaker;
+import com.yeosin.util.ExcelUtil;
 import com.yeosin.util.ImageSaveUtil;
 
 @Controller
@@ -46,6 +49,9 @@ public class ApplyManageController {
    
    @Autowired
    private ApplyManageService applyManageService;
+   
+   @Autowired
+   private UserManageService userManageService;
    
    @Autowired
    private BoardManageService boardManageService;
@@ -130,7 +136,7 @@ public class ApplyManageController {
 		   mav.addObject("subjectCondition", request.getParameter("subjectCondition"));
 		   mav.addObject("examDegreeCondition", request.getParameter("examDegreeCondition"));
 		   mav.addObject("isCancelCondition", request.getParameter("isCancelCondition"));
-		   mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
+		   mav.addObject("pageCondition", pagePerNum);
 		   mav.addObject("pageMaker", pageMaker);
 		   mav.addObject("applyDto", applyDto);
 		   mav.setViewName("admin/manage_status_doc"); 
@@ -1223,7 +1229,7 @@ public class ApplyManageController {
 			mav.addObject("yearCondition", request.getParameter("yearCondition"));
 			mav.addObject("examNameCondition", request.getParameter("examNameCondition"));
 			mav.addObject("degreeCondition", request.getParameter("degreeCondition"));
-			mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
+			mav.addObject("pageCondition", pagePerNum);
 			mav.addObject("pageMaker", pageMaker);
 			mav.addObject("examDto", examDto);
 			mav.setViewName("admin/examDegreeList");
@@ -1231,5 +1237,227 @@ public class ApplyManageController {
 		
 		return mav;
 	}
-   
+	@RequestMapping(value="/excelDownload", method=RequestMethod.POST)
+	@ResponseBody
+	public void excelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		try {
+			String column = request.getParameter("columns") == null ? "" : request.getParameter("columns");
+			String menuId = request.getParameter("menuId");
+			String data = "";
+			List<String> excel = new ArrayList<String>();
+
+			if("resultListIntro".equals(menuId) || "examDegreeList".equals(menuId) || "manageSchedule".equals(menuId)) {
+				Map<String, Object> parameterMap = new HashMap<String, Object>();
+				parameterMap.put("yearCondition", request.getParameter("yearConditionForExcel"));
+				parameterMap.put("examNameCondition", request.getParameter("examNameConditionForExcel"));
+				parameterMap.put("degreeCondition", request.getParameter("degreeConditionForExcel"));
+				parameterMap.put("pageStart", 0);
+				parameterMap.put("perPageNum", Integer.parseInt(request.getParameter("onePageDataCountConditionForExcel")) * Integer.parseInt(request.getParameter("pageForExcel")));
+
+				// 시험 일정 데이터
+				List<ExamDto> examList = applyManageService.getExamList(parameterMap);
+
+				for(int i = 0 ; i < examList.size(); i++)
+				{
+					ExamDto dto = examList.get(i);
+					String examInfo = "";
+					String[] exam = new String[column.split(",").length];
+					exam[0] = Integer.toString(i+1);
+					exam[1] = dto.getExamYear();
+					exam[2] = dto.getExamName();
+					exam[3] = dto.getExamDegree();
+					exam[4] = dto.getExamDate();
+					if("resultListIntro".equals(menuId)) {
+						int GradeCnt = applyManageService.getGradeCntByExamId(dto.getExamId());
+						exam[5] = (GradeCnt > 0) ? "처리" : "미처리";
+						exam[6] = "";
+					}else {
+						exam[5] = "";
+					}
+					
+					examInfo = String.join("▒", exam);
+					excel.add(examInfo);
+				}
+
+				data = String.join("▧", excel);
+				
+			}else if("resultList".equals(menuId)) {
+				Map<String, Object> parameterMap = new HashMap<String, Object>();
+				parameterMap.put("textCondition", request.getParameter("textConditionForExcel"));
+				parameterMap.put("localCondition", request.getParameter("localConditionForExcel"));
+				parameterMap.put("subjectCondition", request.getParameter("subjectConditionForExcel"));
+				parameterMap.put("isPassCondition", request.getParameter("isPassConditionForExcel"));
+				parameterMap.put("examId", request.getParameter("examId"));
+				parameterMap.put("pageStart", 0);
+				parameterMap.put("perPageNum", Integer.parseInt(request.getParameter("onePageDataCountConditionForExcel")) * Integer.parseInt(request.getParameter("pageForExcel")));
+
+				List<ApplyDto> socrecardList = applyManageService.getScorecardList(parameterMap);
+
+				for(int i = 0 ; i < socrecardList.size(); i++)
+				{
+					ApplyDto dto = socrecardList.get(i);
+					String socrecardInfo = "";
+					String[] socrecard = new String[column.split(",").length];
+					//고사장,수험번호,성명,생년월일,성별,유형,좌석번호,점수,합격여부
+					socrecard[0] = dto.getExamZoneDto().getExamZoneName();
+					socrecard[1] = dto.getStudentCode();
+					socrecard[2] = dto.getUserDto().getUserName();
+					socrecard[3] = dto.getUserDto().getBirthDate();
+					socrecard[4] = dto.getUserDto().getGender();
+					socrecard[5] = dto.getSubjectDto().getSubjectName();
+					socrecard[6] = dto.getSeatNumber();
+					socrecard[7] = String.valueOf(dto.getGradeDto().getAllScore());
+					socrecard[8] = dto.getGradeDto().getIsPass();
+					socrecardInfo = String.join("▒", socrecard);
+					excel.add(socrecardInfo);
+				}
+				data = String.join("▧", excel);
+				
+			}else if("statusDoc".equals(menuId)) {
+				Map<String, Object> parameterMap = new HashMap<String, Object>();
+				parameterMap.put("textCondition", request.getParameter("textConditionForExcel"));
+				parameterMap.put("localCondition", request.getParameter("localConditionForExcel"));
+				parameterMap.put("subjectCondition", request.getParameter("subjectConditionForExcel"));
+				parameterMap.put("isCancelCondition", request.getParameter("isCancelConditionForExcel"));
+				parameterMap.put("examDegreeCondition", request.getParameter("examDegreeConditionForExcel"));
+				parameterMap.put("pageStart", 0);
+				parameterMap.put("perPageNum", Integer.parseInt(request.getParameter("onePageDataCountConditionForExcel")) * Integer.parseInt(request.getParameter("pageForExcel")));
+
+				// 빈 문자열일때 null로 치환
+				for (Entry<String, Object> entrySet : parameterMap.entrySet()) 
+				{
+					if (entrySet.getValue() == null) continue;
+					if (entrySet.getValue().equals("")) entrySet.setValue(null);
+				}
+				
+				List<ApplyDto> applyListByDocument = applyManageService.getApplyListByDocument(parameterMap);
+
+				for(int i = 0 ; i < applyListByDocument.size(); i++)
+				{
+					ApplyDto dto = applyListByDocument.get(i);
+					String applyInfo = "";
+					String[] apply = new String[column.split(",").length];
+					//고사장,수험번호,성명,생년월일,성별,유형,좌석번호,점수,합격여부
+					apply[0] = Integer.toString(i+1);
+					apply[1] = dto.getExamDto().getExamDegree();
+					apply[2] = dto.getStudentCode();
+					apply[3] = dto.getUserDto().getUserName();
+					apply[4] = dto.getUserId();
+					apply[5] = dto.getUserDto().getBirthDate();
+					apply[6] = dto.getUserDto().getPhoneNumber();
+					apply[7] = dto.getPaymentMethod();
+					apply[8] = dto.getExamZoneDto().getLocal();
+					apply[9] = dto.getExamZoneDto().getExamZoneName();
+					apply[10] = dto.getSeatNumber();
+					apply[11] = dto.getSubjectDto().getSubjectName();
+					apply[12] = dto.getUserDto().getGender();
+					apply[13] = dto.getReceiptDate();
+					apply[14] = dto.getExamDto().getExamDate();
+					apply[15] = dto.getIsCancel();
+					applyInfo = String.join("▒", apply);
+					excel.add(applyInfo);
+				}
+				data = String.join("▧", excel);
+				
+			}else if("siteList".equals(menuId)) {
+				Map<String, Object> parameterMap = new HashMap<String, Object>();
+				parameterMap.put("textCondition", request.getParameter("textConditionForExcel"));
+				parameterMap.put("localCondition", request.getParameter("localConditionForExcel"));
+				parameterMap.put("localDetailCondition", request.getParameter("localDetailConditionForExcel"));
+				parameterMap.put("pageStart", 0);
+				parameterMap.put("perPageNum", Integer.parseInt(request.getParameter("onePageDataCountConditionForExcel")) * Integer.parseInt(request.getParameter("pageForExcel")));
+
+				List<ExamZoneDto> examZoneList = applyManageService.getExamZoneList(parameterMap);
+
+				for(int i = 0 ; i < examZoneList.size(); i++)
+				{
+					ExamZoneDto dto = examZoneList.get(i);
+					String examZoneInfo = "";
+					String[] examZone = new String[column.split(",").length];
+					examZone[0] = Integer.toString(i+1);
+					examZone[1] = dto.getLocal();
+					examZone[2] = dto.getLocalDetail();
+					examZone[3] = dto.getExamZoneName();
+					examZone[4] = dto.getExamRoomCnt();
+					examZone[5] = dto.getExamRoomUserCnt();
+					examZone[6] = dto.getExamTotalUserCnt();
+					examZone[7] = dto.getExamZoneMap();
+					examZone[8] = "";
+					examZoneInfo = String.join("▒", examZone);
+					excel.add(examZoneInfo);
+				}
+				data = String.join("▧", excel);
+				
+			}else if("memberCourseView".equals(menuId)) {
+				Map<String, Object> parameterMap = new HashMap<String, Object>();
+		    	parameterMap.put("apiSyncId", request.getParameter("apiSyncIdForExcel"));
+		    	parameterMap.put("searchWord", request.getParameter("searchWordForExcel"));
+		    	parameterMap.put("gender", request.getParameter("genderForExcel"));
+		    	parameterMap.put("subject", request.getParameter("subjectForExcel"));
+		    	parameterMap.put("pageStart", 0);
+		    	parameterMap.put("perPageNum", Integer.parseInt(request.getParameter("onePageDataCountConditionForExcel")) * Integer.parseInt(request.getParameter("pageForExcel")));
+
+		    	List<EduCompletionDto> eduCompletionList = new ArrayList<EduCompletionDto>();
+				eduCompletionList = userManageService.getEduCompletionList(parameterMap);
+
+				for(int i = 0 ; i < eduCompletionList.size(); i++)
+				{
+					EduCompletionDto dto = eduCompletionList.get(i);
+					String eduCompletionInfo = "";
+					String[] eduCompletion = new String[column.split(",").length];
+					eduCompletion[0] = Integer.toString(i+1);
+					eduCompletion[1] = dto.getUserName();
+					eduCompletion[2] = dto.getBirthDate();
+					eduCompletion[3] = dto.getGender();
+					eduCompletion[4] = dto.getSubject();
+					eduCompletion[5] = dto.getCertId();
+					eduCompletionInfo = String.join("▒", eduCompletion);
+					excel.add(eduCompletionInfo);
+				}
+				data = String.join("▧", excel);
+				
+			}else if("memberInfo".equals(menuId)) {
+				Map<String, Object> parameterMap = new HashMap<String, Object>();
+				parameterMap.put("searchEmailType", request.getParameter("searchEmailTypeForExcel"));
+				parameterMap.put("searchSMSType", request.getParameter("searchSMSTypeForExcel"));
+				parameterMap.put("searchWord", request.getParameter("searchWordForExcel"));
+				parameterMap.put("generalUser", request.getParameter("generalUserForExcel") == null? "N" : request.getParameter("generalUserForExcel"));
+				parameterMap.put("dormancyUser", request.getParameter("dormancyUserForExcel") == null? "N" : request.getParameter("dormancyUserForExcel"));
+				parameterMap.put("secessionUser", request.getParameter("secessionUseForExcelr") == null? "N" : request.getParameter("secessionUserForExcel"));
+				parameterMap.put("pageStart", 0);
+				parameterMap.put("perPageNum", Integer.parseInt(request.getParameter("onePageDataCountConditionForExcel")) * Integer.parseInt(request.getParameter("pageForExcel")));
+	
+				List<UserDto> userList = userManageService.getUserInfo(parameterMap);
+
+				for(int i = 0 ; i < userList.size(); i++)
+				{
+					UserDto dto = userList.get(i);
+					String UserInfo = "";
+					String[] User = new String[column.split(",").length];
+					User[0] = Integer.toString(i+1);
+					User[1] = dto.getUserStatus();
+					User[2] = dto.getUserName();
+					User[3] = dto.getUserId();
+					User[4] = dto.getGender();
+					User[5] = dto.getJoinDate();
+					User[6] = dto.getBirthDate();
+					User[7] = dto.getCallNumber();
+					User[8] = dto.getPhoneNumber();
+					User[9] = dto.getEmailAddress();
+					User[10] = "";
+					UserInfo = String.join("▒", User);
+					excel.add(UserInfo);
+				}
+				data = String.join("▧", excel);
+				
+			}
+
+			String fileName = request.getParameter("fileName");
+			HSSFWorkbook wb = ExcelUtil.excelDownloadByDetailList(column, data);
+			ExcelUtil.downLoadFile(wb, fileName, request, response);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+	}
+
 }
