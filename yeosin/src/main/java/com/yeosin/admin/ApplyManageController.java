@@ -332,11 +332,13 @@ public class ApplyManageController {
 				if (!fileName.equals("") && fileName != null && file.getSize() != 0) 
 				{
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-					File copyFile = new File(FileController.examZonePath, LocalFileName);
+					String examZonePath = request.getServletContext().getRealPath("/resources/examzoneFile");
+					
+					File copyFile = new File(examZonePath, LocalFileName);
 						
-					if (!new File(FileController.examZonePath).exists()) 
+					if (!new File(examZonePath).exists()) 
 					{
-						new File(FileController.examZonePath).mkdirs();
+						new File(examZonePath).mkdirs();
 					}
 							
 					FileCopyUtils.copy(file.getBytes(), copyFile);	
@@ -368,12 +370,13 @@ public class ApplyManageController {
 				if (!fileName.equals("") && fileName != null && file.getSize() != 0) // 파일을 새로 등록할때
 				{
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+					String examZonePath = request.getServletContext().getRealPath("/resources/examzoneFile");
 					
-					File copyFile = new File(FileController.examZonePath, LocalFileName);
+					File copyFile = new File(examZonePath, LocalFileName);
 					
-					if (!new File(FileController.examZonePath).exists()) 
+					if (!new File(examZonePath).exists()) 
 					{
-						new File(FileController.examZonePath).mkdirs();
+						new File(examZonePath).mkdirs();
 					}
 						
 					FileCopyUtils.copy(file.getBytes(), copyFile);

@@ -93,19 +93,6 @@
          <td>
          	<button style="width:100px; height:40px; font-size:15px;" type="button" onclick="doAddMapFile()">추가</button>
         	<button style="width:100px; height:40px; font-size:15px;" type="button" onclick="doDeleteMapFile()">삭제</button>
-	        <c:choose>
-				<c:when test="${examZone.fileDto.fileId eq null}">
-
-				</c:when>
-				<c:otherwise>
-					<c:url value="/examZoneMapDownload" var="downloadUrl">
-            			<c:param name="fileSize" value="${examZone.fileDto.fileSize}" />
-            			<c:param name="localFileName" value="${examZone.fileDto.localFileName}" />
-            			<c:param name="realFileName" value="${examZone.fileDto.realFileName}" />
-           			</c:url>
-           			<a style="width:100px; height:40px; font-size:20px;" href="${downloadUrl}" id="btn_download">다운로드</a>
-				</c:otherwise>
-			</c:choose>
           	<input name="inputFileName" id="inputFileName" class="upload-name" value="${examZone.examZoneMap}" disabled="disabled">
           	<input style="display:none" type="file" id="file" name="file" class="upload-hidden">
           	<input type="hidden" name="fileId" id="fileId" value="${examZone.fileDto.fileId}">
