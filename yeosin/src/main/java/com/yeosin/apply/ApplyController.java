@@ -172,6 +172,7 @@ public class ApplyController {
 		// AJAX로 넘겨줄 데이터
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("isPassEdu", applyService.getIsCompleteEdu(paremterMap));
+		resultMap.put("isValidCertDate", applyService.getIsValidCertDate(paremterMap));
 		resultMap.put("examId", requestMap.get("examId"));
 		
 		return resultMap;
@@ -257,6 +258,32 @@ public class ApplyController {
 		}
 		
 		return mav;
+	}
+	
+	// 현재 접수중인 시험이 현재 접수기간인 시험인지 유효성 체크
+	@RequestMapping(value="/IsValidExam", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> IsValidExam(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");
+      
+		String examId = String.valueOf(requestMap.get("examId"));
+		String validExamId;
+		boolean isValidExam = true; 
+		
+		List<ExamDto> examList = new ArrayList<>();
+		examList = applyService.getExamList();
+		
+		if (examList.size() > 0) validExamId = examList.get(0).getExamId();
+		else validExamId = "None";
+		
+		if (!examId.equals(validExamId)) isValidExam = false;
+						
+		// AJAX로 넘겨줄 데이터
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+      	resultMap.put("isValidExam", isValidExam);
+      
+      	return resultMap;
 	}
 	
 	// 원서접수5(접수최종확인 및 결제직전 View)

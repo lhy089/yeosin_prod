@@ -33,6 +33,24 @@
 		AND 	SUBJECT = #{subjectId, jdbcType=VARCHAR};
 	</select>
 	
+	<!-- 로그인 유저의 교육증 수료일 1년 초과여부 조회 -->
+	<select id="getIsValidCertDate" parameterType="map" resultType="String">
+		SELECT 	
+				CASE WHEN CONVERT(NOW(), DATE) >= DATE_ADD(CONVERT(IFNULL(CERTDATE, '1999-01-01'), DATE), INTERVAL 1 YEAR)
+					 THEN 'N'
+					 ELSE 'Y' END 		AS ISVALIDCERTDATE
+		FROM 	YS_EDUCOMPLETION
+		WHERE 	1 = 1
+		AND 	USERNAME = #{userName, jdbcType=VARCHAR}
+		AND		GENDER = #{gender, jdbcType=VARCHAR}
+		AND 	SUBSTRING(BIRTHDATE, 3,8) =  SUBSTRING(#{birthDate},3,8)
+		AND 	CERTID = #{eduNum, jdbcType=VARCHAR}
+		AND 	SUBJECT = #{subjectId, jdbcType=VARCHAR}
+		ORDER BY 
+				CERTDATE DESC
+		LIMIT 	1;
+	</select>
+	
 	<insert id="insertEduComepletionInfo" parameterType="com.yeosin.user.EduCompletionDto">
 		INSERT INTO YS_EDUCOMPLETION
 			(USERID, EDUUSERID, USERNAME, BIRTHDATE, GENDER, CERTID, SUBJECT, APISYNCID)

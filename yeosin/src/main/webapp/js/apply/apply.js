@@ -44,6 +44,7 @@ function doCompleted()
 	var examId = $('#examId').val();
 	var subjectId = $('#subjectType').val();
 	var isPassEdu = "N";
+	var isValidCertDate = "N";
 
 	if (subjectType == "*")
 	{
@@ -72,22 +73,34 @@ function doCompleted()
 		{
 			console.log("AJAX Request 성공");
 			isPassEdu = data.isPassEdu;
+			isValidCertDate = data.isValidCertDate;
         },
         error: function() 
 		{
            console.log("AJAX Request 실패");
            isPassEdu = "N";
+           isValidCertDate = "N";
         }
 	});  
 	
-	if (isPassEdu == "Y") 
+	if (isPassEdu == "Y" && isValidCertDate == "Y") 
 	{
 		return true;	
 	} 
-	else 
+	else if (isPassEdu == "N")
 	{
 		alert("등록되어있는 교육증 수료번호가 아닙니다.\n교육과정 및 수료증번호를 다시 확인해 주시기 바랍니다.");
 		return false;
+	}
+	else if (isValidCertDate == "N")
+	{
+		alert("해당 교육 수료번호는 현재날짜 기준으로 1년이상이 지난 교육 수료번호입니다.\n교육과정 및 수료증번호를 다시 확인해 주시기 바랍니다.");
+		return false;
+	}
+	else
+	{
+		alert("오류가 발생했습니다.\n다음단계로 진행할 수 없습니다.");
+		return false;		
 	}
 }
 
@@ -341,8 +354,34 @@ function doRefund()
 function doPayment()
 {	
 	var isPaymentChecked = $('input:radio[name=paymentMethod]').is(':checked');
+	var examId = $('#examId').val();
+	var isValidExam = false;
 	
-	if (!isPaymentChecked)
+	// 현재 접수중인 시험이 현재 접수기간인 시험인지 유효성 체크
+	$.ajax({
+		url: "/IsValidExam",
+	    type: "GET",
+	    async: false,
+	    data: {
+				examId : examId
+			  },
+	    success: function(data) 
+		{
+			console.log("AJAX Request 성공");
+			isValidExam = data.isValidExam;			
+	    },
+	    error: function() 
+		{
+	       console.log("AJAX Request 실패");
+	    }
+	}); 
+	
+	if (!isValidExam)
+	{
+		alert("현재 접수중인 시험은 접수기간의 시험이 아닙니다.\n홈화면부터 다시시작하거나, 브라우저를 재실행해주세요.");
+		return false;
+	}
+	else if (!isPaymentChecked)
 	{
 		alert("결제방법은 필수체크입니다.");
 		return false;
@@ -350,9 +389,9 @@ function doPayment()
 	else 
 	{
 		var result = confirm('위 내용으로 결제를 진행하시겠습니까?'); 
-		if (result) {
+		if (result) 
+		{
 			nicepayStart();
-//			doApplyInfoInsert
 		}
 		else return false;
 	}

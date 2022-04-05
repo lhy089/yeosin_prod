@@ -24,6 +24,10 @@ public class EduCompletionDao {
 		return this.sqlSession.selectOne(namespace + "getisUserEdu", map);
 	}
 	
+	public String getIsValidCertDate(Map<String, Object> map) throws Exception {
+		return this.sqlSession.selectOne(namespace + "getIsValidCertDate", map);
+	}
+	
 	public int updateEduComepletionInfo(EduCompletionDto eduCompletionInfo) throws Exception {
 		return this.sqlSession.update(namespace + "updateEduComepletionInfo", eduCompletionInfo);
 	}

@@ -108,7 +108,7 @@
 				EXAMDEGREE DESC;
 	</select>
 	
-	<!-- 여러개의 시험 리스트 -->
+	<!-- 현재 접수 가능한 시험(원서접수 첫번째페이지) -->
 	<select id="getExamList" resultType="com.yeosin.apply.ExamDto">
 		SELECT 
 				EXAMID

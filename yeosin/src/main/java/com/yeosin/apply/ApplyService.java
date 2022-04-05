@@ -83,6 +83,10 @@ public class ApplyService {
 		return eduDao.getIsCompleteEdu(map);
 	}
 	
+	public String getIsValidCertDate(Map<String, Object> map) throws Exception {
+		return eduDao.getIsValidCertDate(map);
+	}
+	
 	public List<ExamZoneDto> getExamZoneList(Map<String, Object> map) throws Exception {
 		return examZoneDao.getExamZoneList(map);
 	}
