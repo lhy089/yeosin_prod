@@ -85,4 +85,8 @@ public class ApplyDao {
 	public List<SubjectDto> getSujectListByExamId(String examId) throws Exception {
 		return sqlSession.selectList(nameSpace + "getSujectListByExamId", examId);
 	}
+	
+	public String getLocalFileName(String localFileName) throws Exception{
+		return sqlSession.selectOne(nameSpace + "getLocalFileName", localFileName);
+	}
 }

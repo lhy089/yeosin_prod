@@ -315,8 +315,12 @@ public class ApplyManageController {
 			int isSaveUpdateSuccess = 0;
 			// 저장인지 업데이트인지 판별
 			String actionCode = null;
-			if (String.valueOf(requestMap.get("examZoneId")).isEmpty() || requestMap.get("examZoneId") == null) actionCode = "Save";
-			else actionCode = "Update";
+			System.out.println(requestMap.get("examZoneId"));
+			
+			if (requestMap.get("examZoneId") == null || String.valueOf(requestMap.get("examZoneId")).isEmpty() || requestMap.get("examZoneId").equals("null"))
+				actionCode = "Save";
+			else 
+				actionCode = "Update";
 			// 새로운 고사장 ID 채번
 			int MaxExamZoneNumber = applyManageService.getMaxExamZoneId() + 1;
 			String newExamZoneId = "examzone" + String.valueOf(MaxExamZoneNumber); 
@@ -831,7 +835,7 @@ public class ApplyManageController {
             examDto.setPeriod("0");
             examDto.setGradeStatus("N");
             examDto.setReceiptStartDate(request.getParameter("receiptStartDate") + " " + request.getParameter("receiptStartTime"));
-            examDto.setReceiptEndDate(request.getParameter("receiptStartDate") + " " + request.getParameter("receiptEndTime"));
+            examDto.setReceiptEndDate(request.getParameter("receiptEndDate") + " " + request.getParameter("receiptEndTime"));
             
             boolean alertResult = false;
             boolean alertError = true;

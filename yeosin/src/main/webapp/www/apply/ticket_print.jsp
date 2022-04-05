@@ -117,7 +117,7 @@ $(function(){
   </h2>
   <div class="content">
     <!-- <img src="/www/inc/img/apply/test-map.jpg" class="mapImg" alt="지도이미지 예시"> -->
-    <img src="${applyInfo.examZoneDto.examZoneMap}" class="mapImg" style="width: 100%; height: 100%">
+    <img src="${examZoneMap}" class="mapImg" style="width: 100%; height: 100%">
   </div> 
 </div>
 <div><a onclick="return false;" id="btn_print" class="btn_apply">출력하기</a></div>

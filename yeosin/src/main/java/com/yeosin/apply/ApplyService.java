@@ -162,4 +162,8 @@ public class ApplyService {
 	public List<SubjectDto> getSujectListByExamId(String examId) throws Exception {
 		return applyDao.getSujectListByExamId(examId);
 	}
+	
+	public String getLocalFileName(String localFileName) throws Exception{
+		return applyDao.getLocalFileName(localFileName);
+	}
 }

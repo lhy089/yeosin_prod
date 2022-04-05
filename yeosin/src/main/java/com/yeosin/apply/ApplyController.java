@@ -194,6 +194,15 @@ public class ApplyController {
 		List<ExamZoneDto> examZoneList = new ArrayList<ExamZoneDto>();
 		examZoneList = applyService.getExamZoneList(paremterMap);
 		
+		for(int i = 0 ; i < examZoneList.size(); i++)
+		{
+			String FileId = examZoneList.get(i).getExamZoneMap();
+			String localFileName = applyService.getLocalFileName(FileId);
+			//String examZoneMap = request.getServletContext().getRealPath("/resources/examzoneFile/" + localFileName);
+			String examZoneMap = "/resources/examzoneFile/" + localFileName;
+			examZoneList.get(i).setExamZoneMap(examZoneMap);
+		}
+		
 		return examZoneList;
 	}
 	
@@ -570,7 +579,10 @@ public class ApplyController {
 			map.put("receiptId", receiptId);
 			
 			ApplyDto applyInfo = applyService.getDetailApplyInfo(map);
-			
+			String localFileName = applyService.getLocalFileName(applyInfo.getExamZoneDto().getExamZoneMap());
+			//String examZoneMap = request.getServletContext().getRealPath("/resources/examzoneFile/" + localFileName);
+			String examZoneMap ="/resources/examzoneFile/" + localFileName;
+			mav.addObject("examZoneMap", examZoneMap);
 			mav.addObject("applyInfo", applyInfo);
 			mav.setViewName("apply/ticket_print");			
 		}

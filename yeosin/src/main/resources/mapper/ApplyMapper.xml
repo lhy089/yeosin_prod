@@ -364,4 +364,11 @@
 		WHERE  	A.EXAMID = #{examId, jdbcType=VARCHAR}
 	</select>
 	
+	<!-- File localFileName 데이터 가져오기 -->
+	<select id="getLocalFileName" parameterType="String" resultType="String">
+		SELECT LOCALFILENAME
+		FROM 	YS_FILE
+		WHERE 	FILEID = #{fileId}
+	</select>
+	
 </mapper>
