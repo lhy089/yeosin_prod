@@ -217,7 +217,7 @@ public class ApplyManageController {
 		   mav.addObject("textCondition", request.getParameter("textCondition"));
 		   mav.addObject("localCondition", request.getParameter("localCondition"));
 		   mav.addObject("examDegreeCondition", request.getParameter("examDegreeCondition"));
-		   mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
+		   mav.addObject("pageCondition", pagePerNum);
 		   mav.addObject("pageMaker", pageMaker);
 		   mav.addObject("examZoneDto", examZoneDto);
 		   mav.setViewName("admin/manage_status_site"); 
@@ -1362,6 +1362,44 @@ public class ApplyManageController {
 					excel.add(applyInfo);
 				}
 				data = String.join("▧", excel);
+			
+			}else if("statusSite".equals(menuId)) {
+				Map<String, Object> parameterMap = new HashMap<String, Object>();
+				parameterMap.put("textCondition", request.getParameter("textConditionForExcel"));
+				parameterMap.put("localCondition", request.getParameter("localConditionForExcel"));
+				parameterMap.put("examDegreeCondition", request.getParameter("examDegreeConditionForExcel"));
+				parameterMap.put("pageStart", 0);
+				parameterMap.put("perPageNum", Integer.parseInt(request.getParameter("onePageDataCountConditionForExcel")) * Integer.parseInt(request.getParameter("pageForExcel")));
+
+				// 빈 문자열일때 null로 치환
+				for (Entry<String, Object> entrySet : parameterMap.entrySet()) 
+				{
+					if (entrySet.getValue() == null) continue;
+					if (entrySet.getValue().equals("")) entrySet.setValue(null);
+				}
+				
+				List<ExamZoneDto> applyListByExamZone = applyManageService.getApplyListByExamZoneForExcel(parameterMap);
+
+				for(int i = 0 ; i < applyListByExamZone.size(); i++)
+				{
+					ExamZoneDto dto = applyListByExamZone.get(i);
+					String applyInfo = "";
+					String[] apply = new String[column.split(",").length];
+					//고사장,수험번호,성명,생년월일,성별,유형,좌석번호,점수,합격여부
+					apply[0] = Integer.toString(i+1);
+					apply[1] = dto.getExamDto().getExamDegree();
+					apply[2] = dto.getExamDto().getExamName();
+					apply[3] = dto.getLocal();
+					apply[4] = dto.getExamZoneName();
+					apply[5] = dto.getExamTotalUserCnt();
+					apply[6] = dto.getReceiptSeat();
+					apply[7] = dto.getLeftOverSeat();
+					apply[8] = dto.getApplyDto().getReceiptDate();
+					apply[9] = dto.getExamDto().getExamDate();
+					applyInfo = String.join("▒", apply);
+					excel.add(applyInfo);
+				}
+				data = String.join("▧", excel);
 				
 			}else if("siteList".equals(menuId)) {
 				Map<String, Object> parameterMap = new HashMap<String, Object>();
@@ -1427,7 +1465,7 @@ public class ApplyManageController {
 				parameterMap.put("searchWord", request.getParameter("searchWordForExcel"));
 				parameterMap.put("generalUser", request.getParameter("generalUserForExcel") == null? "N" : request.getParameter("generalUserForExcel"));
 				parameterMap.put("dormancyUser", request.getParameter("dormancyUserForExcel") == null? "N" : request.getParameter("dormancyUserForExcel"));
-				parameterMap.put("secessionUser", request.getParameter("secessionUseForExcelr") == null? "N" : request.getParameter("secessionUserForExcel"));
+				parameterMap.put("secessionUser", request.getParameter("secessionUserForExcel") == null? "N" : request.getParameter("secessionUserForExcel"));
 				parameterMap.put("pageStart", 0);
 				parameterMap.put("perPageNum", Integer.parseInt(request.getParameter("onePageDataCountConditionForExcel")) * Integer.parseInt(request.getParameter("pageForExcel")));
 	

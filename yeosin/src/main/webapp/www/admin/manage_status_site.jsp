@@ -127,6 +127,13 @@
     </form> 
     <!-- 엑셀 다운로드 Form 태그 -->
     <form action="/excelDownload" method="POST" name="excelForm" id="excelForm">
+    	 <input type="hidden" name="menuId" id="menuId" value="statusSite">
+		<input type="hidden" name="textConditionForExcel" id="textConditionForExcel" value="${textCondition}">
+		<input type="hidden" name="localConditionForExcel" id="localConditionForExcel" value="${localCondition}">
+		<input type="hidden" name="examDegreeConditionForExcel" id="examDegreeConditionForExcel" value="${examDegreeCondition}">
+		<input type="hidden" name="onePageDataCountConditionForExcel" id="onePageDataCountConditionForExcel" value="${pageCondition}">
+		<input type="hidden" name="pageForExcel" id="pageForExcel" value="${examZoneDto.page}">
+    
   		<input type="hidden" name="fileName" id="fileName" value="">	
   		<input type="hidden" name="columns" id="columns" value="">	
   		<input type="hidden" name="data" id="data" value="">

@@ -46,6 +46,11 @@ public class ApplyManageService {
 		return applyManageDao.getApplyListByExamZone(map);
 	}
 	
+	// 원서접수 리스트 조회(고사장별) - 엑셀
+	public List<ExamZoneDto> getApplyListByExamZoneForExcel(Map<String, Object> map) throws Exception {
+		return applyManageDao.getApplyListByExamZoneForExcel(map);
+	}
+
 	// 시험, 고사장에 접수된 총 접수번호 리스트
 	public List<Object> getTotalReceiptIdByExamZone(Map<String, Object> map) throws Exception {
 		return applyManageDao.getTotalReceiptIdByExamZone(map);
