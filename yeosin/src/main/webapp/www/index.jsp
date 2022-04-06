@@ -90,7 +90,7 @@
     </div>
     </section>
     <!-- 팝업// -->
-  <script>
+<!--   <script>
     $( document ).ready(function() {
      var userStatus = "${loginUserInfo.userStatus}";
       cookiedata = document.cookie;
@@ -115,8 +115,10 @@
       setCookie( "ncookie", "done" , 1 );     // 저장될 쿠키명 , 쿠키 value값 , 기간( ex. 1은 하루, 7은 일주일)
       document.getElementById('layer_pop').style.display = "none";    // 팝업창 아이디
     }
-  </script>
-  <div class="popWrap" id="layer_pop">
+  </script> -->
+  
+  <!-- 회원 로그인 팝업 주석처리 -->
+<!--   <div class="popWrap" id="layer_pop">
     <div class="pop">
       <h1>
         <p>기존 평가 홈페이지 회원 로그인 안내</p>
@@ -134,11 +136,13 @@
       	<a href="#none" onClick="closeWin();" class="btn_close">닫기</a>
       	<a href="#none" onClick="todaycloseWin();" class="btn_closeToday">오늘 하루 보지 않기</a>
       </div>
-    </div>
+    </div> -->
+    
+    
   <!-- //팝업 -->
   
    <!-- 주차 안내 팝업// -->
-  <script>
+<!--   <script>
     $( document ).ready(function() {
       cookiedata = document.cookie;
       if ( cookiedata.indexOf("ncookie220214=done") < 0 ){
@@ -162,8 +166,10 @@
       setCookie220214( "ncookie220214", "done" , 1 );     // 저장될 쿠키명 , 쿠키 value값 , 기간( ex. 1은 하루, 7은 일주일)
       document.getElementById('alert_220214').style.display = "none";    // 팝업창 아이디
     }
-  </script>
-  <div class="alertPop" id="alert_220214">
+  </script> -->
+  <!-- 주차안내팝업 주석처리 -->
+  
+<!-- 	<div class="alertPop" id="alert_220214">
     <a href="#none" onClick="closeWin220214();" class="btn_close"></a>
     <p class="text">
       <br/>
@@ -180,7 +186,8 @@
       <a href="#none" onClick="closeWin220214();" class="btn_close">닫기</a>
       <a href="#none" onClick="todaycloseWin220214();" class="btn_closeToday">오늘 하루 보지 않기</a>
     </div>
-  </div>
+  </div> -->
+  
  </div>
   <!-- //주차 안내 팝업 -->
 </div>
