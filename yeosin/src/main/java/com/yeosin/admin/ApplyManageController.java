@@ -332,14 +332,15 @@ public class ApplyManageController {
 			/////////////////////////// 파일 관련 프로세스 처리 ///////////////////////////
 			FileDto getFileDto = applyManageService.getExamZoneFileInfo(String.valueOf(requestMap.get("fileId")));
 			
-			String fileName = String.valueOf(file.getOriginalFilename());
+			String fileName = String.valueOf(file.getOriginalFilename()); // 파일 다이얼로그로 등록
+			String checkFileName = request.getParameter("fileName"); // 파일명 텍스트
 			int fileSize = (int)file.getSize();
-			
+
 			// 파일이 이미 등록되어 있을때(수정, 삭제)
 			if (getFileDto != null) 
 			{
 				// 수정
-				if (!fileName.equals("") && fileName != null && file.getSize() != 0) 
+				if (!checkFileName.equals("") && checkFileName != null && file.getSize() != 0) 
 				{
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
 					String examZonePath = request.getServletContext().getRealPath("/resources/examzoneFile");
@@ -367,9 +368,10 @@ public class ApplyManageController {
 					applyManageService.updateExamZoneMapFileInfo(updateFileDto);
 				}
 				// 삭제
-				else if (fileName.equals("") || fileName == null)
+				else if (checkFileName.equals("") || checkFileName == null)
 				{
 					applyManageService.deleteExamZoneMapFileInfo(String.valueOf(requestMap.get("fileId")));
+					requestMap.replace("fileId", null);
 				}
 				
 			}
@@ -377,7 +379,7 @@ public class ApplyManageController {
 			else 
 			{
 				// 저장
-				if (!fileName.equals("") && fileName != null && file.getSize() != 0) // 파일을 새로 등록할때
+				if (!checkFileName.equals("") && checkFileName != null && file.getSize() != 0) // 파일을 새로 등록할때
 				{
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
 					String examZonePath = request.getServletContext().getRealPath("/resources/examzoneFile");
@@ -394,7 +396,7 @@ public class ApplyManageController {
 					int MaxFileIdNumber = boardManageService.getMaxFileId() + 1;
 					String newFileId = "FILE" +  String.valueOf(MaxFileIdNumber);
 					String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
-					requestMap.put("examZoneMap", newFileId);
+					requestMap.put("fileId", newFileId);
 				
 					FileDto fileDto = new FileDto();
 
@@ -405,9 +407,9 @@ public class ApplyManageController {
 					fileDto.setFileExtsn(fileExtsn);
 					fileDto.setFileSize(fileSize);
 					applyManageService.saveExamZoneMapFileInfo(fileDto);
-				}
-				
+				}			
 			}
+
 			/////////////////////////// 파일 관련 프로세스 처리 끝 ///////////////////////////
 			
 			// 저장일때

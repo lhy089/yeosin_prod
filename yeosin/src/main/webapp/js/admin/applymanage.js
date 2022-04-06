@@ -200,6 +200,8 @@ function doAddMapFile()
 	$("#file").change(function(e){
 
 		$('#inputFileName').val($('input[id=file]')[0].files[0].name);
+		$('#file').val($('input[id=file]')[0].files[0]);
+		$('#fileName').val($('input[id=file]')[0].files[0].name);
 
     });
 }
@@ -209,6 +211,7 @@ function doDeleteMapFile()
 {
 	$('#inputFileName').val(null);
 	$('#file').val(null);
+	$('#fileName').val(null);
 }
 
 // 고사장 약도다운로드(site_register.jsp)

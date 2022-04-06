@@ -96,6 +96,7 @@
           	<input name="inputFileName" id="inputFileName" class="upload-name" value="${examZone.examZoneMap}" disabled="disabled">
           	<input style="display:none" type="file" id="file" name="file" class="upload-hidden">
           	<input type="hidden" name="fileId" id="fileId" value="${examZone.fileDto.fileId}">
+          	<input type="hidden" name="fileName" id="fileName" value="${examZone.fileDto.realFileName}">
         </td>
       </tr>
     </table>
@@ -119,6 +120,7 @@ $(function(){
 	  var filename = $(this).val().split('/').pop().split('\\').pop();
 	}
 	$(this).siblings('.upload-name').val(filename);
+	$(this).siblings('#fileName').val(filename);
   });
 });
 </script>

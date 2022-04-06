@@ -585,7 +585,7 @@
 			, 	EXAMROOMCNT = #{examRoomCnt}
 			,	EXAMROOMUSERCNT = #{examRoomUserCnt}
 			, 	TOTALUSERCNT = #{examRoomCnt} * #{examRoomUserCnt}
-			, 	EXAMZONEMAP = #{examZoneMap}
+			, 	EXAMZONEMAP = #{fileId}
 			, 	DESCRIPTION = #{address}
 		WHERE 	EXAMZONEID = #{examZoneId};
 	</insert>
