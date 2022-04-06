@@ -120,7 +120,7 @@ function doExamZoneSave()
          	{
 				console.log("AJAX Request 성공");
             	isSuccess = data.isSuccess;   
-            	location.href = "/siteRegister";
+            	//location.href = "/siteRegister";
                
            	},
            	error: function() 

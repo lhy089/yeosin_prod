@@ -99,7 +99,7 @@
         </td>
       </tr>
     </table>
-	<a href="/siteRegister" onclick="return doExamZoneSave()" class="btn_apply mb100">저장</a>
+	<a href="/siteList" onclick="return doExamZoneSave()" class="btn_apply mb100">저장</a>
   </div>
 </div>
 </form>
