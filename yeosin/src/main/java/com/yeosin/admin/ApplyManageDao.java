@@ -43,7 +43,7 @@ public class ApplyManageDao {
 	}
 	
 	// 원서접수 리스트 조회(고사장별)
-	public List<ApplyDto> getApplyListByExamZone(Map<String, Object> map) throws Exception {
+	public List<ExamZoneDto> getApplyListByExamZone(Map<String, Object> map) throws Exception {
 		return sqlSession.selectList(nameSpace + "getApplyListByExamZone", map);
 	}
 

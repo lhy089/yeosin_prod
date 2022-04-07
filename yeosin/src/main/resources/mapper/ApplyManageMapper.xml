@@ -206,10 +206,10 @@
 				OR E.EXAMNAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
 				OR EZ.EXAMZONENAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%'))
 		</if>
-		<if test='localCondition != null and !localCondition.equals("전체")'>
+		<if test="localCondition != null and localCondition != '' and !localCondition.equals('전체')">
 			AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
 		</if>
-		<if test='examDegreeCondition != null and !examDegreeCondition.equals("전체")'>
+		<if test="examDegreeCondition != null and examDegreeCondition != '' and !examDegreeCondition.equals('전체')">
 			AND CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR)) = #{examDegreeCondition, jdbcType=VARCHAR}
 		</if>
 		ORDER BY 
@@ -301,10 +301,10 @@
 				OR E.EXAMNAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
 				OR EZ.EXAMZONENAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%'))
 		</if>
-		<if test='localCondition != null and !localCondition.equals("전체")'>
+		<if test="localCondition != null and localCondition != '' and !localCondition.equals('전체')">
 			AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
 		</if>
-		<if test='examDegreeCondition != null and !examDegreeCondition.equals("전체")'>
+		<if test="examDegreeCondition != null and examDegreeCondition != '' and !examDegreeCondition.equals('전체')">
 			AND CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR)) = #{examDegreeCondition, jdbcType=VARCHAR}
 		</if>
 
@@ -671,10 +671,7 @@
 			AND EXAMDEGREE LIKE CONCAT('%', #{degreeCondition, jdbcType=VARCHAR}, '%')
 		</if>
 		ORDER BY
-				EXAMYEAR
-			, 	EXAMNAME
-			, 	EXAMDEGREE
-			, 	EXAMDATE
+			 	EXAMDATE DESC
 		LIMIT
 			#{pageStart}, #{perPageNum};
 	</select>

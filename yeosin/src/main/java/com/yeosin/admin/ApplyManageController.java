@@ -198,7 +198,7 @@ public class ApplyManageController {
 		   }
 		   
 		   // 접수 리스트 데이터
-		   List<ApplyDto> applyListByExamZone = applyManageService.getApplyListByExamZone(parameterMap);
+		   List<ExamZoneDto> applyListByExamZone = applyManageService.getApplyListByExamZone(parameterMap);
 		
 		   // 페이징 하기위한 데이터
 		   ExamZoneDtoPageMaker pageMaker = new ExamZoneDtoPageMaker();
@@ -208,7 +208,7 @@ public class ApplyManageController {
 		   // 엑셀 다운로드용 데이터
 		   parameterMap.replace("pageStart", 0);
 		   parameterMap.replace("perPageNum", examZoneDto.getPage() * examZoneDto.getPerPageNum());
-		   List<ApplyDto> applyListByExamZoneAndExcel = applyManageService.getApplyListByExamZone(parameterMap);
+		   List<ExamZoneDto> applyListByExamZoneAndExcel = applyManageService.getApplyListByExamZone(parameterMap);
 		     
 		   mav.addObject("localList", localList);
 		   mav.addObject("examDegreeList", examDegreeList);
