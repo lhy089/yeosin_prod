@@ -169,8 +169,7 @@
 	</resultMap>
 	<select id="getApplyListByExamZone" parameterType="map" resultMap="ApplyListByExamZoneResultMap">
 		SELECT 	
-				@ROWNUM := @ROWNUM + 1														AS 	ROWNUM				-- 행순서
-			,	CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR))			AS	EXAMDEGREE			-- 시험차수
+				CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR))			AS	EXAMDEGREE			-- 시험차수
 			,	E.EXAMID 																							-- 시험 ID
 			,	E.EXAMNAME 																							-- 시험명
 			,	EZ.LOCAL																							-- 수험지역
@@ -178,32 +177,28 @@
 			,	EZ.EXAMZONENAME 																					-- 고사장명
 			, 	EZR.EXAMROOMCNT * EZR.EXAMROOMUSERCNT  										AS	TOTALUSERCNT		-- 총좌석수			
 			,	RT.RECEIPTCOUNT 															AS 	RECEIPTSEAT			-- 접수현황
-			,	(EZ.EXAMROOMCNT * EZ.EXAMROOMUSERCNT) - RT.RECEIPTCOUNT 					AS 	LEFTOVERSEAT		-- 남은수량
+			,	(EZR.EXAMROOMCNT * EZR.EXAMROOMUSERCNT) - RT.RECEIPTCOUNT 					AS 	LEFTOVERSEAT		-- 남은수량
 			,	CONCAT(DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d'), 
 					  ' - ',
 					  DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d'))							AS 	RECEIPTDATE 		-- 접수일시
 			,	DATE_FORMAT(E.EXAMDATE, '%Y-%m-%d') 										AS 	EXAMDATE			-- 시험날짜																					-- 시험일	
-		FROM 	YS_EXAMZONE  					EZ
-		INNER JOIN YS_EXAMANDEXAMZONEREL		EZR	ON 	EZR.EXAMZONEID = EZ.EXAMZONEID 
-		INNER JOIN YS_EXAM 						E 	ON 	E.EXAMID = EZR.EXAMID 
-		INNER JOIN (SELECT 	EXAMID, @ROWNUM := 0
-					FROM 	YS_EXAM
-					ORDER BY EXAMDATE DESC) 	RN	ON	RN.EXAMID = E.EXAMID 
+		FROM 	YS_EXAMANDEXAMZONEREL  			EZR 
+		INNER JOIN YS_EXAM  					E 	ON 	E.EXAMID = EZR.EXAMID 
+		INNER JOIN YS_EXAMZONE  				EZ 	ON 	EZ.EXAMZONEID = EZR.EXAMZONEID 
 		INNER JOIN 
 		(
 			SELECT 	
 					R.EXAMID 
-				,	EZ.EXAMZONEID 
+				,	R.EXAMZONEID 
 				,	COUNT(R.RECEIPTID)			AS 	RECEIPTCOUNT
 			FROM 	YS_RECEIPT					R 
-			INNER JOIN YS_EXAMZONE				EZ	ON 	EZ.EXAMZONEID = R.EXAMZONEID 
 			WHERE 	1 = 1
 			AND 	R.ISCANCEL = 'N'
 			GROUP BY 
 					R.EXAMID 
-				,	EZ.EXAMZONEID
-		)	RT	ON 	RT.EXAMID = E.EXAMID 
-				AND RT.EXAMZONEID = EZ.EXAMZONEID 
+				,	R.EXAMZONEID		
+		)	RT	ON 	RT.EXAMID = EZR.EXAMID 
+				AND RT.EXAMZONEID = EZR.EXAMZONEID
 		WHERE 	1 = 1
 		
 		<if test="textCondition != null and textCondition != ''">
@@ -281,42 +276,38 @@
 
 	<!-- 관리자의 원서접수 현황 갯수 조회(고사장별) -->
 	<select id="getApplyListByExamZoneCount" parameterType="map" resultType="Integer">
-	   SELECT COUNT(EZ.EXAMZONEID)
-	   FROM YS_EXAMZONE EZ
-	   INNER JOIN YS_EXAMANDEXAMZONEREL EZR ON EZ.EXAMZONEID = EZR.EXAMZONEID 
-	   INNER JOIN YS_EXAM EX ON EZR.EXAMID = EX.EXAMID 
-	   INNER JOIN 
-	   (
-	      SELECT    
-	             R.EXAMID 
-	         ,   EZ.EXAMZONEID 
-	         ,   COUNT(R.RECEIPTID)         AS RECEIPTCOUNT
-	      FROM    YS_RECEIPT               	R 
-	      INNER JOIN YS_EXAMZONE            EZ ON EZ.EXAMZONEID = R.EXAMZONEID 
-	      WHERE    1 = 1
-	      AND    R.ISCANCEL = 'N'
-	      GROUP BY 
-	             R.EXAMID 
-	         ,   EZ.EXAMZONEID
-	   )   RT   ON    RT.EXAMID = EX.EXAMID 
-	         	AND RT.EXAMZONEID = EZ.EXAMZONEID 
-	   WHERE 1 = 1
+		SELECT 	COUNT(EZR.EXAMZONEID)								
+		FROM 	YS_EXAMANDEXAMZONEREL  			EZR 
+		INNER JOIN YS_EXAM  					E 	ON 	E.EXAMID = EZR.EXAMID 
+		INNER JOIN YS_EXAMZONE  				EZ 	ON 	EZ.EXAMZONEID = EZR.EXAMZONEID 
+		INNER JOIN 
+		(
+			SELECT 	
+					R.EXAMID 
+				,	R.EXAMZONEID 
+				,	COUNT(R.RECEIPTID)			AS 	RECEIPTCOUNT
+			FROM 	YS_RECEIPT					R 
+			WHERE 	1 = 1
+			AND 	R.ISCANCEL = 'N'
+			GROUP BY 
+					R.EXAMID 
+				,	R.EXAMZONEID		
+		)	RT	ON 	RT.EXAMID = EZR.EXAMID 
+				AND RT.EXAMZONEID = EZR.EXAMZONEID
+		WHERE 	1 = 1
 	
-	   <if test="textCondition != null and textCondition != ''">
-	      AND (EX.LOCALDETAIL LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
-	         OR EX.EXAMZONENAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
-	   </if>
-	   <if test='localCondition != null and !localCondition.equals("전체")'>
-	      AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
-	   </if>
-	   <if test='subjectCondition != null and !subjectCondition.equals("*")'>
-	      AND EX.EXAMYEAR LIKE CONCAT('%', #{subjectCondition, jdbcType=VARCHAR}, '%')      
-	   </if>
- 	   <if test='examDegreeCondition != null and !examDegreeCondition.equals("전체")'>
-		  AND CONCAT(CONVERT(EX.EXAMYEAR, CHAR), '-', CONVERT(EX.EXAMDEGREE, CHAR)) = #{examDegreeCondition, jdbcType=VARCHAR}
-	   </if>
-	   ORDER BY
-	         EX.EXAMDATE DESC;
+		<if test="textCondition != null and textCondition != ''">
+			AND (CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR)) LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+				OR E.EXAMNAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%')
+				OR EZ.EXAMZONENAME LIKE CONCAT('%', #{textCondition, jdbcType=VARCHAR}, '%'))
+		</if>
+		<if test='localCondition != null and !localCondition.equals("전체")'>
+			AND EZ.LOCAL LIKE CONCAT('%', #{localCondition, jdbcType=VARCHAR}, '%')
+		</if>
+		<if test='examDegreeCondition != null and !examDegreeCondition.equals("전체")'>
+			AND CONCAT(CONVERT(E.EXAMYEAR, CHAR), '-', CONVERT(E.EXAMDEGREE, CHAR)) = #{examDegreeCondition, jdbcType=VARCHAR}
+		</if>
+
 	</select>
 	
 	
