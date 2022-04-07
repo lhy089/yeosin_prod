@@ -172,7 +172,8 @@
     <ul class="btn_wrap">
       <li><a onclick="return false;" id="excelDownload">엑셀다운로드</a></li>
       <li><a href="/siteRegister">등록하기</a></li>
-      <li><a href="/siteList" onclick="return doExamZoneDelete()">정보삭제</a></li>
+      <!-- 위험하므로 히든처리 -->
+<!--       <li><a href="/siteList" onclick="return doExamZoneDelete()">정보삭제</a></li> -->
     </ul>
     <table class="mb100" id="columnList">
       <colgroup>
