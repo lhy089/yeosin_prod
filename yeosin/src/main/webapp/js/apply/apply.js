@@ -44,7 +44,7 @@ function doCompleted()
 	var examId = $('#examId').val();
 	var subjectId = $('#subjectType').val();
 	var isPassEdu = "N";
-	var isValidCertDate = "N";
+	var isValidCertDate = "Y"; // 임시로 Y로 수정
 
 	if (subjectType == "*")
 	{
