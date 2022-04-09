@@ -213,4 +213,62 @@
 		WHERE 	FILEID = #{fileId, jdbcType=VARCHAR};	
 	</delete>
 	
+	<!-- 팝업 리스트 조회하기 -->
+	<select id="getPopupList" resultType="com.yeosin.board.PopupDto" parameterType="map">
+	SELECT 	
+				POPUPID
+			,	TITLE
+			,	CONTENTS
+			,	STARTDATE
+			,	ENDDATE
+			,	FILEID
+			,	LAYERLEFTPX
+			,	LAYERTOPPX
+			,	ISVISIBLE
+			,	WRITETIME
+		FROM 	YS_POPUP
+		ORDER BY WRITETIME DESC
+	LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	
+	<!-- 팝업 리스트 총 갯수-->
+	<select id="getPopupListCount" resultType="Integer" parameterType="map" >
+       SELECT
+            count(*)
+        FROM
+           YS_POPUP
+	</select>
+	
+	<!-- 팝업 조회 -->
+	<select id="getPopupInfo" resultType="com.yeosin.board.PopupDto" parameterType="com.yeosin.board.PopupDto">
+		SELECT
+				POPUPID
+			,	TITLE
+			,	CONTENTS
+			,	STARTDATE
+			,	ENDDATE
+			,	FILEID
+			,	LAYERLEFTPX
+			,	LAYERTOPPX
+			,	ISVISIBLE
+			,	WRITETIME
+		FROM YS_POPUP
+		WHERE POPUPID = #{popupId}
+	</select>
+	
+	<select id="getFileInfoByFileId" resultType="com.yeosin.board.FileDto" parameterType="String">
+		SELECT
+			FILEID
+		,	REALFILENAME
+		, 	LOCALFILENAME
+		,	FILESIZE
+		,	FILEURL
+		,	BOARDID
+		,	FILEEXTSN
+	FROM
+		YS_FILE
+	WHERE
+		FILEID = #{fileId}
+	
+	</select>
 </mapper>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.yeosin.board.BoardDto;
 import com.yeosin.board.FileDto;
+import com.yeosin.board.PopupDto;
 
 @Repository("boardManageDao")
 public class BoardManageDao {
@@ -126,4 +127,24 @@ public class BoardManageDao {
 	public int deletePopupFileInfo(String fileId) throws Exception {
 		return sqlSession.delete(nameSpace + "deletePopupFileInfo", fileId);
 	}
+	
+	//팝업 리스트 조회
+		public List<PopupDto> getPopupList(Map<String, Object> map) throws Exception{
+			return sqlSession.selectList(nameSpace + "getPopupList", map);
+		}
+		
+		//팝업 리스트 총 갯수
+		public int getPopupListCount(Map<String, Object> map) throws Exception{
+			return sqlSession.selectOne(nameSpace + "getPopupListCount", map);
+		}
+		
+		//팝업 조회
+		public PopupDto getPopupInfo(PopupDto popupDto) throws Exception{
+			return sqlSession.selectOne(nameSpace + "getPopupInfo", popupDto);
+		}
+		
+		//FileId 이용하여 File 정보 조회
+		public FileDto getFileInfoByFileId(String fileId) throws Exception{
+			return sqlSession.selectOne(nameSpace + "getFileInfoByFileId", fileId);
+		}
 }

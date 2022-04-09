@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.yeosin.board.BoardDto;
 import com.yeosin.board.FileDto;
+import com.yeosin.board.PopupDto;
 
 @Service
 public class BoardManageService {
@@ -126,4 +127,24 @@ public class BoardManageService {
 	public int deletePopupFileInfo(String fileId) throws Exception {
 		return boardManageDao.deletePopupFileInfo(fileId);
 	}
+	
+	//팝업 리스트 조회
+		public List<PopupDto> getPopupList(Map<String, Object> map) throws Exception{
+			return boardManageDao.getPopupList(map);
+		}
+		
+		//팝업 리스트 총 갯수
+		public int getPopupListCount(Map<String, Object> map) throws Exception{
+			return boardManageDao.getPopupListCount(map);
+		}
+		
+		//팝업 조회
+		public PopupDto getPopupInfo(PopupDto popupDto)  throws Exception{
+			return boardManageDao.getPopupInfo(popupDto);
+		}
+		
+		//FileId 이용하여 File 정보 조회
+		public FileDto getFileInfoByFileId(String fileId) throws Exception{
+			return  boardManageDao.getFileInfoByFileId(fileId);
+		}
 }

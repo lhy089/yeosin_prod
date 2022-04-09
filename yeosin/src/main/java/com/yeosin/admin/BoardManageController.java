@@ -31,6 +31,8 @@ import com.yeosin.apply.SubjectDto;
 import com.yeosin.board.BoardDto;
 import com.yeosin.board.FileDto;
 import com.yeosin.board.PageMaker;
+import com.yeosin.board.PopupDto;
+import com.yeosin.board.PopupDtoPageMaker;
 import com.yeosin.user.UserDto;
 import com.yeosin.util.FileController;
 
@@ -1119,5 +1121,83 @@ public class BoardManageController {
 
 		return resultMap;
 	}
+	
+	//팝업 리스트 화면
+		@RequestMapping(value = "/PopupList", method = RequestMethod.GET)
+		@ResponseBody
+		public ModelAndView PopupList(PopupDto popupDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+			response.setCharacterEncoding("UTF-8");
+			ModelAndView mav = new ModelAndView();
+
+			UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
+
+			if (userInfo == null) {
+				mav.addObject("isAlert", true);
+				mav.setViewName("member/login");
+			} else if (!"S".equals(userInfo.getUserStatus())) {
+				mav.addObject("isAlertNoAuth", true);
+				mav.setViewName("main");
+			} else {
+				// 페이징 데이터 준비(페이지당 데이터 목록수)
+				int pagePerNum = 30;
+				if (request.getParameterMap().containsKey("onePageDataCountCondition")) {
+					if (request.getParameter("onePageDataCountCondition") != null
+							&& !request.getParameter("onePageDataCountCondition").trim().isEmpty()) {
+						pagePerNum = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
+					}
+				}
+				
+				popupDto.setPerPageNum(pagePerNum);
+
+				Map<String, Object> parameterMap = new HashMap<String, Object>();
+				parameterMap.put("pageStart", popupDto.getPageStart());
+				parameterMap.put("perPageNum", popupDto.getPerPageNum());
+
+				//팝업 리스트
+				List<PopupDto> popupList = boardManageService.getPopupList(parameterMap);
+
+				// 페이징 하기위한 데이터
+				PopupDtoPageMaker pageMaker = new PopupDtoPageMaker();
+				pageMaker.setPopupDto(popupDto);
+				pageMaker.setTotalCount(boardManageService.getPopupListCount(parameterMap));
+
+				mav.addObject("popupList", popupList);
+				mav.addObject("pageCondition", pagePerNum);
+				mav.addObject("pageMaker", pageMaker);
+				mav.addObject("popupDto", popupDto);
+				mav.setViewName("admin/manage_status_doc");
+			}
+			return mav;
+		}
+		
+		//팝업 리스트 수정화면
+		@RequestMapping(value = "/PopupRevise", method = RequestMethod.GET)
+		@ResponseBody
+		public ModelAndView PopupRevise(PopupDto popupDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+			response.setCharacterEncoding("UTF-8");
+			ModelAndView mav = new ModelAndView();
+
+			UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
+
+			if (userInfo == null) {
+				mav.addObject("isAlert", true);
+				mav.setViewName("member/login");
+			} else if (!"S".equals(userInfo.getUserStatus())) {
+				mav.addObject("isAlertNoAuth", true);
+				mav.setViewName("main");
+			} else {
+				
+				PopupDto popupInfo = boardManageService.getPopupInfo(popupDto);
+				FileDto fileInfo = boardManageService.getFileInfo(popupDto.getFileId());
+				
+				mav.addObject("isAlert", false);
+				mav.addObject("isAlertNoAuth", false);
+				mav.addObject("popupInfo", popupInfo);
+				mav.addObject("popupDto", popupDto);
+				mav.addObject("fileInfo",fileInfo);
+				mav.setViewName("admin/board_notice_revise");
+			}
+			return mav;
+		}
 
 }
