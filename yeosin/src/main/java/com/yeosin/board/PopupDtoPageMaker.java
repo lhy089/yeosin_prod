@@ -14,7 +14,7 @@ public class PopupDtoPageMaker {
     public PopupDto getPopupDto() {
       return popupDto;
    }
-   public void sePopupDto(PopupDto popupDto) {
+   public void setPopupDto(PopupDto popupDto) {
       this.popupDto = popupDto;
    }
     public int getTotalCount() {
