@@ -568,7 +568,7 @@
 	</insert>
 	
 	<!-- 기존 고사장 수정 -->
-	<insert id="updateExamZone" parameterType="map">
+	<update id="updateExamZone" parameterType="map">
 		UPDATE 	YS_EXAMZONE 
 		SET 	LOCAL = #{local}
 			,	LOCALDETAIL = #{localDetail}
@@ -579,16 +579,16 @@
 			, 	EXAMZONEMAP = #{fileId}
 			, 	DESCRIPTION = #{address}
 		WHERE 	EXAMZONEID = #{examZoneId};
-	</insert>
+	</update>
 	
 	<!-- 기존 고사장 삭제(YS_EXAMZONE 테이블에 ON DELETE CASCADE 옵션적용) -->
-	<insert id="deleteExamZone" parameterType="map">
+	<delete id="deleteExamZone" parameterType="map">
 		<foreach item="examZoneId" index="index" collection="examZoneList">			
 			DELETE 	
 			FROM 	YS_EXAMZONE 
 			WHERE 	EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};			
 		</foreach>
-	</insert>
+	</delete>
 	
 	<!--시험일정등록 고사장 리스트  -->
 	<select id="getExamZoneListByExamRegister"  resultType="com.yeosin.apply.ExamZoneDto">
@@ -940,7 +940,7 @@
 	<delete id="deleteExamZoneMapFileInfo" parameterType="String">
 		DELETE 	
 		FROM 	YS_FILE
-		WHERE 	FILEID = #{boardId, jdbcType=VARCHAR};	
+		WHERE 	FILEID = #{fileId, jdbcType=VARCHAR};	
 	</delete>
 	
 </mapper>

@@ -86,4 +86,44 @@ public class BoardManageService {
 	public int deleteFileInfo(String boardId) throws Exception{
 		return boardManageDao.deleteFileInfo(boardId);
 	}
+	
+	// 새로운 팝업 ID 채번
+	public int getMaxPopupId() throws Exception {
+		return boardManageDao.getMaxPopupId();
+	}
+	
+	// 팝업 저장
+	public int setPopupSave(Map<String, Object> map) throws Exception {
+		return boardManageDao.setPopupSave(map);
+	}
+	
+	// 팝업 수정
+	public int setPopupModify(Map<String, Object> map) throws Exception {
+		return boardManageDao.setPopupModify(map);
+	}
+	
+	// 팝업 삭제
+	public int setPopupDelete(Map<String, Object> map) throws Exception {
+		return boardManageDao.setPopupDelete(map);
+	}
+	
+	// 팝업 파일등록여부 체크
+	public FileDto getPopupFileInfo(String fileId) throws Exception {
+		return boardManageDao.getPopupFileInfo(fileId);
+	}
+	
+	// 팝업 파일등록
+	public int savePopupFileInfo(FileDto fileDto) throws Exception {
+		return boardManageDao.savePopupFileInfo(fileDto);
+	}
+	
+	// 팝업 파일수정
+	public int updatePopupFileInfo(FileDto fileDto) throws Exception {
+		return boardManageDao.updatePopupFileInfo(fileDto);
+	}
+	
+	// 팝업 파일삭제
+	public int deletePopupFileInfo(String fileId) throws Exception {
+		return boardManageDao.deletePopupFileInfo(fileId);
+	}
 }

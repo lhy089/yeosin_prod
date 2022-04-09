@@ -138,6 +138,79 @@
 		FROM 	YS_FILE
 		WHERE 	BOARDID = #{boardId, jdbcType=VARCHAR};	
 	</delete>
+	
+	<!-- 팝업 ID MaxNumber 조회 -->
+	<select id="getMaxPopupId" resultType="Integer">
+		SELECT 	MAX(CONVERT(REPLACE(EXAMZONEID, 'popup', ''), SIGNED)) 
+		FROM 	YS_EXAMZONE
+		WHERE 	1 = 1;
+	</select>
+	
+	<!-- 새로운 팝업 등록 -->
+	<insert id="setPopupSave" parameterType="map">
+		INSERT INTO YS_POPUP (POPUPID, TITLE, CONTENTS, STARTDATE, ENDDATE, FILEID, LAYERLEFTPX, LAYERTOPPX, ISVISIBLE, WRITETIME) 
+		VALUES (#{popupId}, #{title}, #{contents}, #{startDate}, #{endDate}, #{fileId}, #{layerLeftPx} * #{layerTopPx}, #{isVisble}, now());
+	</insert>
+	
+	<!-- 기존 팝업 수정 -->
+	<update id="setPopupModify" parameterType="map">
+		UPDATE 	YS_POPUP 
+		SET 	TITLE = #{title}
+			,	CONTENTS = #{contents}
+			, 	STARTDATE = #{startDate}
+			, 	ENDDATE = #{endDate}
+			,	FILEID = #{fileId}
+			, 	LAYERLEFTPX = #{layerLeftPx}
+			, 	LAYERTOPPX = #{layerTopPx}
+			, 	ISVISIBLE = #{isVisble}
+		WHERE 	POPUPID = #{popupId};
+	</update>
+	
+	<!-- 기존 팝업 삭제 -->
+	<delete id="setPopupDelete" parameterType="map">
+		<foreach item="popupId" index="index" collection="popupList">			
+			DELETE 	
+			FROM 	YS_POPUP 
+			WHERE 	POPUPID = #{popupId, jdbcType=VARCHAR};			
+		</foreach>
+	</delete>
+	
+	<!-- 팝업 파일등록여부 체크 -->
+	<select id="getPopupFileInfo" parameterType="String" resultType="com.yeosin.board.FileDto">
+		SELECT 	
+				FILEID 
+			,	REALFILENAME 
+			,	LOCALFILENAME 
+			,	FILESIZE 
+			,	FILEURL 
+			, 	BOARDID 
+			,	FILEEXTSN 
+		FROM 	YS_FILE
+		WHERE 	1 = 1 
+		AND 	FILEID = #{fileId, jdbcType=VARCHAR};
+	</select>
 
+   	<!-- 팝업 파일 추가하기 -->
+	<insert id="savePopupFileInfo" parameterType="com.yeosin.board.FileDto">
+		INSERT INTO YS_FILE (FILEID, REALFILENAME, LOCALFILENAME, FILESIZE, FILEURL, BOARDID, FILEEXTSN)
+		VALUES(#{fileId}, #{realFileName}, #{localFileName}, #{fileSize}, '/resources/popupFile', #{boardId}, #{fileExtsn});
+	</insert>
+	
+	<!-- 팝업 파일 수정하기 -->
+	<update id="updatePopupFileInfo" parameterType="com.yeosin.board.FileDto"> 
+		UPDATE	YS_FILE 
+		SET 	REALFILENAME = #{realFileName, jdbcType=VARCHAR}			
+			,	LOCALFILENAME = #{localFileName, jdbcType=VARCHAR}
+			,	FILESIZE = #{fileSize, jdbcType=VARCHAR}
+			,	FileEXTSN = #{fileExtsn, jdbcType=VARCHAR}
+		WHERE 	FILEID = #{fileId, jdbcType=VARCHAR}	
+	</update>
+	
+	<!-- 팝업 파일 삭제하기 -->
+	<delete id="deletePopupFileInfo" parameterType="String">
+		DELETE 	
+		FROM 	YS_FILE
+		WHERE 	FILEID = #{fileId, jdbcType=VARCHAR};	
+	</delete>
 	
 </mapper>

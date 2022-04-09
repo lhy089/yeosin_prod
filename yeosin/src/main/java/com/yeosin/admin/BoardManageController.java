@@ -4,7 +4,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +23,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yeosin.apply.ApplyDto;
+import com.yeosin.apply.ApplyPageMaker;
+import com.yeosin.apply.ExamDto;
+import com.yeosin.apply.ExamZoneDto;
+import com.yeosin.apply.SubjectDto;
 import com.yeosin.board.BoardDto;
 import com.yeosin.board.FileDto;
 import com.yeosin.board.PageMaker;
@@ -939,6 +947,177 @@ public class BoardManageController {
 			mav.setViewName("admin/board_question");
 		}
 		return mav;
+	}
+
+   	// 팝업 등록, 수정
+	@RequestMapping(value="/PopupSaveByAjax", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> PopupSaveByAjax(@RequestParam Map<String, Object> requestMap, HttpSession session, HttpServletRequest request, HttpServletResponse response, MultipartFile file) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");      
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		boolean isSuccess = false;
+		
+		// AJAX로 넘겨줄 데이터
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		if (userInfo == null || !"S".equals(userInfo.getUserStatus())) 
+		{
+			isSuccess = false;
+		}
+		else 
+		{		
+			int isSaveUpdateSuccess = 0;
+			// 저장인지 업데이트인지 판별
+			String actionCode = null;
+			
+			if (requestMap.get("popupId") == null || String.valueOf(requestMap.get("popupId")).isEmpty() || requestMap.get("popupId").equals("null"))
+				actionCode = "Save";
+			else 
+				actionCode = "Update";
+			// 새로운 팝업 ID 채번
+			int MaxPopupNumber = boardManageService.getMaxPopupId() + 1;
+			String newPopupId = "popup" + String.valueOf(MaxPopupNumber); 
+			String popupId = null;
+			
+			if (actionCode.equals("Save")) popupId = newPopupId;
+			else popupId = String.valueOf(requestMap.get("popupId"));
+				
+			/////////////////////////// 파일 관련 프로세스 처리 ///////////////////////////
+			FileDto getFileDto = boardManageService.getPopupFileInfo(String.valueOf(requestMap.get("fileId")));
+			
+			String fileName = String.valueOf(file.getOriginalFilename()); // 파일 다이얼로그로 등록
+			String checkFileName = request.getParameter("fileName"); // 파일명 텍스트
+			int fileSize = (int)file.getSize();
+
+			// 파일이 이미 등록되어 있을때(수정, 삭제)
+			if (getFileDto != null) 
+			{
+				// 수정
+				if (!checkFileName.equals("") && checkFileName != null && file.getSize() != 0) 
+				{
+					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+					String popupPath = request.getServletContext().getRealPath("/resources/popupFile");
+					
+					File copyFile = new File(popupPath, LocalFileName);
+						
+					if (!new File(popupPath).exists()) 
+					{
+						new File(popupPath).mkdirs();
+					}
+							
+					FileCopyUtils.copy(file.getBytes(), copyFile);	
+					
+					FileDto updateFileDto = new FileDto();	
+					String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
+					requestMap.put("fileId", String.valueOf(requestMap.get("fileId")));
+	
+					updateFileDto.setFileId(String.valueOf(requestMap.get("fileId")));
+					updateFileDto.setLocalFileName(LocalFileName);
+					updateFileDto.setRealFileName(fileName);
+					updateFileDto.setFileExtsn(fileExtsn);
+					updateFileDto.setBoardId(popupId);
+					updateFileDto.setFileSize(fileSize);
+
+					boardManageService.updatePopupFileInfo(updateFileDto);
+				}
+				// 삭제
+				else if (checkFileName.equals("") || checkFileName == null)
+				{
+					boardManageService.deletePopupFileInfo(String.valueOf(requestMap.get("fileId")));
+					requestMap.replace("fileId", null);
+				}
+				
+			}
+			// 파일등록이 안되어 있을때(저장)
+			else 
+			{
+				// 저장
+				if (!checkFileName.equals("") && checkFileName != null && file.getSize() != 0) // 파일을 새로 등록할때
+				{
+					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+					String popupPath = request.getServletContext().getRealPath("/resources/popupFile");
+					
+					File copyFile = new File(popupPath, LocalFileName);
+					
+					if (!new File(popupPath).exists()) 
+					{
+						new File(popupPath).mkdirs();
+					}
+						
+					FileCopyUtils.copy(file.getBytes(), copyFile);
+					
+					int MaxFileIdNumber = boardManageService.getMaxFileId() + 1;
+					String newFileId = "FILE" +  String.valueOf(MaxFileIdNumber);
+					String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
+					requestMap.put("fileId", newFileId);
+				
+					FileDto fileDto = new FileDto();
+
+					fileDto.setLocalFileName(LocalFileName);
+					fileDto.setRealFileName(fileName);
+					fileDto.setBoardId(popupId);
+					fileDto.setFileId(newFileId);
+					fileDto.setFileExtsn(fileExtsn);
+					fileDto.setFileSize(fileSize);
+					boardManageService.savePopupFileInfo(fileDto);
+				}			
+			}
+
+			/////////////////////////// 파일 관련 프로세스 처리 끝 ///////////////////////////
+			
+			// 저장일때
+			if (actionCode.equals("Save"))
+			{
+				requestMap.replace("popupId", popupId);
+				isSaveUpdateSuccess = boardManageService.setPopupSave(requestMap);
+			}
+			// 수정일때
+			else 
+			{
+				isSaveUpdateSuccess = boardManageService.setPopupModify(requestMap);
+			}
+
+			if (isSaveUpdateSuccess == 1) isSuccess = true;
+			else isSuccess = false;				
+		}
+		
+		resultMap.put("isSuccess", isSuccess);
+
+		return resultMap;
+	}
+	
+   	// 팝업 삭제
+	@RequestMapping(value="/PopupDeleteByAjax", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> PopupDeleteByAjax(@RequestParam(value="popupCheck[]") List<String> requestArray, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");      
+		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+		boolean isSuccess = false;
+		
+		// AJAX로 넘겨줄 데이터
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+      
+		if (userInfo == null || !"S".equals(userInfo.getUserStatus())) 
+		{
+			isSuccess = false;
+		}
+		else 
+		{
+			// 체크한 팝업에 대한 삭제로직
+			Map<String, Object> parameter = new HashMap<String, Object>();
+			parameter.put("poupList", requestArray);
+		
+			int isDeleteSuccess = boardManageService.setPopupDelete(parameter);
+			
+			if (isDeleteSuccess == 1) isSuccess = true;
+			else isSuccess = false;
+		}
+		
+		resultMap.put("isSuccess", isSuccess);
+
+		return resultMap;
 	}
 
 }

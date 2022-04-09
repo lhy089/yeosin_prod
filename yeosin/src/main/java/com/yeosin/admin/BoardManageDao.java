@@ -86,4 +86,44 @@ public class BoardManageDao {
 	public int deleteFileInfo(String boardId) throws Exception{
 		return sqlSession.delete(nameSpace + "deleteFileInfo", boardId); 
 	}
+	
+	// 새로운 팝업 ID 채번
+	public int getMaxPopupId() throws Exception {
+		return sqlSession.selectOne(nameSpace + "getMaxPopupId");
+	}
+	
+	// 팝업 저장
+	public int setPopupSave(Map<String, Object> map) throws Exception {
+		return sqlSession.insert(nameSpace + "setPopupSave", map);
+	}
+	
+	// 팝업 수정
+	public int setPopupModify(Map<String, Object> map) throws Exception {
+		return sqlSession.update(nameSpace + "setPopupModify", map);
+	}
+	
+	// 팝업 삭제
+	public int setPopupDelete(Map<String, Object> map) throws Exception {
+		return sqlSession.delete(nameSpace + "setPopupDelete", map);
+	}
+	
+	// 팝업 파일등록여부 체크
+	public FileDto getPopupFileInfo(String fileId) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getPopupFileInfo", fileId);
+	}
+	
+	// 팝업 파일등록
+	public int savePopupFileInfo(FileDto fileDto) throws Exception {
+		return sqlSession.insert(nameSpace + "savePopupFileInfo", fileDto);
+	}
+	
+	// 팝업 파일수정
+	public int updatePopupFileInfo(FileDto fileDto) throws Exception {
+		return sqlSession.update(nameSpace + "updatePopupFileInfo", fileDto);
+	}
+	
+	// 팝업 파일삭제
+	public int deletePopupFileInfo(String fileId) throws Exception {
+		return sqlSession.delete(nameSpace + "deletePopupFileInfo", fileId);
+	}
 }
