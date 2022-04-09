@@ -564,7 +564,7 @@
 	<!-- 새로운 고사장 등록 -->
 	<insert id="insertExamZone" parameterType="map">
 		INSERT INTO YS_EXAMZONE (EXAMZONEID, LOCAL, LOCALDETAIL, EXAMZONENAME, EXAMROOMCNT, EXAMROOMUSERCNT, TOTALUSERCNT, EXAMZONEMAP, DESCRIPTION) 
-		VALUES (#{examZoneId}, #{local}, #{localDetail}, #{examZoneName}, #{examRoomCnt}, #{examRoomUserCnt}, #{examRoomCnt} * #{examRoomUserCnt}, #{examZoneMap}, #{address});
+		VALUES (#{examZoneId}, #{local}, #{localDetail}, #{examZoneName}, #{examRoomCnt}, #{examRoomUserCnt}, #{examRoomCnt} * #{examRoomUserCnt}, #{fileId}, #{address});
 	</insert>
 	
 	<!-- 기존 고사장 수정 -->
