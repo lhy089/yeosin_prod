@@ -129,22 +129,35 @@ public class BoardManageService {
 	}
 	
 	//팝업 리스트 조회
-		public List<PopupDto> getPopupList(Map<String, Object> map) throws Exception{
-			return boardManageDao.getPopupList(map);
+	public List<PopupDto> getPopupList(Map<String, Object> map) throws Exception {
+		return boardManageDao.getPopupList(map);
+	}
+
+	// 팝업 리스트 총 갯수
+	public int getPopupListCount(Map<String, Object> map) throws Exception {
+		return boardManageDao.getPopupListCount(map);
+	}
+
+	// 팝업 조회
+	public PopupDto getPopupInfo(PopupDto popupDto) throws Exception {
+		return boardManageDao.getPopupInfo(popupDto);
+	}
+
+	// FileId 이용하여 File 정보 조회
+	public FileDto getFileInfoByFileId(String fileId) throws Exception {
+		return boardManageDao.getFileInfoByFileId(fileId);
+	}
+	
+	//Main창 출력을 위한 팝업리스트 조회
+	public List<PopupDto> getPopupListForMain() throws Exception{
+		
+		List<PopupDto> popupList = boardManageDao.getPopupListForMain();
+		
+		for(int i = 0 ; i < popupList.size(); i++)
+		{
+			popupList.get(i).setContents(popupList.get(i).getContents().replaceAll("\r\n", "<br>").replaceAll(" ","&nbsp"));
 		}
 		
-		//팝업 리스트 총 갯수
-		public int getPopupListCount(Map<String, Object> map) throws Exception{
-			return boardManageDao.getPopupListCount(map);
-		}
-		
-		//팝업 조회
-		public PopupDto getPopupInfo(PopupDto popupDto)  throws Exception{
-			return boardManageDao.getPopupInfo(popupDto);
-		}
-		
-		//FileId 이용하여 File 정보 조회
-		public FileDto getFileInfoByFileId(String fileId) throws Exception{
-			return  boardManageDao.getFileInfoByFileId(fileId);
-		}
+		return popupList;
+	}
 }

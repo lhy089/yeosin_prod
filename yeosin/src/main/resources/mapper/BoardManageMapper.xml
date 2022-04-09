@@ -269,6 +269,22 @@
 		YS_FILE
 	WHERE
 		FILEID = #{fileId}
-	
+	</select>
+
+    <!--Main창 출력을 위한 팝업리스트 조회-->
+	<select id="getPopupListForMain" resultType="com.yeosin.board.PopupDto">
+		SELECT
+				POPUPID
+			,	TITLE
+			,	CONTENTS
+			,	STARTDATE
+			,	ENDDATE
+			,	FILEID
+			,	LAYERLEFTPX
+			,	LAYERTOPPX
+			,	ISVISIBLE
+			,	WRITETIME
+		FROM YS_POPUP
+		WHERE  DATE_FORMAT(NOW(), '%Y-%m-%d')  BETWEEN DATE_FORMAT(STARTDATE, '%Y-%m-%d') AND DATE_FORMAT(ENDDATE, '%Y-%m-%d')
 	</select>
 </mapper>

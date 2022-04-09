@@ -129,22 +129,27 @@ public class BoardManageDao {
 	}
 	
 	//팝업 리스트 조회
-		public List<PopupDto> getPopupList(Map<String, Object> map) throws Exception{
-			return sqlSession.selectList(nameSpace + "getPopupList", map);
-		}
-		
-		//팝업 리스트 총 갯수
-		public int getPopupListCount(Map<String, Object> map) throws Exception{
-			return sqlSession.selectOne(nameSpace + "getPopupListCount", map);
-		}
-		
-		//팝업 조회
-		public PopupDto getPopupInfo(PopupDto popupDto) throws Exception{
-			return sqlSession.selectOne(nameSpace + "getPopupInfo", popupDto);
-		}
-		
-		//FileId 이용하여 File 정보 조회
-		public FileDto getFileInfoByFileId(String fileId) throws Exception{
-			return sqlSession.selectOne(nameSpace + "getFileInfoByFileId", fileId);
-		}
+	public List<PopupDto> getPopupList(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList(nameSpace + "getPopupList", map);
+	}
+
+	// 팝업 리스트 총 갯수
+	public int getPopupListCount(Map<String, Object> map) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getPopupListCount", map);
+	}
+
+	// 팝업 조회
+	public PopupDto getPopupInfo(PopupDto popupDto) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getPopupInfo", popupDto);
+	}
+
+	// FileId 이용하여 File 정보 조회
+	public FileDto getFileInfoByFileId(String fileId) throws Exception {
+		return sqlSession.selectOne(nameSpace + "getFileInfoByFileId", fileId);
+	}
+	
+	//Main창 출력을 위한 팝업리스트 조회
+	public List<PopupDto> getPopupListForMain() throws Exception{
+		return sqlSession.selectList(nameSpace + "getPopupListForMain");
+	}
 }

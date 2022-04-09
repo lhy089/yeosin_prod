@@ -29,12 +29,14 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.yeosin.admin.BoardManageService;
 import com.yeosin.admin.UserManageService;
 import com.yeosin.apply.ApplyDto;
 import com.yeosin.apply.ApplyService;
 import com.yeosin.apply.ExamDto;
 import com.yeosin.board.BoardDto;
 import com.yeosin.board.BoardService;
+import com.yeosin.board.PopupDto;
 import com.yeosin.util.CheckPlus;
 import com.yeosin.util.EncryptUtils;
 import com.yeosin.util.StringEncrypter;
@@ -57,6 +59,9 @@ public class UserController {
 	@Autowired	
 	private UserManageService userManageService;
 	
+	@Autowired
+	private BoardManageService boardManageService;
+	
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView index(HttpSession session, HttpServletResponse response) throws Exception {
@@ -65,9 +70,11 @@ public class UserController {
 
 		ExamDto examInfo = applyService.getExamInfoForMain();
 		List<BoardDto> noticeList = boardService.getNoticeListForMain();
+		List<PopupDto> popupList = boardManageService.getPopupListForMain();
 
 		mav.addObject("examInfo", examInfo);
 		mav.addObject("noticeList", noticeList);
+		mav.addObject("popupList", popupList);
 		mav.setViewName("/index");
 		return mav;
 	}
