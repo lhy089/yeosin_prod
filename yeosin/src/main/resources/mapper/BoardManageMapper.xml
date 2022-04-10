@@ -148,8 +148,8 @@
 	
 	<!-- 새로운 팝업 등록 -->
 	<insert id="setPopupSave" parameterType="map">
-		INSERT INTO YS_POPUP (POPUPID, TITLE, CONTENTS, STARTDATE, ENDDATE, FILEID, ISVISIBLE, WRITETIME) 
-		VALUES (#{popupId}, #{title}, #{contents}, #{startDate}, #{endDate}, #{fileId}, #{isVisible}, now());
+		INSERT INTO YS_POPUP (POPUPID, TITLE, CONTENTS, STARTDATE, ENDDATE, FILEID, ISVISIBLE, WRITETIME, COOKIEID) 
+		VALUES (#{popupId}, #{title}, #{contents}, #{startDate}, #{endDate}, #{fileId}, #{isVisible}, NOW(), UUID());
 	</insert>
 	
 	<!-- 기존 팝업 수정 -->
@@ -223,7 +223,8 @@
 			,	LAYERLEFTPX
 			,	LAYERTOPPX
 			,	ISVISIBLE
-			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME 
+			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME
+			,	COOKIEID 
 		FROM 	YS_POPUP
 		ORDER BY WRITETIME DESC
 	LIMIT #{pageStart}, #{perPageNum}
@@ -250,6 +251,7 @@
 			,	LAYERTOPPX
 			,	ISVISIBLE
 			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') 	AS WRITETIME 
+			,	COOKIEID
 		FROM YS_POPUP
 		WHERE POPUPID = #{popupId}
 	</select>
@@ -282,6 +284,7 @@
 			,	LAYERTOPPX
 			,	ISVISIBLE
 			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME 
+			,	COOKIEID
 		FROM YS_POPUP
 		WHERE  DATE_FORMAT(NOW(), '%Y-%m-%d')  BETWEEN DATE_FORMAT(STARTDATE, '%Y-%m-%d') AND DATE_FORMAT(ENDDATE, '%Y-%m-%d')
 		AND ISVISIBLE = 'Y'

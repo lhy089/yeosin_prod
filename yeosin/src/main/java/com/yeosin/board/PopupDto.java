@@ -11,7 +11,8 @@ public class PopupDto {
 	private int layerLeftPx; // 팝업 레이어 좌측위치
 	private int layerTopPx;	// 팝업 레이어 상단위치
 	private String isVisible; // 팝업 노출여부
-	private String writeTime;		//작성시간
+	private String writeTime; //작성시간
+	private String cookieId; // 쿠키 ID
 	
 	private int page; // 현재 페이지 번호   
 	private int perPageNum; // 현 페이지당 보여줄 게시글의 갯수
@@ -110,5 +111,10 @@ public class PopupDto {
 	public void setFileDto(FileDto fileDto) {
 		this.fileDto = fileDto;
 	}
-	
+	public String getCookieId() {
+		return cookieId;
+	}
+	public void setCookieId(String cookieId) {
+		this.cookieId = cookieId;
+	}
 }

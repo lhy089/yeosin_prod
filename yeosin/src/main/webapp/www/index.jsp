@@ -93,57 +93,104 @@
     
     <!-- 팝업 -->
 	<script>
-    $( document ).ready(function() {
+    $(document).ready(function() {
+    	
+      var cookie_0 = $("#cookie_0").val() + "=done";
+      var cookie_1 = $("#cookie_1").val() + "=done";
+      var cookie_2 = $("#cookie_2").val() + "=done";
+    	
       cookiedata = document.cookie;
       
-      if (cookiedata.indexOf("ncookie0=done") < 0 ){
-		document.getElementById('layer_pop0').style.display = "block"; // 팝업창 아이디
-      } else {
-        document.getElementById('layer_pop0').style.display = "none"; // 팝업창 아이디
+      // 팝업 1
+      if (cookiedata.indexOf(cookie_0) < 0) 
+      {
+  		if ($("#layer_pop0").length > 0)
+		{
+  			document.getElementById('layer_pop0').style.display = "block"; // 팝업창 아이디
+		}
+      } 
+      else 
+      {
+   		if ($("#layer_pop0").length > 0)
+   		{
+   			document.getElementById('layer_pop0').style.display = "none"; // 팝업창 아이디
+   		}
       }
       
-      if (cookiedata.indexOf("ncookie1=done") < 0 ){
-		document.getElementById('layer_pop1').style.display = "block"; // 팝업창 아이디
-      } else {
-		document.getElementById('layer_pop1').style.display = "none"; // 팝업창 아이디
+      // 팝업 2
+      if (cookiedata.indexOf(cookie_1) < 0)
+      {
+    	if ($("#layer_pop1").length > 0)
+    	{
+      		document.getElementById('layer_pop1').style.display = "block"; // 팝업창 아이디
+    	}
+      } 
+      else 
+      {
+  		if ($("#layer_pop1").length > 0)
+  		{
+    		document.getElementById('layer_pop1').style.display = "none"; // 팝업창 아이디
+  		}
       }
       
-      if (cookiedata.indexOf("ncookie2=done") < 0 ){
-		document.getElementById('layer_pop2').style.display = "block"; // 팝업창 아이디
-	  } else {
-		document.getElementById('layer_pop2').style.display = "none"; // 팝업창 아이디
+      // 팝업 3
+      if (cookiedata.indexOf(cookie_2) < 0)
+      {
+   		if ($("#layer_pop2").length > 0)
+   		{
+     		document.getElementById('layer_pop2').style.display = "block"; // 팝업창 아이디
+   		}
+	  } 
+      else 
+      {
+   		if ($("#layer_pop2").length > 0)
+   		{
+     		document.getElementById('layer_pop2').style.display = "none"; // 팝업창 아이디
+   		}
       }
 	});
     
+    // 쿠키 설정
     function setCookie(name, value, expiredays) {
         var todayDate = new Date();
         todayDate.setDate(todayDate.getDate() + expiredays);
         document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
      }
 
+    // 닫기
     function closeWin(index) {
-    	if(index == 0){
-    		document.getElementById('layer_pop0').style.display = "none"; // 팝업창 아이디
+    	if (index == 0) {
+    		if ($("#layer_pop0").length > 0)
+    		{
+    			document.getElementById('layer_pop0').style.display = "none"; // 팝업창 아이디
+    		}
     	}
-    	else if(index == 1){
-    		document.getElementById('layer_pop1').style.display = "none"; // 팝업창 아이디
+    	else if (index == 1){
+    		if ($("#layer_pop1").length > 0)
+    		{
+    			document.getElementById('layer_pop1').style.display = "none"; // 팝업창 아이디
+    		}
     	}
-    	else if(index == 2){
-    		 document.getElementById('layer_pop2').style.display = "none"; // 팝업창 아이디
+    	else if (index == 2){
+    		if ($("#layer_pop2").length > 0)
+    		{
+    			document.getElementById('layer_pop2').style.display = "none"; // 팝업창 아이디
+    		}
     	}
     }
     
-    function todaycloseWin(index){
+    // 오늘하루 보지않기
+    function todaycloseWin(cookieId, index) {
     	if(index == 0){
-    		 setCookie( "ncookie0", "done" , 1); // 저장될 쿠키명 , 쿠키 value값 , 기간(ex. 1은 하루, 7은 일주일)
+    		 setCookie(cookieId, "done" , 1); // 저장될 쿠키명 , 쿠키 value값 , 기간(ex. 1은 하루, 7은 일주일)
     	     document.getElementById('layer_pop0').style.display = "none"; // 팝업창 아이디
     	}
     	else if(index == 1){
-    		  setCookie( "ncookie1", "done" , 1); // 저장될 쿠키명 , 쿠키 value값 , 기간(ex. 1은 하루, 7은 일주일)
+    		  setCookie(cookieId, "done" , 1); // 저장될 쿠키명 , 쿠키 value값 , 기간(ex. 1은 하루, 7은 일주일)
     	      document.getElementById('layer_pop1').style.display = "none"; // 팝업창 아이디
     	}
     	else if(index == 2){
-    		  setCookie("ncookie2", "done" , 1); // 저장될 쿠키명 , 쿠키 value값 , 기간(ex. 1은 하루, 7은 일주일)
+    		  setCookie(cookieId, "done" , 1); // 저장될 쿠키명 , 쿠키 value값 , 기간(ex. 1은 하루, 7은 일주일)
     	      document.getElementById('layer_pop2').style.display = "none"; // 팝업창 아이디
     	}
     }
@@ -161,7 +208,8 @@
 			 	</p>
 			 	<div class="closeWrap">
 			 		<a href="#none" onClick="closeWin(${status.index});" class="btn_close">닫기</a>
-			 		<a href="#none" onClick="todaycloseWin(${status.index});" class="btn_closeToday">오늘 하루 보지 않기</a>
+			 		<a href="#none" onClick="todaycloseWin('${popupInfo.cookieId}', ${status.index});" class="btn_closeToday">오늘 하루 보지 않기</a>
+			 		<input type="hidden" id="cookie_${status.index}" value="${popupInfo.cookieId}">
 			  	</div>
 			</div>
 		</div>
