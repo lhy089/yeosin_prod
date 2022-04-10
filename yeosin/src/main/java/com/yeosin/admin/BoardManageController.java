@@ -985,7 +985,8 @@ public class BoardManageController {
 			if (actionCode.equals("Save")) popupId = newPopupId;
 			else popupId = String.valueOf(requestMap.get("popupId"));
 				
-			/////////////////////////// 파일 관련 프로세스 처리 ///////////////////////////	
+			/////////////////////////// 파일 관련 프로세스 처리 ///////////////////////////
+			/*
 			if (file != null)
 			{
 				FileDto getFileDto = boardManageService.getPopupFileInfo(String.valueOf(requestMap.get("file")));
@@ -1067,7 +1068,8 @@ public class BoardManageController {
 						boardManageService.savePopupFileInfo(fileDto);
 					}			
 				}	
-			}
+			} 
+			*/
 			/////////////////////////// 파일 관련 프로세스 처리 끝 ///////////////////////////
 			
 			// 저장일때
