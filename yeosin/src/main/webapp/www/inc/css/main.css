@@ -46,16 +46,27 @@
 .main .cont03 .crm p.red{color:#ad1818; font-weight:600;}
 
 /* popup */
+.popWrap{width:100%; height:100%; position:fixed; top:0; /*background:rgba(0,0,0,0.6);*/ display:none;/**/}
+.popWrap .pop{width:500px; /*height:400px;*/ background:#fff; position:absolute; top:0; left:600px; padding-bottom:70px; box-sizing:border-box; box-shadow:10px 10px 30px rgba(0,0,0,0.2);}
+.popWrap .pop h1{width:100%; height:80px; background:#0074dd; text-align:center; font-family:var(--font-title); font-size:25px; color:#fff; letter-spacing:-0.5px; display:table; position:relative;}
+.popWrap .pop h1 p{height:100%; vertical-align:middle; display:table-cell;}
+.popWrap .pop h1 a.btn_close{width:18px; height:18px; display:block; background:url('../img/member/icon_close.png') no-repeat center; position:absolute; top:50%; transform:translateY(-50%); -webkit-transform:translateY(-50%); right:30px;}
+.popWrap .pop p.text{padding-top:34px; font-family:sandoll-gothicneo3, sans-serif; font-size:25px; line-height:39px; color:#58585b; text-align:center; margin-bottom:45px;}
+.popWrap .btn_apply{width:200px; height:50px; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; background:#0074dd; color:#fff; line-height:50px; text-align:center; margin:0 auto; transition:0.6s;}
+.popWrap .btn_apply:hover{opacity:0.8;}
+.popWrap .closeWrap,.alertPop .closeWrap{width:100%; height:36px; position:absolute; bottom:0; background:#8e8c8a;}
+.popWrap .btn_close,.popWrap .btn_closeToday,.alertPop .btn_close,.alertPop .btn_closeToday{position:absolute; bottom:0; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:18px; line-height:2; color:#fff;}
+.popWrap .btn_close,.alertPop .btn_close{right:2%;}
+.popWrap .btn_closeToday,.alertPop .btn_closeToday{left:2%;}
+
 .popWrap0{width:100%; height:100%; position:fixed; top:0; /*background:rgba(0,0,0,0.6);*/ display:none;/**/}
 .popWrap0 .pop{width:500px; /*height:400px;*/ background:#fff; position:absolute; top:0; left:0px; padding-bottom:70px; box-sizing:border-box; box-shadow:10px 10px 30px rgba(0,0,0,0.2);}
 .popWrap0 .pop h1{width:100%; height:80px; background:#0074dd; text-align:center; font-family:var(--font-title); font-size:25px; color:#fff; letter-spacing:-0.5px; display:table; position:relative;}
 .popWrap0 .pop h1 p{height:100%; vertical-align:middle; display:table-cell;}
 .popWrap0 .pop h1 a.btn_close{width:18px; height:18px; display:block; background:url('../img/member/icon_close.png') no-repeat center; position:absolute; top:50%; transform:translateY(-50%); -webkit-transform:translateY(-50%); right:30px;}
 .popWrap0 .pop p.text{padding-top:34px; font-family:sandoll-gothicneo3, sans-serif; font-size:25px; line-height:39px; color:#58585b; text-align:center; margin-bottom:45px;}
-.popWrap0 .btn_apply{width:200px; height:50px; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; background:#0074dd; color:#fff; line-height:50px; text-align:center; margin:0 auto; transition:0.6s;}
-.popWrap0 .btn_apply:hover{opacity:0.8;}
 .popWrap0 .closeWrap,.alertPop .closeWrap{width:100%; height:36px; position:absolute; bottom:0; background:#8e8c8a;}
-.popWrap0 .btn_close,.popWrap .btn_closeToday,.alertPop .btn_close,.alertPop .btn_closeToday{position:absolute; bottom:0; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:18px; line-height:2; color:#fff;}
+.popWrap0 .btn_close,.popWrap0 .btn_closeToday,.alertPop .btn_close,.alertPop .btn_closeToday{position:absolute; bottom:0; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:18px; line-height:2; color:#fff;}
 .popWrap0 .btn_close,.alertPop .btn_close{right:2%;}
 .popWrap0 .btn_closeToday,.alertPop .btn_closeToday{left:2%;}
 
@@ -68,7 +79,7 @@
 .popWrap1 .btn_apply{width:200px; height:50px; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; background:#0074dd; color:#fff; line-height:50px; text-align:center; margin:0 auto; transition:0.6s;}
 .popWrap1 .btn_apply:hover{opacity:0.8;}
 .popWrap1 .closeWrap,.alertPop .closeWrap{width:100%; height:36px; position:absolute; bottom:0; background:#8e8c8a;}
-.popWrap1 .btn_close,.popWrap .btn_closeToday,.alertPop .btn_close,.alertPop .btn_closeToday{position:absolute; bottom:0; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:18px; line-height:2; color:#fff;}
+.popWrap1 .btn_close,.popWrap1 .btn_closeToday,.alertPop .btn_close,.alertPop .btn_closeToday{position:absolute; bottom:0; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:18px; line-height:2; color:#fff;}
 .popWrap1 .btn_close,.alertPop .btn_close{right:2%;}
 .popWrap1 .btn_closeToday,.alertPop .btn_closeToday{left:2%;}
 
@@ -81,7 +92,7 @@
 .popWrap2 .btn_apply{width:200px; height:50px; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:23px; background:#0074dd; color:#fff; line-height:50px; text-align:center; margin:0 auto; transition:0.6s;}
 .popWrap2 .btn_apply:hover{opacity:0.8;}
 .popWrap2 .closeWrap,.alertPop .closeWrap{width:100%; height:36px; position:absolute; bottom:0; background:#8e8c8a;}
-.popWrap2 .btn_close,.popWrap .btn_closeToday,.alertPop .btn_close,.alertPop .btn_closeToday{position:absolute; bottom:0; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:18px; line-height:2; color:#fff;}
+.popWrap2 .btn_close,.popWrap2 .btn_closeToday,.alertPop .btn_close,.alertPop .btn_closeToday{position:absolute; bottom:0; display:block; font-family:sandoll-gothicneo3, sans-serif; font-size:18px; line-height:2; color:#fff;}
 .popWrap2 .btn_close,.alertPop .btn_close{right:2%;}
 .popWrap2 .btn_closeToday,.alertPop .btn_closeToday{left:2%;}
 
@@ -116,14 +127,32 @@
   .main .cont03 .crm p em{margin-right:.9vw; border-right:.18vw solid #78b5ed;}
 
   /* popup */
-  .popWrap .pop{width:54vw; left:55.35vw; padding-bottom:6.3vw; box-shadow:0.9vw 0.9vw 2.7vw rgba(0,0,0,0.2);}
-  .popWrap .pop h1{height:7.2vw; font-size:2.25vw;}
-  .popWrap .pop h1 a.btn_close{width:1.62vw; height:1.62vw; right:2.7vw;}
-  .popWrap .pop p.text{padding-top:3.06vw; font-size:2.25vw; line-height:3.51vw; margin-bottom:4.05vw;}
-  .popWrap .btn_apply{width:18vw; height:4.5vw; font-size:2.07vw; line-height:4.5vw;}
-  .popWrap .closeWrap,.alertPop .closeWrap{height:3.24vw;}
-  .popWrap .btn_close,.popWrap .btn_closeToday{font-size:1.62vw;}
+  .popWrap0 .pop{width:54vw; left:55.35vw; padding-bottom:6.3vw; box-shadow:0.9vw 0.9vw 2.7vw rgba(0,0,0,0.2);}
+  .popWrap0 .pop h1{height:7.2vw; font-size:2.25vw;}
+  .popWrap0 .pop h1 a.btn_close{width:1.62vw; height:1.62vw; right:2.7vw;}
+  .popWrap0 .pop p.text{padding-top:3.06vw; font-size:2.25vw; line-height:3.51vw; margin-bottom:4.05vw;}
+  .popWrap0 .btn_apply{width:18vw; height:4.5vw; font-size:2.07vw; line-height:4.5vw;}
+  .popWrap0 .closeWrap,.alertPop .closeWrap{height:3.24vw;}
+  .popWrap0 .btn_close,.popWrap0 .btn_closeToday{font-size:1.62vw;}
+  
+  .popWrap1 .pop{width:54vw; left:55.35vw; padding-bottom:6.3vw; box-shadow:0.9vw 0.9vw 2.7vw rgba(0,0,0,0.2);}
+  .popWrap1 .pop h1{height:7.2vw; font-size:2.25vw;}
+  .popWrap1 .pop h1 a.btn_close{width:1.62vw; height:1.62vw; right:2.7vw;}
+  .popWrap1 .pop p.text{padding-top:3.06vw; font-size:2.25vw; line-height:3.51vw; margin-bottom:4.05vw;}
+  .popWrap1 .btn_apply{width:18vw; height:4.5vw; font-size:2.07vw; line-height:4.5vw;}
+  .popWrap1 .closeWrap,.alertPop .closeWrap{height:3.24vw;}
+  .popWrap1 .btn_close,.popWrap1 .btn_closeToday{font-size:1.62vw;}
+  
+  .popWrap2 .pop{width:54vw; left:55.35vw; padding-bottom:6.3vw; box-shadow:0.9vw 0.9vw 2.7vw rgba(0,0,0,0.2);}
+  .popWrap2 .pop h1{height:7.2vw; font-size:2.25vw;}
+  .popWrap2 .pop h1 a.btn_close{width:1.62vw; height:1.62vw; right:2.7vw;}
+  .popWrap2 .pop p.text{padding-top:3.06vw; font-size:2.25vw; line-height:3.51vw; margin-bottom:4.05vw;}
+  .popWrap2 .btn_apply{width:18vw; height:4.5vw; font-size:2.07vw; line-height:4.5vw;}
+  .popWrap2 .closeWrap,.alertPop .closeWrap{height:3.24vw;}
+  .popWrap2 .btn_close,.popWrap2 .btn_closeToday{font-size:1.62vw;}
+  
   .alertPop{width:54vw; box-shadow:0.9vw 0.9vw 2.7vw rgba(0,0,0,0.2);}
   .alertPop>a.btn_close{width:3.24vw; height:3.24vw; background-size:1.62vw;}
   .alertPop p.text{padding:3.15vw 0 7.92vw; font-size:2.25vw; line-height:3.51vw;}
+  
 }

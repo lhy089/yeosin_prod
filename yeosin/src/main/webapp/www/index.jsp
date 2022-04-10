@@ -94,74 +94,58 @@
     <!-- 팝업 -->
 	<script>
     $( document ).ready(function() {
-     var userStatus = "${loginUserInfo.userStatus}";
       cookiedata = document.cookie;
       
-      if ((userStatus=="" || userStatus=='C') && cookiedata.indexOf("ncookie0=done") < 0 ){
+      if (cookiedata.indexOf("ncookie0=done") < 0 ){
 		document.getElementById('layer_pop0').style.display = "block"; // 팝업창 아이디
       } else {
         document.getElementById('layer_pop0').style.display = "none"; // 팝업창 아이디
       }
       
-      if ((userStatus=="" || userStatus=='C') && cookiedata.indexOf("ncookie1=done") < 0 ){
+      if (cookiedata.indexOf("ncookie1=done") < 0 ){
 		document.getElementById('layer_pop1').style.display = "block"; // 팝업창 아이디
       } else {
 		document.getElementById('layer_pop1').style.display = "none"; // 팝업창 아이디
       }
       
-      if ((userStatus=="" || userStatus=='C') && cookiedata.indexOf("ncookie2=done") < 0 ){
+      if (cookiedata.indexOf("ncookie2=done") < 0 ){
 		document.getElementById('layer_pop2').style.display = "block"; // 팝업창 아이디
 	  } else {
 		document.getElementById('layer_pop2').style.display = "none"; // 팝업창 아이디
       }
 	});
+    
+    function setCookie(name, value, expiredays) {
+        var todayDate = new Date();
+        todayDate.setDate(todayDate.getDate() + expiredays);
+        document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+     }
 
-    <!-- 1번 팝업 -->
-    function setCookie0(name, value, expiredays) {
-      var todayDate = new Date();
-      todayDate.setDate(todayDate.getDate() + expiredays);
-      document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-    }
-
-    function closeWin0() {
-      document.getElementById('layer_pop0').style.display = "none"; // 팝업창 아이디
-    }
-
-    function todaycloseWin0() {
-      setCookie( "ncookie0", "done" , 1); // 저장될 쿠키명 , 쿠키 value값 , 기간(ex. 1은 하루, 7은 일주일)
-      document.getElementById('layer_pop0').style.display = "none"; // 팝업창 아이디
+    function closeWin(index) {
+    	if(index == 0){
+    		document.getElementById('layer_pop0').style.display = "none"; // 팝업창 아이디
+    	}
+    	else if(index == 1){
+    		document.getElementById('layer_pop1').style.display = "none"; // 팝업창 아이디
+    	}
+    	else if(index == 2){
+    		 document.getElementById('layer_pop2').style.display = "none"; // 팝업창 아이디
+    	}
     }
     
-    <!-- 2번 팝업 -->
-    function setCookie1(name, value, expiredays) {
-      var todayDate = new Date();
-      todayDate.setDate(todayDate.getDate() + expiredays);
-      document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-    }
-
-    function closeWin1() {
-      document.getElementById('layer_pop1').style.display = "none"; // 팝업창 아이디
-    }
-
-    function todaycloseWin1() {
-      setCookie( "ncookie1", "done" , 1); // 저장될 쿠키명 , 쿠키 value값 , 기간(ex. 1은 하루, 7은 일주일)
-      document.getElementById('layer_pop1').style.display = "none"; // 팝업창 아이디
-    }
-    
-    <!-- 3번 팝업 -->
-    function setCookie2( name, value, expiredays ) {
-      var todayDate = new Date();
-      todayDate.setDate(todayDate.getDate() + expiredays);
-      document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-    }
-
-    function closeWin2() {
-      document.getElementById('layer_pop2').style.display = "none"; // 팝업창 아이디
-    }
-
-    function todaycloseWin2() {
-      setCookie("ncookie2", "done" , 1); // 저장될 쿠키명 , 쿠키 value값 , 기간(ex. 1은 하루, 7은 일주일)
-      document.getElementById('layer_pop2').style.display = "none"; // 팝업창 아이디
+    function todaycloseWin(index){
+    	if(index == 0){
+    		 setCookie( "ncookie0", "done" , 1); // 저장될 쿠키명 , 쿠키 value값 , 기간(ex. 1은 하루, 7은 일주일)
+    	     document.getElementById('layer_pop0').style.display = "none"; // 팝업창 아이디
+    	}
+    	else if(index == 1){
+    		  setCookie( "ncookie1", "done" , 1); // 저장될 쿠키명 , 쿠키 value값 , 기간(ex. 1은 하루, 7은 일주일)
+    	      document.getElementById('layer_pop1').style.display = "none"; // 팝업창 아이디
+    	}
+    	else if(index == 2){
+    		  setCookie("ncookie2", "done" , 1); // 저장될 쿠키명 , 쿠키 value값 , 기간(ex. 1은 하루, 7은 일주일)
+    	      document.getElementById('layer_pop2').style.display = "none"; // 팝업창 아이디
+    	}
     }
 	</script>
     
@@ -170,14 +154,14 @@
 			<div class="pop">
 				<h1>
 			       <p>${popupInfo.title}</p>
-			       <a href="#none" onClick="closeWin${status.index}();" class="btn_close"></a>
+			       <a href="#none" onClick="closeWin(${status.index});" class="btn_close"></a>
 			 	</h1>
 			 	<p class="text">
 			 		${popupInfo.contents}
 			 	</p>
 			 	<div class="closeWrap">
-			 		<a href="#none" onClick="closeWin${status.index}();" class="btn_close">닫기</a>
-			 		<a href="#none" onClick="todaycloseWin${status.index}();" class="btn_closeToday">오늘 하루 보지 않기</a>
+			 		<a href="#none" onClick="closeWin(${status.index});" class="btn_close">닫기</a>
+			 		<a href="#none" onClick="todaycloseWin(${status.index});" class="btn_closeToday">오늘 하루 보지 않기</a>
 			  	</div>
 			</div>
 		</div>
