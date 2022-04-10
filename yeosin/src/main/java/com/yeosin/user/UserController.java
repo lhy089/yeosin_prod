@@ -70,11 +70,11 @@ public class UserController {
 
 		ExamDto examInfo = applyService.getExamInfoForMain();
 		List<BoardDto> noticeList = boardService.getNoticeListForMain();
-		//List<PopupDto> popupList = boardManageService.getPopupListForMain();
+		List<PopupDto> popupList = boardManageService.getPopupListForMain();
 
 		mav.addObject("examInfo", examInfo);
 		mav.addObject("noticeList", noticeList);
-		//mav.addObject("popupList", popupList);
+		mav.addObject("popupList", popupList);
 		mav.setViewName("/index");
 		return mav;
 	}
