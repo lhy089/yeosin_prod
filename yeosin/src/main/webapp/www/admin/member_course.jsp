@@ -109,7 +109,7 @@
     </table>
     <input style="border:none;" class="btn_apply mb100" type="submit" value="조회"/>
     </form>
-    <p class="red">※ 날자를 미지정 시 매일 같은 시간 실행됩니다.</p>
+    <p class="red">※ 날짜를 미지정 시 매일 같은 시간 실행됩니다.</p>
 
     <table class="memberList">
       <colgroup>

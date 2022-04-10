@@ -49,6 +49,8 @@ $(document).ready(function() {
   <div class="contentBoxAd">
     <h1 class="title">팝업관리</h1>
     <h2>팝업관리</h2>
+    <br>
+    <p style="font-size: 18px; color: red;">※ 팝업노출여부가 'Y'이고, 팝업종료일자가 임박한 상위 3개의 팝업이 순서대로 노출됩니다.</p>
     <ul class="btn_wrap">
        <li><a href="/PopupInput?page=${popupDto.page}">등록하기</a></li>
     </ul>
@@ -56,16 +58,20 @@ $(document).ready(function() {
       <colgroup>
         <col width="4%">
         <col width="4%">
-        <col width="58%">
-        <col width="8%">
-        <col width="14%">
+        <col width="36%">
+        <col width="10%">
         <col width="12%">
+        <col width="12%">
+        <col width="12%">
+        <col width="10%">
       </colgroup>
       <tr>
         <th>선택</th>
         <th>번호</th>
         <th>제목</th>
         <th>팝업 노출여부</th>
+        <th>시작날짜</th>
+        <th>종료날짜</th>
         <th>등록날짜</th>
         <th>수정</th>
       </tr>      
@@ -75,6 +81,8 @@ $(document).ready(function() {
        		<td>${fn:length(popupList) - status.index}</td> <!-- 번호 -->
        		<td class="flow flowTitle">${popup.title}</td> <!-- 제목 -->
        		<td>${popup.isVisible}</td> <!-- 팝업 노출여부 -->
+       		<td>${popup.startDate}</td> <!-- 팝업 시작날짜 -->
+       		<td>${popup.endDate}</td> <!-- 팝업 종료날짜 -->
 <%--         	<c:if test="${not empty popup.fileDto}">
          	 	 <td  class="file"></td> 
          	</c:if>
