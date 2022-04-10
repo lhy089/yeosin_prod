@@ -31,7 +31,7 @@
     <dd><a href="/boardNotice?boardType=1&page=1">공지사항</a></dd>
     <dd><a href="/boardLibrary?boardType=3&page=1">시험 자료실</a></dd>
     <dd><a href="/boardQuestion?boardType=2&page=1">자주하는 질문</a></dd>
-    <dd><a href="board_pop.html">팝업관리</a></dd>
+    <dd><a href="/PopupList">팝업관리</a></dd>
   </dl>
 </nav>
 

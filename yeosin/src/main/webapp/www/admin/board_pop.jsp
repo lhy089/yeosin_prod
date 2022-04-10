@@ -21,10 +21,22 @@
   <meta property="og:image" content="/www/inc/img/openGraph.jpg">
   <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
   <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
-
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
   <link rel="stylesheet" href="/www/inc/css/admin.css">
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+if(${isAlert}) { 
+    alert("로그인 후 이용 가능합니다.");
+}
 
+$(document).ready(function() {
+	$("li[value='${pageMaker.popupDto.page}']").attr("class","on");
+});
+
+</script>
 <body>
 
 <!-- header 붙여주세요. (/common/admin_header.html) -->
@@ -37,7 +49,7 @@
     <h1 class="title">팝업관리</h1>
     <h2>팝업관리</h2>
     <ul class="btn_wrap">
-      <li><a href="board_pop_input.html">등록하기</a></li>
+       <li><a href="/PopupInput?page=${popupDto.page}">등록하기</a></li>
     </ul>
     <table class="list">
       <colgroup>
@@ -55,27 +67,46 @@
         <th>팝업첨부</th>
         <th>등록날짜</th>
         <th>수정</th>
-      </tr>
-      <tr class="center">
-        <td><input type="checkbox" name="memberCheck" value=""></td>
-        <td>1</td>
-        <td class="flow flowTitle"><a href="board_pop_revise.html">첫번째 제목</a></td>
-        <td class="file"></td>
-        <td>2022-01-01</td>
-        <td><a href="board_pop_revise.html" class="btn_more">수정하기</a></td>
-      </tr>
-      <tr class="center">
-        <td><input type="checkbox" name="memberCheck" value=""></td>
-        <td>2</td>
-        <td class="flow flowTitle"><a href="#">두번째 제목</a></td>
-        <td class="file"></td>
-        <td>2022-01-02</td>
-        <td><a href="#" class="btn_more">수정하기</a></td>
-      </tr>
+      </tr>      
+       <c:forEach var="popup" items="${popupList}" varStatus="status">
+        <tr class="center">
+	    	<td><input type="checkbox" name="memberCheck" value="${popup.popupId}"></td>
+       		<td>${fn:length(popupList) - status.index}</td>
+       		<td class="flow flowTitle">${popup.title}</td>
+        	<c:if test="${not empty popup.fileDto}">
+         	 	 <td  class="file"></td> 
+         	</c:if>
+         	<c:if test="${empty popup.fileDto}">
+         	 	 <td></td> 
+         	</c:if>
+        	<td>${popup.writeTime}</td>
+        	<td><a href="/PopupRevise?page=${popup.page}&popupId=${popup.popupId}&fileId=${popup.fileId}" class="btn_more">수정하기</a></td>
+        </tr>
+	  </c:forEach>
     </table>
     <a href="#" class="btn_apply mb100">선택 삭제</a>
 
-    <p class="pageCnt">전체 7건, 1/1 페이지</p>
+     <ul class="btn-group pagination">
+  	<c:if test="${pageMaker.prev}">
+   		<li>
+     		 <a href='<c:url value="/PopupList?page=${pageMaker.startPage-1}" />'><i class="fa fa-chevron-left">이전</i></a>
+  		</li>
+ 	</c:if>
+  	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+    	<li value="${pageNum}"> 
+       		<a href='<c:url value="/PopupList?page=${pageNum}"/>'><i class="fa">${pageNum}</i></a>
+    	</li>
+    </c:forEach>
+    <c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+    	<li>
+      		<a href='<c:url value="/PopupList?page=${pageMaker.endPage+1}"/>'><i class="fa fa-chevron-right">다음</i></a>
+   		</li>
+    </c:if>
+	</ul>
+	
+	<c:set var="OutputPageTotal" value="${(pageMaker.totalCount/popupDto.perPageNum)+(1-((pageMaker.totalCount/popupDto.perPageNum)%1))%1}" />
+	<fmt:parseNumber var="OutputPage"  value="${OutputPageTotal}" integerOnly="true" type="number"/>
+    <p class="pageCnt">전체 ${pageMaker.totalCount}건, ${popupDto.page} / <c:out value="${OutputPage}"/> 페이지</p>
     <div class="pageWrap">
       <!-- 페이징 -->
     </div>

@@ -16,6 +16,8 @@ public class PopupDto {
 	private int page; // 현재 페이지 번호   
 	private int perPageNum; // 현 페이지당 보여줄 게시글의 갯수
 	
+	private FileDto fileDto;
+	
 	public PopupDto() 
 	{
 		this.page = 1;
@@ -101,6 +103,12 @@ public class PopupDto {
 	}
 	public void setWriteTime(String writeTime) {
 		this.writeTime = writeTime;
+	}
+	public FileDto getFileDto() {
+		return fileDto;
+	}
+	public void setFileDto(FileDto fileDto) {
+		this.fileDto = fileDto;
 	}
 	
 }

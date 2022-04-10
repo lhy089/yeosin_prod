@@ -1123,81 +1123,103 @@ public class BoardManageController {
 	}
 	
 	//팝업 리스트 화면
-		@RequestMapping(value = "/PopupList", method = RequestMethod.GET)
-		@ResponseBody
-		public ModelAndView PopupList(PopupDto popupDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
-			response.setCharacterEncoding("UTF-8");
-			ModelAndView mav = new ModelAndView();
+	@RequestMapping(value = "/PopupList", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView PopupList(PopupDto popupDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
 
-			UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
+		UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
 
-			if (userInfo == null) {
-				mav.addObject("isAlert", true);
-				mav.setViewName("member/login");
-			} else if (!"S".equals(userInfo.getUserStatus())) {
-				mav.addObject("isAlertNoAuth", true);
-				mav.setViewName("main");
-			} else {
-				// 페이징 데이터 준비(페이지당 데이터 목록수)
-				int pagePerNum = 30;
-				if (request.getParameterMap().containsKey("onePageDataCountCondition")) {
-					if (request.getParameter("onePageDataCountCondition") != null
-							&& !request.getParameter("onePageDataCountCondition").trim().isEmpty()) {
-						pagePerNum = Integer.parseInt(request.getParameter("onePageDataCountCondition"));
-					}
-				}
-				
-				popupDto.setPerPageNum(pagePerNum);
+		if (userInfo == null) {
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		} else if (!"S".equals(userInfo.getUserStatus())) {
+			mav.addObject("isAlertNoAuth", true);
+			mav.setViewName("main");
+		} else {
+			// 페이징 데이터 준비(페이지당 데이터 목록수)
+			Map<String, Object> parameterMap = new HashMap<String, Object>();
+			parameterMap.put("pageStart", popupDto.getPageStart());
+			parameterMap.put("perPageNum", popupDto.getPerPageNum());
 
-				Map<String, Object> parameterMap = new HashMap<String, Object>();
-				parameterMap.put("pageStart", popupDto.getPageStart());
-				parameterMap.put("perPageNum", popupDto.getPerPageNum());
+			// 팝업 리스트
+			List<PopupDto> popupList = boardManageService.getPopupList(parameterMap);
 
-				//팝업 리스트
-				List<PopupDto> popupList = boardManageService.getPopupList(parameterMap);
-
-				// 페이징 하기위한 데이터
-				PopupDtoPageMaker pageMaker = new PopupDtoPageMaker();
-				pageMaker.setPopupDto(popupDto);
-				pageMaker.setTotalCount(boardManageService.getPopupListCount(parameterMap));
-
-				mav.addObject("popupList", popupList);
-				mav.addObject("pageCondition", pagePerNum);
-				mav.addObject("pageMaker", pageMaker);
-				mav.addObject("popupDto", popupDto);
-				mav.setViewName("admin/manage_status_doc");
+			// 페이징 하기위한 데이터
+			PopupDtoPageMaker pageMaker = new PopupDtoPageMaker();
+			pageMaker.setPopupDto(popupDto);
+			pageMaker.setTotalCount(boardManageService.getPopupListCount(parameterMap));
+			
+			for(int i = 0 ; i < popupList.size(); i++)
+			{
+				popupList.get(i).setPage(pageMaker.getPopupDto().getPage());
+				popupList.get(i).setFileDto(boardManageService.getFileInfoByFileId(popupList.get(i).getFileId()));
 			}
-			return mav;
-		}
-		
-		//팝업 리스트 수정화면
-		@RequestMapping(value = "/PopupRevise", method = RequestMethod.GET)
-		@ResponseBody
-		public ModelAndView PopupRevise(PopupDto popupDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
-			response.setCharacterEncoding("UTF-8");
-			ModelAndView mav = new ModelAndView();
 
-			UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
-
-			if (userInfo == null) {
-				mav.addObject("isAlert", true);
-				mav.setViewName("member/login");
-			} else if (!"S".equals(userInfo.getUserStatus())) {
-				mav.addObject("isAlertNoAuth", true);
-				mav.setViewName("main");
-			} else {
-				
-				PopupDto popupInfo = boardManageService.getPopupInfo(popupDto);
-				FileDto fileInfo = boardManageService.getFileInfo(popupDto.getFileId());
-				
-				mav.addObject("isAlert", false);
-				mav.addObject("isAlertNoAuth", false);
-				mav.addObject("popupInfo", popupInfo);
-				mav.addObject("popupDto", popupDto);
-				mav.addObject("fileInfo",fileInfo);
-				mav.setViewName("admin/board_notice_revise");
-			}
-			return mav;
+			mav.addObject("isAlert", false);
+			mav.addObject("isAlertNoAuth", false);
+			mav.addObject("popupList", popupList);
+			mav.addObject("pageMaker", pageMaker);
+			mav.addObject("popupDto", popupDto);
+			mav.setViewName("admin/board_pop");
 		}
+		return mav;
+	}
+	
+	// 팝업 추가 화면
+	@RequestMapping(value = "/PopupInput", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView PopupInput(PopupDto popupDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+
+		UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
+
+		if (userInfo == null) {
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		} else if (!"S".equals(userInfo.getUserStatus())) {
+			mav.addObject("isAlertNoAuth", true);
+			mav.setViewName("main");
+		} else {
+
+			mav.addObject("popupDto", popupDto);
+			mav.addObject("isAlert", false);
+			mav.addObject("isAlertNoAuth", false);
+			mav.setViewName("admin/board_pop_input");
+		}
+		return mav;
+	}
+
+	// 팝업 수정 화면
+	@RequestMapping(value = "/PopupRevise", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView PopupRevise(PopupDto popupDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+
+		UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
+
+		if (userInfo == null) {
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		} else if (!"S".equals(userInfo.getUserStatus())) {
+			mav.addObject("isAlertNoAuth", true);
+			mav.setViewName("main");
+		} else {
+
+			PopupDto popupInfo = boardManageService.getPopupInfo(popupDto);
+			FileDto fileInfo = boardManageService.getFileInfoByFileId(popupDto.getFileId());
+
+			mav.addObject("isAlert", false);
+			mav.addObject("isAlertNoAuth", false);
+			mav.addObject("popupInfo", popupInfo);
+			mav.addObject("popupDto", popupDto);
+			mav.addObject("fileInfo", fileInfo);
+			mav.setViewName("admin/board_pop_revise");
+		}
+		return mav;
+	}
 
 }
