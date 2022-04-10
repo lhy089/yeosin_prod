@@ -286,5 +286,6 @@
 			,	WRITETIME
 		FROM YS_POPUP
 		WHERE  DATE_FORMAT(NOW(), '%Y-%m-%d')  BETWEEN DATE_FORMAT(STARTDATE, '%Y-%m-%d') AND DATE_FORMAT(ENDDATE, '%Y-%m-%d')
+		AND ISVISIBLE = 'Y';
 	</select>
 </mapper>
