@@ -2,29 +2,30 @@
 <!DOCTYPE html>
 <html>
 <head lang="ko">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-  <meta charset="utf-8">
-  <title>[admin]대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
-  <meta name="description" content="여신금융협회">
-  <meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
-  <meta name="viewport" content="user-scalable=no,
-   initial-scale=1.0,
-   maximum-scale=1.0,
-   minimum-scale=1.0,
-   width=device-width,
-   height=device-height">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="여신금융협회"/>
-  <!-- <meta property="og:url" content="사이트url"> -->
-  <meta property="og:title" content="대출성 상품 판매대리•중개업자 등록 자격인증 평가">
-  <meta property="og:description" content="대출성 상품 판매대리•중개업자 등록 자격인증 평가">
-  <meta property="og:image" content="/www/inc/img/openGraph.jpg">
-  <link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
-  <link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
-  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-  <link rel="stylesheet" href="/www/inc/css/admin.css">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<meta charset="utf-8">
+	<title>[admin]대출성 상품 판매대리•중개업자 등록 자격인증 평가</title>
+	<meta name="description" content="여신금융협회">
+	<meta name="keywords" content="원서접수, 평가응시현황, 시험안내, 알림마당, 회원정보">
+	<meta name="viewport" content="user-scalable=no,
+	 initial-scale=1.0,
+	 maximum-scale=1.0,
+	 minimum-scale=1.0,
+	 width=device-width,
+	 height=device-height">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="여신금융협회"/>
+	<!-- <meta property="og:url" content="사이트url"> -->
+	<meta property="og:title" content="대출성 상품 판매대리•중개업자 등록 자격인증 평가">
+	<meta property="og:description" content="대출성 상품 판매대리•중개업자 등록 자격인증 평가">
+	<meta property="og:image" content="/www/inc/img/openGraph.jpg">
+	<link rel="shortcut icon" href="/www/inc/img/favicon.png"/>
+	<link rel="icon" href="/www/inc/img/favicon.png" type="image/x-icon">
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+	<link rel="stylesheet" href="/www/inc/css/admin.css">
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/admin/boardmanage.js?t=<%= new java.util.Date() %>"></script>
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -64,27 +65,28 @@ $(document).ready(function() {
         <th>선택</th>
         <th>번호</th>
         <th>제목</th>
-        <th>팝업첨부</th>
+        <th>팝업 노출여부</th>
         <th>등록날짜</th>
         <th>수정</th>
       </tr>      
        <c:forEach var="popup" items="${popupList}" varStatus="status">
         <tr class="center">
-	    	<td><input type="checkbox" name="memberCheck" value="${popup.popupId}"></td>
-       		<td>${fn:length(popupList) - status.index}</td>
-       		<td class="flow flowTitle">${popup.title}</td>
-        	<c:if test="${not empty popup.fileDto}">
+	    	<td><input type="checkbox" name="popupCheck" value="${popup.popupId}"></td> <!-- 선택 -->
+       		<td>${fn:length(popupList) - status.index}</td> <!-- 번호 -->
+       		<td class="flow flowTitle">${popup.title}</td> <!-- 제목 -->
+       		<td>${popup.isVisible}</td> <!-- 팝업 노출여부 -->
+<%--         	<c:if test="${not empty popup.fileDto}">
          	 	 <td  class="file"></td> 
          	</c:if>
          	<c:if test="${empty popup.fileDto}">
          	 	 <td></td> 
-         	</c:if>
-        	<td>${popup.writeTime}</td>
-        	<td><a href="/PopupRevise?page=${popup.page}&popupId=${popup.popupId}&fileId=${popup.fileId}" class="btn_more">수정하기</a></td>
+         	</c:if> --%>
+        	<td>${popup.writeTime}</td> <!-- 등록날짜 -->
+        	<td><a href="/PopupRevise?page=${popup.page}&popupId=${popup.popupId}&fileId=${popup.fileId}" class="btn_more">수정하기</a></td> <!-- 수정하기 -->
         </tr>
 	  </c:forEach>
     </table>
-    <a href="#" class="btn_apply mb100">선택 삭제</a>
+    <a href="/PopupList" class="btn_apply mb100" onclick="return doPopupDelete()">선택삭제</a>
 
      <ul class="btn-group pagination">
   	<c:if test="${pageMaker.prev}">

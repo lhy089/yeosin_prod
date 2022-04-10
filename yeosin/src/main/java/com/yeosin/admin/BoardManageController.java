@@ -985,87 +985,89 @@ public class BoardManageController {
 			if (actionCode.equals("Save")) popupId = newPopupId;
 			else popupId = String.valueOf(requestMap.get("popupId"));
 				
-			/////////////////////////// 파일 관련 프로세스 처리 ///////////////////////////
-			FileDto getFileDto = boardManageService.getPopupFileInfo(String.valueOf(requestMap.get("fileId")));
-			
-			String fileName = String.valueOf(file.getOriginalFilename()); // 파일 다이얼로그로 등록
-			String checkFileName = request.getParameter("fileName"); // 파일명 텍스트
-			int fileSize = (int)file.getSize();
-
-			// 파일이 이미 등록되어 있을때(수정, 삭제)
-			if (getFileDto != null) 
+			/////////////////////////// 파일 관련 프로세스 처리 ///////////////////////////	
+			if (file != null)
 			{
-				// 수정
-				if (!checkFileName.equals("") && checkFileName != null && file.getSize() != 0) 
+				FileDto getFileDto = boardManageService.getPopupFileInfo(String.valueOf(requestMap.get("file")));
+				
+				String fileName = String.valueOf(file.getOriginalFilename()); // 파일 다이얼로그로 등록
+				String checkFileName = request.getParameter("fileName"); // 파일명 텍스트
+				int fileSize = (int)file.getSize();
+
+				// 파일이 이미 등록되어 있을때(수정, 삭제)
+				if (getFileDto != null) 
 				{
-					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-					String popupPath = request.getServletContext().getRealPath("/resources/popupFile");
-					
-					File copyFile = new File(popupPath, LocalFileName);
-						
-					if (!new File(popupPath).exists()) 
+					// 수정
+					if (!checkFileName.equals("") && checkFileName != null && file.getSize() != 0) 
 					{
-						new File(popupPath).mkdirs();
-					}
+						String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+						String popupPath = request.getServletContext().getRealPath("/resources/popupFile");
+						
+						File copyFile = new File(popupPath, LocalFileName);
 							
-					FileCopyUtils.copy(file.getBytes(), copyFile);	
-					
-					FileDto updateFileDto = new FileDto();	
-					String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
-					requestMap.put("fileId", String.valueOf(requestMap.get("fileId")));
-	
-					updateFileDto.setFileId(String.valueOf(requestMap.get("fileId")));
-					updateFileDto.setLocalFileName(LocalFileName);
-					updateFileDto.setRealFileName(fileName);
-					updateFileDto.setFileExtsn(fileExtsn);
-					updateFileDto.setBoardId(popupId);
-					updateFileDto.setFileSize(fileSize);
-
-					boardManageService.updatePopupFileInfo(updateFileDto);
-				}
-				// 삭제
-				else if (checkFileName.equals("") || checkFileName == null)
-				{
-					boardManageService.deletePopupFileInfo(String.valueOf(requestMap.get("fileId")));
-					requestMap.replace("fileId", null);
-				}
-				
-			}
-			// 파일등록이 안되어 있을때(저장)
-			else 
-			{
-				// 저장
-				if (!checkFileName.equals("") && checkFileName != null && file.getSize() != 0) // 파일을 새로 등록할때
-				{
-					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-					String popupPath = request.getServletContext().getRealPath("/resources/popupFile");
-					
-					File copyFile = new File(popupPath, LocalFileName);
-					
-					if (!new File(popupPath).exists()) 
-					{
-						new File(popupPath).mkdirs();
-					}
+						if (!new File(popupPath).exists()) 
+						{
+							new File(popupPath).mkdirs();
+						}
+								
+						FileCopyUtils.copy(file.getBytes(), copyFile);	
 						
-					FileCopyUtils.copy(file.getBytes(), copyFile);
+						FileDto updateFileDto = new FileDto();	
+						String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
+						requestMap.put("fileId", String.valueOf(requestMap.get("fileId")));
+		
+						updateFileDto.setFileId(String.valueOf(requestMap.get("fileId")));
+						updateFileDto.setLocalFileName(LocalFileName);
+						updateFileDto.setRealFileName(fileName);
+						updateFileDto.setFileExtsn(fileExtsn);
+						updateFileDto.setBoardId(popupId);
+						updateFileDto.setFileSize(fileSize);
+
+						boardManageService.updatePopupFileInfo(updateFileDto);
+					}
+					// 삭제
+					else if (checkFileName.equals("") || checkFileName == null)
+					{
+						boardManageService.deletePopupFileInfo(String.valueOf(requestMap.get("fileId")));
+						requestMap.replace("fileId", null);
+					}
 					
-					int MaxFileIdNumber = boardManageService.getMaxFileId() + 1;
-					String newFileId = "FILE" +  String.valueOf(MaxFileIdNumber);
-					String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
-					requestMap.put("fileId", newFileId);
-				
-					FileDto fileDto = new FileDto();
+				}
+				// 파일등록이 안되어 있을때(저장)
+				else 
+				{
+					// 저장
+					if (!checkFileName.equals("") && checkFileName != null && file.getSize() != 0) // 파일을 새로 등록할때
+					{
+						String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+						String popupPath = request.getServletContext().getRealPath("/resources/popupFile");
+						
+						File copyFile = new File(popupPath, LocalFileName);
+						
+						if (!new File(popupPath).exists()) 
+						{
+							new File(popupPath).mkdirs();
+						}
+							
+						FileCopyUtils.copy(file.getBytes(), copyFile);
+						
+						int MaxFileIdNumber = boardManageService.getMaxFileId() + 1;
+						String newFileId = "FILE" +  String.valueOf(MaxFileIdNumber);
+						String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
+						requestMap.put("fileId", newFileId);
+					
+						FileDto fileDto = new FileDto();
 
-					fileDto.setLocalFileName(LocalFileName);
-					fileDto.setRealFileName(fileName);
-					fileDto.setBoardId(popupId);
-					fileDto.setFileId(newFileId);
-					fileDto.setFileExtsn(fileExtsn);
-					fileDto.setFileSize(fileSize);
-					boardManageService.savePopupFileInfo(fileDto);
-				}			
+						fileDto.setLocalFileName(LocalFileName);
+						fileDto.setRealFileName(fileName);
+						fileDto.setBoardId(popupId);
+						fileDto.setFileId(newFileId);
+						fileDto.setFileExtsn(fileExtsn);
+						fileDto.setFileSize(fileSize);
+						boardManageService.savePopupFileInfo(fileDto);
+					}			
+				}	
 			}
-
 			/////////////////////////// 파일 관련 프로세스 처리 끝 ///////////////////////////
 			
 			// 저장일때
@@ -1109,7 +1111,7 @@ public class BoardManageController {
 		{
 			// 체크한 팝업에 대한 삭제로직
 			Map<String, Object> parameter = new HashMap<String, Object>();
-			parameter.put("poupList", requestArray);
+			parameter.put("popupList", requestArray);
 		
 			int isDeleteSuccess = boardManageService.setPopupDelete(parameter);
 			
@@ -1122,7 +1124,7 @@ public class BoardManageController {
 		return resultMap;
 	}
 	
-	//팝업 리스트 화면
+	// 팝업 리스트 화면
 	@RequestMapping(value = "/PopupList", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView PopupList(PopupDto popupDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1170,20 +1172,25 @@ public class BoardManageController {
 	// 팝업 추가 화면
 	@RequestMapping(value = "/PopupInput", method = RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView PopupInput(PopupDto popupDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView PopupInput(PopupDto popupDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 
 		UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
 
-		if (userInfo == null) {
+		if (userInfo == null) 
+		{
 			mav.addObject("isAlert", true);
 			mav.setViewName("member/login");
-		} else if (!"S".equals(userInfo.getUserStatus())) {
+		} 
+		else if (!"S".equals(userInfo.getUserStatus())) 
+		{
 			mav.addObject("isAlertNoAuth", true);
 			mav.setViewName("main");
-		} else {
-
+		} 
+		else 
+		{
 			mav.addObject("popupDto", popupDto);
 			mav.addObject("isAlert", false);
 			mav.addObject("isAlertNoAuth", false);
@@ -1195,27 +1202,31 @@ public class BoardManageController {
 	// 팝업 수정 화면
 	@RequestMapping(value = "/PopupRevise", method = RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView PopupRevise(PopupDto popupDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView PopupRevise(PopupDto popupDto, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
 		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 
 		UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
 
-		if (userInfo == null) {
+		if (userInfo == null) 
+		{
 			mav.addObject("isAlert", true);
 			mav.setViewName("member/login");
-		} else if (!"S".equals(userInfo.getUserStatus())) {
+		} 
+		else if (!"S".equals(userInfo.getUserStatus())) 
+		{
 			mav.addObject("isAlertNoAuth", true);
 			mav.setViewName("main");
-		} else {
-
+		} 
+		else 
+		{
 			PopupDto popupInfo = boardManageService.getPopupInfo(popupDto);
-			FileDto fileInfo = boardManageService.getFileInfoByFileId(popupDto.getFileId());
+			FileDto fileInfo = boardManageService.getFileInfoByFileId(popupInfo.getFileId());
 
 			mav.addObject("isAlert", false);
 			mav.addObject("isAlertNoAuth", false);
 			mav.addObject("popupInfo", popupInfo);
-			mav.addObject("popupDto", popupDto);
 			mav.addObject("fileInfo", fileInfo);
 			mav.setViewName("admin/board_pop_revise");
 		}

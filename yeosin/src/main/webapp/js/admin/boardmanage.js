@@ -41,7 +41,7 @@ function doPopupSave()
       	alert("종료날짜 필수입력입니다.");
       	return isSuccess;
    	}
-   	else if (layerLeftPx == null || layerLeftPx == "null" || layerLeftPx == "")
+/*   	else if (layerLeftPx == null || layerLeftPx == "null" || layerLeftPx == "")
    	{
       	alert("팝업 레이어 좌측위치는 필수입력입니다.");
       	return isSuccess;
@@ -50,7 +50,7 @@ function doPopupSave()
    	{
       	alert("팝업 레이어 상단위치는 필수입력입니다.");
       	return isSuccess;
-   	} 
+   	} */
    	else if (isVisible == null || isVisible == "null" || isVisible == "")
    	{
       	alert("팝업 노출여부는 필수입력입니다.");

@@ -141,15 +141,15 @@
 	
 	<!-- 팝업 ID MaxNumber 조회 -->
 	<select id="getMaxPopupId" resultType="Integer">
-		SELECT 	MAX(CONVERT(REPLACE(EXAMZONEID, 'popup', ''), SIGNED)) 
-		FROM 	YS_EXAMZONE
+		SELECT 	IFNULL(MAX(CONVERT(REPLACE(POPUPID, 'popup', ''), SIGNED)), 0)
+		FROM 	YS_POPUP
 		WHERE 	1 = 1;
 	</select>
 	
 	<!-- 새로운 팝업 등록 -->
 	<insert id="setPopupSave" parameterType="map">
-		INSERT INTO YS_POPUP (POPUPID, TITLE, CONTENTS, STARTDATE, ENDDATE, FILEID, LAYERLEFTPX, LAYERTOPPX, ISVISIBLE, WRITETIME) 
-		VALUES (#{popupId}, #{title}, #{contents}, #{startDate}, #{endDate}, #{fileId}, #{layerLeftPx} * #{layerTopPx}, #{isVisble}, now());
+		INSERT INTO YS_POPUP (POPUPID, TITLE, CONTENTS, STARTDATE, ENDDATE, FILEID, ISVISIBLE, WRITETIME) 
+		VALUES (#{popupId}, #{title}, #{contents}, #{startDate}, #{endDate}, #{fileId}, #{isVisible}, now());
 	</insert>
 	
 	<!-- 기존 팝업 수정 -->
@@ -160,9 +160,7 @@
 			, 	STARTDATE = #{startDate}
 			, 	ENDDATE = #{endDate}
 			,	FILEID = #{fileId}
-			, 	LAYERLEFTPX = #{layerLeftPx}
-			, 	LAYERTOPPX = #{layerTopPx}
-			, 	ISVISIBLE = #{isVisble}
+			, 	ISVISIBLE = #{isVisible}
 		WHERE 	POPUPID = #{popupId};
 	</update>
 	
@@ -245,13 +243,13 @@
 				POPUPID
 			,	TITLE
 			,	CONTENTS
-			,	STARTDATE
-			,	ENDDATE
+			,	DATE_FORMAT(STARTDATE, '%Y-%m-%d')	AS STARTDATE
+			,	DATE_FORMAT(ENDDATE, '%Y-%m-%d')	AS ENDDATE
 			,	FILEID
 			,	LAYERLEFTPX
 			,	LAYERTOPPX
 			,	ISVISIBLE
-			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME 
+			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') 	AS WRITETIME 
 		FROM YS_POPUP
 		WHERE POPUPID = #{popupId}
 	</select>
