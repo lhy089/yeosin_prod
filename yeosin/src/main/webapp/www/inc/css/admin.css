@@ -179,7 +179,8 @@ table select.count{width:250px; height:45px; border:1px solid #c7c6c6; font-fami
 .board table{margin-bottom:60px;}
 .board td .btn_more{width:130px; height:35px; line-height:35px; display:inline-block; border:1px solid #c7c6c6; border-radius:5px; box-sizing:border-box; background:#f8f8f8; font-size:21px; color:#000; letter-spacing:-0.5px; transition:0.6s;}
 .board td .btn_more:hover{background:#c7c6c6;}
-.board td.file::before{content:''; width:16px; height:24px; display:inline-block; background:url('../img/guide/icon_note.png') no-repeat center /contain;}
+/* .board td.file::before{content:''; width:16px; height:24px; display:inline-block; background:url('../img/guide/icon_note.png') no-repeat center /contain;} */
+.board td.file::before{content:''; width:16px; height:24px; display:inline-block; background:url('../img/admin/icon_note.png') no-repeat center /contain;}
 .board input[type="text"]{width:1000px; height:45px; border:1px solid #c7c6c6; box-sizing:border-box; padding:0 12px; font-family:sandoll-gothicneo3, sans-serif; font-size:21px; letter-spacing:-0.5px;}
 .board textarea{width:1000px; border:1px solid #c7c6c6; box-sizing:border-box; padding:0 12px; font-family:sandoll-gothicneo3, sans-serif; font-size:21px; letter-spacing:-0.5px; margin:10px 0;}
 .board label[for="file"]{width:110px; height:40px; display:inline-block; font-size:18px!important; line-height:40px; color:#fff; background:#3e3e3e; cursor:pointer; text-align:center; vertical-align:middle; margin-left:-4px; font-family:sandoll-gothicneo3, sans-serif;}
@@ -192,3 +193,5 @@ table select.count{width:250px; height:45px; border:1px solid #c7c6c6; font-fami
 .board .btn_apWrap .btn_apply{display:inline-block; margin:0 22.5px;}
 .board .list td.flowTitle a{width:100%; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; color:#000;}
 .board .list td.flowTitle a:hover{color:#0074dd;}
+.board table input[type="date"]{width:257px; height:45px; border:1px solid #c7c6c6; border-radius:0; font-family:sandoll-gothicneo3, sans-serif; font-size:22px; color:#58585b; padding-left:15px;}
+.board table input[type="number"]{width:100px; height:45px; border:1px solid #c7c6c6; font-family:sandoll-gothicneo3, sans-serif; font-size:22px; color:#58585b; padding-left:15px;}
