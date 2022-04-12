@@ -1005,9 +1005,9 @@ public class BoardManageController {
 					if (!getFileDto.getRealFileName().equals(checkFileName))
 					{
 						String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-						//String popupPath = "C:\\00. Yeosin\\02. Source\\yeosin_prod\\upload"; // 로컬버전
-						String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 119 배포버전
-						//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 운영배포버전
+						//String popupPath = "C:\\apache-tomcat-8.5.75\\upload\\popupFile\\"; // 로컬버전
+						//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 119 배포버전
+						String popupPath = "C:\\apache-tomcat-8.5.75\\upload\\popupFile\\"; // 운영배포버전
 						
 						File copyFile = new File(popupPath, LocalFileName);
 							
@@ -1048,9 +1048,9 @@ public class BoardManageController {
 				if (!checkFileName.equals("") && checkFileName != null) // 파일을 새로 등록할때
 				{
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-					//String popupPath = "C:\\00. Yeosin\\02. Source\\yeosin_prod\\upload\\"; // 로컬버전
-					String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 119 배포버전
-					//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 운영배포버전
+					//String popupPath = "C:\\apache-tomcat-8.5.75\\upload\\popupFile\\"; // 로컬버전
+					//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 119 배포버전
+					String popupPath = "C:\\apache-tomcat-8.5.75\\upload\\popupFile\\"; // 운영배포버전
 					
 					File copyFile = new File(popupPath, LocalFileName);
 					

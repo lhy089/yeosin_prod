@@ -924,7 +924,7 @@
    	<!-- 고사장 약도 추가하기 -->
 	<insert id="saveExamZoneMapFileInfo" parameterType="com.yeosin.board.FileDto">
 		INSERT INTO YS_FILE (FILEID, REALFILENAME, LOCALFILENAME, FILESIZE, FILEURL, BOARDID, FILEEXTSN)
-		VALUES(#{fileId}, #{realFileName}, #{localFileName}, #{fileSize}, '/resource/examzoneFile', #{boardId}, #{fileExtsn});
+		VALUES(#{fileId}, #{realFileName}, #{localFileName}, #{fileSize}, #{fileURL}, #{boardId}, #{fileExtsn});
 	</insert>
 	
 	<!-- 고사장 약도 수정하기 -->
@@ -933,7 +933,8 @@
 		SET 	REALFILENAME = #{realFileName, jdbcType=VARCHAR}			
 			,	LOCALFILENAME = #{localFileName, jdbcType=VARCHAR}
 			,	FILESIZE = #{fileSize, jdbcType=VARCHAR}
-			,	FileEXTSN = #{fileExtsn, jdbcType=VARCHAR}
+			,	FILEEXTSN = #{fileExtsn, jdbcType=VARCHAR}
+			,	FILEURL = #{fileURL, jdbcType=VARCHAR}
 		WHERE 	FILEID = #{fileId, jdbcType=VARCHAR}	
 	</update>
 	
