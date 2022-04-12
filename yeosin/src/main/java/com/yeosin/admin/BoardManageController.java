@@ -986,23 +986,24 @@ public class BoardManageController {
 			else popupId = String.valueOf(requestMap.get("popupId"));
 				
 			/////////////////////////// 파일 관련 프로세스 처리 ///////////////////////////
-			/*
-			if (file != null)
-			{
-				FileDto getFileDto = boardManageService.getPopupFileInfo(String.valueOf(requestMap.get("file")));
-				
-				String fileName = String.valueOf(file.getOriginalFilename()); // 파일 다이얼로그로 등록
-				String checkFileName = request.getParameter("fileName"); // 파일명 텍스트
-				int fileSize = (int)file.getSize();
+			FileDto getFileDto = boardManageService.getPopupFileInfo(String.valueOf(requestMap.get("fileId")));
+			
+			String fileName = String.valueOf(file.getOriginalFilename()); // 파일 다이얼로그로 등록
+			String checkFileName = request.getParameter("fileName"); // 파일명 텍스트
+			int fileSize = (int)file.getSize();
 
-				// 파일이 이미 등록되어 있을때(수정, 삭제)
-				if (getFileDto != null) 
+			// 파일이 이미 등록되어 있을때(수정, 삭제)
+			if (getFileDto != null) 
+			{
+				// 수정
+				if (!checkFileName.equals("") && checkFileName != null) 
 				{
-					// 수정
-					if (!checkFileName.equals("") && checkFileName != null && file.getSize() != 0) 
+					if (!getFileDto.getRealFileName().equals(checkFileName))
 					{
 						String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-						String popupPath = request.getServletContext().getRealPath("/resources/popupFile");
+						String popupPath = "D:\\Image"; // 로컬버전
+						//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile"; // 119 배포버전
+						//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile"; // 운영배포버전
 						
 						File copyFile = new File(popupPath, LocalFileName);
 							
@@ -1024,52 +1025,53 @@ public class BoardManageController {
 						updateFileDto.setBoardId(popupId);
 						updateFileDto.setFileSize(fileSize);
 
-						boardManageService.updatePopupFileInfo(updateFileDto);
+						boardManageService.updatePopupFileInfo(updateFileDto);	
 					}
-					// 삭제
-					else if (checkFileName.equals("") || checkFileName == null)
-					{
-						boardManageService.deletePopupFileInfo(String.valueOf(requestMap.get("fileId")));
-						requestMap.replace("fileId", null);
-					}
-					
 				}
-				// 파일등록이 안되어 있을때(저장)
-				else 
+				// 삭제
+				else if (checkFileName.equals("") || checkFileName == null)
 				{
-					// 저장
-					if (!checkFileName.equals("") && checkFileName != null && file.getSize() != 0) // 파일을 새로 등록할때
-					{
-						String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-						String popupPath = request.getServletContext().getRealPath("/resources/popupFile");
-						
-						File copyFile = new File(popupPath, LocalFileName);
-						
-						if (!new File(popupPath).exists()) 
-						{
-							new File(popupPath).mkdirs();
-						}
-							
-						FileCopyUtils.copy(file.getBytes(), copyFile);
-						
-						int MaxFileIdNumber = boardManageService.getMaxFileId() + 1;
-						String newFileId = "FILE" +  String.valueOf(MaxFileIdNumber);
-						String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
-						requestMap.put("fileId", newFileId);
+					boardManageService.deletePopupFileInfo(String.valueOf(requestMap.get("fileId")));
+					requestMap.replace("fileId", null);
+				}
+				
+			}
+			// 파일등록이 안되어 있을때(저장)
+			else 
+			{
+				// 저장
+				if (!checkFileName.equals("") && checkFileName != null) // 파일을 새로 등록할때
+				{
+					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+					String popupPath = "D:\\Image"; // 로컬버전
+					//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile"; // 119 배포버전
+					//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile"; // 운영배포버전
 					
-						FileDto fileDto = new FileDto();
+					File copyFile = new File(popupPath, LocalFileName);
+					
+					if (!new File(popupPath).exists()) 
+					{
+						new File(popupPath).mkdirs();
+					}
+						
+					FileCopyUtils.copy(file.getBytes(), copyFile);
+					
+					int MaxFileIdNumber = boardManageService.getMaxFileId() + 1;
+					String newFileId = "FILE" +  String.valueOf(MaxFileIdNumber);
+					String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
+					requestMap.put("fileId", newFileId);
+				
+					FileDto fileDto = new FileDto();
 
-						fileDto.setLocalFileName(LocalFileName);
-						fileDto.setRealFileName(fileName);
-						fileDto.setBoardId(popupId);
-						fileDto.setFileId(newFileId);
-						fileDto.setFileExtsn(fileExtsn);
-						fileDto.setFileSize(fileSize);
-						boardManageService.savePopupFileInfo(fileDto);
-					}			
-				}	
-			} 
-			*/
+					fileDto.setLocalFileName(LocalFileName);
+					fileDto.setRealFileName(fileName);
+					fileDto.setBoardId(popupId);
+					fileDto.setFileId(newFileId);
+					fileDto.setFileExtsn(fileExtsn);
+					fileDto.setFileSize(fileSize);
+					boardManageService.savePopupFileInfo(fileDto);
+				}			
+			}	
 			/////////////////////////// 파일 관련 프로세스 처리 끝 ///////////////////////////
 			
 			// 저장일때

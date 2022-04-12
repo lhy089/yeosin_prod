@@ -340,32 +340,35 @@ public class ApplyManageController {
 			if (getFileDto != null) 
 			{
 				// 수정
-				if (!checkFileName.equals("") && checkFileName != null && file.getSize() != 0) 
+				if (!checkFileName.equals("") && checkFileName != null) 
 				{
-					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-					String examZonePath = request.getServletContext().getRealPath("/resources/examzoneFile");
-					
-					File copyFile = new File(examZonePath, LocalFileName);
-						
-					if (!new File(examZonePath).exists()) 
+					if (!getFileDto.getRealFileName().equals(checkFileName))
 					{
-						new File(examZonePath).mkdirs();
-					}
+						String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
+						String examZonePath = request.getServletContext().getRealPath("/resources/examzoneFile");
+						
+						File copyFile = new File(examZonePath, LocalFileName);
 							
-					FileCopyUtils.copy(file.getBytes(), copyFile);	
-					
-					FileDto updateFileDto = new FileDto();	
-					String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
-					requestMap.put("examZoneMap", String.valueOf(requestMap.get("fileId")));
+						if (!new File(examZonePath).exists()) 
+						{
+							new File(examZonePath).mkdirs();
+						}
+								
+						FileCopyUtils.copy(file.getBytes(), copyFile);	
+						
+						FileDto updateFileDto = new FileDto();	
+						String fileExtsn = fileName.substring(fileName.lastIndexOf('.') + 1);
+						requestMap.put("examZoneMap", String.valueOf(requestMap.get("fileId")));
+		
+						updateFileDto.setFileId(String.valueOf(requestMap.get("fileId")));
+						updateFileDto.setLocalFileName(LocalFileName);
+						updateFileDto.setRealFileName(fileName);
+						updateFileDto.setFileExtsn(fileExtsn);
+						updateFileDto.setBoardId(examZoneId);
+						updateFileDto.setFileSize(fileSize);
 	
-					updateFileDto.setFileId(String.valueOf(requestMap.get("fileId")));
-					updateFileDto.setLocalFileName(LocalFileName);
-					updateFileDto.setRealFileName(fileName);
-					updateFileDto.setFileExtsn(fileExtsn);
-					updateFileDto.setBoardId(examZoneId);
-					updateFileDto.setFileSize(fileSize);
-
-					applyManageService.updateExamZoneMapFileInfo(updateFileDto);
+						applyManageService.updateExamZoneMapFileInfo(updateFileDto);
+					}
 				}
 				// 삭제
 				else if (checkFileName.equals("") || checkFileName == null)
@@ -379,7 +382,7 @@ public class ApplyManageController {
 			else 
 			{
 				// 저장
-				if (!checkFileName.equals("") && checkFileName != null && file.getSize() != 0) // 파일을 새로 등록할때
+				if (!checkFileName.equals("") && checkFileName != null) // 파일을 새로 등록할때
 				{
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
 					String examZonePath = request.getServletContext().getRealPath("/resources/examzoneFile");

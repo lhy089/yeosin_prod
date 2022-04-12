@@ -169,7 +169,11 @@
 		<foreach item="popupId" index="index" collection="popupList">			
 			DELETE 	
 			FROM 	YS_POPUP 
-			WHERE 	POPUPID = #{popupId, jdbcType=VARCHAR};			
+			WHERE 	POPUPID = #{popupId, jdbcType=VARCHAR};		
+			
+			DELETE 	
+			FROM 	YS_FILE 
+			WHERE 	BOARDID = #{popupId, jdbcType=VARCHAR};		
 		</foreach>
 	</delete>
 	

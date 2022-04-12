@@ -155,7 +155,8 @@ public class BoardManageService {
 		
 		for(int i = 0 ; i < popupList.size(); i++)
 		{
-			popupList.get(i).setContents(popupList.get(i).getContents().replaceAll("\r\n", "<br>").replaceAll(" ","&nbsp"));
+			// 내용출력 안하므로 주석처리
+			//popupList.get(i).setContents(popupList.get(i).getContents().replaceAll("\r\n", "<br>").replaceAll(" ","&nbsp"));
 		}
 		
 		return popupList;

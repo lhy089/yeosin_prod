@@ -13,22 +13,15 @@ function fileSize()
 function doPopupSave() 
 {
    	var title = $("#title").val();
-   	var contents = $("#contents").val();
    	var startDate = $("#startDate").val();
    	var endDate = $("#endDate").val();
-   	var layerLeftPx = $("#layerLeftPx").val();
-   	var layerTopPx = $("#layerTopPx").val();
+   	var fileName = $("#fileName").val();
    	var isVisible = $("#isVisible").val();
    	var isSuccess = false;
    	 
    	if (title == null || title == "null" || title == "")
    	{
 		alert("팝업 제목은 필수입력입니다.");
-      	return isSuccess;
-   	}
-   	else if (contents == null || contents == "null" || contents == "")
-   	{
-      	alert("팝업 내용은 필수입력입니다.");
       	return isSuccess;
    	}
    	else if (startDate == null || startDate == "null" || startDate == "")
@@ -38,19 +31,14 @@ function doPopupSave()
    	}
    	else if (endDate == null || endDate == "null" || endDate == "")
    	{
-      	alert("종료날짜 필수입력입니다.");
+      	alert("종료날짜는 필수입력입니다.");
       	return isSuccess;
    	}
-/*   	else if (layerLeftPx == null || layerLeftPx == "null" || layerLeftPx == "")
+   	else if (fileName == null || fileName == "null" || fileName == "")
    	{
-      	alert("팝업 레이어 좌측위치는 필수입력입니다.");
+      	alert("팝업첨부용 이지미 파일은 필수입력입니다.");
       	return isSuccess;
    	}
-   	else if (layerTopPx == null || layerTopPx == "null" || layerTopPx == "")
-   	{
-      	alert("팝업 레이어 상단위치는 필수입력입니다.");
-      	return isSuccess;
-   	} */
    	else if (isVisible == null || isVisible == "null" || isVisible == "")
    	{
       	alert("팝업 노출여부는 필수입력입니다.");

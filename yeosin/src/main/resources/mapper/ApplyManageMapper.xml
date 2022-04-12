@@ -584,7 +584,11 @@
 		<foreach item="examZoneId" index="index" collection="examZoneList">			
 			DELETE 	
 			FROM 	YS_EXAMZONE 
-			WHERE 	EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};			
+			WHERE 	EXAMZONEID = #{examZoneId, jdbcType=VARCHAR};	
+			
+			DELETE 	
+			FROM 	YS_FILE 
+			WHERE 	BOARDID = #{examZoneId, jdbcType=VARCHAR};				
 		</foreach>
 	</delete>
 	

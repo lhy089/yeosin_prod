@@ -197,15 +197,18 @@
 	</script>
     
 	<c:forEach var="popupInfo" items="${popupList}" varStatus="status">
-		<div class="popWrap${status.index}" id="layer_pop${status.index}">
+		<div class="popWrap" id="layer_pop${status.index}">
 			<div class="pop">
 				<h1>
 			       <p>${popupInfo.title}</p>
 			       <a href="#none" onClick="closeWin(${status.index});" class="btn_close"></a>
 			 	</h1>
-			 	<p class="text">
-			 		${popupInfo.contents}
+			 	<p class="img">
+					 <img src="" alt="팝업이미지">
 			 	</p>
+				<!-- <p class="text">
+					${popupInfo.contents}
+				</p> -->
 			 	<div class="closeWrap">
 			 		<a href="#none" onClick="closeWin(${status.index});" class="btn_close">닫기</a>
 			 		<a href="#none" onClick="todaycloseWin('${popupInfo.cookieId}', ${status.index});" class="btn_closeToday">오늘 하루 보지 않기</a>
@@ -216,6 +219,24 @@
 	</c:forEach>
 	
 </div>
+
+<script>
+$(function(){
+	windowW = $(window).width();
+	/* (모바일)팝업 위치 설정 */
+	if (windowW < 768){
+		var popBottomHeight = $(".popWrap .closeWrap").height(); //오늘하루닫기, 닫기 영역 높이
+		var pop0Height = $("#layer_pop0 .pop").height()+popBottomHeight+10; //첫번째 팝업 높이값(+10은 하단여백)
+		var pop1Height = $("#layer_pop1 .pop").height()+popBottomHeight+10;	 //두번째 팝업 높이값(+10은 하단여백)	
+
+		//두번째 팝업 위치(y축)
+		$("#layer_pop1 .pop").css('top',pop0Height);
+
+		//세번째 팝업 위치(y축)
+		$("#layer_pop2 .pop").css('top',pop0Height+pop1Height);
+	}
+});
+</script>
 <%@ include file="/www/common/footer.jsp"%>
 <!--?php include_once "common/footer.php";?-->
 </body>

@@ -94,7 +94,7 @@
          	<button style="width:100px; height:40px; font-size:15px;" type="button" onclick="doAddMapFile()">추가</button>
         	<button style="width:100px; height:40px; font-size:15px;" type="button" onclick="doDeleteMapFile()">삭제</button>
           	<input name="inputFileName" id="inputFileName" class="upload-name" value="${examZone.examZoneMap}" disabled="disabled">
-          	<input style="display:none" type="file" id="file" name="file" class="upload-hidden">
+          	<input style="display:none" type="file" id="file" name="file" class="upload-hidden" accept=".jpg,.png,.gif">
           	<input type="hidden" name="fileId" id="fileId" value="${examZone.fileDto.fileId}">
           	<input type="hidden" name="fileName" id="fileName" value="${examZone.fileDto.realFileName}">
         </td>

@@ -62,17 +62,24 @@
           <input type="checkbox" class="check_7day"> 종료일시를 오늘로부터 7일 후로
         </td>
       </tr>
-<!--       <tr>
-        <th>파일첨부</th>
+ 	  <tr>
+        <th>팝업첨부</th>
         <td class="info">
-          <input class="upload-name" value="파일선택" disabled="disabled">
-          <label for="file">파일선택</label>
+          <c:choose>
+          	<c:when test="${fileInfo eq null}">
+          		<input class="upload-name" value="파일선택" disabled="disabled">
+          	</c:when>
+          	<c:otherwise>
+          		<input class="upload-name" value="${fileInfo.realFileName}" disabled="disabled">
+          	</c:otherwise>
+          </c:choose>
+		  <label for="file" >파일선택</label>
           <input type="file" id="file" name="file" class="upload-hidden" accept=".jpg,.png,.gif"> 	
-          <input type="hidden" name="fileId" id="fileId" value="">
-         <input type="hidden" name="fileName" id="fileName" value="">
+          <input type="hidden" name="fileId" id="fileId" value="${fileInfo.fileId}">
+         <input type="hidden" name="fileName" id="fileName" value="${fileInfo.realFileName}">
           <a href="#" class="btn_more reset">삭제</a>
         </td>
-      </tr> -->
+      </tr>
       <tr>
       <th>팝업 노출여부</th>
         <td>
@@ -91,12 +98,13 @@
         </td>
       </tr>
       <tr>
-      <th>팝업 내용</th>
+      <!-- 팝업 내용 및 팝업 레이어 주석처리 -->
+<!--      <th>팝업 내용</th>
         <td>
-        	<textarea id="contents" name="contents" cols="10" rows="10">${popupInfo.contents}</textarea>
+        	<textarea id="contents" name="contents" cols="10" rows="10"></textarea>
         </td>
       </tr>
-<!--       <tr>
+      <tr>
         <th>팝업레이어 좌측 위치</th>
         <td><input type="number" min="0"> px</td>
       </tr>
@@ -125,13 +133,11 @@ $(function(){
 	    var filename = $(this).val().split('/').pop().split('\\').pop();
 	  }
 	  $(this).siblings('.upload-name').val(filename);
-	  $('#fileId').val('');
 	  $('#fileName').val(filename);
 	});
 	
 	$('.reset').click(function(){ //선택파일 초기화
 	  $('#file,.upload-name').val('');
-	  $('#fileId').val('');
 	  $('#fileName').val('');
 	});
 
