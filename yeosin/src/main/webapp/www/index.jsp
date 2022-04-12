@@ -204,7 +204,7 @@
 			       <a href="#none" onClick="closeWin(${status.index});" class="btn_close"></a>
 			 	</h1>
 			 	<p class="img">
-					 <img src="" alt="팝업이미지">
+					 <img src="${popupInfo.fileDto.fileURL}${popupInfo.fileDto.localFileName}" alt="팝업이미지">
 			 	</p>
 				<!-- <p class="text">
 					${popupInfo.contents}

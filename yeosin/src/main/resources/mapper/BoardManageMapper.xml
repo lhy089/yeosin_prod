@@ -195,7 +195,7 @@
    	<!-- 팝업 파일 추가하기 -->
 	<insert id="savePopupFileInfo" parameterType="com.yeosin.board.FileDto">
 		INSERT INTO YS_FILE (FILEID, REALFILENAME, LOCALFILENAME, FILESIZE, FILEURL, BOARDID, FILEEXTSN)
-		VALUES(#{fileId}, #{realFileName}, #{localFileName}, #{fileSize}, '/resources/popupFile', #{boardId}, #{fileExtsn});
+		VALUES(#{fileId}, #{realFileName}, #{localFileName}, #{fileSize}, #{fileURL}, #{boardId}, #{fileExtsn});
 	</insert>
 	
 	<!-- 팝업 파일 수정하기 -->
@@ -204,7 +204,8 @@
 		SET 	REALFILENAME = #{realFileName, jdbcType=VARCHAR}			
 			,	LOCALFILENAME = #{localFileName, jdbcType=VARCHAR}
 			,	FILESIZE = #{fileSize, jdbcType=VARCHAR}
-			,	FileEXTSN = #{fileExtsn, jdbcType=VARCHAR}
+			,	FILEEXTSN = #{fileExtsn, jdbcType=VARCHAR}
+			,	FILEURL = #{fileURL, jdbcType=VARCHAR}
 		WHERE 	FILEID = #{fileId, jdbcType=VARCHAR}	
 	</update>
 	
@@ -237,7 +238,7 @@
 	<!-- 팝업 리스트 총 갯수-->
 	<select id="getPopupListCount" resultType="Integer" parameterType="map" >
        SELECT
-            count(*)
+            COUNT(*)
         FROM
            YS_POPUP
 	</select>
@@ -276,23 +277,50 @@
 	</select>
 
     <!--Main창 출력을 위한 팝업리스트 조회-->
-	<select id="getPopupListForMain" resultType="com.yeosin.board.PopupDto">
+	<resultMap id="PopupListForMainResultMap" type="com.yeosin.board.PopupDto">
+		<result column="POPUPID" property="popupId" />
+		<result column="TITLE" property="title" />
+		<result column="CONTENTS" property="contents" />
+		<result column="STARTDATE" property="startDate" />
+		<result column="ENDDATE" property="endDate" />
+		<result column="FILEID" property="fileId" />
+		<result column="LAYERLEFTPX" property="layerLeftPx" />
+		<result column="LAYERTOPPX" property="layerTopPx" />
+		<result column="ISVISIBLE" property="isVisible" />
+		<result column="WRITETIME" property="writeTime" />
+		<result column="COOKIEID" property="cookieId" />
+	<association property="fileDto" javaType="com.yeosin.board.FileDto">
+		<result column="REALFILENAME" property="realFileName" />
+		<result column="LOCALFILENAME" property="localFileName" />
+		<result column="FILESIZE" property="fileSize" />
+		<result column="FILEURL" property="fileURL" />
+		<result column="FILEEXTSN" property="fileExtsn" />
+	</association>
+	</resultMap>
+	<select id="getPopupListForMain" resultMap="PopupListForMainResultMap">
 		SELECT
-				POPUPID
-			,	TITLE
-			,	CONTENTS
-			,	DATE_FORMAT(STARTDATE, '%Y-%m-%d') AS STARTDATE
-			,	DATE_FORMAT(ENDDATE, '%Y-%m-%d') AS ENDDATE
-			,	FILEID
-			,	LAYERLEFTPX
-			,	LAYERTOPPX
-			,	ISVISIBLE
-			,	DATE_FORMAT(WRITETIME, '%Y-%m-%d') AS WRITETIME 
-			,	COOKIEID
-		FROM YS_POPUP
-		WHERE  DATE_FORMAT(NOW(), '%Y-%m-%d')  BETWEEN DATE_FORMAT(STARTDATE, '%Y-%m-%d') AND DATE_FORMAT(ENDDATE, '%Y-%m-%d')
-		AND ISVISIBLE = 'Y'
-		ORDER BY ENDDATE
+				P.POPUPID
+			,	P.TITLE
+			,	P.CONTENTS
+			,	DATE_FORMAT(P.STARTDATE, '%Y-%m-%d') AS STARTDATE
+			,	DATE_FORMAT(P.ENDDATE, '%Y-%m-%d') AS ENDDATE
+			,	P.FILEID
+			,	P.LAYERLEFTPX
+			,	P.LAYERTOPPX
+			,	P.ISVISIBLE
+			,	DATE_FORMAT(P.WRITETIME, '%Y-%m-%d') AS WRITETIME 
+			,	P.COOKIEID
+			,	F.REALFILENAME 
+			,	F.LOCALFILENAME 
+			,	F.FILESIZE 
+			,	F.FILEURL 
+			,	F.FILEEXTSN 
+		FROM 	YS_POPUP			P
+		LEFT JOIN YS_FILE 			F 	ON 	F.FILEID = P.FILEID 
+		WHERE  	DATE_FORMAT(NOW(), '%Y-%m-%d')  BETWEEN DATE_FORMAT(P.STARTDATE, '%Y-%m-%d') AND DATE_FORMAT(P.ENDDATE, '%Y-%m-%d')
+		AND 	P.ISVISIBLE = 'Y'
+		ORDER BY 
+				P.ENDDATE
 		LIMIT 3;
 	</select>
 </mapper>
