@@ -204,8 +204,11 @@
 			       <a href="#none" onClick="closeWin(${status.index});" class="btn_close"></a>
 			 	</h1>
 			 	<p class="img">
-					 <%-- <img src="<c:url value='/popupImageView?url=${popupInfo.fileDto.fileURL}&localName=${popupInfo.fileDto.localFileName}'/>" alt="팝업이미지"> --%>
-					 <img src="<c:url value='/popupImageView'/>" alt="팝업이미지">
+					<c:url value="/popupImageView" var="popupImageView">
+                    <c:param name="fileUrl" value="${popupInfo.fileDto.fileURL}" />
+                    <c:param name="localFileName" value="${popupInfo.fileDto.localFileName}" />
+                  	</c:url>
+               	<img src="${popupImageView}" alt="팝업이미지"> 
 			 	</p>
 				<!-- <p class="text">
 					${popupInfo.contents}

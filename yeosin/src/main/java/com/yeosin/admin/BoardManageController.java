@@ -2,13 +2,9 @@ package com.yeosin.admin;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,18 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.yeosin.apply.ApplyDto;
-import com.yeosin.apply.ApplyPageMaker;
-import com.yeosin.apply.ExamDto;
-import com.yeosin.apply.ExamZoneDto;
-import com.yeosin.apply.SubjectDto;
 import com.yeosin.board.BoardDto;
 import com.yeosin.board.FileDto;
 import com.yeosin.board.PageMaker;
 import com.yeosin.board.PopupDto;
 import com.yeosin.board.PopupDtoPageMaker;
 import com.yeosin.user.UserDto;
-import com.yeosin.util.FileController;
 
 @Controller
 public class BoardManageController {
@@ -956,9 +945,11 @@ public class BoardManageController {
 	// 팝업 이미지 보여주기
 	@RequestMapping(value="/popupImageView", method=RequestMethod.GET)
 	@ResponseBody
-	public void PopupImageView(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	public void PopupImageView(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{		
-		File file = new File("C:\\00. Yeosin\\02. Source\\yeosin_prod\\upload\\1649765879584_테스트파일.PNG");
+		String url = request.getParameter("fileUrl");
+		String fileName = request.getParameter("localFileName");
+		File file = new File(url + fileName);
 		byte[] imageData = Files.readAllBytes(file.toPath());
 		response.setContentType("image/jpeg");
 		response.getOutputStream().write(imageData);
@@ -1014,8 +1005,8 @@ public class BoardManageController {
 					if (!getFileDto.getRealFileName().equals(checkFileName))
 					{
 						String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-						String popupPath = "C:\\00. Yeosin\\02. Source\\yeosin_prod\\upload"; // 로컬버전
-						//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 119 배포버전
+						//String popupPath = "C:\\00. Yeosin\\02. Source\\yeosin_prod\\upload"; // 로컬버전
+						String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 119 배포버전
 						//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 운영배포버전
 						
 						File copyFile = new File(popupPath, LocalFileName);
@@ -1057,8 +1048,8 @@ public class BoardManageController {
 				if (!checkFileName.equals("") && checkFileName != null) // 파일을 새로 등록할때
 				{
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-					String popupPath = "C:\\00. Yeosin\\02. Source\\yeosin_prod\\upload\\"; // 로컬버전
-					//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 119 배포버전
+					//String popupPath = "C:\\00. Yeosin\\02. Source\\yeosin_prod\\upload\\"; // 로컬버전
+					String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 119 배포버전
 					//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 운영배포버전
 					
 					File copyFile = new File(popupPath, LocalFileName);
