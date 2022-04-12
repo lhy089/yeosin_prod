@@ -1,6 +1,7 @@
 package com.yeosin.admin;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -950,7 +952,18 @@ public class BoardManageController {
 		}
 		return mav;
 	}
-
+	
+	// 팝업 이미지 보여주기
+	@RequestMapping(value="/popupImageView", method=RequestMethod.GET)
+	@ResponseBody
+	public void PopupImageView(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{		
+		File file = new File("C:\\00. Yeosin\\02. Source\\yeosin_prod\\upload\\1649765879584_테스트파일.PNG");
+		byte[] imageData = Files.readAllBytes(file.toPath());
+		response.setContentType("image/jpeg");
+		response.getOutputStream().write(imageData);
+	}
+	
    	// 팝업 등록, 수정
 	@RequestMapping(value="/PopupSaveByAjax", method=RequestMethod.POST)
 	@ResponseBody
@@ -1001,8 +1014,8 @@ public class BoardManageController {
 					if (!getFileDto.getRealFileName().equals(checkFileName))
 					{
 						String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-						//String popupPath = "D:\\00. Yeosin\\02. Source\\yeosin_prod\\upload"; // 로컬버전
-						String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 119 배포버전
+						String popupPath = "C:\\00. Yeosin\\02. Source\\yeosin_prod\\upload"; // 로컬버전
+						//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 119 배포버전
 						//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 운영배포버전
 						
 						File copyFile = new File(popupPath, LocalFileName);
@@ -1044,8 +1057,8 @@ public class BoardManageController {
 				if (!checkFileName.equals("") && checkFileName != null) // 파일을 새로 등록할때
 				{
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-					//String popupPath = "D:\\00. Yeosin\\02. Source\\yeosin_prod\\upload\\"; // 로컬버전
-					String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 119 배포버전
+					String popupPath = "C:\\00. Yeosin\\02. Source\\yeosin_prod\\upload\\"; // 로컬버전
+					//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 119 배포버전
 					//String popupPath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/popupFile/"; // 운영배포버전
 					
 					File copyFile = new File(popupPath, LocalFileName);
