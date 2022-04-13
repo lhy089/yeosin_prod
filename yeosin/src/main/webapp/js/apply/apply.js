@@ -173,6 +173,31 @@ function callExamZoneMap(examZoneMap, description)
 	}
 	else 
 	{
+		var fileUrl = "";
+		var localFileName = "";
+		
+		$.ajax({
+			url: "/searchImageView",
+	        type: "GET",
+	        async: false,
+	        data:	{            
+	        	fileId : examZoneMap
+	           		},
+	        success: function(result) 
+	        { 
+				console.log("AJAX Request 성공");
+				fileUrl = result.fileUrl;
+				localFileName = result.localFileName;
+	        },
+	        error: function() 
+	        {
+				console.log("AJAX Request 실패");
+	        },
+			complete: function()
+			{
+			}   
+	}); 
+		
 		var width = screen.availWidth / 1.5;
 		var height = screen.availHeight / 1.5;
 	    var left = (window.screen.width / 2) - (width / 2);
@@ -180,7 +205,7 @@ function callExamZoneMap(examZoneMap, description)
 		var createHtml = "";
 		
 		var win = window.open("", 'asdsad', 'top=' + top + ', left=' + left + ', width=' + width + ', height =' + height + ',scrollbars=yes, status=yes');
-		
+		examZoneMap = "/popupImageView?fileUrl="+encodeURIComponent(fileUrl)+"&localFileName="+encodeURIComponent(localFileName);
 		createHtml += "<h2>고사장 약도</h2>";
 		createHtml += "<p>고사장 주소 : " + description + "</p>";
 		createHtml += "<img src='" + examZoneMap + "' style=" + "width:100%;" + "height: 80%" + "/>";

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yeosin.board.FileDto;
 import com.yeosin.user.EduCompletionDao;
 import com.yeosin.user.UserDto;
 
@@ -169,5 +170,9 @@ public class ApplyService {
 	
 	public String getLocalFileName(String localFileName) throws Exception{
 		return applyDao.getLocalFileName(localFileName);
+	}
+	
+	public FileDto getFileInfo(String localFileName) throws Exception{
+		return applyDao.getFileInfo(localFileName);
 	}
 }

@@ -1,11 +1,13 @@
 package com.yeosin.apply;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
@@ -31,8 +33,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yeosin.board.FileDto;
 import com.yeosin.user.UserDto;
 import com.yeosin.user.UserService;
+import com.yeosin.util.FileController;
 
 @Controller
 public class ApplyController {
@@ -196,18 +200,32 @@ public class ApplyController {
 		List<ExamZoneDto> examZoneList = new ArrayList<ExamZoneDto>();
 		examZoneList = applyService.getExamZoneList(paremterMap);
 		
-		for(int i = 0 ; i < examZoneList.size(); i++)
-		{
-			String FileId = examZoneList.get(i).getExamZoneMap();
-			String localFileName = applyService.getLocalFileName(FileId);
-			//String examZoneMap = request.getServletContext().getRealPath("/resources/examzoneFile/" + localFileName);
-			String examZoneMap = "/resources/examzoneFile/" + localFileName;
-			examZoneList.get(i).setExamZoneMap(examZoneMap);
-		}
+//		for(int i = 0 ; i < examZoneList.size(); i++)
+//		{
+//			String FileId = examZoneList.get(i).getExamZoneMap();
+//			String localFileName = applyService.getLocalFileName(FileId);
+//			//String examZoneMap = request.getServletContext().getRealPath("/resources/examzoneFile/" + localFileName);
+//			String examZoneMap = "/upload/examzoneFile/" + localFileName;
+//			examZoneList.get(i).setExamZoneMap(examZoneMap);
+//		}
 		
 		return examZoneList;
 	}
-	
+
+	// 팝업 이미지 보여주기
+	@RequestMapping(value="/searchImageView", method=RequestMethod.GET)
+	@ResponseBody
+	public  Map<String, String> searchImageView(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{		
+		FileDto fileInfo = applyService.getFileInfo(request.getParameter("fileId"));
+		// AJAX로 넘겨줄 데이터
+		Map<String, String> resultMap = new HashMap<String, String>();
+		resultMap.put("fileUrl", fileInfo.getFileURL());
+		resultMap.put("localFileName", fileInfo.getLocalFileName());
+
+		return resultMap;
+	}
+
 	// 고사장 잔여좌석 조회
 	@RequestMapping(value="/CheckLeftOverSeat", method=RequestMethod.POST)
 	@ResponseBody
@@ -590,7 +608,20 @@ public class ApplyController {
 		
 		return mav;
 	}
-	
+
+	// 팝업 이미지 보여주기
+	@RequestMapping(value="/examZoneImageView", method=RequestMethod.GET)
+	@ResponseBody
+	public void examZoneImageView(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{		
+		String url = request.getParameter("fileUrl");
+		String fileName = request.getParameter("localFileName");
+		File file = new File(url + fileName);
+		byte[] imageData = Files.readAllBytes(file.toPath());
+		response.setContentType("image/jpeg");
+		response.getOutputStream().write(imageData);
+	}
+
 	// 수험표 출력 프린트
 	@RequestMapping(value="/ticket_print", method=RequestMethod.GET)
 	@ResponseBody
@@ -608,9 +639,10 @@ public class ApplyController {
 			
 			ApplyDto applyInfo = applyService.getDetailApplyInfo(map);
 			String localFileName = applyService.getLocalFileName(applyInfo.getExamZoneDto().getExamZoneMap());
+			FileDto fileInfo = applyService.getFileInfo(applyInfo.getExamZoneDto().getExamZoneMap());
 			//String examZoneMap = request.getServletContext().getRealPath("/resources/examzoneFile/" + localFileName);
-			String examZoneMap ="/resources/examzoneFile/" + localFileName;
-			mav.addObject("examZoneMap", examZoneMap);
+			String examZoneMap ="/upload/examzoneFile/" + localFileName;
+			mav.addObject("fileInfo", fileInfo);
 			mav.addObject("applyInfo", applyInfo);
 			mav.setViewName("apply/ticket_print");			
 		}

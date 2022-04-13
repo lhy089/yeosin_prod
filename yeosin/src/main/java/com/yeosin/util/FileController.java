@@ -22,6 +22,8 @@ import com.yeosin.board.FileDto;
 public class FileController {
 		
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+//	public static final String uploadUrl = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload";
+	public static final String uploadUrl = "C:\\apache-tomcat-8.5.75\\upload\\";
 
 	@RequestMapping(value="/download", method=RequestMethod.GET)
 	public void downloadFile(FileDto fileInfo, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -32,7 +34,7 @@ public class FileController {
 			String encordedFilename = URLEncoder.encode(fileInfo.getRealFileName(),"UTF-8").replace("+", "%20");
 			// 다운로드 경로 (내려받을 파일경로를 설정한다.)
 			//String filePath = boardPath+fileName;
-			String filePath = request.getServletContext().getRealPath("/resources/boardFile/" + fileName);
+			String filePath = FileController.uploadUrl + "boardFile\\" + fileName;
 			System.out.println("filePath : " + filePath);
 			
 			// 경로와 파일명으로 파일 객체를 생성한다.
@@ -77,7 +79,7 @@ public class FileController {
 			String encordedFilename = URLEncoder.encode(fileInfo.getRealFileName(),"UTF-8").replace("+", "%20");
 			// 다운로드 경로 (내려받을 파일경로를 설정한다.)
 			//String filePath = examZonePath+fileName;
-			String filePath = request.getServletContext().getRealPath("/resources/examzoneFile/" + fileName);
+			String filePath = FileController.uploadUrl + "examzoneFile\\" + fileName;
 			System.out.println("filePath : " + filePath);
 			
 			// 경로와 파일명으로 파일 객체를 생성한다.

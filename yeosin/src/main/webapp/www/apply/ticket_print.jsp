@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head lang="ko">
@@ -117,7 +119,11 @@ $(function(){
   </h2>
   <div class="content">
     <!-- <img src="/www/inc/img/apply/test-map.jpg" class="mapImg" alt="지도이미지 예시"> -->
-    <img src="${examZoneMap}" class="mapImg" style="width: 100%; height: 100%">
+    <c:url value="/examZoneImageView" var="examZoneImageView">
+   	 <c:param name="fileUrl" value="${fileInfo.fileURL}" />
+    	<c:param name="localFileName" value="${fileInfo.localFileName}" />
+    </c:url>
+     <img src="${examZoneImageView}" alt="약도이미지"  class="mapImg" style="width: 100%; height: 100%"> 
   </div> 
 </div>
 <div><a onclick="return false;" id="btn_print" class="btn_apply">출력하기</a></div>

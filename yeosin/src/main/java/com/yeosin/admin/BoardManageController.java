@@ -131,7 +131,7 @@ public class BoardManageController {
 			
 			if (!fileName.equals("") && fileName != null && file.getSize() != 0) {
 				String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-				String boardPath = request.getServletContext().getRealPath("/resources/boardFile");
+				String boardPath = "C:\\apache-tomcat-8.5.75\\upload\\boardFile\\";
 				
 				File copyFile = new File(boardPath, LocalFileName);
 					
@@ -247,7 +247,7 @@ public class BoardManageController {
 			{
 				if (!fileName.equals("") && fileName != null && file.getSize() != 0) {
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-					String boardPath = request.getServletContext().getRealPath("/resources/boardFile");
+					String boardPath =  "C:\\apache-tomcat-8.5.75\\upload\\boardFile\\";
 				
 					File copyFile = new File(boardPath, LocalFileName);
 						
@@ -281,7 +281,7 @@ public class BoardManageController {
 				if (!fileName.equals("") && fileName != null && file.getSize() != 0) //파일을 새로 등록할때
 				{
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-					String boardPath = request.getServletContext().getRealPath("/resources/boardFile");
+					String boardPath = "C:\\apache-tomcat-8.5.75\\upload\\boardFile\\";
 					
 					File copyFile = new File(boardPath, LocalFileName);
 					
@@ -472,7 +472,7 @@ public class BoardManageController {
 
 			if (!fileName.equals("") && fileName != null && file.getSize() != 0) {
 				String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-				String boardPath = request.getServletContext().getRealPath("/resources/boardFile");
+				String boardPath = "C:\\apache-tomcat-8.5.75\\upload\\boardFile\\";
 				
 				File copyFile = new File(boardPath, LocalFileName);
 				
@@ -586,7 +586,7 @@ public class BoardManageController {
 				if (!fileName.equals("") && fileName != null && file.getSize() != 0) {
 					
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-					String boardPath = request.getServletContext().getRealPath("/resources/boardFile");
+					String boardPath ="C:\\apache-tomcat-8.5.75\\upload\\boardFile\\";
 					
 					File copyFile = new File(boardPath, LocalFileName);
 					
@@ -619,7 +619,7 @@ public class BoardManageController {
 				{
 					
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
-					String boardPath = request.getServletContext().getRealPath("/resources/boardFile");
+					String boardPath = "C:\\apache-tomcat-8.5.75\\upload\\boardFile\\";
 					
 					File copyFile = new File(boardPath, LocalFileName);
 					

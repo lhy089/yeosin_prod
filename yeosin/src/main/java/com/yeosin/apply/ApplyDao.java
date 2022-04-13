@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.yeosin.board.FileDto;
+
 @Repository("applyDao")
 public class ApplyDao {
 	
@@ -88,5 +90,9 @@ public class ApplyDao {
 	
 	public String getLocalFileName(String localFileName) throws Exception{
 		return sqlSession.selectOne(nameSpace + "getLocalFileName", localFileName);
+	}
+	
+	public FileDto getFileInfo(String localFileName) throws Exception{
+		return sqlSession.selectOne(nameSpace + "getFileInfo", localFileName);
 	}
 }
