@@ -23,7 +23,7 @@ public class FileController {
 		
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 //	public static final String uploadUrl = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload";
-	public static final String uploadUrl = "C:\\apache-tomcat-8.5.75\\upload\\";
+	public static final String uploadUrl ="C:\\apache-tomcat-8.5.75\\upload\\";
 
 	@RequestMapping(value="/download", method=RequestMethod.GET)
 	public void downloadFile(FileDto fileInfo, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -34,8 +34,8 @@ public class FileController {
 			String encordedFilename = URLEncoder.encode(fileInfo.getRealFileName(),"UTF-8").replace("+", "%20");
 			// 다운로드 경로 (내려받을 파일경로를 설정한다.)
 			//String filePath = boardPath+fileName;
-			String filePath = FileController.uploadUrl + "boardFile\\" + fileName;
-			System.out.println("filePath : " + filePath);
+			String filePath = "C:\\apache-tomcat-8.5.75\\upload\\boardFile\\" + fileName;
+			System.out.println("filePath11 : " + filePath);
 			
 			// 경로와 파일명으로 파일 객체를 생성한다.
 			File file  = new File(filePath);
@@ -79,7 +79,7 @@ public class FileController {
 			String encordedFilename = URLEncoder.encode(fileInfo.getRealFileName(),"UTF-8").replace("+", "%20");
 			// 다운로드 경로 (내려받을 파일경로를 설정한다.)
 			//String filePath = examZonePath+fileName;
-			String filePath = FileController.uploadUrl + "examzoneFile\\" + fileName;
+			String filePath = "C:\\apache-tomcat-8.5.75\\upload\\examzoneFile\\" + fileName;
 			System.out.println("filePath : " + filePath);
 			
 			// 경로와 파일명으로 파일 객체를 생성한다.
