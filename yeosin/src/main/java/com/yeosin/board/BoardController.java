@@ -26,6 +26,18 @@ public class BoardController {
 	{
 		ModelAndView mav = new ModelAndView();	
 		
+		String[] arr = new String[]{"<", ">", "\"", "\'", "=", ":", "?", "&"};
+		String param = boardDto.getSearchWord();
+		if(param != null && !"".equals(param)) {
+			for(String word : arr) {
+				if(param.contains(word)) {
+					boardDto.setSearchWord("");
+					mav.addObject("chkSearchValid", word);
+					break;
+				}
+			}
+		}
+		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setBoardDto(boardDto);
 		pageMaker.setTotalCount(boardService.countBoardListTotal(boardDto));
@@ -128,6 +140,18 @@ public class BoardController {
 		
 		ModelAndView mav = new ModelAndView();	
 		
+		String[] arr = new String[]{"<", ">", "\"", "\'", "=", ":", "?", "&"};
+		String param = boardDto.getSearchWord();
+		if(param != null && !"".equals(param)) {
+			for(String word : arr) {
+				if(param.contains(word)) {
+					boardDto.setSearchWord("");
+					mav.addObject("chkSearchValid", word);
+					break;
+				}
+			}
+		}
+		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setBoardDto(boardDto);
 		pageMaker.setTotalCount(boardService.countBoardListTotal(boardDto));
@@ -150,6 +174,18 @@ public class BoardController {
 		response.setCharacterEncoding("UTF-8");
 			
 		ModelAndView mav = new ModelAndView();	
+		
+		String[] arr = new String[]{"<", ">", "\"", "\'", "=", ":", "?", "&"};
+		String param = boardDto.getSearchWord();
+		if(param != null && !"".equals(param)) {
+			for(String word : arr) {
+				if(param.contains(word)) {
+					boardDto.setSearchWord("");
+					mav.addObject("chkSearchValid", word);
+					break;
+				}
+			}
+		}
 		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setBoardDto(boardDto);

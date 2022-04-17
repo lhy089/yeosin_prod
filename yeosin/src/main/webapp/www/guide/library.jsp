@@ -30,6 +30,11 @@
 $("li[value='${pageMaker.boardDto.page}']").attr("class","on");
 
 $(document).ready(function() {
+
+	if("${chkSearchValid}" != null && "${chkSearchValid}" != "") {
+		alert("검색할 수 없는 문자열이 포함되어 있습니다. [${chkSearchValid}]");	
+	}
+	
 	$("li[value='${pageMaker.boardDto.page}']").attr("class","on");
 		
 	   $("#btn_search").click(function() {
