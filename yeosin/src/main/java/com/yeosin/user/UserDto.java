@@ -28,6 +28,10 @@ public class UserDto {
 	
 	private String dormantAccountDate; // 휴면계정전환일
 	
+	private String first_schedulDate; 	// 1차 처리예정 안내일
+	private String second_schedulDate; 	// 2차 처리예정 안내일
+	private String third_schedulDate; 	// 3차 처리완료 안내일
+	
 	private EduCompletionDto eduCompletionDto;
 	
 	private int page;  		//현재 페이지 번호	
@@ -166,6 +170,24 @@ public class UserDto {
 	}
 	public void setSecessionDate(String secessionDate) {
 		this.secessionDate = secessionDate;
+	}
+	public String getFirst_schedulDate() {
+		return first_schedulDate;
+	}
+	public void setFirst_schedulDate(String first_schedulDate) {
+		this.first_schedulDate = first_schedulDate;
+	}
+	public String getSecond_schedulDate() {
+		return second_schedulDate;
+	}
+	public void setSecond_schedulDate(String second_schedulDate) {
+		this.second_schedulDate = second_schedulDate;
+	}
+	public String getThird_schedulDate() {
+		return third_schedulDate;
+	}
+	public void setThird_schedulDate(String third_schedulDate) {
+		this.third_schedulDate = third_schedulDate;
 	}
 //	public String getIsCheckGeneralGrade() {
 //		return isCheckGeneralGrade;

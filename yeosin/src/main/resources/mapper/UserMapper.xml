@@ -202,18 +202,27 @@
 		FROM DUAL
    </select>
    
-   <update id='dormantAccountProcessing'>
-	  UPDATE YS_USER 
-	  SET USERSTATUS = 'C' 
-	  WHERE DATE_SUB(NOW() , INTERVAL 1 YEAR) > LASTCONNECTDATE 
-	  AND USERSTATUS = 'U';
-   </update>
+   	<!-- 휴면계정 전환  -->
+	<update id='dormantAccountProcessing'>
+	<![CDATA[
+		UPDATE	YS_USER 
+		SET 	USERSTATUS = 'C' 
+		WHERE 	1 = 1
+		AND 	USERSTATUS = 'U'
+		AND 	LASTCONNECTDATE < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 YEAR), '%Y-%m-%d');
+	]]>
+	</update>
    
-   <update id='secessionDateProcessing'>
-	  UPDATE YS_USER 
-	  SET USERSTATUS = 'D' ,
-	  SECESSIONDATE = NOW()
-	  WHERE DATE_SUB(NOW() , INTERVAL 3 YEAR) > LASTCONNECTDATE 
-	  AND (USERSTATUS = 'U' OR USERSTATUS = 'C');
-   </update>
+	<!-- 탈퇴계정 전환 -->
+	<update id='secessionDateProcessing'>
+	<![CDATA[
+		UPDATE	YS_USER 
+	  	SET 	USERSTATUS = 'D' 
+	  		,	SECESSIONDATE = NOW()
+	  	WHERE 	1 = 1
+	  	AND 	USERSTATUS = 'C' 	
+	  	AND 	LASTCONNECTDATE < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 3 YEAR), '%Y-%m-%d');
+	]]>
+   	</update>
+   	
 </mapper>

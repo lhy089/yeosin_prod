@@ -480,12 +480,273 @@ public class UserController {
 			response.getWriter().close();
 		}
 		
-		// 휴면계정처리(최근 접속일 1년 지날시 휴면계정으로 처리)
-		@Scheduled(cron = "0 0 0 * * *")
-		public void dormantAccountProcessing() throws Exception {
+		// 휴면계정 및 탈퇴계정에 대한 이메일/문자처리
+		public void executeEmailAndSMS(UserDto userDto, String type, String order)
+		{
+			//  Email
+			/*
+				instId		[smallint]: 인스턴스 메일의 ID (협회에서 안내 예정)
+				name		[varchar(50)]: 수신자명
+				email   	[varchar(50)]: 수신자 email 주소
+				subsValue	[text]: 인스턴스 메일에 포함시킬 변수값 (값1|값2|값3|값4...)
+			 */
+			//  SMS
+			/*
+				tranPhone    [varchar(15)]: 수신자 휴대전화 번호
+				tranCallback [varchar(15)]: 발신자 휴대전화 번호
+				tran_status  [varchar(1)]: sms 발송상태
+				tran_date    [datetime]: 전송일자(현재시간)
+				tranMsg      [varchar(255)]: sms 내용(db 사이즈는 255지만 문자 내용은 80바이트로 제한됨)
+				tranEtc1     [varchar(64)]: sms 인스턴스 번호(협회에서 안내)
+				tranEtc3     [varchar(64)]: 기타값
+			 */
+			Date today = new Date();
+			String emailQuery = "";
+			String emailDescription = "";
+			String smsQuery = "";
+			String smsDescription = "";
 			
-			userService.dormantAccountProcessing();
-			userService.secessionDateProcessing();
+			// 휴면
+			if (type.equals("dormantAccountProcessing"))
+			{
+				// 1차, 2차 안내처리
+				if (order.equals("first") || order.equals("second"))
+				{
+					// 사용안함
+					emailDescription = "장기 미사용 계정 휴면계정 전환 처리 안내" + System.lineSeparator() + 
+									System.lineSeparator() + 
+									"<#=SUB1#>님 안녕하세요," + System.lineSeparator() + 
+									System.lineSeparator() + 
+									"회원님의 개인정보보호를 위해 1년이상 장기 미사용 계정은" + System.lineSeparator() +
+									"관계법령에 따라 휴면계정으로 전환(개인정보 분리 및 별도보관) 처리할 예정입니다." + System.lineSeparator() + 
+									System.lineSeparator() + 
+									"휴면계정 전환 후에는 서비스 이용이 불가하오니," + System.lineSeparator() + 
+									"계속 이용하시고자 할 경우에는 전환일 전까지" + System.lineSeparator() + 
+									"홈페이지에 접속하여 로그인 해주시기 바랍니다." + System.lineSeparator() + 
+									System.lineSeparator() + 
+									"휴면계정 전환 후 2년 이내에는 별도 본인확인 절차를 통해서 계정 복원 및 사용이 가능하며," + System.lineSeparator() + 
+									"2년 이내 복원하지 않을 경우에는 자동 탈퇴 처리되오니 이용에 유의하시기 바랍니다." + System.lineSeparator() + 
+									System.lineSeparator() + 
+									"1. 휴면계정 전환일 : <#=SUB2#>" + System.lineSeparator() + 
+									"2. 분리보관 정보 : 회원가입시 수집된 개인정보" + System.lineSeparator() + 
+									"3. 관계법령 : 정보통신망 이용촉진 및 정보보호 등에 관한 법률 제29조" + System.lineSeparator();
+					
+					emailQuery = "INSERT INTO TB_INST_INPUT (instId, name, email, subs_value)"
+							+ "VALUES ('164', "
+							+ "'" + userDto.getUserName() + "'," 
+							+ "'" + userDto.getEmailAddress() + "'," 
+							+ "'" + userDto.getUserName() + "|" + userDto.getThird_schedulDate() + "'" 
+							+ ")";
+					
+					smsDescription = userDto.getUserName() + "님의 계정이 장기 미사용에 따라" + System.lineSeparator() + 
+								userDto.getThird_schedulDate() + "에 휴면계정으로 전환 처리될 예정입니다." + System.lineSeparator() +
+								"계속 이용하시고자 할 경우 처리일 전까지 로그인 해주시기 바랍니다." + System.lineSeparator() +
+								"https://www.lpcrefia.or.kr" + System.lineSeparator();
+					
+					smsQuery = "INSERT INTO EM_TRAN(tran_phone, tran_callback, tran_status, tran_date, tran_msg, tran_etc1, tranEtc3)" 
+							+ "VALUES (" + "'" + userDto.getPhoneNumber() + "'," 
+							+ "'" + "000-000-0000" + "'," // 발신자 휴대전화번호 가이드 안됨
+							+ "'" + "1" + "',"
+							+ "'" + today + "',"
+							+ "'" + smsDescription + "',"
+							+ "'" + "10071" + "',"
+							+ "'" + "" + "'"
+							+ ")";
+				}
+				// 3차 안내처리
+				else 
+				{
+					// 사용안함
+					emailDescription = "장기 미사용 계정 휴면계정 전환 처리 안내" + System.lineSeparator() + 
+							System.lineSeparator() + 
+							"<#=SUB1#>님 안녕하세요," + System.lineSeparator() + 
+							System.lineSeparator() + 
+							"회원님의 개인정보보호를 위해 1년이상 장기 미사용 계정은" + System.lineSeparator() +
+							"관계법령에 따라 휴면계정으로 전환(개인정보 분리 및 별도보관) 처리되었습니다." + System.lineSeparator() + 
+							System.lineSeparator() + 
+							"휴면계정 전환 후 2년 이내에는 별도 본인확인 절차를 통해서 계정 복원 및 사용이 가능하며," + System.lineSeparator() + 
+							"2년 이내 복원하지 않을 경우에는 자동 탈퇴 처리되오니 이용에 유의하시기 바랍니다." + System.lineSeparator() + 
+							System.lineSeparator() + 
+							"1. 휴면계정 전환일 : <#=SUB2#>" + System.lineSeparator() + 
+							"2. 분리보관 정보 : 회원가입시 수집된 개인정보" + System.lineSeparator() + 
+							"3. 관계법령 : 정보통신망 이용촉진 및 정보보호 등에 관한 법률 제29조" + System.lineSeparator();
+			
+					emailQuery = "INSERT INTO TB_INST_INPUT (instId, name, email, subs_value)"
+							+ "VALUES ('164', " 
+							+ "'" + userDto.getUserName() + "'," 
+							+ "'" + userDto.getEmailAddress() + "'," 
+							+ "'" + userDto.getUserName() + "|" + userDto.getThird_schedulDate() + "'" 
+							+ ")";
+					
+					smsDescription = userDto.getUserName() + "님의 계정이 장기 미사용에 따라" + System.lineSeparator() + 
+								userDto.getThird_schedulDate() + "에 휴면계정으로 전환 처리되었습니다." + System.lineSeparator() +
+								"https://www.lpcrefia.or.kr" + System.lineSeparator();
+					
+					smsQuery = "INSERT INTO EM_TRAN(tran_phone, tran_callback, tran_status, tran_date, tran_msg, tran_etc1, tranEtc3)" 
+							+ "VALUES (" + "'" + userDto.getPhoneNumber() + "'," 
+							+ "'" + "000-000-0000" + "'," // 발신자 휴대전화번호 가이드 안됨
+							+ "'" + "1" + "',"
+							+ "'" + today + "',"
+							+ "'" + smsDescription + "',"
+							+ "'" + "10071" + "',"
+							+ "'" + "" + "'"
+							+ ")";				
+				}
+			}
+			// 탈퇴
+			else 
+			{
+				// 1차, 2차 안내처리
+				if (order.equals("first") || order.equals("second"))
+				{
+					// 사용안함
+					emailDescription = "장기 미사용 계정 개인정보 파기(탈퇴) 처리 안내" + System.lineSeparator() + 
+							System.lineSeparator() + 
+							"<#=SUB1#>님 안녕하세요," + System.lineSeparator() + 
+							System.lineSeparator() + 
+							"회원님의 개인정보보호를 위해 3년이상(휴면계정 전환 후 2년 이상) 장기 미사용 계정은" + System.lineSeparator() +
+							"관계법령에 따라 개인정보를 파기(탈퇴) 처리할 예정입니다." + System.lineSeparator() + 
+							System.lineSeparator() + 
+							"개인정보 파기(탈퇴 처리) 후에는 서비스 이용이 불가하오니," + System.lineSeparator() + 
+							"계속 이용하시고자 할 경우에는 개인정보 파기일 전까지" + System.lineSeparator() + 
+							"홈페이지에 접속하여 본인확인 절차를 통해서 계정을 복원하여 주시기 바랍니다." + System.lineSeparator() + 
+							System.lineSeparator() + 
+							"1. 개인정보 파기일 : <#=SUB2#>" + System.lineSeparator() + 
+							"2. 파기 정보 : 회원가입시 수집된 개인정보" + System.lineSeparator() + 
+							"3. 관계법령 : 정보통신망 이용촉진 및 정보보호 등에 관한 법률 제29조" + System.lineSeparator();
+			
+					emailQuery = "INSERT INTO TB_INST_INPUT (instId, name, email, subs_value)"
+							+ "VALUES ('164', " 
+							+ "'" + userDto.getUserName() + "'," 
+							+ "'" + userDto.getEmailAddress() + "'," 
+							+ "'" + userDto.getUserName() + "|" + userDto.getThird_schedulDate() + "'" 
+							+ ")";
+					
+					smsDescription = userDto.getUserName() + "님의 계정이 장기 미사용에 따라" + System.lineSeparator() + 
+								userDto.getThird_schedulDate() +"에 개인정보 파기(탈퇴) 처리될 예정입니다." + System.lineSeparator() +
+								"계속 이용하시고자 할 경우 처리일 전까지 복원하여 주시기 바랍니다." + System.lineSeparator() +
+								"https://www.lpcrefia.or.kr" + System.lineSeparator();
+					
+					smsQuery = "INSERT INTO EM_TRAN(tran_phone, tran_callback, tran_status, tran_date, tran_msg, tran_etc1, tranEtc3)" 
+							+ "VALUES (" + "'" + userDto.getPhoneNumber() + "'," 
+							+ "'" + "000-000-0000" + "'," // 발신자 휴대전화번호 가이드 안됨
+							+ "'" + "1" + "',"
+							+ "'" + today + "',"
+							+ "'" + smsDescription + "',"
+							+ "'" + "10071" + "',"
+							+ "'" + "" + "'"
+							+ ")";						
+				}
+				// 3차 안내처리
+				else 
+				{
+					// 사용안함
+					emailDescription = "장기 미사용 계정 개인정보 파기(탈퇴) 처리 안내" + System.lineSeparator() + 
+							System.lineSeparator() + 
+							"<#=SUB1#>님 안녕하세요," + System.lineSeparator() + 
+							System.lineSeparator() + 
+							"회원님의 개인정보보호를 위해 3년이상(휴면계정 전환 후 2년 이상) 장기 미사용 계정은" + System.lineSeparator() +
+							"관계법령에 따라 개인정보가 파기(탈퇴) 처리되었습니다." + System.lineSeparator() + 
+							System.lineSeparator() + 
+							"1. 개인정보 파기일 : <#=SUB2#>" + System.lineSeparator() + 
+							"2. 파기 정보 : 회원가입시 수집된 개인정보" + System.lineSeparator() + 
+							"3. 관계법령 : 정보통신망 이용촉진 및 정보보호 등에 관한 법률 제29조" + System.lineSeparator();
+			
+					emailQuery = "INSERT INTO TB_INST_INPUT (instId, name, email, subs_value)"
+							+ "VALUES ('164', " 
+							+ "'" + userDto.getUserName() + "'," 
+							+ "'" + userDto.getEmailAddress() + "'," 
+							+ "'" + userDto.getUserName() + "|" + userDto.getThird_schedulDate() + "'" 
+							+ ")";
+					
+					smsDescription = userDto.getUserName() + "님의 계정이 장기 미사용에 따라" + System.lineSeparator() + 
+								userDto.getThird_schedulDate() + "에 개인정보 파기(탈퇴) 처리되었습니다." + System.lineSeparator() +
+								"https://www.lpcrefia.or.kr" + System.lineSeparator();
+					
+					smsQuery = "INSERT INTO EM_TRAN(tran_phone, tran_callback, tran_status, tran_date, tran_msg, tran_etc1, tranEtc3)" 
+							+ "VALUES (" + "'" + userDto.getPhoneNumber() + "'," 
+							+ "'" + "000-000-0000" + "'," // 발신자 휴대전화번호 가이드 안됨
+							+ "'" + "1" + "',"
+							+ "'" + today + "',"
+							+ "'" + smsDescription + "',"
+							+ "'" + "10071" + "',"
+							+ "'" + "" + "'"
+							+ ")";						
+				}				
+			}
+		}
+		
+		// 휴면계정 및 탈퇴계정 처리 (2022-05-01 tkyoo - 이메일/문자 적용하여 수정)
+		@Scheduled(cron = "0 0 0 * * *")
+		public void dormantAccountProcessing() throws Exception 
+		{
+			// 오늘날짜(yyyy-MM-dd)
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date today = new Date();
+			String todayStr = format.format(today);
+			
+			/*
+			/////////////////////////////////// 휴면계정 전환로직 ///////////////////////////////////
+			// 휴면계정 전환 대상 유저 리스트
+			List<UserDto> targetUserList1 = userManageService.getDormantAccountProcessingList();
+			
+			// 휴면계정 전환 대상 유저 처리
+			for (int i = 0; i < targetUserList1.size(); i++)
+			{
+				String firstDate = targetUserList1.get(i).getFirst_schedulDate();
+				String secondDate = targetUserList1.get(i).getSecond_schedulDate();
+				String thirdDate = targetUserList1.get(i).getThird_schedulDate();
+				
+				// 1차 처리예정 안내 (이메일, 문자)
+				if (todayStr.equals(firstDate))
+				{
+					executeEmailAndSMS(targetUserList1.get(i), "dormantAccountProcessing", "first");
+				}
+				// 2차 처리예정 안내 (이메일, 문자)
+				else if (todayStr.equals(secondDate))
+				{
+					executeEmailAndSMS(targetUserList1.get(i), "dormantAccountProcessing", "second");
+				}
+				// 3차 처리완료 안내 (이메일, 문자)
+				else if (todayStr.equals(thirdDate))
+				{
+					executeEmailAndSMS(targetUserList1.get(i), "dormantAccountProcessing", "third");
+					userService.dormantAccountProcessing(); // 최근 접속일 1년 지나서 휴면으로 업데이트 처리
+				}
+			}
+			
+			/////////////////////////////////// 탈퇴계정 전환로직 ///////////////////////////////////
+			// 탈퇴계정 전환 대상 유저 리스트
+			List<UserDto> targetUserList2 = userManageService.getSecessionDateProcessingList();
+			
+			// 탈퇴계정 전환 대상 유저 처리
+			for (int i = 0; i < targetUserList2.size(); i++)
+			{
+				String firstDate = targetUserList2.get(i).getFirst_schedulDate();
+				String secondDate = targetUserList2.get(i).getSecond_schedulDate();
+				String thirdDate = targetUserList2.get(i).getThird_schedulDate();
+				
+				// 1차 처리예정 안내 (이메일, 문자)
+				if (todayStr.equals(firstDate))
+				{
+					executeEmailAndSMS(targetUserList2.get(i), "secessionDateProcessing", "first");
+				}
+				// 2차 처리예정 안내 (이메일, 문자)
+				else if (todayStr.equals(secondDate))
+				{
+					executeEmailAndSMS(targetUserList2.get(i), "secessionDateProcessing", "second");
+				}
+				// 3차 처리완료 안내 (이메일, 문자)
+				else if (todayStr.equals(thirdDate))
+				{
+					executeEmailAndSMS(targetUserList2.get(i), "secessionDateProcessing", "third");
+					userService.secessionDateProcessing(); // 휴면으로 전환된 후 2년 지나서 탈퇴로 업데이트 처리(최근 접속일 3년 지난것들)
+				}
+			}
+			*/
+			
+			userService.dormantAccountProcessing(); // 최근 접속일 1년 지나서 휴면으로 처리
+			userService.secessionDateProcessing(); // 휴면으로 전환된 후 2년 지나서 탈퇴로 처리(최근 접속일 3년 지난것들)
 		}
 
 		// 수료번호 api 호출

@@ -52,5 +52,15 @@ public class UserManageDao {
 	public UserDto getUserInfoByUserId(String userId) throws Exception{
 		return sqlSession.selectOne(namespace + "getUserInfoByUserId", userId);
 	}
+	
+	// 휴면계정 전환 대상 유저 리스트
+	public List<UserDto> getDormantAccountProcessingList() throws Exception {
+		return sqlSession.selectList(namespace + "getDormantAccountProcessingList");
+	}
+	
+	// 탈퇴계정 전환 대상 유저 리스트
+	public List<UserDto> getSecessionDateProcessingList() throws Exception {
+		return sqlSession.selectList(namespace + "getSecessionDateProcessingList");
+	}
 }
 	

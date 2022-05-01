@@ -189,4 +189,55 @@
 		FROM YS_USER Y
 		WHERE Y.USERID = #{userId}; 
 	</select>
+	
+	<!-- 휴면계정 전환 대상 유저 리스트 -->
+	<select id="getDormantAccountProcessingList" resultType="com.yeosin.user.UserDto">
+	<![CDATA[
+		-- 11개월간 미접속자 사용자 리스트(활동 -> 휴면전환)
+		SELECT
+				U.USERID
+			,	U.USERNAME 
+			,	U.GENDER 
+			,	U.LASTCONNECTDATE 
+			,	U.BIRTHDATE 
+			,	U.PHONENUMBER 
+			,	U.EMAILADDRESS 
+			,	U.ISRECEIVEEMAIL 
+			,	U.ISRECEIVESMS 
+			,	U.USERSTATUS
+			,	DATE_FORMAT(DATE_ADD(U.LASTCONNECTDATE, INTERVAL 11 MONTH), '%Y-%m-%d')							AS	FIRST_SCHEDULDATE	-- 1차 처리예정 안내일
+			,	DATE_FORMAT(DATE_SUB(DATE_ADD(U.LASTCONNECTDATE, INTERVAL 1 YEAR), INTERVAL 1 DAY), '%Y-%m-%d')	AS	SECOND_SCHEDULDATE	-- 2차 처리예정 안내일
+			,	DATE_FORMAT(DATE_ADD(U.LASTCONNECTDATE, INTERVAL 1 YEAR), '%Y-%m-%d')							AS	THIRD_SCHEDULDATE	-- 3차 처리완료 안내일
+		FROM 	YS_USER			U
+		WHERE 	1 = 1
+		AND 	U.USERSTATUS = 'U' -- 휴면 : C / 탈퇴 : D / 활동 : U
+		AND 	U.LASTCONNECTDATE < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 11 MONTH), '%Y-%m-%d');
+	]]>
+	</select> 
+	
+	<!-- 탈퇴계정 전환 대상 유저 리스트 -->
+	<select id="getSecessionDateProcessingList" resultType="com.yeosin.user.UserDto">
+	<![CDATA[
+		-- 휴면계정인 상태로 2년 경과시(미접속 3년 경과, 휴면 -> 탈퇴전환)
+		SELECT
+				U.USERID
+			,	U.USERNAME 
+			,	U.GENDER 
+			,	U.LASTCONNECTDATE 
+			,	U.BIRTHDATE 
+			,	U.PHONENUMBER 
+			,	U.EMAILADDRESS 
+			,	U.ISRECEIVEEMAIL 
+			,	U.ISRECEIVESMS 
+			,	U.USERSTATUS 																											-- 11개월 미접속 기준날짜
+			,	DATE_FORMAT(DATE_ADD(U.LASTCONNECTDATE, INTERVAL 35 MONTH), '%Y-%m-%d')							AS	FIRST_SCHEDULDATE	-- 1차 처리예정 안내일
+			,	DATE_FORMAT(DATE_SUB(DATE_ADD(U.LASTCONNECTDATE, INTERVAL 3 YEAR), INTERVAL 1 DAY), '%Y-%m-%d')	AS	SECOND_SCHEDULDATE	-- 2차 처리예정 안내일
+			,	DATE_FORMAT(DATE_ADD(U.LASTCONNECTDATE, INTERVAL 3 YEAR), '%Y-%m-%d')							AS	THIRD_SCHEDULDATE	-- 3차 처리완료 안내일
+		FROM 	YS_USER			U
+		WHERE 	1 = 1
+		AND 	U.USERSTATUS = 'C' -- 휴면 : C / 탈퇴 : D / 활동 : U
+		AND 	U.LASTCONNECTDATE < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 35 MONTH), '%Y-%m-%d');
+	]]>
+	</select> 
+	
 </mapper>

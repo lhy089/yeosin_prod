@@ -358,7 +358,15 @@ public class UserManageService {
 		return result;
 	}
 	
+	// 휴면계정 전환 대상 유저 리스트
+	public List<UserDto> getDormantAccountProcessingList() throws Exception {
+		return userManageDao.getDormantAccountProcessingList();
+	}
 	
+	// 탈퇴계정 전환 대상 유저 리스트
+	public List<UserDto> getSecessionDateProcessingList() throws Exception {
+		return userManageDao.getSecessionDateProcessingList();
+	}
 
 }
 
