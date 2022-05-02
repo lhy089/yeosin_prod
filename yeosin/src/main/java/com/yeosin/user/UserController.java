@@ -547,7 +547,7 @@ public class UserController {
 							+ "VALUES (" + "'" + userDto.getPhoneNumber() + "'," 
 							+ "'" + "000-000-0000" + "'," // 발신자 휴대전화번호 가이드 안됨
 							+ "'" + "1" + "',"
-							+ "'" + today + "',"
+							+ "GETDATE()" + ","
 							+ "'" + smsDescription + "',"
 							+ "'" + "10071" + "',"
 							+ "'" + "" + "'"
@@ -586,7 +586,7 @@ public class UserController {
 							+ "VALUES (" + "'" + userDto.getPhoneNumber() + "'," 
 							+ "'" + "000-000-0000" + "'," // 발신자 휴대전화번호 가이드 안됨
 							+ "'" + "1" + "',"
-							+ "'" + today + "',"
+							+ "GETDATE()" + ","
 							+ "'" + smsDescription + "',"
 							+ "'" + "10071" + "',"
 							+ "'" + "" + "'"
@@ -631,7 +631,7 @@ public class UserController {
 							+ "VALUES (" + "'" + userDto.getPhoneNumber() + "'," 
 							+ "'" + "000-000-0000" + "'," // 발신자 휴대전화번호 가이드 안됨
 							+ "'" + "1" + "',"
-							+ "'" + today + "',"
+							+ "GETDATE()" + ","
 							+ "'" + smsDescription + "',"
 							+ "'" + "10071" + "',"
 							+ "'" + "" + "'"
@@ -667,7 +667,7 @@ public class UserController {
 							+ "VALUES (" + "'" + userDto.getPhoneNumber() + "'," 
 							+ "'" + "000-000-0000" + "'," // 발신자 휴대전화번호 가이드 안됨
 							+ "'" + "1" + "',"
-							+ "'" + today + "',"
+							+ "GETDATE()" + ","
 							+ "'" + smsDescription + "',"
 							+ "'" + "10071" + "',"
 							+ "'" + "" + "'"
