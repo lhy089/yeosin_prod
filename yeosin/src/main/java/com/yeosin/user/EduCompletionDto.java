@@ -11,6 +11,7 @@ public class EduCompletionDto {
 	private String subject;
 	private String apiSyncId;
 	private String upApiSyncId;
+	private String certDate;
 	private String searchWord;
 	private int page; // 현재 페이지 번호
 	private int perPageNum; // 현 페이지당 보여줄 게시글의 갯수
@@ -93,6 +94,12 @@ public class EduCompletionDto {
 	}
 	public void setUpApiSyncId(String upApiSyncId) {
 		this.upApiSyncId = upApiSyncId;
+	}
+	public String getCertDate() {
+		return certDate;
+	}
+	public void setCertDate(String certDate) {
+		this.certDate = certDate;
 	}
 	public String getSearchWord() {
 		return searchWord;

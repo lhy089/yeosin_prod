@@ -73,15 +73,16 @@
 	 
 	<insert id="insertAndUpdateEduComepletionInfo" parameterType="java.util.List">
     	INSERT INTO YS_EDUCOMPLETION
-			(USERID, EDUUSERID, USERNAME, BIRTHDATE, GENDER, CERTID, SUBJECT, APISYNCID)
+			(USERID, EDUUSERID, USERNAME, BIRTHDATE, GENDER, CERTID, SUBJECT, APISYNCID, CERTDATE)
 		VALUES
     	<foreach collection="list" item="item" separator=" , " >
-        	("${item.userId}", "${item.eduUserId}", "${item.userName}", "${item.birthDate}", "${item.gender}" , "${item.certId}", "${item.subject}", "${item.apiSyncId}")
+        	("${item.userId}", "${item.eduUserId}", "${item.userName}", "${item.birthDate}", "${item.gender}" , "${item.certId}", "${item.subject}", "${item.apiSyncId}", "${item.certDate}")
    	 	</foreach>
    	 	ON DUPLICATE KEY UPDATE 
    	 		USERNAME = VALUES(userName),
    	 		BIRTHDATE = VALUES(birthDate),
    	 		GENDER = VALUES(gender),
+   	 		CERTDATE = VALUES(certDate),
    	 		UPAPISYNCID = VALUES(apiSyncId)
 	</insert>
 	

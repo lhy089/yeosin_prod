@@ -458,6 +458,7 @@ public class UserController {
                 eduCompletionInfo.setGender(gender);
                 eduCompletionInfo.setCertId((String)item.get("diploma_no"));
                 eduCompletionInfo.setSubject((String)item.get("process_cd"));
+                eduCompletionInfo.setCertDate((String)item.get("pass_date") +" 00:00:00");
                 
                 eduCompletionInfo.setApiSyncId(eduCompletionHis.getApiSyncId());
                 eduCompletionList.add(eduCompletionInfo);
@@ -740,6 +741,7 @@ public class UserController {
 				eduCompletionInfo.setGender(gender);
 				eduCompletionInfo.setCertId((String)item.get("diploma_no"));
 				eduCompletionInfo.setSubject((String)item.get("process_cd"));
+				eduCompletionInfo.setCertDate((String)item.get("pass_date") +" 00:00:00");
 
 				eduCompletionInfo.setApiSyncId(eduCompletionHis.getApiSyncId());
                 eduCompletionList.add(eduCompletionInfo);

@@ -48,6 +48,7 @@
 			, ISRECEIVEEMAIL
 			, ISRECEIVESMS
 			, USERSTATUS
+			, CICODE
 		FROM 
 			YS_USER 
 		WHERE 
@@ -58,12 +59,22 @@
 			AND USERSTATUS != 'D'
    </select>
    
+   <update id="UpdateLastConnectDate" parameterType="com.yeosin.user.UserDto">
+   		UPDATE YS_USER Y
+		SET		Y.LASTCONNECTDATE = now()
+		WHERE USERID = #{userId}
+			<if test="password !=null">
+					AND PASSWORD = #{password}
+			</if>
+			  AND USERSTATUS != 'D'
+   </update>
+   
    <insert id="insertUserInfo" parameterType="com.yeosin.user.UserDto">
 		INSERT INTO YS_USER 
 			(USERID, PASSWORD, USERNAME, GRADE, GENDER, JOINDATE, LASTCONNECTDATE,BIRTHDATE
 			, CALLNUMBER, PHONENUMBER, EMAILADDRESS, ISRECEIVEEMAIL, ISRECEIVESMS, USERSTATUS, DICODE, CICODE) 
 			VALUES 
-			(#{userId}, #{password}, #{userName}, #{grade}, #{gender}, now(), #{lastConnectDate}, 
+			(#{userId}, #{password}, #{userName}, #{grade}, #{gender}, now(), now(), 
 			#{birthDate}, #{callNumber}, #{phoneNumber}, #{emailAddress}, #{isReceiveEmail}, #{isReceiveSms}, #{userStatus}, #{diCode}, #{ciCode})
 	</insert>
 	
@@ -88,6 +99,9 @@
    <update id="updateUserInfo" parameterType="com.yeosin.user.UserDto">
 		UPDATE YS_USER
 		<set>
+			<if test="userName !=null and userName != ''">
+				USERNAME = #{userName},
+			</if>
 			<if test="password !=null and password != ''">
 				PASSWORD = #{password},
 			</if>
@@ -113,7 +127,8 @@
 	<update id="withdrawUser" parameterType="string">
 		UPDATE YS_USER
 		<set>
-			USERSTATUS = 'D'
+			USERSTATUS = 'D',
+			SECESSIONDATE = NOW()
 		</set>
 		WHERE USERID = #{userId}
 	</update>
@@ -163,7 +178,8 @@
 	
 	<update id="updateUserStatus" parameterType="com.yeosin.user.UserDto">
 		UPDATE YS_USER
-		SET USERSTATUS = 'U'
+		SET USERSTATUS = 'U',
+			LASTCONNECTDATE = now()
 		WHERE USERID = #{userId}
 			AND USERSTATUS NOT IN ('D','S')
 	</update>
@@ -185,4 +201,44 @@
 			) as EXISTS_YN
 		FROM DUAL
    </select>
+   
+   	<!-- 휴면계정 전환  -->
+	<update id='dormantAccountProcessing'>
+	<![CDATA[
+		UPDATE	YS_USER 
+		SET 	USERSTATUS = 'C' 
+		WHERE 	1 = 1
+		AND 	USERSTATUS = 'U'
+		AND 	LASTCONNECTDATE < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 YEAR), '%Y-%m-%d');
+	]]>
+	</update>
+   
+	<!-- 탈퇴계정 전환 -->
+	<update id='secessionDateProcessing'>
+	<![CDATA[
+		UPDATE	YS_USER 
+	  	SET 	USERSTATUS = 'D' 
+	  		,	SECESSIONDATE = NOW()
+	  	WHERE 	1 = 1
+	  	AND 	USERSTATUS = 'C' 	
+	  	AND 	LASTCONNECTDATE < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 3 YEAR), '%Y-%m-%d');
+	]]>
+   	</update>
+	
+	<select id="findUserInfo" parameterType="com.yeosin.user.UserDto" resultType="com.yeosin.user.UserDto">
+      	SELECT
+			USERID, USERNAME, PHONENUMBER,  EMAILADDRESS
+		FROM 
+			YS_USER
+		WHERE
+			USERNAME = #{userName}
+			<if test="phoneNumber !=null and phoneNumber !=''">
+				AND PHONENUMBER = #{phoneNumber}
+			</if>
+			<if test="emailAddress !=null and emailAddress !=''">
+				AND EMAILADDRESS = #{emailAddress}
+			</if>
+			AND USERSTATUS IN ('S','U')
+   	</select>
+   	
 </mapper>
