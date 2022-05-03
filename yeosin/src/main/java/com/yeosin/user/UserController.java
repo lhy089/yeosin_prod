@@ -5,12 +5,18 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.SecureRandom;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -512,85 +518,43 @@ public class UserController {
 				// 1차, 2차 안내처리
 				if (order.equals("first") || order.equals("second"))
 				{
-					// 사용안함
-					emailDescription = "장기 미사용 계정 휴면계정 전환 처리 안내" + System.lineSeparator() + 
-									System.lineSeparator() + 
-									"<#=SUB1#>님 안녕하세요," + System.lineSeparator() + 
-									System.lineSeparator() + 
-									"회원님의 개인정보보호를 위해 1년이상 장기 미사용 계정은" + System.lineSeparator() +
-									"관계법령에 따라 휴면계정으로 전환(개인정보 분리 및 별도보관) 처리할 예정입니다." + System.lineSeparator() + 
-									System.lineSeparator() + 
-									"휴면계정 전환 후에는 서비스 이용이 불가하오니," + System.lineSeparator() + 
-									"계속 이용하시고자 할 경우에는 전환일 전까지" + System.lineSeparator() + 
-									"홈페이지에 접속하여 로그인 해주시기 바랍니다." + System.lineSeparator() + 
-									System.lineSeparator() + 
-									"휴면계정 전환 후 2년 이내에는 별도 본인확인 절차를 통해서 계정 복원 및 사용이 가능하며," + System.lineSeparator() + 
-									"2년 이내 복원하지 않을 경우에는 자동 탈퇴 처리되오니 이용에 유의하시기 바랍니다." + System.lineSeparator() + 
-									System.lineSeparator() + 
-									"1. 휴면계정 전환일 : <#=SUB2#>" + System.lineSeparator() + 
-									"2. 분리보관 정보 : 회원가입시 수집된 개인정보" + System.lineSeparator() + 
-									"3. 관계법령 : 정보통신망 이용촉진 및 정보보호 등에 관한 법률 제29조" + System.lineSeparator();
-					
-					emailQuery = "INSERT INTO TB_INST_INPUT (instId, name, email, subs_value)"
-							+ "VALUES ('164', "
-							+ "'" + userDto.getUserName() + "'," 
-							+ "'" + userDto.getEmailAddress() + "'," 
-							+ "'" + userDto.getUserName() + "|" + userDto.getThird_schedulDate() + "'" 
-							+ ")";
-					
 					smsDescription = userDto.getUserName() + "님의 계정이 장기 미사용에 따라" + System.lineSeparator() + 
-								userDto.getThird_schedulDate() + "에 휴면계정으로 전환 처리될 예정입니다." + System.lineSeparator() +
-								"계속 이용하시고자 할 경우 처리일 전까지 로그인 해주시기 바랍니다." + System.lineSeparator() +
-								"https://www.lpcrefia.or.kr" + System.lineSeparator();
+							userDto.getThird_schedulDate() + "에 휴면계정으로 전환 처리될 예정입니다." + System.lineSeparator() +
+							"계속 이용하시고자 할 경우 처리일 전까지 로그인 해주시기 바랍니다." + System.lineSeparator() +
+							"https://www.lpcrefia.or.kr" + System.lineSeparator();
 					
-					smsQuery = "INSERT INTO EM_TRAN(tran_phone, tran_callback, tran_status, tran_date, tran_msg, tran_etc1, tranEtc3)" 
-							+ "VALUES (" + "'" + userDto.getPhoneNumber() + "'," 
-							+ "'" + "000-000-0000" + "'," // 발신자 휴대전화번호 가이드 안됨
-							+ "'" + "1" + "',"
-							+ "GETDATE()" + ","
-							+ "'" + smsDescription + "',"
-							+ "'" + "10071" + "',"
-							+ "'" + "" + "'"
-							+ ")";
+					Map<String,String> smsData = new HashMap<>();
+					smsData.put("tran_phone", userDto.getPhoneNumber());
+					smsData.put("tran_msg", smsDescription);
+					smsData.put("tran_etc1", "10071");
+					this.sendSms(smsData);
+					
+					Map<String,String> mailData = new HashMap<>();
+					mailData.put("instId", "165");
+					mailData.put("name", userDto.getUserName());
+					mailData.put("email", userDto.getEmailAddress());
+					mailData.put("subs_value", userDto.getUserName() + "|" + userDto.getThird_schedulDate()); 
+					this.sendEmail(mailData);					
 				}
 				// 3차 안내처리
 				else 
-				{
-					// 사용안함
-					emailDescription = "장기 미사용 계정 휴면계정 전환 처리 안내" + System.lineSeparator() + 
-							System.lineSeparator() + 
-							"<#=SUB1#>님 안녕하세요," + System.lineSeparator() + 
-							System.lineSeparator() + 
-							"회원님의 개인정보보호를 위해 1년이상 장기 미사용 계정은" + System.lineSeparator() +
-							"관계법령에 따라 휴면계정으로 전환(개인정보 분리 및 별도보관) 처리되었습니다." + System.lineSeparator() + 
-							System.lineSeparator() + 
-							"휴면계정 전환 후 2년 이내에는 별도 본인확인 절차를 통해서 계정 복원 및 사용이 가능하며," + System.lineSeparator() + 
-							"2년 이내 복원하지 않을 경우에는 자동 탈퇴 처리되오니 이용에 유의하시기 바랍니다." + System.lineSeparator() + 
-							System.lineSeparator() + 
-							"1. 휴면계정 전환일 : <#=SUB2#>" + System.lineSeparator() + 
-							"2. 분리보관 정보 : 회원가입시 수집된 개인정보" + System.lineSeparator() + 
-							"3. 관계법령 : 정보통신망 이용촉진 및 정보보호 등에 관한 법률 제29조" + System.lineSeparator();
-			
-					emailQuery = "INSERT INTO TB_INST_INPUT (instId, name, email, subs_value)"
-							+ "VALUES ('164', " 
-							+ "'" + userDto.getUserName() + "'," 
-							+ "'" + userDto.getEmailAddress() + "'," 
-							+ "'" + userDto.getUserName() + "|" + userDto.getThird_schedulDate() + "'" 
-							+ ")";
-					
+				{	
 					smsDescription = userDto.getUserName() + "님의 계정이 장기 미사용에 따라" + System.lineSeparator() + 
 								userDto.getThird_schedulDate() + "에 휴면계정으로 전환 처리되었습니다." + System.lineSeparator() +
 								"https://www.lpcrefia.or.kr" + System.lineSeparator();
 					
-					smsQuery = "INSERT INTO EM_TRAN(tran_phone, tran_callback, tran_status, tran_date, tran_msg, tran_etc1, tranEtc3)" 
-							+ "VALUES (" + "'" + userDto.getPhoneNumber() + "'," 
-							+ "'" + "000-000-0000" + "'," // 발신자 휴대전화번호 가이드 안됨
-							+ "'" + "1" + "',"
-							+ "GETDATE()" + ","
-							+ "'" + smsDescription + "',"
-							+ "'" + "10071" + "',"
-							+ "'" + "" + "'"
-							+ ")";				
+					Map<String,String> smsData = new HashMap<>();
+					smsData.put("tran_phone", userDto.getPhoneNumber());
+					smsData.put("tran_msg", smsDescription);
+					smsData.put("tran_etc1", "10072");
+					this.sendSms(smsData);
+					
+					Map<String,String> mailData = new HashMap<>();
+					mailData.put("instId", "166");
+					mailData.put("name", userDto.getUserName());
+					mailData.put("email", userDto.getEmailAddress());
+					mailData.put("subs_value", userDto.getUserName() + "|" + userDto.getThird_schedulDate()); 
+					this.sendEmail(mailData);				
 				}
 			}
 			// 탈퇴
@@ -599,79 +563,43 @@ public class UserController {
 				// 1차, 2차 안내처리
 				if (order.equals("first") || order.equals("second"))
 				{
-					// 사용안함
-					emailDescription = "장기 미사용 계정 개인정보 파기(탈퇴) 처리 안내" + System.lineSeparator() + 
-							System.lineSeparator() + 
-							"<#=SUB1#>님 안녕하세요," + System.lineSeparator() + 
-							System.lineSeparator() + 
-							"회원님의 개인정보보호를 위해 3년이상(휴면계정 전환 후 2년 이상) 장기 미사용 계정은" + System.lineSeparator() +
-							"관계법령에 따라 개인정보를 파기(탈퇴) 처리할 예정입니다." + System.lineSeparator() + 
-							System.lineSeparator() + 
-							"개인정보 파기(탈퇴 처리) 후에는 서비스 이용이 불가하오니," + System.lineSeparator() + 
-							"계속 이용하시고자 할 경우에는 개인정보 파기일 전까지" + System.lineSeparator() + 
-							"홈페이지에 접속하여 본인확인 절차를 통해서 계정을 복원하여 주시기 바랍니다." + System.lineSeparator() + 
-							System.lineSeparator() + 
-							"1. 개인정보 파기일 : <#=SUB2#>" + System.lineSeparator() + 
-							"2. 파기 정보 : 회원가입시 수집된 개인정보" + System.lineSeparator() + 
-							"3. 관계법령 : 정보통신망 이용촉진 및 정보보호 등에 관한 법률 제29조" + System.lineSeparator();
-			
-					emailQuery = "INSERT INTO TB_INST_INPUT (instId, name, email, subs_value)"
-							+ "VALUES ('164', " 
-							+ "'" + userDto.getUserName() + "'," 
-							+ "'" + userDto.getEmailAddress() + "'," 
-							+ "'" + userDto.getUserName() + "|" + userDto.getThird_schedulDate() + "'" 
-							+ ")";
-					
 					smsDescription = userDto.getUserName() + "님의 계정이 장기 미사용에 따라" + System.lineSeparator() + 
 								userDto.getThird_schedulDate() +"에 개인정보 파기(탈퇴) 처리될 예정입니다." + System.lineSeparator() +
 								"계속 이용하시고자 할 경우 처리일 전까지 복원하여 주시기 바랍니다." + System.lineSeparator() +
 								"https://www.lpcrefia.or.kr" + System.lineSeparator();
 					
-					smsQuery = "INSERT INTO EM_TRAN(tran_phone, tran_callback, tran_status, tran_date, tran_msg, tran_etc1, tranEtc3)" 
-							+ "VALUES (" + "'" + userDto.getPhoneNumber() + "'," 
-							+ "'" + "000-000-0000" + "'," // 발신자 휴대전화번호 가이드 안됨
-							+ "'" + "1" + "',"
-							+ "GETDATE()" + ","
-							+ "'" + smsDescription + "',"
-							+ "'" + "10071" + "',"
-							+ "'" + "" + "'"
-							+ ")";						
+					Map<String,String> smsData = new HashMap<>();
+					smsData.put("tran_phone", userDto.getPhoneNumber());
+					smsData.put("tran_msg", smsDescription);
+					smsData.put("tran_etc1", "10073");
+					this.sendSms(smsData);
+					
+					Map<String,String> mailData = new HashMap<>();
+					mailData.put("instId", "167");
+					mailData.put("name", userDto.getUserName());
+					mailData.put("email", userDto.getEmailAddress());
+					mailData.put("subs_value", userDto.getUserName() + "|" + userDto.getThird_schedulDate()); 
+					this.sendEmail(mailData);					
 				}
 				// 3차 안내처리
 				else 
-				{
-					// 사용안함
-					emailDescription = "장기 미사용 계정 개인정보 파기(탈퇴) 처리 안내" + System.lineSeparator() + 
-							System.lineSeparator() + 
-							"<#=SUB1#>님 안녕하세요," + System.lineSeparator() + 
-							System.lineSeparator() + 
-							"회원님의 개인정보보호를 위해 3년이상(휴면계정 전환 후 2년 이상) 장기 미사용 계정은" + System.lineSeparator() +
-							"관계법령에 따라 개인정보가 파기(탈퇴) 처리되었습니다." + System.lineSeparator() + 
-							System.lineSeparator() + 
-							"1. 개인정보 파기일 : <#=SUB2#>" + System.lineSeparator() + 
-							"2. 파기 정보 : 회원가입시 수집된 개인정보" + System.lineSeparator() + 
-							"3. 관계법령 : 정보통신망 이용촉진 및 정보보호 등에 관한 법률 제29조" + System.lineSeparator();
-			
-					emailQuery = "INSERT INTO TB_INST_INPUT (instId, name, email, subs_value)"
-							+ "VALUES ('164', " 
-							+ "'" + userDto.getUserName() + "'," 
-							+ "'" + userDto.getEmailAddress() + "'," 
-							+ "'" + userDto.getUserName() + "|" + userDto.getThird_schedulDate() + "'" 
-							+ ")";
-					
+				{				
 					smsDescription = userDto.getUserName() + "님의 계정이 장기 미사용에 따라" + System.lineSeparator() + 
 								userDto.getThird_schedulDate() + "에 개인정보 파기(탈퇴) 처리되었습니다." + System.lineSeparator() +
 								"https://www.lpcrefia.or.kr" + System.lineSeparator();
 					
-					smsQuery = "INSERT INTO EM_TRAN(tran_phone, tran_callback, tran_status, tran_date, tran_msg, tran_etc1, tranEtc3)" 
-							+ "VALUES (" + "'" + userDto.getPhoneNumber() + "'," 
-							+ "'" + "000-000-0000" + "'," // 발신자 휴대전화번호 가이드 안됨
-							+ "'" + "1" + "',"
-							+ "GETDATE()" + ","
-							+ "'" + smsDescription + "',"
-							+ "'" + "10071" + "',"
-							+ "'" + "" + "'"
-							+ ")";						
+					Map<String,String> smsData = new HashMap<>();
+					smsData.put("tran_phone", userDto.getPhoneNumber());
+					smsData.put("tran_msg", smsDescription);
+					smsData.put("tran_etc1", "10074");
+					this.sendSms(smsData);
+					
+					Map<String,String> mailData = new HashMap<>();
+					mailData.put("instId", "168");
+					mailData.put("name", userDto.getUserName());
+					mailData.put("email", userDto.getEmailAddress());
+					mailData.put("subs_value", userDto.getUserName() + "|" + userDto.getThird_schedulDate()); 
+					this.sendEmail(mailData);					
 				}				
 			}
 		}
@@ -930,5 +858,163 @@ public class UserController {
 				response.setContentType("text/html;charset=UTF-8"); 
 				response.getWriter().print(jsonString);
 			}
+		}
+		
+		@RequestMapping(value="/sendUserId", method=RequestMethod.GET)
+		@ResponseBody
+		public String checkUserInfoForFindUser(UserDto userData, HttpSession session, HttpServletResponse response) throws Exception {
+			UserDto userInfo = userService.findUserInfo(userData);
+			int result = 0;
+			Map<String,String> data = new HashMap<>();
+			
+			if(userInfo != null) {
+				if("H".equals(userData.getFindType())) {
+					data.put("tran_phone", userInfo.getPhoneNumber());
+					data.put("tran_msg", "[여신금융협회] 회원님의 아이디는 [" + userInfo.getUserId() + "] 입니다.");
+					data.put("tran_etc1", "10075");
+					result = this.sendSms(data);
+				}
+				else if("M".equals(userData.getFindType())) {
+					data.put("instId", "169");
+					data.put("name", userInfo.getUserName());
+					data.put("email", userInfo.getEmailAddress());
+					data.put("subs_value", userInfo.getUserId()); 
+					result = this.sendEmail(data);
+				}
+				return "SUCCESS";
+			}else {
+				return "FAILED";
+			}
+		}
+		
+		@RequestMapping(value="/sendUserPwd", method=RequestMethod.GET)
+		@ResponseBody
+		public String sendUserPwd(UserDto userData, HttpSession session, HttpServletResponse response) throws Exception {
+			UserDto userInfo = userService.findUserInfo(userData);
+			int result = 0;
+			Map<String,String> data = new HashMap<>();
+			String password = this.getRamdomPwd();
+			
+			if(userInfo != null) {
+				if("H".equals(userData.getFindType())) {
+					data.put("tran_phone", userInfo.getPhoneNumber());
+					data.put("tran_msg", "[여신금융협회] 비밀번호가 갱신 되었습니다. 회원님의 임시 비밀번호는 " + password + " 입니다.");
+					data.put("tran_etc1", "10076");
+					result = this.sendSms(data);
+				}
+				else if("M".equals(userData.getFindType())) {
+					data.put("instId", "170");
+					data.put("name", userInfo.getUserName());
+					data.put("email", userInfo.getEmailAddress());
+					data.put("subs_value", password); 
+					result = this.sendEmail(data);
+				}
+				
+				if(result>0) {
+					userInfo.setPassword(EncryptUtils.getSha256(password));
+					userService.updateUserPassword(userInfo);
+				}
+				return "SUCCESS";
+			}else {
+				return "FAILED";
+			}
+		}
+		
+		public int sendSms(Map<String,String> smsData){
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			int r = 0;
+			/*
+			String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+			String url = "sqlserver://122.175.78.211:1433;DatabaseName=CEWEB";
+			String user = "cemms";
+			String pw = "cemms1234";
+			*/
+			String driver = "com.mysql.jdbc.Driver";
+			String url = "jdbc:mysql://119.205.221.175:3306/yeosin";
+			String user = "root";
+			String pw = "hyong123";
+			
+			String sql = "INSERT INTO EM_TRAN (tran_phone, tran_callback, tran_status, tran_date, tran_msg, tran_etc1, tranEtc3) values(?, ?, ?, now(), ?, ?, ?)"; 
+			
+			try { 
+				Class.forName(driver); 
+				con = DriverManager.getConnection(url, user, pw); 
+				pstmt = con.prepareStatement(sql); 
+
+				pstmt.setString(1, smsData.get("tran_phone")); 
+				pstmt.setString(2, "02-2011-0770"); //발신자번호
+				pstmt.setString(3, "1");
+				pstmt.setString(4, smsData.get("tran_msg"));
+				pstmt.setString(5, smsData.get("tran_etc1"));
+				pstmt.setString(6, "");
+			
+				r = pstmt.executeUpdate();
+				System.out.println("변경된 row : " + r); 
+				
+			} catch (SQLException e) { 
+				System.out.println("[SQL Error : " + e.getMessage() + "]"); 
+			} catch (ClassNotFoundException e1) { 
+				System.out.println("[JDBC Connector Driver 오류 : " + e1.getMessage() + "]"); 
+			} finally { 
+				try { 
+					pstmt.close(); 
+				} catch (SQLException e) { e.printStackTrace(); 
+				} 
+			} 
+			if (con != null) { 
+				try { con.close(); 
+				} catch (SQLException e) { e.printStackTrace(); } 
+			} 
+			
+			return r;
+		}
+		
+		public int sendEmail(Map<String,String> mailData){
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			int r = 0;
+			/*
+			String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+			String url = "sqlserver://122.175.78.211:1433;DatabaseName=CEWEB";
+			String user = "cemms";
+			String pw = "cemms1234";
+			*/
+			String driver = "com.mysql.jdbc.Driver";
+			String url = "jdbc:mysql://119.205.221.175:3306/yeosin";
+			String user = "root";
+			String pw = "hyong123";
+			
+			String sql = "INSERT INTO TB_INST_INPUT (instId, name, email, subs_value) VALUES (?,?,?,?)";
+			
+			try { 
+				Class.forName(driver); 
+				con = DriverManager.getConnection(url, user, pw); 
+				pstmt = con.prepareStatement(sql); 
+
+				pstmt.setString(1, mailData.get("instId")); 
+				pstmt.setString(2, mailData.get("name"));
+				pstmt.setString(3, mailData.get("email"));
+				pstmt.setString(4, mailData.get("subs_value"));
+				
+				r = pstmt.executeUpdate(); 
+				System.out.println("변경된 row : " + r); 
+				
+			} catch (SQLException e) { 
+				System.out.println("[SQL Error : " + e.getMessage() + "]"); 
+			} catch (ClassNotFoundException e1) { 
+				System.out.println("[JDBC Connector Driver 오류 : " + e1.getMessage() + "]"); 
+			} finally { 
+				try { 
+					pstmt.close(); 
+				} catch (SQLException e) { e.printStackTrace(); 
+				} 
+			} 
+			if (con != null) { 
+				try { con.close(); 
+				} catch (SQLException e) { e.printStackTrace(); } 
+			} 
+			
+			return r;
 		}
 }

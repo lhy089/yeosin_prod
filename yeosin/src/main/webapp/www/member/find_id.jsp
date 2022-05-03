@@ -29,8 +29,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/member/checkPlus.js?t=<%= new java.util.Date() %>"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/member/find.js?t=<%= new java.util.Date() %>"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/member/find.js?t=<%= new java.util.Date() %>"></script>
 </head>
 
 <body>
@@ -56,8 +55,8 @@
 								<a href="#none">회원정보에 등록 된 휴대폰으로 찾기</a>
 							</h4>
 							<div class="proveBox">
-								<p>서비스 준비 중입니다.</p>
-								<!--<p>회원정보에 등록한 휴대폰 번호와 입력한 휴대폰 번호가 같아야 인증번호를 받을 수 있습니다.</p>
+<!-- 								<p>서비스 준비 중입니다.</p> -->
+								<p>회원정보에 등록한 휴대폰 번호와 입력한 휴대폰 번호가 같아야 아이디를 받을 수 있습니다.</p>
             <table>
               <colgroup>
                 <col width="20.5%">
@@ -66,23 +65,20 @@
               <tr>
                 <th>이름</th>
                 <td>
-                  <input type="text" name="" value="">
+                  <input type="text" id="userName" name="" value="">
                 </td>
               </tr>
               <tr>
                 <th>휴대전화 번호</th>
                 <td>
-                  <input type="tel" name="" value="" maxlength="11" placeholder="번호만 입력"><a href="#">인증번호 받기</a>
+                  <input type="tel" maxlength="3" id="phoneNumber" value="" style="width: 180px;">
+              		- <input type="tel" maxlength="4" id="phoneNumber2" value="" style="width: 180px;">
+              		- <input type="tel" maxlength="4" id="phoneNumber3" value="" style="width: 180px;">
+              		<a href="javascript:fnFindUserInfo('id','H');">전송</a>
+              		<a href="#" class="btn_guide phone">문자가 오지 않을 경우</a>
                 </td>
               </tr>
-              <tr>
-                <th>인증번호 입력</th>
-                <td>
-                  <input type="text" name="" value="" disabled><a href="#">확인</a>
-                  <a href="#" class="btn_guide phone">인증번호가 오지 않을 경우</a>
-                </td>
-              </tr>
-            </table>-->
+            </table>
 							</div>
 						</li>
 						<!-- 휴대폰으로 찾기// -->
@@ -93,8 +89,8 @@
 								<a href="#none">회원정보에 등록 된 이메일로 인증</a>
 							</h4>
 							<div class="proveBox">
-								<p>서비스 준비 중입니다.</p>
-								<!--  <p>회원정보에 등록한 이메일 주소와 입력한 이메일 주소가 같아야 인증번호를 받을 수 있습니다.</p>
+<!-- 								<p>서비스 준비 중입니다.</p> -->
+								  <p>회원정보에 등록한 이메일 주소와 입력한 이메일 주소가 같아야 아이디를 받을 수 있습니다.</p>
             <table>
               <colgroup>
                 <col width="20.5%">
@@ -103,23 +99,17 @@
               <tr>
                 <th>이름</th>
                 <td>
-                  <input type="text" name="" value="">
+                  <input type="text" id="userName2" name="" value="">
                 </td>
               </tr>
               <tr>
                 <th>이메일 주소</th>
                 <td>
-                  <input type="email" name="" value="" placeholder="이메일 주소 입력"><a href="#">인증번호 받기</a>
+                  <input type="email" id="emailAddress" name="" value="" placeholder="이메일 주소 입력"><a href="javascript:fnFindUserInfo('id','M');">전송</a>
+                  <a href="#" class="btn_guide email">메일이 오지 않을 경우</a>
                 </td>
               </tr>
-              <tr>
-                <th>인증번호 입력</th>
-                <td>
-                  <input type="text" name="" value="" disabled><a href="#">확인</a>
-                  <a href="#" class="btn_guide email">인증번호가 오지 않을 경우</a>
-                </td>
-              </tr>
-            </table>-->
+            </table>
 							</div>
 						</li>
 						<!-- //이메일로 인증 -->
@@ -210,19 +200,19 @@
 		<div class="popWrap">
 			<div class="pop">
 				<h1>
-					<p>인증번호가 오지 않을 경우</p>
+					<p>문자/메일이 오지 않을 경우</p>
 					<a href="#none" class="btn_close"></a>
 				</h1>
 				<!-- 휴대폰인증 문구// -->
 				<p class="text phone">
 					1577번호가 스팸 문자로<br /> 등록되어 있는지 확인해주세요.<br /> 스팸 문자로 등록되어 있지 않다면 <br />
-					‘인증번호 받기’를 다시 눌러주세요.
+					‘전송’을 다시 눌러주세요.
 				</p>
 				<!-- //휴대폰인증 문구 -->
 				<!-- 이메일인증 문구// -->
 				<p class="text email">
 					홈페이지명이 발송한 메일이 스팸 메일로<br /> 분류된 것은 아닌지 확인해주세요.<br /> 스팸 메일로 등록 되어
-					있지 않다면<br /> ‘인증번호 받기’를 다시 눌러주세요.
+					있지 않다면<br /> ‘전송’을 다시 눌러주세요.
 				</p>
 				<!-- //이메일인증 문구 -->
 				<a href="#none" class="btn_apply">확인</a>

@@ -224,5 +224,21 @@
 	  	AND 	LASTCONNECTDATE < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 3 YEAR), '%Y-%m-%d');
 	]]>
    	</update>
+	
+	<select id="findUserInfo" parameterType="com.yeosin.user.UserDto" resultType="com.yeosin.user.UserDto">
+      	SELECT
+			USERID, USERNAME, PHONENUMBER,  EMAILADDRESS
+		FROM 
+			YS_USER
+		WHERE
+			USERNAME = #{userName}
+			<if test="phoneNumber !=null and phoneNumber !=''">
+				AND PHONENUMBER = #{phoneNumber}
+			</if>
+			<if test="emailAddress !=null and emailAddress !=''">
+				AND EMAILADDRESS = #{emailAddress}
+			</if>
+			AND USERSTATUS IN ('S','U')
+   	</select>
    	
 </mapper>

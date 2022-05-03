@@ -32,6 +32,8 @@ public class UserDto {
 	private String second_schedulDate; 	// 2차 처리예정 안내일
 	private String third_schedulDate; 	// 3차 처리완료 안내일
 	
+	private String findType; //H, M
+	
 	private EduCompletionDto eduCompletionDto;
 	
 	private int page;  		//현재 페이지 번호	
@@ -188,6 +190,12 @@ public class UserDto {
 	}
 	public void setThird_schedulDate(String third_schedulDate) {
 		this.third_schedulDate = third_schedulDate;
+	}
+	public String getFindType() {
+		return findType;
+	}
+	public void setFindType(String findType) {
+		this.findType = findType;
 	}
 //	public String getIsCheckGeneralGrade() {
 //		return isCheckGeneralGrade;

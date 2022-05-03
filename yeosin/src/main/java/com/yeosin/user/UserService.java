@@ -102,4 +102,8 @@ public class UserService {
 	public int secessionDateProcessing() throws Exception{
 		return userDao.secessionDateProcessing();
 	}
+	
+	public UserDto findUserInfo(UserDto user) throws Exception{
+		return userDao.findUserInfo(user);
+	}
 }

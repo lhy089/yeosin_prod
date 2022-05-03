@@ -67,4 +67,7 @@ public class UserDao {
 	public int secessionDateProcessing() {
 		return this.sqlSession.update(namespace + "secessionDateProcessing");
 	}
+	public UserDto findUserInfo(UserDto user) {
+		return this.sqlSession.selectOne(namespace + "findUserInfo", user);
+	}
 }
