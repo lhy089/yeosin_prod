@@ -176,8 +176,7 @@ public class ApplyController {
 		// AJAX로 넘겨줄 데이터
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("isPassEdu", applyService.getIsCompleteEdu(paremterMap));
-//		resultMap.put("isValidCertDate", applyService.getIsValidCertDate(paremterMap));
-		resultMap.put("isValidCertDate", "Y"); // 임시로 Y로 수정
+		resultMap.put("isValidCertDate", applyService.getIsValidCertDate(paremterMap));
 		resultMap.put("examId", requestMap.get("examId"));
 		
 		return resultMap;
