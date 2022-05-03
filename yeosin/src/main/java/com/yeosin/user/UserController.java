@@ -614,7 +614,6 @@ public class UserController {
 			Date today = new Date();
 			String todayStr = format.format(today);
 			
-			/*
 			/////////////////////////////////// 휴면계정 전환로직 ///////////////////////////////////
 			// 휴면계정 전환 대상 유저 리스트
 			List<UserDto> targetUserList1 = userManageService.getDormantAccountProcessingList();
@@ -672,10 +671,9 @@ public class UserController {
 					userService.secessionDateProcessing(); // 휴면으로 전환된 후 2년 지나서 탈퇴로 업데이트 처리(최근 접속일 3년 지난것들)
 				}
 			}
-			*/
 			
-			userService.dormantAccountProcessing(); // 최근 접속일 1년 지나서 휴면으로 처리
-			userService.secessionDateProcessing(); // 휴면으로 전환된 후 2년 지나서 탈퇴로 처리(최근 접속일 3년 지난것들)
+			//userService.dormantAccountProcessing(); // 최근 접속일 1년 지나서 휴면으로 처리
+			//userService.secessionDateProcessing(); // 휴면으로 전환된 후 2년 지나서 탈퇴로 처리(최근 접속일 3년 지난것들)
 		}
 
 		// 수료번호 api 호출
