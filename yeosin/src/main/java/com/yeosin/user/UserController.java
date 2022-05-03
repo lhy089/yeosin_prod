@@ -639,7 +639,7 @@ public class UserController {
 				else if (todayStr.equals(thirdDate))
 				{
 					executeEmailAndSMS(targetUserList1.get(i), "dormantAccountProcessing", "third");
-					userService.dormantAccountProcessing(); // 최근 접속일 1년 지나서 휴면으로 업데이트 처리
+					userService.dormantAccountProcessingByOneUser(targetUserList1.get(i).getUserId());
 				}
 			}
 			
@@ -668,7 +668,7 @@ public class UserController {
 				else if (todayStr.equals(thirdDate))
 				{
 					executeEmailAndSMS(targetUserList2.get(i), "secessionDateProcessing", "third");
-					userService.secessionDateProcessing(); // 휴면으로 전환된 후 2년 지나서 탈퇴로 업데이트 처리(최근 접속일 3년 지난것들)
+					userService.secessionDateProcessingByOneUser(targetUserList2.get(i).getUserId());
 				}
 			}
 			

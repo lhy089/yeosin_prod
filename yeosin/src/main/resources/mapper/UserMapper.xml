@@ -225,6 +225,29 @@
 	]]>
    	</update>
 	
+	<!-- 휴면계정 전환(한명의 유저씩 처리)  -->
+	<update id="dormantAccountProcessingByOneUser" parameterType="String">
+	<![CDATA[
+		UPDATE	YS_USER 
+		SET 	USERSTATUS = 'C' 
+		WHERE 	1 = 1
+		AND 	USERSTATUS = 'U'
+		AND 	USERID = #{userId};
+	]]>
+	</update>
+   
+	<!-- 탈퇴계정 전환(한명의 유저씩 처리) -->
+	<update id="secessionDateProcessingByOneUser" parameterType="String">
+	<![CDATA[
+		UPDATE	YS_USER 
+	  	SET 	USERSTATUS = 'D' 
+	  		,	SECESSIONDATE = NOW()
+	  	WHERE 	1 = 1
+	  	AND 	USERSTATUS = 'C' 	
+	  	AND 	USERID = #{userId};
+	]]>
+   	</update>
+   	
 	<select id="findUserInfo" parameterType="com.yeosin.user.UserDto" resultType="com.yeosin.user.UserDto">
       	SELECT
 			USERID, USERNAME, PHONENUMBER,  EMAILADDRESS

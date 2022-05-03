@@ -103,6 +103,16 @@ public class UserService {
 		return userDao.secessionDateProcessing();
 	}
 	
+	//휴면계정처리(한명의 유저씩 처리)
+	public int dormantAccountProcessingByOneUser(String userId) throws Exception{
+		return userDao.dormantAccountProcessingByOneUser(userId);
+	}
+	
+	//탈퇴처리(한명의 유저씩 처리)
+	public int secessionDateProcessingByOneUser(String userId) throws Exception{
+		return userDao.secessionDateProcessingByOneUser(userId);
+	}
+	
 	public UserDto findUserInfo(UserDto user) throws Exception{
 		return userDao.findUserInfo(user);
 	}

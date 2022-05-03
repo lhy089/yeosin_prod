@@ -67,6 +67,17 @@ public class UserDao {
 	public int secessionDateProcessing() {
 		return this.sqlSession.update(namespace + "secessionDateProcessing");
 	}
+	
+	//휴면계정처리(한명의 유저씩 처리)
+	public int dormantAccountProcessingByOneUser(String userId) {
+		return this.sqlSession.update(namespace + "dormantAccountProcessingByOneUser", userId);
+	}
+	
+	//탈퇴처리(한명의 유저씩 처리)
+	public int secessionDateProcessingByOneUser(String userId) {
+		return this.sqlSession.update(namespace + "secessionDateProcessingByOneUser", userId);
+	}
+	
 	public UserDto findUserInfo(UserDto user) {
 		return this.sqlSession.selectOne(namespace + "findUserInfo", user);
 	}
