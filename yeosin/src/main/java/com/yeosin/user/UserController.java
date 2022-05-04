@@ -606,7 +606,7 @@ public class UserController {
 		}
 		
 		// 휴면계정 및 탈퇴계정 처리 (2022-05-01 tkyoo - 이메일/문자 적용하여 수정)
-		@Scheduled(cron = "0 0 0 * * *")
+		@Scheduled(cron = "0 05 0 * * *")
 		public void dormantAccountProcessing() throws Exception 
 		{
 			// 오늘날짜(yyyy-MM-dd)
