@@ -211,7 +211,7 @@
 		FROM 	YS_USER			U
 		WHERE 	1 = 1
 		AND 	U.USERSTATUS = 'U' -- 휴면 : C / 탈퇴 : D / 활동 : U
-		AND 	U.LASTCONNECTDATE < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 11 MONTH), '%Y-%m-%d');
+		AND 	U.LASTCONNECTDATE <= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 11 MONTH), '%Y-%m-%d');
 	]]>
 	</select> 
 	
@@ -236,7 +236,7 @@
 		FROM 	YS_USER			U
 		WHERE 	1 = 1
 		AND 	U.USERSTATUS = 'C' -- 휴면 : C / 탈퇴 : D / 활동 : U
-		AND 	U.LASTCONNECTDATE < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 35 MONTH), '%Y-%m-%d');
+		AND 	U.LASTCONNECTDATE <= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 35 MONTH), '%Y-%m-%d');
 	]]>
 	</select> 
 	

@@ -519,9 +519,7 @@ public class UserController {
 				// 1차, 2차 안내처리
 				if (order.equals("first") || order.equals("second"))
 				{
-					smsDescription = userDto.getUserName() + "님의 계정이 장기 미사용에 따라" + System.lineSeparator() + 
-							userDto.getThird_schedulDate() + "에 휴면계정으로 전환 처리될 예정입니다." + System.lineSeparator() +
-							"계속 이용하시고자 할 경우 처리일 전까지 로그인 해주시기 바랍니다." + System.lineSeparator() +
+					smsDescription = "장기 미접속 계정처리 방침에 따라 휴면계정 전환 예정입니다." + System.lineSeparator() + 
 							"https://www.lpcrefia.or.kr" + System.lineSeparator();
 					
 					Map<String,String> smsData = new HashMap<>();
@@ -540,8 +538,7 @@ public class UserController {
 				// 3차 안내처리
 				else 
 				{	
-					smsDescription = userDto.getUserName() + "님의 계정이 장기 미사용에 따라" + System.lineSeparator() + 
-								userDto.getThird_schedulDate() + "에 휴면계정으로 전환 처리되었습니다." + System.lineSeparator() +
+					smsDescription = "장기 미접속 계정처리 방침에 따라 휴면계정 전환 되었습니다." + System.lineSeparator() + 
 								"https://www.lpcrefia.or.kr" + System.lineSeparator();
 					
 					Map<String,String> smsData = new HashMap<>();
@@ -564,9 +561,7 @@ public class UserController {
 				// 1차, 2차 안내처리
 				if (order.equals("first") || order.equals("second"))
 				{
-					smsDescription = userDto.getUserName() + "님의 계정이 장기 미사용에 따라" + System.lineSeparator() + 
-								userDto.getThird_schedulDate() +"에 개인정보 파기(탈퇴) 처리될 예정입니다." + System.lineSeparator() +
-								"계속 이용하시고자 할 경우 처리일 전까지 복원하여 주시기 바랍니다." + System.lineSeparator() +
+					smsDescription = "장기 미접속 계정처리 방침에 따라 탈퇴 처리 예정입니다." + System.lineSeparator() + 
 								"https://www.lpcrefia.or.kr" + System.lineSeparator();
 					
 					Map<String,String> smsData = new HashMap<>();
@@ -585,8 +580,7 @@ public class UserController {
 				// 3차 안내처리
 				else 
 				{				
-					smsDescription = userDto.getUserName() + "님의 계정이 장기 미사용에 따라" + System.lineSeparator() + 
-								userDto.getThird_schedulDate() + "에 개인정보 파기(탈퇴) 처리되었습니다." + System.lineSeparator() +
+					smsDescription = "장기 미접속 계정처리 방침에 따라 탈퇴(파기) 처리되었습니다." + System.lineSeparator() + 
 								"https://www.lpcrefia.or.kr" + System.lineSeparator();
 					
 					Map<String,String> smsData = new HashMap<>();
@@ -924,18 +918,18 @@ public class UserController {
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			int r = 0;
-			/*
+			
 			String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 			String url = "sqlserver://122.175.78.211:1433;DatabaseName=CEWEB";
 			String user = "cemms";
 			String pw = "cemms1234";
-			*/
-			String driver = "com.mysql.jdbc.Driver";
+			
+			/*String driver = "com.mysql.jdbc.Driver";
 			String url = "jdbc:mysql://119.205.221.175:3306/yeosin";
 			String user = "root";
-			String pw = "hyong123";
+			String pw = "hyong123";*/
 			
-			String sql = "INSERT INTO EM_TRAN (tran_phone, tran_callback, tran_status, tran_date, tran_msg, tran_etc1, tranEtc3) values(?, ?, ?, now(), ?, ?, ?)"; 
+			String sql = "INSERT INTO EM_TRAN (tran_phone, tran_callback, tran_status, tran_date, tran_msg, tran_etc1, tranEtc3) values(?, ?, ?, getdate(), ?, ?, ?)"; 
 			
 			try { 
 				Class.forName(driver); 
@@ -974,16 +968,16 @@ public class UserController {
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			int r = 0;
-			/*
+			
 			String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 			String url = "sqlserver://122.175.78.211:1433;DatabaseName=CEWEB";
 			String user = "cemms";
 			String pw = "cemms1234";
-			*/
-			String driver = "com.mysql.jdbc.Driver";
+			
+			/*String driver = "com.mysql.jdbc.Driver";
 			String url = "jdbc:mysql://119.205.221.175:3306/yeosin";
 			String user = "root";
-			String pw = "hyong123";
+			String pw = "hyong123";*/
 			
 			String sql = "INSERT INTO TB_INST_INPUT (instId, name, email, subs_value) VALUES (?,?,?,?)";
 			
