@@ -347,7 +347,7 @@ public class ApplyManageController {
 						String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
 						//String examZonePath = "C:\\apache-tomcat-8.5.75\\upload\\examZoneFile\\"; // 로컬버전
 						//String examZonePath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/examZoneFile/"; // 119 배포버전
-						String examZonePath = "C:\\apache-tomcat-8.5.75\\upload\\examZoneFile\\"; // 운영배포버전
+						String examZonePath = "Z:\\apache-tomcat-8.5.75\\upload\\examZoneFile\\"; // 운영배포버전
 						System.out.println(">>>> : " +examZonePath);
 						File copyFile = new File(examZonePath, LocalFileName);
 							
@@ -390,7 +390,7 @@ public class ApplyManageController {
 					String LocalFileName = Long.toString(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
 					//String examZonePath = "C:\\apache-tomcat-8.5.75\\upload\\examZoneFile\\"; // 로컬버전
 					//String examZonePath = "/usr/local/lib/apache-tomcat-8.5.9/webapps/upload/examZoneFile/"; // 119 배포버전
-					String examZonePath = "C:\\apache-tomcat-8.5.75\\upload\\examZoneFile\\"; // 운영배포버전
+					String examZonePath = "Z:\\apache-tomcat-8.5.75\\upload\\examZoneFile\\"; // 운영배포버전
 					
 					File copyFile = new File(examZonePath, LocalFileName);
 					
