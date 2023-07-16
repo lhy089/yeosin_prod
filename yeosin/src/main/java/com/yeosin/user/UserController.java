@@ -135,6 +135,26 @@ public class UserController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/join1", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView join1(HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("result", (Object)"");
+        mav.setViewName("member/join1");
+        return mav;
+	}
+	
+	@RequestMapping(value="/join2", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView join2(HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("result", (Object)"");
+        mav.setViewName("member/join2");
+        return mav;
+	}
+	
 	@RequestMapping(value="/find_id", method=RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView find_id(HttpSession session, HttpServletResponse response) throws Exception {
@@ -183,19 +203,23 @@ public class UserController {
 		String result = "null";
 		UserDto userInfo = new UserDto();
 		System.out.println(">>> find_id_cert ciCode : " + userDto.getCiCode());
-		String userId = userService.findUserIdByCert(userDto);
-		String password = getRamdomPwd(); //랜덤값
-		System.out.println(">>> find_id_cert userId : " + userId);
-		System.out.println(">>> find_id_cert password : " + password);
-		
-		userInfo.setUserId(userId);
-		userInfo.setPassword(EncryptUtils.getSha256(password));
-		
-		int cnt= userService.updateUserPassword(userInfo);
-		System.out.println(">>> find_id_cert cnt : " + cnt);
-		
-		if(cnt>0) result = password;
-		userService.updateUserStatus(userInfo);
+		System.out.println(">>> find_id_cert REQ_SEQ : " + (String)session.getAttribute("REQ_SEQ"));
+		System.out.println(">>> find_id_cert RES_SEQ : " + (String)session.getAttribute("RES_SEQ"));
+		if(userDto.getDiCode().equals((String)session.getAttribute("REQ_SEQ"))) {
+			String userId = userService.findUserIdByCert(userDto);
+			String password = getRamdomPwd(); //랜덤값
+			System.out.println(">>> find_id_cert userId : " + userId);
+			System.out.println(">>> find_id_cert password : " + password);
+			
+			userInfo.setUserId(userId);
+			userInfo.setPassword(EncryptUtils.getSha256(password));
+			
+			int cnt= userService.updateUserPassword(userInfo);
+			System.out.println(">>> find_id_cert cnt : " + cnt);
+			
+			if(cnt>0) result = password;
+			userService.updateUserStatus(userInfo);
+		}
 		
 		response.getWriter().print(result);
 		response.getWriter().flush();
@@ -255,19 +279,57 @@ public class UserController {
 	}
 
 	// 회원가입 처리
+	@RequestMapping(value="/doJoin1", method=RequestMethod.POST)
+	@ResponseBody
+	public void doJoin1(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
+		List<Object> userResult = new ArrayList<Object>();
+        response.setCharacterEncoding("UTF-8");
+        user.setPassword(EncryptUtils.getSha256(user.getPassword()));
+        user.setUserStatus("U");
+        System.out.println(">>> doJoin ciCode : " + user.getCiCode());
+        int cnt = this.userService.insertUserInfo(user);
+        if (cnt > 0) {
+            userResult.add(this.userService.getLoginUserInfo(user));
+        }
+        new Gson().toJson((Object)userResult, (Appendable)response.getWriter());
+	}
+
+	// 회원가입 처리
 	@RequestMapping(value="/doJoin", method=RequestMethod.POST)
 	@ResponseBody
-	public void doJoin(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
-		List<Object> userResult = new ArrayList<>();
-		response.setCharacterEncoding("UTF-8");
-		user.setPassword(EncryptUtils.getSha256(user.getPassword()));
-		user.setUserStatus("U");
-		// 사용자 정보 조회
-		System.out.println(">>> doJoin ciCode : " + user.getCiCode());
-		int cnt = userService.insertUserInfo(user);
-		if(cnt > 0) userResult.add(userService.getLoginUserInfo(user));
-
-		new Gson().toJson(userResult,response.getWriter());
+	public ModelAndView doJoin(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
+		List<Object> userResult = new ArrayList<Object>();
+        response.setCharacterEncoding("UTF-8");
+        ModelAndView mav = new ModelAndView(); //
+        String pattern1 = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&/])[A-Za-z[0-9]$@$!%*#?&/]{6,20}$";
+        String pattern2 = "^[A-Za-z[0-9]]{6,20}$";
+        String pattern3 = "^[[0-9]$@$!%*#?&/]{6,20}$";
+        String pattern4 = "^[[A-Za-z]$@$!%*#?&/]{6,20}$";
+        String patternId = "^[a-z]{1}[a-z0-9]{5,19}$";
+        
+        System.out.println(">>>>> doJoin user.getPassword() : " + user.getPassword());
+        
+        
+        user.setUserId(user.getUserId().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", ""));
+        if (!user.getUserId().matches(patternId) || (!user.getPassword().matches(pattern1) && !user.getPassword().matches(pattern2) && !user.getPassword().matches(pattern3) && !user.getPassword().matches(pattern4))) {
+            mav.addObject("result", (Object)"N");
+            mav.setViewName("member/joinFinish");
+        }
+        else if ("Y".equals(this.userService.getUserByCIANDDI(user))) {
+            mav.addObject("result", (Object)"E");
+            mav.setViewName("member/joinFinish");
+        }
+        else {
+            user.setPassword(EncryptUtils.getSha256(user.getPassword()));
+            user.setUserStatus("U");
+            System.out.println(">>> doJoin ciCode : " + user.getCiCode());
+            final int cnt = this.userService.insertUserInfo(user);
+            if (cnt > 0) {
+                mav.addObject("userInfo", (Object)this.userService.getLoginUserInfo(user));
+                mav.setViewName("member/joinFinish");
+            }
+        }
+        return mav;
 	}
 	
 	@RequestMapping(value="/pwd", method=RequestMethod.GET)
@@ -282,22 +344,37 @@ public class UserController {
 		return mav;
 	}
 	
+	@RequestMapping(value = { "/pwdForWithdrawal" }, method = { RequestMethod.GET })
+    @ResponseBody
+    public ModelAndView pwdForWithdrawal(HttpSession session, HttpServletResponse response) throws Exception {
+        response.setCharacterEncoding("UTF-8");
+        ModelAndView mav = new ModelAndView();
+        String sessionid = (String)session.getAttribute("loginId");
+        mav.addObject("result", "");
+        mav.setViewName("myroom/pwdForWithdrawal");
+        return mav;
+    }
+	
 	// 
 	@RequestMapping(value="/doCheckPwd", method=RequestMethod.POST)
 	@ResponseBody
-	public void doCheckPwd(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
+	public ModelAndView doCheckPwd(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
 		String result = "false";
-		response.setCharacterEncoding("UTF-8");
-		UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
-		userInfo.setPassword(EncryptUtils.getSha256(user.getPassword()));
-
-		userInfo = userService.getLoginUserInfo(userInfo);
-		if(userInfo != null ) {
-			result = "true";
-		}
-		response.getWriter().print(result);
-		response.getWriter().flush();
-		response.getWriter().close();
+        response.setCharacterEncoding("UTF-8");
+        ModelAndView mav = new ModelAndView();
+        UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+        if(user.getPassword() == null) user.setPassword("lpcrefia1234!");
+        userInfo.setPassword(EncryptUtils.getSha256(user.getPassword()));
+        userInfo = this.userService.getLoginUserInfo(userInfo);
+        if (userInfo != null) {
+            mav.addObject("userInfo", userInfo);
+            mav.addObject("result", "Y");
+            mav.setViewName("myroom/change");
+            return mav;
+        }
+        mav.addObject("result", "N");
+        mav.setViewName("myroom/pwd");
+        return mav;
 	}
 	
 	// 회원정보 수정
@@ -316,19 +393,39 @@ public class UserController {
 	}
 	
 	// 회원정보 수정
-		@RequestMapping(value="/doChange", method=RequestMethod.POST)
-		@ResponseBody
-		public void doChange(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
-			response.setCharacterEncoding("UTF-8");
-			if(user.getPassword()!=null && !"".equals(user.getPassword())) user.setPassword(EncryptUtils.getSha256(user.getPassword()));
-			// 사용자 정보 조회
-			int cnt = userService.updateUserInfo(user);
-//			if(cnt > 0) userResult.add(userService.getLoginUserInfo(user));
-			response.getWriter().print(cnt);
-			response.getWriter().flush();
-			response.getWriter().close();
-//			new Gson().toJson(userResult,response.getWriter());
+	@RequestMapping(value="/doChange", method=RequestMethod.POST)
+	@ResponseBody
+	public void doChange(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("UTF-8");
+		String sessionUserId = ((UserDto)session.getAttribute("loginUserInfo")).getUserId();
+		if (!sessionUserId.equals(user.getUserId())) {
+			response.getWriter().print(0);
 		}
+		String pattern1 = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z[0-9]$@$!%*#?&]{6,20}$";
+		String pattern2 = "^[A-Za-z[0-9]]{6,20}$";
+		String pattern3 = "^[[0-9]$@$!%*#?&]{6,20}$";
+		String pattern4 = "^[[A-Za-z]$@$!%*#?&]{6,20}$";
+		String patternId = "^[a-z]{1}[a-z0-9]{5,19}$";
+		
+		System.out.println(">>>>> doChange user.getPassword() : " + user.getPassword());
+		
+		user.setUserId(user.getUserId().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", ""));
+		if (!user.getUserId().matches(patternId) || (!user.getPassword().matches(pattern1) && !user.getPassword().matches(pattern2) && !user.getPassword().matches(pattern3) && !user.getPassword().matches(pattern4))) {
+			response.getWriter().print(0);
+		}
+		else {
+			if (user.getPassword() != null && !"".equals(user.getPassword())) {
+				user.setPassword(EncryptUtils.getSha256(user.getPassword()));
+			}
+			if (user.getOrgPwd() != null && !"".equals(user.getOrgPwd())) {
+				user.setOrgPwd(EncryptUtils.getSha256(user.getOrgPwd()));
+			}
+			final int cnt = this.userService.updateUserInfo(user);
+			response.getWriter().print(cnt);
+		}
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
 
 	// 인증
 	@RequestMapping(value = "/doOpenCert")
@@ -389,16 +486,19 @@ public class UserController {
 		// 사용자 정보 탈퇴
 		@RequestMapping(value="/doWithdrawal", method=RequestMethod.POST)
 		@ResponseBody
-		public void doWithdrawal(String userId, HttpSession session, HttpServletResponse response) throws Exception {
-			response.setCharacterEncoding("UTF-8");
-			
-			// 사용자 정보 탈퇴
-			int cnt = userService.withdrawUser(userId);
-			if(cnt>0) session.removeAttribute("loginUserInfo");
-			response.getWriter().print(cnt);
-			response.getWriter().flush();
-			response.getWriter().close();
-		}
+		public void doWithdrawal(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
+	        response.setCharacterEncoding("UTF-8");
+	        UserDto userDto = (UserDto)session.getAttribute("loginUserInfo");
+	        user.setUserId(userDto.getUserId());
+	        user.setPassword(EncryptUtils.getSha256(user.getPassword()));
+	        int cnt = this.userService.withdrawUser(user);
+	        if (cnt > 0) {
+	            session.removeAttribute("loginUserInfo");
+	        }
+	        response.getWriter().print(cnt);
+	        response.getWriter().flush();
+	        response.getWriter().close();
+	    }
 		
 		// 수료번호 api 호출
 		@RequestMapping(value = "/callSyncCertIdApi")
@@ -790,26 +890,36 @@ public class UserController {
 		}
 		
 		// id 중복체크
-		@RequestMapping(value="/checkDiCode", method=RequestMethod.POST)
-		@ResponseBody
-		public void checkDiCode(UserDto userdto, HttpSession session, HttpServletResponse response) throws Exception {
-			System.out.println(">>> checkDiCode ciCode : " + userdto.getCiCode());
-			String result = userService.getUserByCIDI(userdto);
-			response.getWriter().print(result);
-			response.getWriter().flush();
-			response.getWriter().close();
-		}
+		@RequestMapping(value = { "/checkCiDiCode" }, method = { RequestMethod.POST })
+	    @ResponseBody
+	    public ModelAndView checkCiDiCode(UserDto userdto, HttpSession session, HttpServletResponse response) throws Exception {
+	        System.out.println(">>> checkDiCode ciCode : " + userdto.getCiCode());
+	        ModelAndView mav = new ModelAndView();
+	        String result = this.userService.getUserByCIDI(userdto);
+	        if (!userdto.getFindType().equals(this.userService.insertCertInfo(userdto.getCiCode() + userdto.getDiCode()))) {
+	            mav.addObject("noCert", (Object)"Y");
+	            mav.setViewName("/member/join2");
+	        }
+	        else if ("N".equals(result)) {
+	            String birthDate = userdto.getBirthDate().substring(0, 4) + "-" + userdto.getBirthDate().substring(4, 6) + "-" + userdto.getBirthDate().substring(6, 8);
+	            String gender = "0".equals(userdto.getGender()) ? "\uc5ec" : "\ub0a8";
+	            mav.addObject("isCert", (Object)"Y");
+	            mav.addObject("birthDate", (Object)birthDate);
+	            mav.addObject("gender", (Object)gender);
+	            mav.addObject("userInfo", (Object)userdto);
+	            mav.setViewName("/member/join3");
+	        }
+	        else {
+	            mav.addObject("existUser", (Object)"Y");
+	            mav.setViewName("/member/join2");
+	        }
+	        return mav;
+	    }
 
 		// 합격자리스트 API 호출 RETURN
 		@RequestMapping(value = "/callApiSelectPassUser")
 		@ResponseBody
 		public void callApiSelectPassUser(String examDate, HttpSession session, HttpServletResponse response) throws Exception {
-			if(!examDate.contains("2022-")) {
-				response.setCharacterEncoding("UTF-8"); 
-				response.setContentType("text/html;charset=UTF-8"); 
-				response.getWriter().print("2022년도 데이터만 조회됩니다");
-				return;
-			}
 			JSONObject result = new JSONObject();
 			result.put("status", "200");
 			result.put("statusMsg", "Success");

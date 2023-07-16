@@ -13,6 +13,7 @@ public class GradeDto {
 	private String passCertId; // 합격인증번호
 	private String regDate;	// 등록일
 	private String modDate;	// 수정일
+	private String examId;
 	
 	public String getReceiptId() {
 		return receiptId;
@@ -62,4 +63,10 @@ public class GradeDto {
 	public void setModDate(String modDate) {
 		this.modDate = modDate;
 	}
+	public String getExamId() {
+        return this.examId;
+    }
+    public void setExamId(String examId) {
+        this.examId = examId;
+    }
 }

@@ -37,8 +37,8 @@ public class UserDao {
 		return this.sqlSession.update(namespace + "updateUserInfo", user);
 	}
 	
-	public int withdrawUser(String userId) {
-		return this.sqlSession.update(namespace + "withdrawUser", userId);
+	public int withdrawUser(UserDto user) {
+		return this.sqlSession.update(namespace + "withdrawUser", user);
 	}
 	
 	public String findUserId(UserDto userDto) {
@@ -59,6 +59,10 @@ public class UserDao {
 	public String getUserByCIDI(UserDto user) {
 		return this.sqlSession.selectOne(namespace + "getUserByCIDI", user);
 	}
+	
+	public String getUserByCIANDDI(final UserDto user) {
+        return (String)this.sqlSession.selectOne(this.namespace + "getUserByCIANDDI", (Object)user);
+    }
 
 	public int dormantAccountProcessing() {
 		return this.sqlSession.update(namespace + "dormantAccountProcessing");

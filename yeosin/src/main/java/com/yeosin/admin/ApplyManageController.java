@@ -783,6 +783,7 @@ public class ApplyManageController {
             examDto.setGradeStatus("N");
             examDto.setReceiptStartDate(examDto.getReceiptStartDate() + " " + request.getParameter("receiptStartTime"));
             examDto.setReceiptEndDate(examDto.getReceiptEndDate() + " " + request.getParameter("receiptEndTime"));
+            examDto.setGradeStartDate(examDto.getGradeStartDate() + " " + request.getParameter("gradeStartTime"));
             
             boolean alertResult = false;
             boolean alertError = true;
@@ -846,6 +847,7 @@ public class ApplyManageController {
             examDto.setGradeEndDate(examDto.getGradeStartDate());
             examDto.setPeriod("0");
             examDto.setGradeStatus("N");
+            examDto.setGradeStartDate(request.getParameter("gradeStartDate") + " " + request.getParameter("gradeStartTime"));
             examDto.setReceiptStartDate(request.getParameter("receiptStartDate") + " " + request.getParameter("receiptStartTime"));
             examDto.setReceiptEndDate(request.getParameter("receiptEndDate") + " " + request.getParameter("receiptEndTime"));
             

@@ -28,7 +28,10 @@
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/myroom/change.js?t=<%= new java.util.Date() %>"></script>
   <script>
   debugger;
-  
+  if(${result != 'Y'}) { 
+	    alert("잘못된 접근입니다.");
+	    location.href = "/www/main.jsp";
+	}
   var isCert = false;
   window.onload = function() { debugger;
 	  var callNumberStr = $("#callNumberStr").val();
@@ -75,13 +78,13 @@
 		isCert = true;
 		debugger;
 		var data = e.data;
-		var birtDate = data.birth.substring(0, 4) + "-"
+		var birthDate = data.birth.substring(0, 4) + "-"
 			+ data.birth.substring(4, 6) + "-"
 			+ data.birth.substring(6, 8);
 		var gender = data.gender == 0 ? "여" : "남"
 		$("#userName").text(data.name);
-		$("#birthDate").text(birtDate);
-		$("#birthDate").attr("value", birtDate);
+		$("#birthDate").text(birthDate);
+		$("#birthDate").attr("value", birthDate);
 		$("#gender").text(gender);
 		$("#gender").attr("value", gender);
 		$("#diCode").val(data.diCode);
@@ -130,7 +133,13 @@
           <td id="userName">${userInfo.userName}</td>
         </tr>
         <tr>
-            <th class="essential">비밀번호</th>
+            <th class="essential">기존 비밀번호</th>
+            <td>
+              <input type="password" name="" value="" id="orgPwd">
+            </td>
+        </tr>
+        <tr>
+            <th class="essential">새 비밀번호</th>
             <td>
               <input type="password" name="" value="" id="userPwd">
             </td>
@@ -216,6 +225,10 @@
       </table>
       <a onclick="return false;" class="btn_apply" id="btn_save">저장하기</a>
     </section>
+    
+    <input type="hidden" name="diCode" id="diCode" value="">	
+	<input type="hidden" name="ciCode" id="ciCode" value="">	
+		
     
     <form name="form_chk" method="post">
 		<input type="hidden" name="m" value="checkplusService">						<!-- 필수 데이타로, 누락하시면 안됩니다.휴대폰,공동 -->

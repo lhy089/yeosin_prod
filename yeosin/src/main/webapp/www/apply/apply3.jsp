@@ -26,7 +26,18 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=<%= new java.util.Date() %>"></script>
 </head>
-
+<script>
+if(${isAlert}) { 
+	if(${resultCd == 1}){
+		alert("등록되어있는 교육증 수료번호가 아닙니다.\n교육과정 및 수료증번호를 다시 확인해 주시기 바랍니다.");
+	}else if(${resultCd == 2}){
+		alert("해당 교육 수료번호는 현재날짜 기준으로 1년이상이 지난 교육 수료번호입니다.\n교육과정 및 수료증번호를 다시 확인해 주시기 바랍니다.");
+	}else if(${resultCd == 3}) {
+		alert("오류가 발생했습니다.\n다음단계로 진행할 수 없습니다.");
+	}
+    
+}
+</script>
 <body>
 
 <!--?php include_once "../common/header.php";?-->
@@ -65,7 +76,7 @@
       <a href="/change" class="btn_change">개인정보 변경</a>
 
       <h2>교육수료정보</h2>
-      <form action="/apply4" method="post" onsubmit="return doCompleted();">
+      <form action="/apply4" method="post">
 	      <table>
 	        <colgroup>
 	          <col width="20.5%">
@@ -101,7 +112,8 @@
 		 - 보험연수원 수료증 : C012345678912-01234<br/>  
         </p>
       </div>
-	      <input type="hidden" value="${examInfo.examId}" id="examId" name="examId"/>
+      	<input type="hidden" value="${examInfo.examId}" id="examId" name="examId"/>
+      	<input type="hidden" value="${examInfo.examDate}" id="examDate" name="examDate"/>
 	      <input type="hidden" value="${local}" id="local" name="local"/>
 	      <input type="hidden" value="${userInfo.userName}" id="userName" name="userName"/>
 	      <input type="hidden" value="${userInfo.gender}" id="gender" name="gender"/>

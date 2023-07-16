@@ -436,7 +436,7 @@
     		(RECEIPTID, ISQUIT, ALLSCORE, ISPASS, ISQUAL, PASSCERTID, REGDATE, MODDATE)
     	VALUES
     	<foreach collection="list" item="item" separator=" , " >
-        	((SELECT RECEIPTID FROM YS_RECEIPT WHERE STUDENTCODE = "${item.receiptId}"), "${item.isQuit}", "${item.allScore}", "${item.isPass}", "${item.isQual}" , "${item.passCertId}", now(), now())
+        	((SELECT RECEIPTID FROM YS_RECEIPT WHERE STUDENTCODE = "${item.receiptId}" AND EXAMID = "${item.examId}"), "${item.isQuit}", "${item.allScore}", "${item.isPass}", "${item.isQual}" , "${item.passCertId}", now(), now())
    	 	</foreach>
    	 	ON DUPLICATE KEY UPDATE 
    	 		ALLSCORE = VALUES(allScore),
@@ -822,6 +822,7 @@
 			, 	DATE_FORMAT(CERTPRINTSTARTDATE, '%Y-%m-%d') 	AS CERTPRINTSTARTDATE
 			,	DATE_FORMAT(CERTPRINTENDDATE, '%Y-%m-%d') 		AS CERTPRINTENDDATE
 			,	DATE_FORMAT(GRADESTARTDATE, '%Y-%m-%d') 		AS GRADESTARTDATE
+			, 	DATE_FORMAT(GRADESTARTDATE, '%H:%i') 			AS GRADESTARTTIME
 			,	DATE_FORMAT(GRADEENDDATE, '%Y-%m-%d') 			AS GRADEENDDATE
 			,	EXAMCOST 
 		FROM 	YS_EXAM

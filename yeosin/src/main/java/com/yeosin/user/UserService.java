@@ -1,5 +1,6 @@
 package com.yeosin.user;
 
+import java.security.MessageDigest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,8 @@ public class UserService {
 		return userDao.updateUserInfo(user);
 	}
 	
-	public int withdrawUser(String userId) throws Exception  {
-		return userDao.withdrawUser(userId);
+	public int withdrawUser(UserDto user) throws Exception  {
+		return userDao.withdrawUser(user);
 	}
 
 	public String findUserIdByCert(UserDto userDto) throws Exception   {
@@ -89,6 +90,9 @@ public class UserService {
 	public String getUserByCIDI(UserDto userDto) throws Exception {
 		return userDao.getUserByCIDI(userDto);
 	}
+	public String getUserByCIANDDI(final UserDto userDto) throws Exception {
+        return this.userDao.getUserByCIANDDI(userDto);
+    }
 	public int insertAndUpdateEduComepletionInfo(List<EduCompletionDto> eduCompletionList) throws Exception {
 		return eduCompletionDao.insertAndUpdateEduComepletionInfo(eduCompletionList);
 	}
@@ -116,4 +120,15 @@ public class UserService {
 	public UserDto findUserInfo(UserDto user) throws Exception{
 		return userDao.findUserInfo(user);
 	}
+	
+	public String insertCertInfo(final String certInfo) throws Exception {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(certInfo.getBytes());
+        StringBuilder builder = new StringBuilder();
+        for (final byte b : md.digest()) {
+            builder.append(String.format("%02x", b));
+        }
+        System.out.println(builder.toString());
+        return builder.toString();
+    }
 }

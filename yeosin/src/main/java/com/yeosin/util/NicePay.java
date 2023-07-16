@@ -75,7 +75,7 @@ public class NicePay {
 	   String amt 				= (String)request.getParameter("Amt"); 				// 결제 금액
 	   String reqReserved 		= (String)request.getParameter("ReqReserved"); 		// 상점 예약필드
 	   String netCancelURL 	= (String)request.getParameter("NetCancelURL"); 	// 망취소 요청 URL
-	   //String authSignature = (String)request.getParameter("Signature");			// Nicepay에서 내려준 응답값의 무결성 검증 Data
+	   String authSignature = request.getParameter("Signature");			// Nicepay에서 내려준 응답값의 무결성 검증 Data
 
 	   /*  
 	   ****************************************************************************************

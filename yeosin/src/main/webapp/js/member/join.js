@@ -5,30 +5,12 @@ $(document).ready(function(){
    		if(isNotChecked > 0) {
    			alert("회원가입 약관 동의가 필요합니다.")
    		}else {
-   	   		$(".provision").hide();
-   	   		$(".certification").show();
-   	   		$(".entry").hide();
-   	   		$(".finish").hide();
-
-   	   /*
-   	 	setTimeout(function(){
-   	 		
-   	 	alert("미구현 된 기능입니다. 확인을 클릭하시면 다음 화면으로 넘어갑니다.");
-    	   
-	   		$(".intro").hide();
-   		$(".provision").hide();
-   		$(".certification").hide();
-   		$(".entry").show();
-   		$(".finish").hide();
-   	 		
-   	 	}, 1000);
-   	 	*/
-   	   		
+   	   		location.href="/join2";
    		}
    });
    
    $('#btn_doJoinFinish').click(function(){
-	   doJoin();
+	   doJoinForm();
    });
    
    $('#userId').blur(function(){ 
@@ -72,8 +54,7 @@ var isCheckId = 0;
 function isCheckIdFalse() {
 	isCheckId = 0;
 }
-
-function doJoin() {
+function doJoinForm() {
 	if(!isValid()) return false;
 	var callNumber = "";
 	var phoneNumber = "";
@@ -83,52 +64,23 @@ function doJoin() {
 	if($("#phoneNumber2").val() && $("#phoneNumber3").val()) {
 		phoneNumber = $("#phoneNumber option:selected").val()+"-"+$("#phoneNumber2").val()+"-"+$("#phoneNumber3").val();
 	}
-	var joinData = {
-			userName : $('#userName').text(), 
-			userId:$('#userId').val(),
-			password:$('#userPwd').val(),
-			callNumber:callNumber,
-			phoneNumber:phoneNumber,
-			emailAddress:$('#emailAddress').val(),
-			isReceiveSms:$("#isReceiveSms").is(":checked") ? "Y" : "N",
-			isReceiveEmail:$("#isReceiveEmail").is(":checked") ? "Y" : "N",
-			birthDate:$("#birth").text(),
-			gender:$("#gender").text(),
-			diCode:$('#diCode').val(),
-			ciCode:$('#ciCode').val()
-			};
-	$.ajax({
-        type: "POST",
-        url: "/doJoin",
-        data: joinData,
-        sendDataType : 'string',
-        success: function(data) {
-            if(data != null) {
-            	var userInfo = JSON.parse(data)[0];
-            	alert("회원가입이 완료 되었습니다.")
-            	
-            	$("#userInfo_name").text(userInfo.userName);
-   	   			$("#userInfo_id").text(userInfo.userId);
-   	   			$("#userInfo_callNumber").text(userInfo.callNumber);
-   	   			$("#userInfo_phoneNumber").append(userInfo.phoneNumber);
-   	   			$("#userInfo_emailAddress").append(userInfo.emailAddress);
-   	   			if(userInfo.isReceiveSms=="Y") $("#userInfo_isReceiveSms").prop("checked","checked");
-   	   			if(userInfo.isReceiveEmail=="Y") $("#userInfo_isReceiveEmail").prop("checked","checked");
-            	
-            	$(".intro").hide();
-   	   			$(".provision").hide();
-   	   			$(".certification").hide();
-   	   			$(".entry").hide();
-   	   			$(".finish").show();
-   	   			
-            }else {
-            	$('#id').val("");
-        		$('#pwd').val("");
-        		$('#id').focus();
-            	alert("회원 정보가 존재하지 않거나 일치하지 않습니다.")
-            }
-        }
-      });
+	
+	$('#userNameForm').val($('#userName').text());
+	$('#userIdForm').val($('#userId').val());
+	$('#passwordForm').val($('#userPwd').val());
+	$('#callNumberForm').val(callNumber);
+	$('#phoneNumberForm').val(phoneNumber);
+	$('#emailAddressForm').val($('#emailAddress').val());
+	var isReceiveSmsForm = $("#isReceiveSms").is(":checked") ? "Y" : "N";
+	var isReceiveEmailForm = $("#isReceiveEmail").is(":checked") ? "Y" : "N";
+	$('#isReceiveSmsForm').val(isReceiveSmsForm);
+	$('#isReceiveEmailForm').val(isReceiveEmailForm);
+	$('#birthDateForm').val($("#birth").text());
+	$('#genderForm').val($("#gender").text());
+	$('#diCodeForm').val($('#diCode').val());
+	$('#ciCodeForm').val($('#ciCode').val());
+	
+	$("#joinForm").submit();
 }
 
 function isValid() {

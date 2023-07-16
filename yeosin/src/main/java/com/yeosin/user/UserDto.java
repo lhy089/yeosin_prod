@@ -33,6 +33,7 @@ public class UserDto {
 	private String third_schedulDate; 	// 3차 처리완료 안내일
 	
 	private String findType; //H, M
+	private String orgPwd;
 	
 	private EduCompletionDto eduCompletionDto;
 	
@@ -197,6 +198,12 @@ public class UserDto {
 	public void setFindType(String findType) {
 		this.findType = findType;
 	}
+	public String getOrgPwd() {
+        return this.orgPwd;
+    }
+    public void setOrgPwd(final String orgPwd) {
+        this.orgPwd = orgPwd;
+    }
 //	public String getIsCheckGeneralGrade() {
 //		return isCheckGeneralGrade;
 //	}

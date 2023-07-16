@@ -15,7 +15,7 @@
           <li><a href="#none" class="btn_siteMap">사이트맵</a></li>
         </ul>
         서울특별시 중구 다동길 43(다동 70번지) 한외빌딩 12~13층<span class="mo"></span> 여신금융협회 (04521)<br/>
-        상호명 : (사)한국여신전문금융업협회 <span class="mo"></span> 사업자등록번호 : 202-82-05723 &nbsp;대표자 : 김주현<br/>
+        상호명 : (사)한국여신전문금융업협회 <span class="mo"></span> 사업자등록번호 : 202-82-05723 &nbsp;대표자 : 정완규<br/>
         <span class="copyright">COPYRIGHT© THE CREDIT FINANCE ASSOCIATION ALL RIGHTS RESERVED</span>
       </div>
     </div>
@@ -70,7 +70,7 @@
        		<dt class="gray"><a onclick="return false;" name="btn_logout" id="btn_logout">로그아웃</a></dt>
     	</c:when>
     	<c:otherwise>
-    		<dt class="gray"><a href="/join">회원가입</a></dt>
+    		<dt class="gray"><a href="/join1">회원가입</a></dt>
           	<dt class="gray"><a href="/www/member/login.jsp" id="btn_login">로그인</a></dt>
     	</c:otherwise>
    		</c:choose>

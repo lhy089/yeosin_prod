@@ -171,6 +171,7 @@ public class ApplyController {
 		paremterMap.put("birthDate", requestMap.get("birthDate"));
 		paremterMap.put("eduNum", requestMap.get("eduNum"));
 		paremterMap.put("examId", requestMap.get("examId"));
+		paremterMap.put("examDate", requestMap.get("examDate"));
 		paremterMap.put("subjectId", requestMap.get("subjectId"));
 		
 		// AJAX로 넘겨줄 데이터
@@ -214,15 +215,13 @@ public class ApplyController {
 	// 팝업 이미지 보여주기
 	@RequestMapping(value="/searchImageView", method=RequestMethod.GET)
 	@ResponseBody
-	public  Map<String, String> searchImageView(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	public void searchImageView(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{		
-		FileDto fileInfo = applyService.getFileInfo(request.getParameter("fileId"));
-		// AJAX로 넘겨줄 데이터
-		Map<String, String> resultMap = new HashMap<String, String>();
-		resultMap.put("fileUrl", fileInfo.getFileURL());
-		resultMap.put("localFileName", fileInfo.getLocalFileName());
-
-		return resultMap;
+		FileDto fileInfo = this.applyService.getFileInfo(request.getParameter("fileId"));
+        File file = new File(fileInfo.getFileURL() + fileInfo.getLocalFileName());
+        byte[] imageData = Files.readAllBytes(file.toPath());
+        response.setContentType("image/jpeg");
+        response.getOutputStream().write(imageData);
 	}
 
 	// 고사장 잔여좌석 조회
@@ -255,19 +254,43 @@ public class ApplyController {
 
 		if (userInfo != null) 
 		{
-			ExamDto examInfo = applyService.getExamInfo2(request.getParameter("examId"));
-	         
-	         Map<String, Object> paremterMap = new HashMap<String, Object>();
-	         paremterMap.put("examId", request.getParameter("examId"));
-	         paremterMap.put("local", request.getParameter("local"));
-	         
-	         //List<ExamZoneDto> examZoneDetailList = applyService.getExamDetailList(examInfo.getExamId());
-	         List<ExamZoneDto> examZoneDetailList = applyService.getExamDetailListByLocal(paremterMap);
-	         mav.addObject("examZoneDtailList", examZoneDetailList);
-	         mav.addObject("examInfo", examInfo);
-	         mav.addObject("userInfo", userInfo);
-	         mav.addObject("subjectId", request.getParameter("subjectType"));
-	         mav.setViewName("apply/apply4");
+			String isPassEdu = "N";
+            String isValidCertDate = "N";
+            Map<String, Object> eduInfoMap = new HashMap<String, Object>();
+            eduInfoMap.put("userId", userInfo.getUserId());
+            eduInfoMap.put("userName", request.getParameter("userName"));
+            eduInfoMap.put("gender", request.getParameter("gender"));
+            eduInfoMap.put("birthDate", request.getParameter("birthDate"));
+            eduInfoMap.put("eduNum", request.getParameter("eduNum"));
+            eduInfoMap.put("examId", request.getParameter("examId"));
+            eduInfoMap.put("examDate", request.getParameter("examDate"));
+            eduInfoMap.put("subjectId", request.getParameter("subjectType"));
+            isPassEdu = this.applyService.getIsCompleteEdu(eduInfoMap);
+            isValidCertDate = this.applyService.getIsValidCertDate((Map)eduInfoMap);
+            if ("Y".equals(isPassEdu) && "Y".equals(isValidCertDate)) {
+                ExamDto examInfo = this.applyService.getExamInfo2(request.getParameter("examId"));
+                Map<String, Object> paremterMap = new HashMap<String, Object>();
+                paremterMap.put("examId", request.getParameter("examId"));
+                paremterMap.put("local", request.getParameter("local"));
+                List<ExamZoneDto> examZoneDetailList = (List<ExamZoneDto>)this.applyService.getExamDetailListByLocal((Map)paremterMap);
+                mav.addObject("examZoneDtailList", (Object)examZoneDetailList);
+                mav.addObject("examInfo", (Object)examInfo);
+                mav.addObject("userInfo", (Object)userInfo);
+                mav.addObject("subjectId", (Object)request.getParameter("subjectType"));
+                mav.setViewName("apply/apply4");
+            }
+            else {
+                ExamDto examInfo = this.applyService.getExamInfo2(request.getParameter("examId"));
+                List<SubjectDto> subjectInfo = (List<SubjectDto>)this.applyService.getSujectListByExamId(request.getParameter("examId"));
+                String resultCd = "N".equals(isPassEdu) ? "1" : ("N".equals(isValidCertDate) ? "2" : "3");
+                mav.addObject("isAlert", (Object)true);
+                mav.addObject("resultCd", (Object)resultCd);
+                mav.addObject("examInfo", (Object)examInfo);
+                mav.addObject("subjectInfo", (Object)subjectInfo);
+                mav.addObject("userInfo", (Object)userInfo);
+                mav.addObject("local", (Object)request.getParameter("local"));
+                mav.setViewName("apply/apply3");
+            }
 		}
 		else 
 		{
@@ -387,6 +410,16 @@ public class ApplyController {
 			}
 			else 
 			{
+				ExamDto examDto = new ExamDto();
+                examDto.setExamId(request.getParameter("examId"));
+                examDto.setExamCost(request.getParameter("Amt"));
+                if ("N".equals(this.applyService.getAmtValidCheck(examDto))) {
+                    mav.addObject("resultCode", (Object)null);
+                    mav.addObject("isSuccess", (Object)"N");
+                    mav.setViewName("apply/apply6");
+                    return mav;
+                }
+                
 				// 2. 접수번호를 생성하기 위해 MAX값을 가져온다.
 				long newMaxReceiptNumber = Long.parseLong(applyService.getMaxReceiptNumber()) + 1;
 				String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);
@@ -908,8 +941,10 @@ public class ApplyController {
 	   ****************************************************************************************
 	    */
 	   
+	   String authSignature = request.getParameter("Signature");
 	   String merchantKey 		= "1q8Rl7lwsYz1YaneFJ/mUIwNgh9y/12OcHoMVtR0CqnVnUf5WAPGxF95+jOo29PhSl1RGjSxnzhRB3xvmFEK7w=="; // 상점키
-
+	   String authComparisonSignature = this.encrypt(authToken + mid + amt + merchantKey);
+	   
 	   //인증 응답 Signature = hex(sha256(AuthToken + MID + Amt + MerchantKey)
 	   //String authComparisonSignature = sha256Enc.encrypt(authToken + mid + amt + merchantKey);
 
@@ -931,93 +966,94 @@ public class ApplyController {
 	   ****************************************************************************************
 	   */
 	   String resultJsonStr = "";
-	   if(authResultCode.equals("0000") /*&& authSignature.equals(authComparisonSignature)*/){
-	   	/*
-	   	****************************************************************************************
-	   	* <해쉬암호화> (수정하지 마세요)
-	   	* SHA-256 해쉬암호화는 거래 위변조를 막기위한 방법입니다. 
-	   	****************************************************************************************
-	   	*/
-	   	String ediDate			= this.getyyyyMMddHHmmss();
-	   	String signData 		= this.encrypt(authToken + mid + amt + ediDate + merchantKey);
+	   if(authResultCode.equals("0000") && authSignature.equals(authComparisonSignature)){
+		   /*
+		    ****************************************************************************************
+		    * <해쉬암호화> (수정하지 마세요)
+		    * SHA-256 해쉬암호화는 거래 위변조를 막기위한 방법입니다. 
+		    ****************************************************************************************
+		    */
+		   String ediDate			= this.getyyyyMMddHHmmss();
+		   String signData 		= this.encrypt(authToken + mid + amt + ediDate + merchantKey);
 
-	   	/*
-	   	****************************************************************************************
-	   	* <승인 요청>
-	   	* 승인에 필요한 데이터 생성 후 server to server 통신을 통해 승인 처리 합니다.
-	   	****************************************************************************************
-	   	*/
-	   	StringBuffer requestData = new StringBuffer();
-	   	requestData.append("TID=").append(txTid).append("&");
-	   	requestData.append("AuthToken=").append(authToken).append("&");
-	   	requestData.append("MID=").append(mid).append("&");
-	   	requestData.append("Amt=").append(amt).append("&");
-	   	requestData.append("EdiDate=").append(ediDate).append("&");
-	   	requestData.append("CharSet=").append("utf-8").append("&");
-	   	requestData.append("SignData=").append(signData);
+		   /*
+		    ****************************************************************************************
+		    * <승인 요청>
+		    * 승인에 필요한 데이터 생성 후 server to server 통신을 통해 승인 처리 합니다.
+		    ****************************************************************************************
+		    */
+		   StringBuffer requestData = new StringBuffer();
+		   requestData.append("TID=").append(txTid).append("&");
+		   requestData.append("AuthToken=").append(authToken).append("&");
+		   requestData.append("MID=").append(mid).append("&");
+		   requestData.append("Amt=").append(amt).append("&");
+		   requestData.append("EdiDate=").append(ediDate).append("&");
+		   requestData.append("CharSet=").append("utf-8").append("&");
+		   requestData.append("SignData=").append(signData);
 
-	   	resultJsonStr = connectToServer(requestData.toString(), nextAppURL);
+		   resultJsonStr = connectToServer(requestData.toString(), nextAppURL);
 
-	   	HashMap resultData = new HashMap();
-	   	boolean paySuccess = false;
-	   	if("9999".equals(resultJsonStr)){
-	   		/*
-	   		*************************************************************************************
-	   		* <망취소 요청>
-	   		* 승인 통신중에 Exception 발생시 망취소 처리를 권고합니다.
-	   		*************************************************************************************
-	   		*/
-	   		StringBuffer netCancelData = new StringBuffer();
-	   		requestData.append("&").append("NetCancel=").append("1");
-	   		String cancelResultJsonStr = connectToServer(requestData.toString(), netCancelURL);
-	   		
-	   		HashMap cancelResultData = jsonStringToHashMap(cancelResultJsonStr);
-	   		ResultCode = (String)cancelResultData.get("ResultCode");
-	   		ResultMsg = (String)cancelResultData.get("ResultMsg");
-	   		/*Signature = (String)cancelResultData.get("Signature");
+		   HashMap resultData = new HashMap();
+		   boolean paySuccess = false;
+		   if("9999".equals(resultJsonStr)){
+			   /*
+			    *************************************************************************************
+			    * <망취소 요청>
+			    * 승인 통신중에 Exception 발생시 망취소 처리를 권고합니다.
+			    *************************************************************************************
+			    */
+			   StringBuffer netCancelData = new StringBuffer();
+			   requestData.append("&").append("NetCancel=").append("1");
+			   String cancelResultJsonStr = connectToServer(requestData.toString(), netCancelURL);
+
+			   HashMap cancelResultData = jsonStringToHashMap(cancelResultJsonStr);
+			   ResultCode = (String)cancelResultData.get("ResultCode");
+			   ResultMsg = (String)cancelResultData.get("ResultMsg");
+			   /*Signature = (String)cancelResultData.get("Signature");
 	   		String CancelAmt = (String)cancelResultData.get("CancelAmt");
 	   		paySignature = sha256Enc.encrypt(TID + mid + CancelAmt + merchantKey);*/
-	   	}else{
-	   		resultData = jsonStringToHashMap(resultJsonStr);
-	   		ResultCode 	= (String)resultData.get("ResultCode");	// 결과코드 (정상 결과코드:3001)
-	   		ResultMsg 	= (String)resultData.get("ResultMsg");	// 결과메시지
-	   		PayMethod 	= (String)resultData.get("PayMethod");	// 결제수단
-	   		GoodsName   = (String)resultData.get("GoodsName");	// 상품명
-	   		Amt       	= (String)resultData.get("Amt");		// 결제 금액
-	   		TID       	= (String)resultData.get("TID");		// 거래번호
-	   		// Signature : Nicepay에서 내려준 응답값의 무결성 검증 Data
-	   		// 가맹점에서 무결성을 검증하는 로직을 구현하여야 합니다.
-	   		/*Signature = (String)resultData.get("Signature");
+		   }else{
+			   resultData = jsonStringToHashMap(resultJsonStr);
+			   ResultCode 	= (String)resultData.get("ResultCode");	// 결과코드 (정상 결과코드:3001)
+			   ResultMsg 	= (String)resultData.get("ResultMsg");	// 결과메시지
+			   PayMethod 	= (String)resultData.get("PayMethod");	// 결제수단
+			   GoodsName   = (String)resultData.get("GoodsName");	// 상품명
+			   Amt       	= (String)resultData.get("Amt");		// 결제 금액
+			   TID       	= (String)resultData.get("TID");		// 거래번호
+			   // Signature : Nicepay에서 내려준 응답값의 무결성 검증 Data
+			   // 가맹점에서 무결성을 검증하는 로직을 구현하여야 합니다.
+			   /*Signature = (String)resultData.get("Signature");
 	   		paySignature = sha256Enc.encrypt(TID + mid + Amt + merchantKey);*/
-	   		
-	   		/*
-	   		*************************************************************************************
-	   		* <결제 성공 여부 확인>
-	   		*************************************************************************************
-	   		*/
-	   		if(PayMethod != null){
-	   			if(PayMethod.equals("CARD")){
-	   				if(ResultCode.equals("3001")) paySuccess = true; // 신용카드(정상 결과코드:3001)       	
-	   			}else if(PayMethod.equals("BANK")){
-	   				if(ResultCode.equals("4000")) paySuccess = true; // 계좌이체(정상 결과코드:4000)	
-	   			}else if(PayMethod.equals("CELLPHONE")){
-	   				if(ResultCode.equals("A000")) paySuccess = true; // 휴대폰(정상 결과코드:A000)	
-	   			}else if(PayMethod.equals("VBANK")){
-	   				if(ResultCode.equals("4100")) paySuccess = true; // 가상계좌(정상 결과코드:4100)
-	   			}else if(PayMethod.equals("SSG_BANK")){
-	   				if(ResultCode.equals("0000")) paySuccess = true; // SSG은행계좌(정상 결과코드:0000)
-	   			}else if(PayMethod.equals("CMS_BANK")){
-	   				if(ResultCode.equals("0000")) paySuccess = true; // 계좌간편결제(정상 결과코드:0000)
-	   			}
-	   		}
-	   	}
-	   }else/*if(authSignature.equals(authComparisonSignature))*/{
-	   	ResultCode 	= authResultCode; 	
-	   	ResultMsg 	= authResultMsg;
-	   }/*else{
-	   	System.out.println("인증 응답 Signature : " + authSignature);
-	   	System.out.println("인증 생성 Signature : " + authComparisonSignature);
-	   }*/
+
+			   /*
+			    *************************************************************************************
+			    * <결제 성공 여부 확인>
+			    *************************************************************************************
+			    */
+			   if(PayMethod != null){
+				   if(PayMethod.equals("CARD")){
+					   if(ResultCode.equals("3001")) paySuccess = true; // 신용카드(정상 결과코드:3001)       	
+				   }else if(PayMethod.equals("BANK")){
+					   if(ResultCode.equals("4000")) paySuccess = true; // 계좌이체(정상 결과코드:4000)	
+				   }else if(PayMethod.equals("CELLPHONE")){
+					   if(ResultCode.equals("A000")) paySuccess = true; // 휴대폰(정상 결과코드:A000)	
+				   }else if(PayMethod.equals("VBANK")){
+					   if(ResultCode.equals("4100")) paySuccess = true; // 가상계좌(정상 결과코드:4100)
+				   }else if(PayMethod.equals("SSG_BANK")){
+					   if(ResultCode.equals("0000")) paySuccess = true; // SSG은행계좌(정상 결과코드:0000)
+				   }else if(PayMethod.equals("CMS_BANK")){
+					   if(ResultCode.equals("0000")) paySuccess = true; // 계좌간편결제(정상 결과코드:0000)
+				   }
+			   }
+		   }
+	   }else if (authSignature.equals(authComparisonSignature)) {
+		   ResultCode = authResultCode;
+		   ResultMsg = authResultMsg;
+	   }
+	   else {
+		   System.out.println("\uc778\uc99d \uc751\ub2f5 Signature : " + authSignature);
+		   System.out.println("\uc778\uc99d \uc0dd\uc131 Signature : " + authComparisonSignature);
+	   }
 	   resultMap.put("ResultCode", ResultCode);
 	   resultMap.put("ResultMsg", ResultMsg);
 	   resultMap.put("PayMethod", PayMethod);
@@ -1266,6 +1302,16 @@ public class ApplyController {
 			}
 			else 
 			{
+				ExamDto examDto = new ExamDto();
+                examDto.setExamId(sessionExamInfo.getExamId());
+                examDto.setExamCost(request.getParameter("Amt"));
+                if ("N".equals(this.applyService.getAmtValidCheck(examDto))) {
+                    mav.addObject("resultCode", (Object)null);
+                    mav.addObject("isSuccess", (Object)"N");
+                    mav.setViewName("apply/apply6");
+                    return mav;
+                }
+                
 				// 2. 접수번호를 생성하기 위해 MAX값을 가져온다.
 				long newMaxReceiptNumber = Long.parseLong(applyService.getMaxReceiptNumber()) + 1;
 				String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);
@@ -1425,6 +1471,16 @@ public class ApplyController {
 			}
 			else 
 			{
+				ExamDto examDto = new ExamDto();
+                examDto.setExamId(examInfo.getExamId());
+                examDto.setExamCost(request.getParameter("Amt"));
+                if ("N".equals(this.applyService.getAmtValidCheck(examDto))) {
+                    mav.addObject("resultCode", (Object)null);
+                    mav.addObject("isSuccess", (Object)"N");
+                    mav.setViewName("apply/apply6");
+                    return mav;
+                }
+                
 				// 2. 접수번호를 생성하기 위해 MAX값을 가져온다.
 				long newMaxReceiptNumber = Long.parseLong(applyService.getMaxReceiptNumber()) + 1;
 				String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);

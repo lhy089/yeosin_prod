@@ -175,4 +175,8 @@ public class ApplyService {
 	public FileDto getFileInfo(String localFileName) throws Exception{
 		return applyDao.getFileInfo(localFileName);
 	}
+	
+	public String getAmtValidCheck(ExamDto examDto) throws Exception {
+        return this.examDao.getAmtValidCheck(examDto);
+    }
 }

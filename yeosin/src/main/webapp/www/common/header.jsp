@@ -45,7 +45,7 @@
     <c:otherwise>
     <div class="btnWrap">
       <a href="/www/member/login.jsp" id="btn_login">로그인</a>
-      <a href="/join">회원가입</a>
+      <a href="/join1">회원가입</a>
       </div>
     </c:otherwise>
     </c:choose>
@@ -153,7 +153,7 @@
     <c:otherwise>
     <div class="btnWrap">
       	<a href="/www/member/login.jsp" id="btn_login">로그인</a>
-      	<a href="/join">회원가입</a>
+      	<a href="/join1">회원가입</a>
     </div>
     </c:otherwise>
     </c:choose>

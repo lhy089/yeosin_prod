@@ -74,7 +74,7 @@
   <div class="contentBoxAd">
     <h1 class="title">회원관리</h1>
     <form action="/memberCourseViewMng" method="GET" onsubmit="return setSubjectValue();">
-    <input type="hidden" value="<%=request.getParameter("apiSyncId")%>" id="apiSyncId" name="apiSyncId"/>
+<%--     <input type="hidden" value="<%=request.getParameter("apiSyncId")%>" id="apiSyncId" name="apiSyncId"/> --%>
     <h2>교육수료정보</h2>
     <table>
       <colgroup>

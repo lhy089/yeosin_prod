@@ -78,6 +78,7 @@
         <col width="14%">
         <col width="23%">
       </colgroup>
+      <!-- 
       <tr>
         <th>실행 시간 입력</th>
         <td>
@@ -89,6 +90,7 @@
         <th>호출 주소 설정</th>
         <td><input type="text" name="" value=""></td>
       </tr>
+       -->
       <tr>
         <th>목록건수</th>
           <td>

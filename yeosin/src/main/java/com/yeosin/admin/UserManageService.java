@@ -322,6 +322,7 @@ public class UserManageService {
 			for(ApplyDto excel : list) {
 				String passCertId = passCertIdForm;
 				GradeDto gradeInfo = new GradeDto();
+				gradeInfo.setExamId(examId);
 				gradeInfo.setReceiptId(excel.getStudentCode());
 				gradeInfo.setIsQuit("");
 				gradeInfo.setAllScore(excel.getGradeDto().getAllScore());
@@ -337,6 +338,7 @@ public class UserManageService {
 				}
 				//							System.out.println("cnt ::: " + cnt + ", gradeInfo.getReceiptId :::::::::::: " + gradeInfo.getReceiptId());
 				gradeList.add(gradeInfo);
+				System.out.println(">> gradeInfo :::::::::::: " + gradeInfo.getReceiptId());
 			}
 
 			System.out.println("gradeList.size :: " + gradeList.size());

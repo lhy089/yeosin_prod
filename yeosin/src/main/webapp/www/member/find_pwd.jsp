@@ -41,67 +41,6 @@
     <div class="choice">
       <h2>비밀번호를 찾는 방법을 선택해주세요</h2>
       <ul>
-        <!-- 휴대폰으로 찾기// -->
-        <li>
-          <h4><a href="#none">회원정보에 등록 된 휴대폰으로 찾기</a></h4>
-          <div class="proveBox">
-<!--           <p>서비스 준비 중입니다.</p> -->
-          <p>회원정보에 등록한 휴대폰 번호와 입력한 휴대폰 번호가 같아야 임시 비밀번호를 받을 수 있습니다.</p>
-            <table>
-              <colgroup>
-                <col width="20.5%">
-                <col width="*">
-              </colgroup>
-              <tr>
-                <th>이름</th>
-                <td>
-                  <input type="text" id="userName" name="" value="">
-                </td>
-              </tr>
-              <tr>
-                <th>휴대전화 번호</th>
-                <td>
-                  <input type="tel" maxlength="3" id="phoneNumber" value="" style="width: 180px;">
-              		- <input type="tel" maxlength="4" id="phoneNumber2" value="" style="width: 180px;">
-              		- <input type="tel" maxlength="4" id="phoneNumber3" value="" style="width: 180px;">
-              		<a href="javascript:fnFindUserInfo('pwd','H');">전송</a>
-              		<a href="#" class="btn_guide phone">문자가 오지 않을 경우</a>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </li>
-        <!-- 휴대폰으로 찾기// -->
-
-        <!-- 이메일로 인증// -->
-        <li>
-          <h4><a href="#none">회원정보에 등록 된 이메일로 인증</a></h4>
-          <div class="proveBox">
-<!--            <p>서비스 준비 중입니다.</p> -->
-            <p>회원정보에 등록한 이메일 주소와 입력한 이메일 주소가 같아야 임시 비밀번호를 받을 수 있습니다.</p>
-            <table>
-              <colgroup>
-                <col width="20.5%">
-                <col width="*">
-              </colgroup>
-              <tr>
-                <th>이름</th>
-                <td>
-                  <input type="text" id="userName2" name="" value="">
-                </td>
-              </tr>
-              <tr>
-                <th>이메일 주소</th>
-                <td>
-                  <input type="email" id="emailAddress" name="" value="" placeholder="이메일 주소 입력"><a href="javascript:fnFindUserInfo('pwd','M');">전송</a>
-                  <a id="findIdByHP" onclick="return false;" class="btn_guide email">메일이 오지 않을 경우</a>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </li>
-        <!-- //이메일로 인증 -->
-
         <!-- 아이핀 본인 인증// -->
         <li>
           <h4><a href="#none">아이핀 본인 인증</a></h4>

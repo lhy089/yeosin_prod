@@ -48,13 +48,16 @@ function doModifyUser() {
 	var joinData = {
 			userId:$('#userId').text(),
 			password:$('#userPwd').val(),
+			orgPwd:$('#orgPwd').val(),
 			callNumber:callNumber,
 			phoneNumber:phoneNumber,
 			emailAddress:$('#emailAddress').val(),
 			isReceiveSms:$("#isReceiveSms").is(":checked") ? "Y" : "N",
 			isReceiveEmail:$("#isReceiveEmail").is(":checked") ? "Y" : "N",
 			birthDate:$("#birthDate").val(),
-			gender:$("#gender").val()
+			gender:$("#gender").val(),
+			ciCode:$("#ciCode").val(),
+			diCode:$("#diCode").val()
 			};
 	$.ajax({
         type: "POST",
@@ -66,7 +69,7 @@ function doModifyUser() {
         		alert("회원정보를 수정 했습니다.");
         		location.href="/www/main.jsp";
         	}else {
-        		
+        		alert("회원정보 수정을 실패했습니다.");
         	}
         }
       });
@@ -85,6 +88,12 @@ function isValid() {
 	var phoneNumber2 = $("#phoneNumber2").val();
 	var phoneNumber3 = $("#phoneNumber3").val();
 	var emailAddress = $("#emailAddress").val();
+	
+	if($('#orgPwd').val() == ''){
+		$('#orgPwd').focus();
+		alert("기존 비밀번호는 필수입니다..")
+		return false;
+	}
 	
 	if(userPwd) {
 	

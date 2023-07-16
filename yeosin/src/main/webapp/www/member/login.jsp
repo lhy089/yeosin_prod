@@ -49,7 +49,7 @@
       <a id="btn_doLogin" onclick="return false;">로그인</a>
     </div>
     <ul class="membership">
-      <li><a href="/join">회원가입</a></li>
+      <li><a href="/join1">회원가입</a></li>
       <li><a href="/find_id">아이디 찾기</a></li>
       <li><a href="/find_pwd">비밀번호 찾기</a></li>
     </ul>

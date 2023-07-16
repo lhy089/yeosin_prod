@@ -378,10 +378,10 @@ public class UserManageController {
 			EduCompletionDtoPageMaker pageMaker = new EduCompletionDtoPageMaker();
 			pageMaker.setEduCompletionDto(eduCompletionDto);
 			pageMaker.setTotalCount(userManageService.getEduCompletionListCount(parameterMap));
-			
+			String pageInit = (request.getParameter("onePageDataCountCondition") == null) ? "30" : request.getParameter("onePageDataCountCondition");
 			mav.addObject("eduCompletionInfo", eduCompletionDto);
 			mav.addObject("eduCompletionList", eduCompletionList);
-			mav.addObject("pageCondition", request.getParameter("onePageDataCountCondition"));
+			mav.addObject("pageCondition", pageInit);
 			mav.addObject("pageMaker", pageMaker);
 			mav.setViewName("admin/member_course_view");
 	    }

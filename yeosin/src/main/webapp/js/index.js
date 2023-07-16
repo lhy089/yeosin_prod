@@ -40,7 +40,7 @@ $(document).ready(function(){
    
     $('#btn_simpleJoin').click(function(){
        console.log("btn_simpleJoin clicked");
-       location.href="member/join.jsp";
+       location.href="member/join1.jsp";
    });
     
     $('.btn_change').click(function(){

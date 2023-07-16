@@ -52,6 +52,7 @@ $(document).ready(function() {
 			   var certPrintStartDate = $("#certPrintStartDate").val();
 			   var certPrintEndDate = $("#certPrintEndDate").val();
 			   var gradeStartDate = $("#gradeStartDate").val();
+			   var gradeStartTime = $("#gradeStartTime").val();
 			   var examCost = $("#examCost").val();
 			   var examZoneId = $("input[name=examZoneId]:checked");
 			   var examRoomCntList ="";
@@ -86,7 +87,7 @@ $(document).ready(function() {
 				   alert("접수기간을 입력해주세요."); return;
 			   }else if(certPrintStartDate == "" || certPrintEndDate == ""){
 				   alert("수험표출력기간을 입력해주세요."); return;
-			   }else if(gradeStartDate == ""){
+			   }else if(gradeStartDate == "" || gradeStartTime == ""){
 				   alert("성적공고기간을 입력해주세요."); return;
 			   }else if(examCost == ""){
 				   alert("시험비용을 입력해주세요."); return;
@@ -105,6 +106,7 @@ $(document).ready(function() {
 			   $("#certPrintStartDate").val(certPrintStartDate);
 			   $("#certPrintEndDate").val(certPrintEndDate);
 			   $("#gradeStartDate").val(gradeStartDate);
+			   $("#gradeStartTime").val(gradeStartTime);
 			   $("#examCost").val(examCost);
 			   $("#examZoneId").val(examZoneId);
 			   $("#examRoomCntList").val(examRoomCntList);
@@ -296,6 +298,14 @@ $(document).ready(function() {
 			</c:when>
 			<c:otherwise>
 				<input type="date" name="gradeStartDate" id="gradeStartDate" value="${examDto.gradeStartDate}"> 
+			</c:otherwise>
+		</c:choose>
+		<c:choose>
+			<c:when test="${examDto.gradeStartDate eq null}">
+	          <input type="time" name="gradeStartTime" id="gradeStartTime" value="10:00">
+			</c:when>
+			<c:otherwise>
+	          <input type="time" name="gradeStartTime" id="gradeStartTime" value="${examDto.gradeStartTime}">
 			</c:otherwise>
 		</c:choose>
         </td>

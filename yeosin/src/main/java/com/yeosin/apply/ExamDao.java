@@ -32,5 +32,9 @@ public class ExamDao {
 	/*public List<ApplyDto> getApplyList(String userId) throws Exception {
 		return sqlSession.selectList(nameSpace + "GetApplyList", userId);
 	}*/
+	
+	public String getAmtValidCheck(ExamDto examDto) {
+        return (String)this.sqlSession.selectOne(nameSpace + "getAmtValidCheck", (Object)examDto);
+    }
 
 }

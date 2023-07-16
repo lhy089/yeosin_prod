@@ -48,7 +48,8 @@ window.addEventListener('message', function(e) {
 		}
 		
 		var inputData = {
-				ciCode:data.ciCode
+				ciCode:data.ciCode,
+				diCode:data.sRequestNumber
 		};
 
 		$.ajax({

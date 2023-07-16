@@ -36,7 +36,7 @@
 	<!-- 로그인 유저의 교육증 수료일 1년 초과여부 조회 -->
 	<select id="getIsValidCertDate" parameterType="map" resultType="String">
 		SELECT 	
-				CASE WHEN CONVERT(NOW(), DATE) >= DATE_ADD(CONVERT(IFNULL(CERTDATE, '1999-01-01'), DATE), INTERVAL 1 YEAR)
+				CASE WHEN CONVERT(REPLACE(#{examDate, jdbcType=VARCHAR},'/','-'), DATE) >= DATE_ADD(CONVERT(IFNULL(CERTDATE, '1999-01-01'), DATE), INTERVAL 1 YEAR)
 					 THEN 'N'
 					 ELSE 'Y' END 		AS ISVALIDCERTDATE
 		FROM 	YS_EDUCOMPLETION

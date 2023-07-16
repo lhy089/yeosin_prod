@@ -33,77 +33,6 @@ function doApplyStart()
 	}	
 }
 
-// 교육증수료번호 체크함수(apply3.jsp)
-function doCompleted() 
-{
-	var subjectType = $('#subjectType').val();
-	var userName = $('#userName').val();
-	var gender = $('#gender').val();
-	var birthDate = $('#birthDate').val();
-	var eduNum = $('#eduNum').val();
-	var examId = $('#examId').val();
-	var subjectId = $('#subjectType').val();
-	var isPassEdu = "N";
-	var isValidCertDate = "N";
-
-	if (subjectType == "*")
-	{
-		alert("교육과정이 선택되지 않았습니다.");
-		return false;	
-	}
-	else if (eduNum == '') 
-	{
-		alert("교육수료증번호는 필수입력입니다.");
-		return false;
-	}
-	
-	$.ajax({
-		url: "/isCompleteEdu",
-        type: "POST",
-        async: false,
-        data: {
-				userName : userName,
-		   		gender : gender,
-		   		birthDate : birthDate,
-		   		eduNum : eduNum,
-		   		examId : examId,
-		   		subjectId : subjectId
-			  },
-        success: function(data) 
-		{
-			console.log("AJAX Request 성공");
-			isPassEdu = data.isPassEdu;
-			isValidCertDate = data.isValidCertDate;
-        },
-        error: function() 
-		{
-           console.log("AJAX Request 실패");
-           isPassEdu = "N";
-           isValidCertDate = "N";
-        }
-	});  
-	
-	if (isPassEdu == "Y" && isValidCertDate == "Y") 
-	{
-		return true;	
-	} 
-	else if (isPassEdu == "N")
-	{
-		alert("등록되어있는 교육증 수료번호가 아닙니다.\n교육과정 및 수료증번호를 다시 확인해 주시기 바랍니다.");
-		return false;
-	}
-	else if (isValidCertDate == "N")
-	{
-		alert("해당 교육 수료번호는 현재날짜 기준으로 1년이상이 지난 교육 수료번호입니다.\n교육과정 및 수료증번호를 다시 확인해 주시기 바랍니다.");
-		return false;
-	}
-	else
-	{
-		alert("오류가 발생했습니다.\n다음단계로 진행할 수 없습니다.");
-		return false;		
-	}
-}
-
 // 고사장 검색함수(apply4.jsp)
 function doExamZoneSearch() 
 {
@@ -173,6 +102,7 @@ function callExamZoneMap(examZoneMap, description)
 	}
 	else 
 	{
+		/*
 		var fileUrl = "";
 		var localFileName = "";
 		
@@ -197,7 +127,7 @@ function callExamZoneMap(examZoneMap, description)
 			{
 			}   
 	}); 
-		
+		*/
 		var width = screen.availWidth / 1.5;
 		var height = screen.availHeight / 1.5;
 	    var left = (window.screen.width / 2) - (width / 2);
@@ -205,7 +135,7 @@ function callExamZoneMap(examZoneMap, description)
 		var createHtml = "";
 		
 		var win = window.open("", 'asdsad', 'top=' + top + ', left=' + left + ', width=' + width + ', height =' + height + ',scrollbars=yes, status=yes');
-		examZoneMap = "/popupImageView?fileUrl="+encodeURIComponent(fileUrl)+"&localFileName="+encodeURIComponent(localFileName);
+		examZoneMap = "/searchImageView?fileId="+examZoneMap;
 		createHtml += "<h2>고사장 약도</h2>";
 		createHtml += "<p>고사장 주소 : " + description + "</p>";
 		createHtml += "<img src='" + examZoneMap + "' style=" + "width:100%;" + "height: 80%" + "/>";

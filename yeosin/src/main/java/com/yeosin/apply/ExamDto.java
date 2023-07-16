@@ -24,6 +24,7 @@ public class ExamDto {
 	private String certPrintStartDate; // 수험표 출력기간(시작)
 	private String certPrintEndDate; // 수혐표 출력기간(끝)
 	private String gradeStartDate; // 성적 공고기간(시작)
+	private String gradeStartTime; // 성적 공고시간(시작)
 	private String gradeEndDate; // 성적 공고기간(끝)
 	private String examCost; // 시험비용
 	private String period;	//교시
@@ -171,6 +172,12 @@ public class ExamDto {
 	public void setGradeStartDate(String gradeStartDate) {
 		this.gradeStartDate = gradeStartDate;
 	}
+	public String getGradeStartTime() {
+        return this.gradeStartTime;
+    }
+    public void setGradeStartTime(String gradeStartTime) {
+        this.gradeStartTime = gradeStartTime;
+    }
 	public String getGradeEndDate() {
 		return gradeEndDate;
 	}

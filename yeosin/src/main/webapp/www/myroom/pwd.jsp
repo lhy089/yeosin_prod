@@ -26,21 +26,29 @@
 
   <link rel="stylesheet" href="/www/inc/css/myroom.css">
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/myroom/pwd.js?t=<%= new java.util.Date() %>"></script>
+<script>
+if(${result == 'N'}) { 
+    alert("사용자 정보가 일치하지 않습니다.");
+}
+</script>
+
 </head>
 
 <body>
 
 <!--?php include_once "../common/header.php";?-->
 <%@ include file="/www/common/header.jsp"%>
+<form id="changeform" name="changeform" method="post" action="/doCheckPwd">
 <div class="myroom pwd">
   <div class="contentBox">
     <h1>비밀번호 확인</h1>
     <div class="pwdBox">
-      <input type="password" placeholder="비밀번호 입력" id="password">
+      <input type="password" placeholder="비밀번호 입력" id="password" name="password">
       <a onclick="return false;" id="btn_doCheckPwd">확인</a>
     </div>
   </div>
 </div>
+</form>
 <%@ include file="/www/common/footer.jsp"%>
 <!--?php include_once "../common/footer.php";?-->
 

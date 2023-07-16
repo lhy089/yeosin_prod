@@ -122,15 +122,19 @@
 			</if>
 		</set>
 		WHERE USERID = #{userId}
+		AND PASSWORD = #{orgPwd}
+		AND CICODE = #{ciCode}
+		AND DICODE = #{diCode}
 	</update>
 	
-	<update id="withdrawUser" parameterType="string">
+	<update id="withdrawUser" parameterType="com.yeosin.user.UserDto">
 		UPDATE YS_USER
 		<set>
 			USERSTATUS = 'D',
 			SECESSIONDATE = NOW()
 		</set>
 		WHERE USERID = #{userId}
+		AND PASSWORD = #{password}
 	</update>
 	
 	<!-- 아이디 찾기 기능 -->	
@@ -193,6 +197,24 @@
 							1
 						FROM YS_USER USER
 						WHERE USER.CICODE = #{ciCode}
+							AND USERSTATUS != 'D'
+						)
+					THEN 'Y'
+					ELSE 'N'
+				END
+			) as EXISTS_YN
+		FROM DUAL
+   </select>
+   
+   <select id="getUserByCIANDDI" parameterType="com.yeosin.user.UserDto" resultType="String">
+      SELECT 
+			(
+				CASE
+					WHEN EXISTS (
+						SELECT 
+							1
+						FROM YS_USER USER
+						WHERE (USER.CICODE = #{ciCode} OR USER.DICODE = #{diCode})
 							AND USERSTATUS != 'D'
 						)
 					THEN 'Y'

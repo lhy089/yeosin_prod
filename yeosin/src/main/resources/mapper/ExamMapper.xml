@@ -135,4 +135,14 @@
 				EXAMDATE DESC
 		LIMIT 	1;
 	</select>
+	
+	<select id="getAmtValidCheck" parameterType="com.yeosin.apply.ExamDto" resultType="string">
+			SELECT CASE WHEN EXISTS
+				(
+					SELECT 1 FROM YS_EXAM
+					WHERE EXAMID = #{examId} 
+					AND examcost = #{examCost} 
+				) 
+					then 'Y' ELSE 'N' end
+	</select>
 </mapper>

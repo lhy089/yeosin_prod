@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page import="com.yeosin.user.UserService" %>
 
 <%	//인증 후 결과값이 null로 나오는 부분은 관리담당자에게 문의 바랍니다.
     NiceID.Check.CPClient niceCheck = new  NiceID.Check.CPClient();
@@ -22,7 +23,7 @@
 	String sMobileCo = "";				// 통신사
     String sMessage = "";
     String sPlainData = "";
-    
+    String certInfoResult = "";
     int iReturn = niceCheck.fnDecode(sSiteCode, sSitePassword, sEncodeData);
 
     if( iReturn == 0 )
@@ -45,14 +46,9 @@
         sConnInfo		= (String)mapresult.get("CI");
         sMobileNo		= (String)mapresult.get("MOBILE_NO");
         sMobileCo		= (String)mapresult.get("MOBILE_CO");
-        
-//         String session_sRequestNumber = (String)session.getAttribute("REQ_SEQ");
-//         if(!sRequestNumber.equals(session_sRequestNumber))
-//         {
-//             sMessage = "세션값 불일치 오류입니다.";
-//             sResponseNumber = "";
-//             sAuthType = "";
-//         }
+
+        UserService userService = new UserService();
+        certInfoResult = userService.insertCertInfo(sConnInfo + sDupInfo);
     }
     else if( iReturn == -1)
     {
@@ -135,7 +131,10 @@ window.onload = function() {
 			gender : "<%= sGender %>",
 			phone : "<%= sMobileNo %>",
 			diCode : "<%= sDupInfo %>",
-			ciCode : "<%= sConnInfo %>"
+			ciCode : "<%= sConnInfo %>",
+			certInfoResult : "<%= certInfoResult %>",
+			sRequestNumber : "<%= sRequestNumber %>",
+			sResponseNumber : "<%= sResponseNumber %>" 
 		}
     window.opener.postMessage(childData, '*');
 	console.log("childData.ciCode : " + childData.ciCode);
