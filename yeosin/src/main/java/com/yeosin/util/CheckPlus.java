@@ -242,6 +242,7 @@ public class CheckPlus {
 	   // CP요청번호 세션에 저장 
 	   // : 저장된 값은 ipin_result 페이지에서 데이터 위변조 검사에 이용됩니다.
 	   session.setAttribute("CPREQUEST" , sCPRequest);
+	   session.setAttribute("REQ_SEQ" , sCPRequest);
 
 
 	   // 인증요청 암호화 데이터 생성

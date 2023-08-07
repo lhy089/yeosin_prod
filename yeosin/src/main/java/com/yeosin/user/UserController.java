@@ -205,7 +205,7 @@ public class UserController {
 		System.out.println(">>> find_id_cert ciCode : " + userDto.getCiCode());
 		System.out.println(">>> find_id_cert REQ_SEQ : " + (String)session.getAttribute("REQ_SEQ"));
 		System.out.println(">>> find_id_cert RES_SEQ : " + (String)session.getAttribute("RES_SEQ"));
-		if(userDto.getDiCode().equals((String)session.getAttribute("REQ_SEQ"))) {
+		if(userDto.getDiCode() !=null && userDto.getDiCode().equals((String)session.getAttribute("REQ_SEQ"))) {
 			String userId = userService.findUserIdByCert(userDto);
 			String password = getRamdomPwd(); //랜덤값
 			System.out.println(">>> find_id_cert userId : " + userId);
@@ -221,6 +221,9 @@ public class UserController {
 			userService.updateUserStatus(userInfo);
 		}
 		
+		session.removeAttribute("REQ_SEQ");
+		System.out.println(">>> find_id_cert REQ_SEQ : " + (String)session.getAttribute("REQ_SEQ"));
+		 
 		response.getWriter().print(result);
 		response.getWriter().flush();
 		response.getWriter().close();

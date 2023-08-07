@@ -144,6 +144,7 @@ window.onload = function() { debugger;
 			gender : "<%= sGenderCode %>",
 			diCode : "<%= sDupInfo %>",
 			ciCode : "<%= sCoInfo1 %>",
+			sRequestNumber : "<%= sCPRequest %>",
 			phone : ""
 		}
     window.opener.postMessage(childData, '*');
