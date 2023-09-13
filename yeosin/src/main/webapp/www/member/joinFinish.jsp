@@ -28,7 +28,7 @@
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/member/join.js?t=<%= new java.util.Date() %>"></script>
   <script>
   if(${result == 'N'}) { 
-	    alert("회원 정보가 존재하지 않거나 일치하지 않습니다.");
+	    alert("잘못된 패턴입니다. ID와 비밀번호의 형식을 확인해 주세요. 계속 오류 발생 시 해당 ID와 비밀번호를 관리자에게 문의 바랍니다.");
 	    location.href = "/join1";
 	}
   if(${result == 'E'}) { 

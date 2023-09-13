@@ -303,16 +303,27 @@ public class UserController {
 	public ModelAndView doJoin(UserDto user, HttpSession session, HttpServletResponse response) throws Exception {
 		List<Object> userResult = new ArrayList<Object>();
         response.setCharacterEncoding("UTF-8");
-        ModelAndView mav = new ModelAndView(); //
-        String pattern1 = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&/])[A-Za-z[0-9]$@$!%*#?&/]{6,20}$";
-        String pattern2 = "^[A-Za-z[0-9]]{6,20}$";
-        String pattern3 = "^[[0-9]$@$!%*#?&/]{6,20}$";
-        String pattern4 = "^[[A-Za-z]$@$!%*#?&/]{6,20}$";
+        ModelAndView mav = new ModelAndView();
+        
         String patternId = "^[a-z]{1}[a-z0-9]{5,19}$";
+        
+        String pattern1 = "^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z[0-9]]{6,20}$"; 
+        // 영문 대소문자 + 숫자 
+        String pattern2 = "^(?=.*[A-Za-z])(?=.*[\\!\\{\\}\\(\\)\\[\\]\\/\\|\\?\\.\\*\\~\\'\\-\\_\\+\\#\\^\\$\\%\\=])[A-Za-z!\\!\\{\\}\\(\\)\\[\\]\\/\\|\\?\\.\\*\\~\\'\\-\\_\\+\\#\\^\\$\\%\\=]{6,20}$";
+        // 영문 대소문자 + 특수문자 
+        String pattern3 = "^(?=.*[0-9])(?=.*[\\!\\{\\}\\(\\)\\[\\]\\/\\|\\?\\.\\*\\~\\'\\-\\_\\+\\#\\^\\$\\%\\=])[0-9!\\!\\{\\}\\(\\)\\[\\]\\/\\|\\?\\.\\*\\~\\'\\-\\_\\+\\#\\^\\$\\%\\=]{6,20}$";
+        // 숫자 + 특수문자
+        String pattern4 = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\\!\\{\\}\\(\\)\\[\\]\\/\\|\\?\\.\\*\\~\\'\\-\\_\\+\\#\\^\\$\\%\\=])[A-Za-z[0-9]\\!\\{\\}\\(\\)\\[\\]\\/\\|\\?\\.\\*\\~\\'\\-\\_\\+\\#\\^\\$\\%\\=]{6,20}$";
+        // 영문 대소문자 + 숫자 + 특수문자 
         
         System.out.println(">>>>> doJoin user.getPassword() : " + user.getPassword());
         
-        
+        System.out.println(user.getUserId().matches(patternId));
+        System.out.println(user.getPassword().matches(pattern1));
+        System.out.println(user.getPassword().matches(pattern2));
+        System.out.println(user.getPassword().matches(pattern3));
+        System.out.println(user.getPassword().matches(pattern4));
+             
         user.setUserId(user.getUserId().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", ""));
         if (!user.getUserId().matches(patternId) || (!user.getPassword().matches(pattern1) && !user.getPassword().matches(pattern2) && !user.getPassword().matches(pattern3) && !user.getPassword().matches(pattern4))) {
             mav.addObject("result", (Object)"N");
@@ -404,11 +415,24 @@ public class UserController {
 		if (!sessionUserId.equals(user.getUserId())) {
 			response.getWriter().print(0);
 		}
-		String pattern1 = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z[0-9]$@$!%*#?&]{6,20}$";
-		String pattern2 = "^[A-Za-z[0-9]]{6,20}$";
-		String pattern3 = "^[[0-9]$@$!%*#?&]{6,20}$";
-		String pattern4 = "^[[A-Za-z]$@$!%*#?&]{6,20}$";
+		
 		String patternId = "^[a-z]{1}[a-z0-9]{5,19}$";
+		String pattern1 = "^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z[0-9]]{6,20}$"; 
+        // 영문 대소문자 + 숫자 
+        String pattern2 = "^(?=.*[A-Za-z])(?=.*[\\!\\{\\}\\(\\)\\[\\]\\/\\|\\?\\.\\*\\~\\'\\-\\_\\+\\#\\^\\$\\%\\=])[A-Za-z!\\!\\{\\}\\(\\)\\[\\]\\/\\|\\?\\.\\*\\~\\'\\-\\_\\+\\#\\^\\$\\%\\=]{6,20}$";
+        // 영문 대소문자 + 특수문자 
+        String pattern3 = "^(?=.*[0-9])(?=.*[\\!\\{\\}\\(\\)\\[\\]\\/\\|\\?\\.\\*\\~\\'\\-\\_\\+\\#\\^\\$\\%\\=])[0-9!\\!\\{\\}\\(\\)\\[\\]\\/\\|\\?\\.\\*\\~\\'\\-\\_\\+\\#\\^\\$\\%\\=]{6,20}$";
+        // 숫자 + 특수문자
+        String pattern4 = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\\!\\{\\}\\(\\)\\[\\]\\/\\|\\?\\.\\*\\~\\'\\-\\_\\+\\#\\^\\$\\%\\=])[A-Za-z[0-9]\\!\\{\\}\\(\\)\\[\\]\\/\\|\\?\\.\\*\\~\\'\\-\\_\\+\\#\\^\\$\\%\\=]{6,20}$";
+        // 영문 대소문자 + 숫자 + 특수문자 
+        
+        System.out.println(">>>>> doChange user.getPassword() : " + user.getPassword());
+        
+        System.out.println(user.getUserId().matches(patternId));
+        System.out.println(user.getPassword().matches(pattern1));
+        System.out.println(user.getPassword().matches(pattern2));
+        System.out.println(user.getPassword().matches(pattern3));
+        System.out.println(user.getPassword().matches(pattern4));
 		
 		System.out.println(">>>>> doChange user.getPassword() : " + user.getPassword());
 		
