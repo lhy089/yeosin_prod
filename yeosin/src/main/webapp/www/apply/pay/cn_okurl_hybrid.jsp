@@ -18,74 +18,64 @@
 <%@ page import="java.util.Date" %>
 <%
 
+	request.setCharacterEncoding("utf-8"); 
+
  	String mode	= "CN46";
-	String recordKey	= "사이트URL";	
+	String recordKey	= "http://127.0.0.1/";	
 	String svcId	= CommonUtil.Decode(request.getParameter("Svcid"));
 	String tradeId	= CommonUtil.Decode(request.getParameter("Tradeid"));
 	String prdtPrice	= CommonUtil.Decode(request.getParameter("Prdtprice"));
 	String mobilId	= CommonUtil.Decode(request.getParameter("Mobilid")); 
-
-	/****************************************************************************************
-	*  모빌리언스와  결제 통신   *
-	****************************************************************************************/
-	McashManager mm = new McashManager();
-
-
-	/****************************************************************************************
-	사용자 지정 환경변수 설정시 아래의 함수를 이용하세요
-	****************************************************************************************/
-	//mm.setConfigFileDir("./Mcash.properties" );
-
-
-	/****************************************************************************************
-	사용자 설정시  아래의 함수를 이용하세요
-	mm.setServerInfo(
- 		String serverIp,	// 서버아이피
-		String switchIp,	// 스위치 아이피
-		int serverPort,		// 서버포트
-		int recvTimeOut,	// 타임아웃 설정 ( milliseconds 단위로 셋팅, 0일 경우 타임아웃 미설정 처리 )
-		String logDir,		// 로그경로, 로그디렉토리경로
-		String KeySeq,		// 가맹점 KEY 순번 ( 0 : default , 1 : 가맹점입력key1 , 2 : 가맹점입력key2 ), 암호화 키 순번으로 가맹점 관리자 페이지상에 서 세팅
-		String Key,			// KEY value ( 0 번의 경우 미 세팅 )
-		String UserEncode,	// 캐릭터셋, "" or null 인경우 EUC-KR
-		String logLevel		// 로그레벨, "" or null 가능
-	);
-	****************************************************************************************/
-	//mm.setServerInfo("218.38.71.164", "218.38.71.164", 9110, 30000, "c:\\test2\\", "0", "", "EUC-KR", "");
-
-	AckParam ap = mm.McashApprv(
-		mode,			/* 거래모드 */
-		recordKey,		/* 사이트URL */
-		svcId,			/* 서비스아이디 */
-		mobilId,		/* 모빌리언스거래번호 */
-		tradeId,		/* 가맹점거래번호 */
-		prdtPrice,		/* 상품금액 */
-		""				/* 자동결제키 */
-	);
+	
+	String userId			= request.getParameter("userId");
+	String examId			= request.getParameter("examId");
+	String certId			= request.getParameter("certId");
+	String examZoneId 		= request.getParameter("examZoneId");
+	String subjectId 		= request.getParameter("subjectId");
+	
+	System.out.println("mode : " + mode);
+	System.out.println("recordKey : " + recordKey);
+	System.out.println("svcId : " + svcId);
+	System.out.println("tradeId : " + tradeId);
+	System.out.println("prdtPrice : " + prdtPrice);
+	System.out.println("mobilId : " + mobilId);
+	
+	System.out.println("userId : " + userId);
+	System.out.println("examId : " + examId);
+	System.out.println("certId : " + certId);
+	System.out.println("examZoneId : " + examZoneId);
+	System.out.println("subjectId : " + subjectId);
 
 %>
 
 <!-- 정상적일 때 처리 -->
 <!DOCTYPE html>
 <html>
+<head>
+<title></title>
+<meta charset="utf-8">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$(document).ready(function(){
+	document.kgPayForm.submit();
+});
+</script>
+</head>
 <body>
-<br>
-<h3>mode : <%=mode %> 일때 데이터는 다음과 같습니다. </h4>
-<font color=blue> <h4> mode :		<%= ap.getMode() %>			</h4>	</font>
-<font color=blue> <h4> resultCd :	<%= ap.getResultCd() %>		</h4>	</font>
-<font color=blue> <h4> resultMsg :	<%= ap.getResultMsg() %>	</h4>	</font>
-<font color=blue> <h4> tradeId :	<%= ap.getTradeId() %>		</h4>	</font>
-<font color=blue> <h4> mobilId :	<%= ap.getMobilId() %>		</h4>	</font>
-<font color=blue> <h4> prdtPrice :	<%= ap.getPrdtPrice() %>	</h4>	</font>
-<font color=blue> <h4> signDate :	<%= ap.getSignDate() %>		</h4>	</font>
-<font color=blue> <h4> interest :	<%= ap.getInterest() %>		</h4>	</font>
-<font color=blue> <h4> cardCode :	<%= ap.getCardCode() %>		</h4>	</font>
-<font color=blue> <h4> cardName :	<%= ap.getCardName() %>		</h4>	</font>
-<font color=blue> <h4> cardNum :	<%= ap.getCardNum() %>		</h4>	</font>
-<font color=blue> <h4> apprNo :		<%= ap.getApprNo() %>		</h4>	</font>
-<font color=blue> <h4> couponPrice :<%= ap.getCouponPrice() %>	</h4>	</font>
-<font color=blue> <h4> payMethod :	<%= ap.getPayMethod() %>	</h4>	</font>
-<font color=blue> <h4> deposit :	<%= ap.getDeposit() %>		</h4>	</font>
-<br>
+<form action="/apply6_pg" method="POST" name="kgPayForm">
+		<input type="hidden" id="userId" name="userId" value="<%=request.getParameter("userId")%>"/>
+		<input type="hidden" id="examId" name="examId" value="<%=request.getParameter("examId")%>"/>
+		<input type="hidden" id="certId" name="certId" value="<%=request.getParameter("certId")%>"/>
+		<input type="hidden" id="examZoneId" name="examZoneId" value="<%=request.getParameter("examZoneId")%>"/>
+		<input type="hidden" id="subjectId" name="subjectId" value="<%=request.getParameter("subjectId")%>"/>
+		
+		<input type="hidden" id="mode" name="mode" value="CN46"/>
+		<input type="hidden" id="recordKey" name="recordKey" value="http://127.0.0.1/"/>
+		<input type="hidden" id="svcId" name="svcId" value="<%=request.getParameter("Svcid")%>"/>
+		<input type="hidden" id="tradeId" name="tradeId" value="<%=request.getParameter("Tradeid")%>"/>
+		<input type="hidden" id="prdtPrice" name="prdtPrice" value="<%=request.getParameter("Prdtprice")%>"/>
+		<input type="hidden" id="mobilId" name="mobilId" value="<%=request.getParameter("Mobilid")%>"/>
+</form>
 </body>
 </html>

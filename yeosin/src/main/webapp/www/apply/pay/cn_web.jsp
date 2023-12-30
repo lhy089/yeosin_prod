@@ -22,7 +22,6 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%
-
 	// Unique한 거래번호를 위한 값 추출 (밀리세컨드까지 조회)
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSSS");
 	String appr_dtm = dateFormat.format(new Date());
@@ -37,12 +36,12 @@
 	*****************************************************************************************/
 	String VER = "ALL_NEW";						//ALL_NEW : 버전설정 고정
 	String CN_TAX_VER = "CPLX";					//CPLX : 복합과세취소버전설정 고정
-	String CN_SVCID = "";						//서비스아이디
+	String CN_SVCID = "231204141219";						//서비스아이디
 	String PAY_MODE = "10";						//10 : 실거래결제 고정
-	String Prdtprice = "";						//결제요청금액.
-	String Prdtnm = "";							//상품명 ( 50byte 이내 )
-	String Siteurl = "";						//가맹점도메인
-	String Okurl = "";							//성공화면처리URL : 결제완료통보페이지 full Url (예:http://www.mcash.co.kr/okurl.jsp )
+	String Prdtprice = "100";						//결제요청금액.
+	String Prdtnm = "응시료";							//상품명 ( 50byte 이내 )
+	String Siteurl = "http://127.0.0.1/";						//가맹점도메인
+	String Okurl = "http://www.mcash.co.kr/okurl.jsp";							//성공화면처리URL : 결제완료통보페이지 full Url (예:http://www.mcash.co.kr/okurl.jsp )
 	String Tradeid = CN_SVCID + "_" + appr_dtm;	//가맹점거래번호 //결제 요청 시 마다 unique한 값을 세팅해야 함.
 
 
@@ -93,7 +92,6 @@
 		Prdtprice	= McashCipher.encodeString(Prdtprice, Tradeid);
 		Cryptstring	= McashCipher.encodeString(Cryptstring, Tradeid);
 	}
-
 %>
 
 <!--  가맹점의 결제요청 페이지 -->

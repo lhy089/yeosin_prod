@@ -29,6 +29,7 @@
 	String Couponprice	= request.getParameter("Couponprice");	/* 결제된 쿠폰금액 */
 	String chkValue		= request.getParameter("chkValue");		/* 결과값 검증 hash데이터 */
 	String Deposit		= request.getParameter("Deposit");		/* 일회용컵보증금액 */
+	String Owndivcd		= request.getParameter("Owndivcd");		/* 카드소유구분 */
 
 	/*
 	 * 결제 정보의 위·변조 여부 확인 용도
@@ -38,12 +39,12 @@
 
 	String returnMsg = "";
 	String cpChkValue = "";
-			cpChkValue = "Mobilid="+ Mobilid +
-									"&Mrchid=null"+
-									"&Svcid="+ Svcid +
-									"&Tradeid="+ Tradeid +
-									"&Signdate="+ Signdate +
-									"&Prdtprice="+ Prdtprice;
+	cpChkValue = "Mobilid="+ Mobilid +
+							"&Mrchid=null"+
+							"&Svcid="+ Svcid +
+							"&Tradeid="+ Tradeid +
+							"&Signdate="+ Signdate +
+							"&Prdtprice="+ Prdtprice;
 
 	String encChkValue = McashCipher.encodeString(cpChkValue, Tradeid);
 
@@ -55,7 +56,6 @@
 		// 일치하지 않을 경우 데이터 위·변조 가능성 높으니 FAIL 처리
 		returnMsg = "FAIL";
 	}
-
 %>
 
 <%=returnMsg%>
