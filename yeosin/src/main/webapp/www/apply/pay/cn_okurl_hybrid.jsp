@@ -21,7 +21,7 @@
 	request.setCharacterEncoding("utf-8"); 
 
  	String mode	= "CN46";
-	String recordKey	= "http://127.0.0.1/";	
+	String recordKey	= "localhost";	
 	String svcId	= CommonUtil.Decode(request.getParameter("Svcid"));
 	String tradeId	= CommonUtil.Decode(request.getParameter("Tradeid"));
 	String prdtPrice	= CommonUtil.Decode(request.getParameter("Prdtprice"));
