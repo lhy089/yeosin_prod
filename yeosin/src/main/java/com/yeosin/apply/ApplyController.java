@@ -405,36 +405,34 @@ public class ApplyController {
 			String appr_dtm = dateFormat.format(new Date());
 
 			/*****************************************************************************************/
-			String CASH_GB = "CN"; // 대표결제수단. 고정 필수
+			String CASH_GB = ""; // CN 신용카드 RA 실시간 계좌이체, back단에서 지정하지 않으나 필수 변수 값이기 때문에 변수 설정
 
 			/*****************************************************************************************
-			 * - 필수 입력 항목
+			 * - 필수 입력 항목 - 신용카드
 			 *****************************************************************************************/
 			String CN_SVCID = "231204141219"; // 서비스아이디, 고정
+			String Okurl = "http://127.0.0.1/www/apply/pay/cn_okurl_hybrid.jsp?userId=" +userInfo.getUserId()+ "&examId=" + examInfo.getExamId() + "&certId=" + applyInfo.getCertId() + "&examZoneId="
+					+ applyInfo.getExamZoneId() + "&subjectId=" + applyInfo.getSubjectId();
+			String VER = "ALL_NEW"; // ALL_NEW : 버전설정 고정
+			String CN_TAX_VER = "CPLX"; // CPLX : 복합과세취소버전설정 고정
+			
+			/*****************************************************************************************
+			 * - 필수 입력 항목 - 실시간 계좌이체
+			 *****************************************************************************************/
+			String RA_SVCID = "231204141225"; // 서비스아이디, 고정
+			String RA_Okurl = "http://127.0.0.1/ra_okurl?userId=" +userInfo.getUserId()+ "&examId=" + examInfo.getExamId() + "&certId=" + applyInfo.getCertId() + "&examZoneId="
+					+ applyInfo.getExamZoneId() + "&subjectId=" + applyInfo.getSubjectId();
+
+			/*****************************************************************************************
+			 * - 필수 입력 항목 - 공통
+			 *****************************************************************************************/
 			String PAY_MODE = "10"; // 10 : 실거래결제 고정
 			String Prdtprice = examInfo.getExamCost(); // 결제요청금액.
 			String Prdtnm = "응시료"; // 상품명 ( 50byte 이내 )
 			String Siteurl = "http://127.0.0.1/"; // 가맹점도메인
 			String Tradeid = CN_SVCID + "_" + appr_dtm; // 가맹점거래번호 , 결제 요청 시 마다 unique한 값을 세팅해야 함.
-			String Okurl = "http://127.0.0.1/www/apply/pay/cn_okurl_hybrid.jsp?userId=" +userInfo.getUserId()+ "&examId=" + examInfo.getExamId() + "&certId=" + applyInfo.getCertId() + "&examZoneId="
-					+ applyInfo.getExamZoneId() + "&subjectId=" + applyInfo.getSubjectId();
-			String VER = "ALL_NEW"; // ALL_NEW : 버전설정 고정
-			String CN_TAX_VER = "CPLX"; // CPLX : 복합과세취소버전설정 고정
-
-			//					String Okurl = "http://127.0.0.1/www/apply/pay/cn_okurl_hybrid.jsp";							//성공화면처리URL : 결제완료통보페이지 full Url (예:http://www.mcash.co.kr/okurl.jsp )
-			//					String Okurl = "http://127.0.0.1/www/apply/pay/cn_okurl_hybrid.jsp";	
-
-			//					String merchantKey 		= "1q8Rl7lwsYz1YaneFJ/mUIwNgh9y/12OcHoMVtR0CqnVnUf5WAPGxF95+jOo29PhSl1RGjSxnzhRB3xvmFEK7w=="; // 상점키
-			//					String merchantID 		= "kmama0001m"; 				// 상점아이디
-			//					String price 			= examInfo.getExamCost(); 						// 결제상품금액
-			//					String moid 			= "moid"+getRamdomPassword();
-
-			//					String ediDate 			= getyyyyMMddHHmmss();	
-			//					String hashString 		= this.encrypt(ediDate + merchantID + price + merchantKey);
-			//					System.out.println(">>>>>>>>>>>>>>>>hashString : " + hashString);
-			//					mav.addObject("ediDate", ediDate);
-			//					mav.addObject("hashString", hashString);
-
+			
+			
 			/*****************************************************************************************
 			 * - 선택 입력 항목
 			 *****************************************************************************************/
@@ -503,11 +501,13 @@ public class ApplyController {
 			mav.addObject("VER", VER);
 			mav.addObject("CN_TAX_VER", CN_TAX_VER);
 			mav.addObject("CN_SVCID", CN_SVCID);
+			mav.addObject("RA_SVCID", RA_SVCID);
 			mav.addObject("PAY_MODE", PAY_MODE);
 			mav.addObject("Prdtprice", Prdtprice);
 			mav.addObject("Prdtnm", Prdtnm);
 			mav.addObject("Siteurl", Siteurl);
 			mav.addObject("Okurl", Okurl);
+			mav.addObject("RA_Okurl", RA_Okurl);
 			mav.addObject("Tradeid", Tradeid);
 
 			mav.addObject("Notiurl", Notiurl);
@@ -2124,6 +2124,156 @@ public class ApplyController {
 		}
 		else 
 		{
+			mav.addObject("isAlert", true);
+			mav.setViewName("member/login");
+		}
+
+		System.out.println("############# ReceiptAndPayment End ###############");
+		return mav;
+	}
+	
+	@RequestMapping(value="/ra_okurl")
+	@ResponseBody
+	public ModelAndView ra_okurl(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		response.setCharacterEncoding("UTF-8");
+		
+		String Resultcd		= request.getParameter("Resultcd");		//[   4byte 고정] 결과코드
+		String Resultmsg	= request.getParameter("Resultmsg");	//[ 100byte 이하] 결과메세지
+
+		String CASH_GB		= request.getParameter("CASH_GB");		//[   2byte 고정] 결제수단(RA)
+		String Mobilid		= request.getParameter("Mobilid");		//[  15byte 이하] 모빌리언스 거래번호
+		String Mrchid		= request.getParameter("Mrchid");		//[   8byte 고정] 상점ID
+		String MSTR			= request.getParameter("MSTR");			//[2000byte 이하] 가맹점 전달 콜백변수
+		String Payeremail	= request.getParameter("Payeremail");	//[  30byte 이하] 결제자 이메일
+		String Prdtnm		= request.getParameter("Prdtnm");		//[  30byte 이하] 상품명
+		String Prdtprice	= request.getParameter("Prdtprice");	//[  10byte 이하] 상품가격
+		String Signdate		= request.getParameter("Signdate");		//[  14byte 이하] 결제일자
+		String Svcid		= request.getParameter("Svcid");		//[  12byte 고정] 서비스ID
+		String Tradeid		= request.getParameter("Tradeid");		//[  40byte 이하] 상점거래번호
+		String Userid		= request.getParameter("Userid");		//[  20byte 이하] 사용자ID
+		String Deposit		= request.getParameter("Deposit");		//[  10byte 이하] 1회용컵보증금				
+		
+		System.out.println("Resultcd : " + Resultcd);
+		System.out.println("Resultmsg : " + Resultmsg);
+		System.out.println("CASH_GB : " + CASH_GB);
+		System.out.println("Mobilid : " + Mobilid);
+		System.out.println("Mrchid : " + Mrchid);
+		System.out.println("MSTR : " + MSTR);
+		System.out.println("Payeremail : " + Payeremail);
+		System.out.println("Prdtnm : " + Prdtnm);
+		System.out.println("Prdtprice : " + Prdtprice);
+		System.out.println("Signdate : " + Signdate);
+		System.out.println("Svcid : " + Svcid);
+		System.out.println("Tradeid : " + Tradeid);
+		System.out.println("Deposit : " + Deposit);
+
+		System.out.println("userId : " + request.getParameter("userId"));
+		System.out.println("examId : " + request.getParameter("examId"));
+		System.out.println("certId : " + request.getParameter("certId"));
+		System.out.println("examZoneId : " + request.getParameter("examZoneId"));
+		System.out.println("subjectId : " + request.getParameter("subjectId"));
+		
+//		String RA_Okurl = "http://127.0.0.1/ra_okurl?userId=" +userInfo.getUserId()+ "&examId=" + examInfo.getExamId() + "&certId=" + applyInfo.getCertId() + "&examZoneId="
+//				+ applyInfo.getExamZoneId() + "&subjectId=" + applyInfo.getSubjectId();
+		
+		System.out.println("############# ReceiptAndPayment Start ###############");
+		response.setCharacterEncoding("UTF-8");
+		ModelAndView mav = new ModelAndView();
+
+		UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
+		if(userInfo == null) 
+		{
+			userInfo = new UserDto();
+			userInfo.setUserId(request.getParameter("userId"));
+			userInfo = userService.getLoginUserInfo(userInfo);
+			session.setAttribute("loginUserInfo", userInfo);
+		}
+
+		if (userInfo != null) {
+			// 1. 결제하기 전 해당 시험에 결제한 이력이 있으면 저장을 막는다.
+			/*
+			Map<String, Object> parameterMap = new HashMap<String, Object>();
+			parameterMap.put("userId", userInfo.getUserId());
+			parameterMap.put("examId", request.getParameter("examId"));
+			int receiptCount = applyService.getIsReceipt(parameterMap);
+			System.out.println(">>> apply6 ReceiptAndPaymentView userId : " + userInfo.getUserId());
+			System.out.println(">>> apply6 ReceiptAndPaymentView examId : " + request.getParameter("examId"));
+			System.out.println(">>> apply6 ReceiptAndPaymentView receiptCount : " + receiptCount);
+
+			if (receiptCount > 0) {
+				mav.addObject("isReceipt", true);
+				mav.addObject("userInfo", userInfo);
+				mav.addObject("examListCnt", applyService.getExamList().size());
+				mav.addObject("examList", applyService.getExamList());
+				mav.addObject("examLocalList", applyService.getExamLocalList());
+				mav.setViewName("apply/apply");
+			} else {
+			
+				ExamDto examDto = new ExamDto();
+				examDto.setExamId(request.getParameter("examId"));
+				examDto.setExamCost(request.getParameter("prdtPrice"));
+				if ("N".equals(this.applyService.getAmtValidCheck(examDto))) {
+					mav.addObject("resultCode", (Object) null);
+					mav.addObject("isSuccess", (Object) "N");
+					mav.setViewName("apply/apply6");
+					return mav;
+				}
+			*/
+			
+			if("0000".equals(Resultcd)) {
+				// 2. 접수번호를 생성하기 위해 MAX값을 가져온다.
+				long newMaxReceiptNumber = Long.parseLong(applyService.getMaxReceiptNumber()) + 1;
+				String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);
+				String newStudentCode = String.valueOf(newMaxReceiptNumber);
+				String nineLenthStudentCode = newStudentCode.substring(4);
+				System.out
+				.println(">>> apply6 ReceiptAndPaymentView newMaxReceiptNumberStr : " + newMaxReceiptNumberStr);
+				System.out.println(">>> apply6 ReceiptAndPaymentView nineLenthStudentCode : " + nineLenthStudentCode);
+
+				// 3. 접수테이블에 저장될 값을 ApplyDto에 넣는다.(TODO : 결제정보 추가 Insert 필요)
+				ApplyDto insertApplyDto = new ApplyDto();
+				insertApplyDto.setReceiptId(newMaxReceiptNumberStr);
+				insertApplyDto.setUserId(userInfo.getUserId());
+				insertApplyDto.setExamId(request.getParameter("examId"));
+				insertApplyDto.setCertId(request.getParameter("certId"));
+				insertApplyDto.setExamZoneId(request.getParameter("examZoneId"));
+				insertApplyDto.setStudentCode(nineLenthStudentCode);
+				insertApplyDto.setSubjectId(request.getParameter("subjectId"));
+				insertApplyDto.setCicode(userInfo.getCiCode());
+				
+
+				insertApplyDto.setPaymentMethod("");
+				insertApplyDto.setExamFee(Prdtprice);
+				insertApplyDto.setPaymentId(Tradeid);
+				insertApplyDto.setPaymentMoid(Mobilid);
+				
+				System.out.println(">>> apply6 ReceiptAndPaymentView CertId : " + request.getParameter("eduNum"));
+				System.out.println(">>> apply6 ReceiptAndPaymentView subjectId : " + request.getParameter("subjectId"));
+
+				int result = applyService.setReceiptInfo(insertApplyDto);
+				System.out.println(">>> apply6 ReceiptAndPaymentView setReceiptInfo result : " + result);
+			
+				if (result == 0) {
+					mav.addObject("isSuccess", "N");
+					mav.setViewName("apply/apply6");
+					return mav;
+				}
+				mav.addObject("isSuccess", "Y");
+				mav.addObject("examId", request.getParameter("examId"));
+				mav.addObject("receiptId", newMaxReceiptNumberStr);
+				mav.addObject("studentCode", nineLenthStudentCode);
+				mav.addObject("userInfo", userInfo);
+				mav.setViewName("apply/apply6");
+			}else {
+				mav.addObject("isSuccess", "N");
+				mav.setViewName("apply/apply6");
+			}
+
+				/*
+			}
+			*/
+		} else {
 			mav.addObject("isAlert", true);
 			mav.setViewName("member/login");
 		}

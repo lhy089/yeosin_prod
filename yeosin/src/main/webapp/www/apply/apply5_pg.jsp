@@ -37,6 +37,10 @@
 <script language="javascript">
 	function payRequest(){
 		//아래와 같이 ext_inc_comm.js에 선언되어 있는 함수를 호출
+		if($("input[name='CASH_GB']:checked").val() == 'RA'){
+			document.payForm.Okurl.value = document.payForm.RA_Okurl.value;
+		}
+		
 		MCASH_PAYMENT(document.payForm);
 	}
 </script>
@@ -102,8 +106,8 @@
 	          <th>결제방법선택</th>
 	          <td>
 <!-- 	            <label class="pay"><input type="radio" name="paymentMethod" value="VBANK"><span>가상계좌</span></label> -->
-	            <label class="pay"><input type="radio" name="CASH_GB" value="BANK"><span>실시간 계좌이체</span></label>
-	            <label class="pay"><input type="radio" name="CASH_GB" value="CN"><span>신용카드</span></label>
+	            <label class="pay"><input type="radio" name="CASH_GB" value="RA"><span>실시간 계좌이체</span></label>
+	            <label class="pay"><input type="radio" name="CASH_GB" value="CN" checked><span>신용카드</span></label>
 	          </td>
 	        </tr>
 	      </table>
@@ -115,16 +119,19 @@
 		<input type="hidden" name="VER" id="VER" value="${VER}"/>
 		<input type="hidden" name="CN_TAX_VER" id="CN_TAX_VER" value="${CN_TAX_VER}"/>
 		<input type="hidden" name="CN_SVCID" id="CN_SVCID" value="${CN_SVCID}"/>
+		<input type="hidden" name="RA_SVCID" id="RA_SVCID" value="${RA_SVCID}"/>
 		<input type="hidden" name="PAY_MODE" id="PAY_MODE" value="${PAY_MODE}"/>
 		<input type="hidden" name="Prdtprice" id="Prdtprice" value="${Prdtprice}"/>
 		<input type="hidden" name="Prdtnm" id="Prdtnm" value="${Prdtnm}"/>
 		<input type="hidden" name="Siteurl" id="Siteurl" value="${Siteurl}"/>
 		<input type="hidden" name="Okurl" id="Okurl" value="${Okurl}"/>
+		<input type="hidden" name="RA_Okurl" id="RA_Okurl" value="${RA_Okurl}"/>
 		<input type="hidden" name="Tradeid" id="Tradeid" value="${Tradeid}"/>
 		
 		<input type="hidden" name="Notiurl" id="Notiurl" value="${Notiurl}"/>
 		<input type="hidden" name="IFRAME_NAME" id="IFRAME_NAME" value="${IFRAME_NAME}"/>
 		<input type="hidden" name="CALL_TYPE" id="CALL_TYPE" value="${CALL_TYPE}"/>
+		<input type="hidden" name="RA_CALL_TYPE" id="RA_CALL_TYPE" value="P"/>
 		<input type="hidden" name="Failurl" id="Failurl" value="${Failurl}"/>
 		<input type="hidden" name="Closeurl" id="Closeurl" value="${Closeurl}"/>
 		<input type="hidden" name="MSTR" id="MSTR" value="${MSTR}"/>
@@ -146,8 +153,22 @@
 		<input type="hidden" name="CN_FIXCARDCD" id=CN_FIXCARDCD value="${CN_FIXCARDCD}"/>
 		<input type="hidden" name="CN_DIRECT" id="CN_DIRECT" value="${CN_DIRECT}"/>
 		<input type="hidden" name="Deposit" id="Deposit" value="${Deposit}"/>
-		<input type="hidden" name="CN_PAY_APP_USE_YN" id=CN_PAY_APP_USE_YN value="${CN_PAY_APP_USE_YN}"/>
-		<input type="hidden" name="CN_PAY_APP_USE_CD" id=CN_PAY_APP_USE_CD value="${CN_PAY_APP_USE_CD}"/>
+		<input type="hidden" name="CN_PAY_APP_USE_YN" id="CN_PAY_APP_USE_YN" value="${CN_PAY_APP_USE_YN}"/>
+		<input type="hidden" name="CN_PAY_APP_USE_CD" id="CN_PAY_APP_USE_CD" value="${CN_PAY_APP_USE_CD}"/>
+		
+		<input type="hidden" name="LOGO_YN" id="LOGO_YN" value="N"/>
+		<input type="hidden" name="Item" id="Item" value=""/>
+		<input type="hidden" name="INFOAREA_YN" id="INFOAREA_YN" value="Y"/>
+		<input type="hidden" name="FOOTER_YN" id="FOOTER_YN" value="Y"/>
+		<input type="hidden" name="HEIGHT" id="HEIGHT" value=""/>
+		<input type="hidden" name="PRDT_HIDDEN" id="PRDT_HIDDEN" value=""/>
+		<input type="hidden" name="EMAIL_HIDDEN" id="EMAIL_HIDDEN" value="N"/>
+		<input type="hidden" name="CONTRACT_HIDDEN" id="CONTRACT_HIDDEN" value="Y"/>
+		<input type="hidden" name="Cryptyn" id="Cryptyn" value="N"/>
+		<input type="hidden" name="Cryptstring" id="Cryptstring" value=""/>
+		<input type="hidden" name="Deposit" id="Deposit" value=""/>
+		
+		
 			<input style="border:none;" class="btn_apply" onclick="payRequest()" value="결제하기"/>
 <!-- 			<input style="border:none;" class="btn_apply" id="btnReq" value="결제하기"/> -->
 	    </section>
