@@ -313,11 +313,11 @@
                   <td class="center rawBold">본인인증 서비스</td>
                 </tr>
                 <tr>
-                  <td class="center rawBold">나이스페이먼츠(주)</td>
+                  <td class="center rawBold">(주)케이지모빌리언스</td>
                   <td class="center rawBold">온라인 결제 서비스</td>
                 </tr>
                 <tr>
-                  <td class="center rawBold">한국능률협회</td>
+                  <td class="center rawBold">(주)휴넷</td>
                   <td class="center rawBold">자격인증 관련 평가 운영</td>
                 </tr>
               </colgroup>
@@ -371,7 +371,7 @@
             &nbsp;&nbsp;◎ 경찰청 사이버테러대응센터 : 02-392-0330<br/><br/>
 
             13. 개인정보처리방침 변경<br/>
-            ① 이 개인정보 처리방침은 2022.02.14.부터 적용됩니다.
+            ① 이 개인정보 처리방침은2024.01.01부터 적용됩니다.
           </div>
         </div>
         <div>

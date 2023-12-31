@@ -42,7 +42,7 @@
 <div class="member course">
   <div class="contentBoxAd">
     <h1 class="title">회원관리</h1>
-    <!-- 
+    <form action="/memberCourseViewMng" method="GET" onsubmit="return setSubjectValue();">
     <h2>교육수료정보</h2>
     <table>
       <colgroup>
@@ -55,42 +55,19 @@
       </colgroup>
       <tr>
         <th>검색어</th>
-        <td><input type="text" name="" value=""></td>
+        <td><input type="text" id="searchWord" name="searchWord" value="${eduCompletionInfo.searchWord}"></td>
         <th>과목</th>
         <td>
-          <label class="type"><input type="checkbox" name="check" value=""> 대출성상품</label>
-          <label class="type"><input type="checkbox" name="check" value=""> 리스 할부상품</label>
+          <label class="type"><input type="checkbox" name="subjectVal" <c:if test="${eduCompletionInfo.subject eq 'LP01'}">checked="checked"</c:if> value="LP01"> 대출성상품</label>
+          <label class="type"><input type="checkbox" name="subjectVal" <c:if test="${eduCompletionInfo.subject eq 'LS01'}">checked="checked"</c:if> value="LS01"> 리스 할부상품</label>
+          <input type="hidden" name="subject" id="subject" value="">	
         </td>
         <th>성별</th>
         <td>
-          <label class="agree"><input type="radio" name="email" value=""> 남</label>
-          <label class="agree"><input type="radio" name="email" value=""> 여</label>
+          <label class="agree"><input type="radio" name="gender" <c:if test="${eduCompletionInfo.gender eq '남'}">checked="checked"</c:if> value="남"> 남</label>
+          <label class="agree"><input type="radio" name="gender" <c:if test="${eduCompletionInfo.gender eq '여'}">checked="checked"</c:if> value="여"> 여</label>
         </td>
       </tr>
-    </table>
-    <a href="#" class="btn_apply mb100">조회</a>
-    -->
-	<form action="/memberCourseMng" method="get">
-    <table class="inputTable">
-      <colgroup>
-        <col width="14%">
-        <col width="42%">
-        <col width="14%">
-        <col width="23%">
-      </colgroup>
-      <!-- 
-      <tr>
-        <th>실행 시간 입력</th>
-        <td>
-          <input type="date" name="" value="">
-          <input type="time" name="" value="10:00">
-          <a href="#" class="btn_more">입력</a>
-          <a href="#" class="btn_more">실행</a>
-        </td>
-        <th>호출 주소 설정</th>
-        <td><input type="text" name="" value=""></td>
-      </tr>
-       -->
       <tr>
         <th>목록건수</th>
           <td>
@@ -109,9 +86,8 @@
           </td>
         </tr>
     </table>
-    <input style="border:none;" class="btn_apply mb100" type="submit" value="조회"/>
-    </form>
-    <p class="red">※ 날짜를 미지정 시 매일 같은 시간 실행됩니다.</p>
+     <input style="border:none;" class="btn_apply mb100" type="submit" value="조회"/>
+	</form>
 
     <table class="memberList">
       <colgroup>

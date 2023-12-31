@@ -80,8 +80,7 @@
       <div class="crm">
         <h2>고객센터</h2>
         <ul>
-          <li>Tel1 : <span>070-5129-1824</span></li>
-          <li>Tel2 : <span>02-2011-0770</span></li>
+          <li>Tel1 : <span>1522-9581</span></li>
         </ul>
         <h3>상담시간</h3>
         <p><em>평일 </em>09시 00분 ~ 18시 00분</p>
