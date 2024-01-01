@@ -2190,106 +2190,111 @@ public class ApplyController {
 		System.out.println("############# ReceiptAndPayment Start ###############");
 		ModelAndView mav = new ModelAndView();
 
-		UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
-		if(userInfo == null) 
-		{
-			userInfo = new UserDto();
-			userInfo.setUserId(request.getParameter("userId"));
-			userInfo = userService.getLoginUserInfo(userInfo);
-			session.setAttribute("loginUserInfo", userInfo);
-		}
+		try {
+			UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
+			if(userInfo == null) 
+			{
+				userInfo = new UserDto();
+				userInfo.setUserId(request.getParameter("userId"));
+				userInfo = userService.getLoginUserInfo(userInfo);
+				session.setAttribute("loginUserInfo", userInfo);
+			}
 
-		if (userInfo != null) {
-			// 1. 결제하기 전 해당 시험에 결제한 이력이 있으면 저장을 막는다.
-			/*
-			Map<String, Object> parameterMap = new HashMap<String, Object>();
-			parameterMap.put("userId", userInfo.getUserId());
-			parameterMap.put("examId", request.getParameter("examId"));
-			int receiptCount = applyService.getIsReceipt(parameterMap);
-			System.out.println(">>> apply6 ReceiptAndPaymentView userId : " + userInfo.getUserId());
-			System.out.println(">>> apply6 ReceiptAndPaymentView examId : " + request.getParameter("examId"));
-			System.out.println(">>> apply6 ReceiptAndPaymentView receiptCount : " + receiptCount);
+			if (userInfo != null) {
+				// 1. 결제하기 전 해당 시험에 결제한 이력이 있으면 저장을 막는다.
+				Map<String, Object> parameterMap = new HashMap<String, Object>();
+				parameterMap.put("userId", userInfo.getUserId());
+				parameterMap.put("examId", request.getParameter("examId"));
+				int receiptCount = applyService.getIsReceipt(parameterMap);
+				System.out.println(">>> apply6 ReceiptAndPaymentView userId : " + userInfo.getUserId());
+				System.out.println(">>> apply6 ReceiptAndPaymentView examId : " + request.getParameter("examId"));
+				System.out.println(">>> apply6 ReceiptAndPaymentView receiptCount : " + receiptCount);
 
-			if (receiptCount > 0) {
-				mav.addObject("isReceipt", true);
-				mav.addObject("userInfo", userInfo);
-				mav.addObject("examListCnt", applyService.getExamList().size());
-				mav.addObject("examList", applyService.getExamList());
-				mav.addObject("examLocalList", applyService.getExamLocalList());
-				mav.setViewName("apply/apply");
-			} else {
-			
-				ExamDto examDto = new ExamDto();
-				examDto.setExamId(request.getParameter("examId"));
-				examDto.setExamCost(request.getParameter("prdtPrice"));
-				if ("N".equals(this.applyService.getAmtValidCheck(examDto))) {
-					mav.addObject("resultCode", (Object) null);
+				if (receiptCount > 0) {
+					mav.addObject("isReceipt", true);
+					mav.addObject("userInfo", userInfo);
+					mav.addObject("examListCnt", applyService.getExamList().size());
+					mav.addObject("examList", applyService.getExamList());
+					mav.addObject("examLocalList", applyService.getExamLocalList());
+					// to do : 환불 처리
+					mav.addObject("resultCode", "중복접수 오류 : 환불처리 필요");
 					mav.addObject("isSuccess", (Object) "N");
 					mav.setViewName("apply/apply6");
-					return mav;
+				} else {
+					ExamDto examDto = new ExamDto();
+					examDto.setExamId(request.getParameter("examId"));
+					examDto.setExamCost(Prdtprice);
+					if ("N".equals(this.applyService.getAmtValidCheck(examDto))) {
+						mav.addObject("resultCode", "결제금액 오류 - 환불처리 필요");
+						mav.addObject("isSuccess", (Object) "N");
+						mav.setViewName("apply/apply6");
+						return mav;
+					}
+
+					if("0000".equals(Resultcd)) {
+						// 2. 접수번호를 생성하기 위해 MAX값을 가져온다.
+						long newMaxReceiptNumber = Long.parseLong(applyService.getMaxReceiptNumber()) + 1;
+						String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);
+						String newStudentCode = String.valueOf(newMaxReceiptNumber);
+						String nineLenthStudentCode = newStudentCode.substring(4);
+						System.out.println(">>> apply6 ReceiptAndPaymentView newMaxReceiptNumberStr : " + newMaxReceiptNumberStr);
+						System.out.println(">>> apply6 ReceiptAndPaymentView nineLenthStudentCode : " + nineLenthStudentCode);
+
+						// 3. 접수테이블에 저장될 값을 ApplyDto에 넣는다.(TODO : 결제정보 추가 Insert 필요)
+						ApplyDto insertApplyDto = new ApplyDto();
+						insertApplyDto.setReceiptId(newMaxReceiptNumberStr);
+						insertApplyDto.setUserId(userInfo.getUserId());
+						insertApplyDto.setExamId(request.getParameter("examId"));
+						insertApplyDto.setCertId(request.getParameter("certId"));
+						insertApplyDto.setExamZoneId(request.getParameter("examZoneId"));
+						insertApplyDto.setStudentCode(nineLenthStudentCode);
+						insertApplyDto.setSubjectId(request.getParameter("subjectId"));
+						insertApplyDto.setCicode(userInfo.getCiCode());
+
+						insertApplyDto.setPaymentMethod("계좌이체");
+						insertApplyDto.setExamFee(Prdtprice);
+						insertApplyDto.setPaymentId(Tradeid);
+						insertApplyDto.setPaymentMoid(Mobilid);
+						insertApplyDto.setPaymentDate(Signdate);
+						insertApplyDto.setCardName(Prdtnm);
+
+						System.out.println(">>> apply6 ReceiptAndPaymentView CertId : " + request.getParameter("eduNum"));
+						System.out.println(">>> apply6 ReceiptAndPaymentView subjectId : " + request.getParameter("subjectId"));
+
+						int result = applyService.setReceiptInfo(insertApplyDto);
+						System.out.println(">>> apply6 ReceiptAndPaymentView setReceiptInfo result : " + result);
+
+						if (result == 0) {
+							// to do : 환불 처리
+							mav.addObject("resultCode", "접수저장 오류 : 환불처리 필요");
+							mav.addObject("isSuccess", "N");
+							mav.setViewName("apply/apply6");
+							return mav;
+						}
+						mav.addObject("isSuccess", "Y");
+						mav.addObject("examId", request.getParameter("examId"));
+						mav.addObject("receiptId", newMaxReceiptNumberStr);
+						mav.addObject("studentCode", nineLenthStudentCode);
+						mav.addObject("userInfo", userInfo);
+						mav.setViewName("apply/apply6");
+					}else {
+						mav.addObject("resultCode", Resultcd);
+						mav.addObject("isSuccess", "N");
+						mav.setViewName("apply/apply6");
+					}	
 				}
-			*/
-			
-			if("0000".equals(Resultcd)) {
-				// 2. 접수번호를 생성하기 위해 MAX값을 가져온다.
-				long newMaxReceiptNumber = Long.parseLong(applyService.getMaxReceiptNumber()) + 1;
-				String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);
-				String newStudentCode = String.valueOf(newMaxReceiptNumber);
-				String nineLenthStudentCode = newStudentCode.substring(4);
-				System.out
-				.println(">>> apply6 ReceiptAndPaymentView newMaxReceiptNumberStr : " + newMaxReceiptNumberStr);
-				System.out.println(">>> apply6 ReceiptAndPaymentView nineLenthStudentCode : " + nineLenthStudentCode);
 
-				// 3. 접수테이블에 저장될 값을 ApplyDto에 넣는다.(TODO : 결제정보 추가 Insert 필요)
-				ApplyDto insertApplyDto = new ApplyDto();
-				insertApplyDto.setReceiptId(newMaxReceiptNumberStr);
-				insertApplyDto.setUserId(userInfo.getUserId());
-				insertApplyDto.setExamId(request.getParameter("examId"));
-				insertApplyDto.setCertId(request.getParameter("certId"));
-				insertApplyDto.setExamZoneId(request.getParameter("examZoneId"));
-				insertApplyDto.setStudentCode(nineLenthStudentCode);
-				insertApplyDto.setSubjectId(request.getParameter("subjectId"));
-				insertApplyDto.setCicode(userInfo.getCiCode());
-				
-
-				insertApplyDto.setPaymentMethod("계좌이체");
-				insertApplyDto.setExamFee(Prdtprice);
-				insertApplyDto.setPaymentId(Tradeid);
-				insertApplyDto.setPaymentMoid(Mobilid);
-				insertApplyDto.setPaymentDate(Signdate);
-				insertApplyDto.setCardName(Prdtnm);
-				
-				System.out.println(">>> apply6 ReceiptAndPaymentView CertId : " + request.getParameter("eduNum"));
-				System.out.println(">>> apply6 ReceiptAndPaymentView subjectId : " + request.getParameter("subjectId"));
-
-				int result = applyService.setReceiptInfo(insertApplyDto);
-				System.out.println(">>> apply6 ReceiptAndPaymentView setReceiptInfo result : " + result);
-			
-				if (result == 0) {
-					mav.addObject("isSuccess", "N");
-					mav.setViewName("apply/apply6");
-					return mav;
-				}
-				mav.addObject("isSuccess", "Y");
-				mav.addObject("examId", request.getParameter("examId"));
-				mav.addObject("receiptId", newMaxReceiptNumberStr);
-				mav.addObject("studentCode", nineLenthStudentCode);
-				mav.addObject("userInfo", userInfo);
-				mav.setViewName("apply/apply6");
-			}else {
-				mav.addObject("resultCode", Resultcd);
-				mav.addObject("isSuccess", "N");
-				mav.setViewName("apply/apply6");
+			} else {
+				mav.addObject("isAlert", true);
+				mav.setViewName("member/login");
 			}
-
-				/*
-			}
-			*/
-		} else {
-			mav.addObject("isAlert", true);
-			mav.setViewName("member/login");
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			mav.addObject("resultCode", "접수과정 오류 : 환불처리 필요");
+			mav.addObject("isSuccess", "N");
+			mav.setViewName("apply/apply6");
+			return mav;
 		}
-
 		System.out.println("############# ReceiptAndPayment End ###############");
 		return mav;
 	}
