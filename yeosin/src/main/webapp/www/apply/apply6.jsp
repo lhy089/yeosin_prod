@@ -54,7 +54,7 @@
 	    	</c:when>
 	    	<c:otherwise>
 	    		수험번호 : 결제실패
-				<p>접수가 실패하였습니다.</p>
+				<p>접수를 실패하였습니다.</p>
 				<c:choose>
 				<c:when test="${not empty resultCode}">
 					<p>결제 오류 코드 : ${resultCode}</p>

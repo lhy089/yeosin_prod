@@ -40,7 +40,7 @@
 	String PAY_MODE = "10";						//10 : 실거래결제 고정
 	String Prdtprice = "100";						//결제요청금액.
 	String Prdtnm = "응시료";							//상품명 ( 50byte 이내 )
-	String Siteurl = "http://127.0.0.1/";						//가맹점도메인
+	String Siteurl = "https://www.lpcrefia.or.kr/";						//가맹점도메인
 	String Okurl = "http://www.mcash.co.kr/okurl.jsp";							//성공화면처리URL : 결제완료통보페이지 full Url (예:http://www.mcash.co.kr/okurl.jsp )
 	String Tradeid = CN_SVCID + "_" + appr_dtm;	//가맹점거래번호 //결제 요청 시 마다 unique한 값을 세팅해야 함.
 

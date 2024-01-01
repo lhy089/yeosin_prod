@@ -305,10 +305,19 @@ function doRefund()
 	}
 }
 
+function payRequest(){
+	//아래와 같이 ext_inc_comm.js에 선언되어 있는 함수를 호출
+	if($("input[name='CASH_GB']:checked").val() == 'RA'){
+		document.payForm.Okurl.value = document.payForm.RA_Okurl.value;
+	}
+	
+	MCASH_PAYMENT(document.payForm);
+}
+
 // 결제하기 체크함수(apply5.jsp)
 function doPayment()
 {	
-	var isPaymentChecked = $('input:radio[name=paymentMethod]').is(':checked');
+	var isPaymentChecked = $('input:radio[name=CASH_GB]').is(':checked');
 	var examId = $('#examId').val();
 	var isValidExam = false;
 	
@@ -346,7 +355,8 @@ function doPayment()
 		var result = confirm('위 내용으로 결제를 진행하시겠습니까?'); 
 		if (result) 
 		{
-			nicepayStart();
+//			nicepayStart();
+			payRequest();
 		}
 		else return false;
 	}

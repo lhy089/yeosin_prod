@@ -26,8 +26,6 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/apply.js?t=<%= new java.util.Date() %>"></script>
 <%-- 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/apply/pay.js?t=<%= new java.util.Date() %>"></script> --%>
-<!-- 	<script src="https://web.nicepay.co.kr/v3/webstd/js/nicepay-3.0.js" type="text/javascript"></script> -->
-	<script src="https://pg-web.nicepay.co.kr/v3/common/js/nicepay-pgweb.js" type="text/javascript"></script>
 	<style>
 	body {font-size:14px;}
 	table td {font-size:13px;}
@@ -35,14 +33,26 @@
 </style>
 <script src="https://mup.mobilians.co.kr/js/ext/ext_inc_comm.js"></script>
 <script language="javascript">
-	function payRequest(){
-		//아래와 같이 ext_inc_comm.js에 선언되어 있는 함수를 호출
-		if($("input[name='CASH_GB']:checked").val() == 'RA'){
-			document.payForm.Okurl.value = document.payForm.RA_Okurl.value;
+	
+	
+	window.addEventListener('message', function(e) {
+		debugger;
+		var data = e.data;
+		if(data.payMode == "CN") {
+			$("#mobilId").val(data.mobilId);
+			document.kgPayForm.submit();
+		} else if(data.payMode == "RA") {
+			$("#Mobilid").val(data.Mobilid);
+			$("#Resultcd").val(data.Resultcd);
+			$("#Resultmsg").val(data.Resultmsg);
+			$("#RA_CASH_GB").val(data.CASH_GB);
+			$("#Mrchid").val(data.Mrchid);
+			$("#RA_MSTR").val(data.MSTR);
+			$("#RA_Payeremail").val(data.Payeremail);
+			$("#RA_Signdate").val(data.Signdate);
+			document.kgPayForm_ra.submit();
 		}
-		
-		MCASH_PAYMENT(document.payForm);
-	}
+	});
 </script>
 
 </head>
@@ -169,10 +179,46 @@
 		<input type="hidden" name="Deposit" id="Deposit" value=""/>
 		
 		
-			<input style="border:none;" class="btn_apply" onclick="payRequest()" value="결제하기"/>
+			<input style="border:none;" class="btn_apply" onclick="doPayment()" value="결제하기"/>
 <!-- 			<input style="border:none;" class="btn_apply" id="btnReq" value="결제하기"/> -->
 	    </section>
     </form>
+    
+    <form action="/apply6_pg" method="POST" name="kgPayForm">
+		<input type="hidden" id="userId" name="userId" value="${Userid}"/>
+		<input type="hidden" value="<%=request.getParameter("examId")%>" name="examId"/>
+		<input type="hidden" value="<%=request.getParameter("eduNum")%>" name="certId"/>
+		<input type="hidden" value="<%=request.getParameter("exmaZoneRadio")%>" name="examZoneId"/>
+		<input type="hidden" value="<%=request.getParameter("subjectRadio")%>" name="subjectId"/>
+		
+		<input type="hidden" id="mode" name="mode" value="CN46"/>
+		<input type="hidden" id="recordKey" name="recordKey" value="https://www.lpcrefia.or.kr/"/>
+		<input type="hidden" id="svcId" name="svcId" value="${CN_SVCID}"/>
+		<input type="hidden" id="tradeId" name="tradeId" value="${Tradeid}"/>
+		<input type="hidden" id="prdtPrice" name="prdtPrice" value="${Prdtprice}"/>
+		<input type="hidden" id="mobilId" name="mobilId" value=""/>
+</form>
+
+ <form action="/ra_okurl" method="POST" name="kgPayForm_ra">
+		<input type="hidden" id="userId" name="userId" value="${Userid}"/>
+		<input type="hidden" value="<%=request.getParameter("examId")%>" name="examId"/>
+		<input type="hidden" value="<%=request.getParameter("eduNum")%>" name="certId"/>
+		<input type="hidden" value="<%=request.getParameter("exmaZoneRadio")%>" name="examZoneId"/>
+		<input type="hidden" value="<%=request.getParameter("subjectRadio")%>" name="subjectId"/>
+		
+		<input type="hidden" name="Svcid" value="${RA_SVCID}"/>
+		<input type="hidden" name="Tradeid" value="${Tradeid}"/>
+		<input type="hidden" name="Prdtprice" value="${Prdtprice}"/>
+		<input type="hidden" name="Prdtnm" value="${Prdtnm}"/>
+		<input type="hidden" id="Mobilid" name="Mobilid" value=""/>
+		<input type="hidden" id="Resultcd" name="Resultcd" value=""/>
+		<input type="hidden" id="Resultmsg" name="Resultmsg" value=""/>
+		<input type="hidden" id="RA_CASH_GB" name="RA_CASH_GB" value=""/>
+		<input type="hidden" id="Mrchid" name="Mrchid" value=""/>
+		<input type="hidden" id="RA_MSTR" name="RA_MSTR" value=""/>
+		<input type="hidden" id="RA_Payeremail" name="RA_Payeremail" value=""/>
+		<input type="hidden" id="RA_Signdate" name="RA_Signdate" value=""/>
+</form>
 
 			<!--   	<form name="payForm" method="post" action="/payResult"> -->
 		

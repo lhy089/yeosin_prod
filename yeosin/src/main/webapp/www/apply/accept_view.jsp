@@ -38,7 +38,7 @@
     <div class="announcement">
       접수를 취소할 경우 환불 규정을 꼭 확인해야 합니다.
     </div>
-    <form action="/cancel" method="POST" onsubmit="return doRefund();">
+    <form action="/cancel_pg" method="POST" onsubmit="return doRefund();">
 	    <c:choose>
 	    <c:when test="${applyInfo ne null}">
 	    <div id="printArea">

@@ -411,7 +411,7 @@ public class ApplyController {
 			 * - 필수 입력 항목 - 신용카드
 			 *****************************************************************************************/
 			String CN_SVCID = "231204141219"; // 서비스아이디, 고정
-			String Okurl = "http://localhost/www/apply/pay/cn_okurl_hybrid.jsp";
+			String Okurl = "https://www.lpcrefia.or.kr/www/apply/pay/cn_okurl_hybrid.jsp";
 			String VER = "ALL_NEW"; // ALL_NEW : 버전설정 고정
 			String CN_TAX_VER = "CPLX"; // CPLX : 복합과세취소버전설정 고정
 			
@@ -419,7 +419,7 @@ public class ApplyController {
 			 * - 필수 입력 항목 - 실시간 계좌이체
 			 *****************************************************************************************/
 			String RA_SVCID = "231204141225"; // 서비스아이디, 고정
-			String RA_Okurl = "http://localhost/www/apply/pay/okurl.jsp";
+			String RA_Okurl = "https://www.lpcrefia.or.kr/www/apply/pay/okurl.jsp";
 
 			/*****************************************************************************************
 			 * - 필수 입력 항목 - 공통
@@ -427,7 +427,7 @@ public class ApplyController {
 			String PAY_MODE = "10"; // 10 : 실거래결제 고정
 			String Prdtprice = examInfo.getExamCost(); // 결제요청금액.
 			String Prdtnm = "응시료"; // 상품명 ( 50byte 이내 )
-			String Siteurl = "http://127.0.0.1/"; // 가맹점도메인
+			String Siteurl = "https://www.lpcrefia.or.kr/"; // 가맹점도메인
 			String Tradeid = CN_SVCID + "_" + appr_dtm; // 가맹점거래번호 , 결제 요청 시 마다 unique한 값을 세팅해야 함.
 			
 			
@@ -1465,7 +1465,7 @@ public class ApplyController {
 		request.setCharacterEncoding("utf-8");
 
 		String mode	= "CN46";
-		String recordKey	= "localhost";
+		String recordKey	= "www.lpcrefia.or.kr";
 		String svcId	= CommonUtil.Decode(request.getParameter("svcId"));
 		String tradeId	= CommonUtil.Decode(request.getParameter("tradeId"));
 		String prdtPrice	= CommonUtil.Decode(request.getParameter("prdtPrice"));
@@ -1741,7 +1741,7 @@ public class ApplyController {
 
 		String mode			= "CN47";
     	String taxVer		= "CPLX";
-    	String recordKey	= "localhost";
+    	String recordKey	= "www.lpcrefia.or.kr";
     	String svcId		= "231204141219";
     	String tradeId		= resultMap.get("tradeId");
     	String mobilId		= resultMap.get("mobilId");
@@ -2186,10 +2186,7 @@ public class ApplyController {
 		System.out.println("certId : " + request.getParameter("certId"));
 		System.out.println("examZoneId : " + request.getParameter("examZoneId"));
 		System.out.println("subjectId : " + request.getParameter("subjectId"));
-		
-//		String RA_Okurl = "http://127.0.0.1/ra_okurl?userId=" +userInfo.getUserId()+ "&examId=" + examInfo.getExamId() + "&certId=" + applyInfo.getCertId() + "&examZoneId="
-//				+ applyInfo.getExamZoneId() + "&subjectId=" + applyInfo.getSubjectId();
-		
+
 		System.out.println("############# ReceiptAndPayment Start ###############");
 		ModelAndView mav = new ModelAndView();
 
