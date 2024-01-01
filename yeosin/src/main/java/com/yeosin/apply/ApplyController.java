@@ -411,8 +411,7 @@ public class ApplyController {
 			 * - 필수 입력 항목 - 신용카드
 			 *****************************************************************************************/
 			String CN_SVCID = "231204141219"; // 서비스아이디, 고정
-			String Okurl = "http://127.0.0.1/www/apply/pay/cn_okurl_hybrid.jsp?userId=" +userInfo.getUserId()+ "&examId=" + examInfo.getExamId() + "&certId=" + applyInfo.getCertId() + "&examZoneId="
-					+ applyInfo.getExamZoneId() + "&subjectId=" + applyInfo.getSubjectId();
+			String Okurl = "http://localhost/www/apply/pay/cn_okurl_hybrid.jsp";
 			String VER = "ALL_NEW"; // ALL_NEW : 버전설정 고정
 			String CN_TAX_VER = "CPLX"; // CPLX : 복합과세취소버전설정 고정
 			
@@ -420,8 +419,7 @@ public class ApplyController {
 			 * - 필수 입력 항목 - 실시간 계좌이체
 			 *****************************************************************************************/
 			String RA_SVCID = "231204141225"; // 서비스아이디, 고정
-			String RA_Okurl = "http://127.0.0.1/ra_okurl?userId=" +userInfo.getUserId()+ "&examId=" + examInfo.getExamId() + "&certId=" + applyInfo.getCertId() + "&examZoneId="
-					+ applyInfo.getExamZoneId() + "&subjectId=" + applyInfo.getSubjectId();
+			String RA_Okurl = "http://localhost/www/apply/pay/okurl.jsp";
 
 			/*****************************************************************************************
 			 * - 필수 입력 항목 - 공통
@@ -441,11 +439,11 @@ public class ApplyController {
 			String Username = userInfo.getUserName(); // 결제자명	
 			String Payeremail = ""; // 결제자email							
 
-			String Notiurl = "http://127.0.0.1/www/apply/pay/cn_notiurl.jsp"; // 결제처리URL : 결제 완료 후, 가맹점측 과금 등 처리할 가맹점측
-			String Failurl = "http://127.0.0.1"; // 결제 실패 시 사용자에게 보여질 가맹점 측 실패 페이지
-			String Closeurl = "http://127.0.0.1"; // 닫기버튼 클릭 시 호출되는 가맹점 측 페이지. CALL_TYPE = ‘I’ 또는 ‘SELF’ 셋팅 시 필수
+			String Notiurl = ""; // 결제처리URL : 결제 완료 후, 가맹점측 과금 등 처리할 가맹점측
+			String Failurl = ""; // 결제 실패 시 사용자에게 보여질 가맹점 측 실패 페이지
+			String Closeurl = ""; // 닫기버튼 클릭 시 호출되는 가맹점 측 페이지. CALL_TYPE = ‘I’ 또는 ‘SELF’ 셋팅 시 필수
 
-			String CALL_TYPE = "SELF"; // 결제창 호출방식
+			String CALL_TYPE = "P"; // 결제창 호출방식
 			String IFRAME_NAME = "";
 			String MSTR = ""; // 가맹점콜백변수 //가맹점에서 추가적으로 파라미터가 필요한 경우 사용하며 &,%,?,^ 는 사용불가 ( 예 :
 			// MSTR="a=1|b=2|c=3" )
@@ -808,17 +806,12 @@ public class ApplyController {
 							return mav;
 						}
 
-						String paymentMethod = "";
-						//							if ("CARD".equals(resultMap.get("PayMethod"))) {
-						paymentMethod = "카드";
-						//							} else if ("BANK".equals(resultMap.get("PayMethod"))) {
-						//								paymentMethod = "계좌이체";
-						//							}
-
-						insertApplyDto.setPaymentMethod(paymentMethod);
+						insertApplyDto.setPaymentMethod("신용카드");
 						insertApplyDto.setExamFee(resultMap.get("prdtPrice"));
 						insertApplyDto.setPaymentId(resultMap.get("tradeId"));
 						insertApplyDto.setPaymentMoid(resultMap.get("mobilId"));
+						insertApplyDto.setPaymentDate(resultMap.get("signDate"));
+						insertApplyDto.setCardName(resultMap.get("prdtNm"));
 
 						int payResult = applyService.setPaymentInfo(insertApplyDto);
 						System.out.println(">>> apply6 ReceiptAndPaymentView payResult : " + payResult);
@@ -834,15 +827,14 @@ public class ApplyController {
 						mav.addObject("userInfo", userInfo);
 						mav.setViewName("apply/apply6");
 					} catch (Exception e) {
-						Map<String, String> cancelResultMap = new HashMap<>();
-						if ("3001".equals(resultMap.get("ResultCode")) || "4000".equals(resultMap.get("ResultCode"))) {
-							cancelResultMap.put("receiptId", newMaxReceiptNumberStr);
-							cancelResultMap.put("userId", userInfo.getUserId());
-							cancelResultMap.put("Amt", resultMap.get("Amt"));
-							cancelResultMap.put("Tid", resultMap.get("TID"));
-							cancelResultMap.put("isRollback", "Y");
+						System.out.println("## 결제 승인 후 취소 : " + e.getMessage());
+						Map<String,String> cancelResultMap = new HashMap<>();
+						if ("0000".equals(resultMap.get("resultCd"))) {
+							cancelResultMap.put("tradeId", request.getParameter("tradeId"));
+					      	cancelResultMap.put("mobilId", request.getParameter("mobilId"));
+					      	cancelResultMap.put("prdtPrice", request.getParameter("prdtPrice"));
 							Thread.sleep(2000);
-							cancelResultMap = this.payCancelResult(session, request, response, cancelResultMap);
+							cancelResultMap = this.payCancelResultForPg(session, request, response, cancelResultMap);
 							System.out.println(">>> payCancelResult isRollback error : " + e.getMessage());
 							System.out.println(
 									">>> receiptId : " + newMaxReceiptNumberStr + ", userId : " + userInfo.getUserId());
@@ -1122,88 +1114,15 @@ public class ApplyController {
 				map.put("receiptId", receiptId);
 				map.put("userId", userInfo.getUserId());
 		      	ApplyDto applyInfo = applyService.getDetailApplyInfo(map);
-		      	
-//				resultMap = this.payCancelResultForPg(session, request, response, resultMap);
-		      	
-		      	String mode			= "CN47";
-		    	String taxVer		= "CPLX";
-		    	String recordKey	= "localhost";
-		    	String svcId		= "231204141219";
-		    	String tradeId		= applyInfo.getPaymentId();
-		    	String mobilId		= applyInfo.getPaymentMoid();
-		    	String prdtPrice	= applyInfo.getExamFee();
-		    	String partCancelYn	= "N";
-		    	String rmk		 	= "환불";
-		    	String crcCd		= "KRW";
-		    	String taxatDiv		= CommonUtil.Decode(request.getParameter("taxatDiv"));
-		    	String taxAmt		= CommonUtil.Decode(request.getParameter("taxAmt"));
-		    	String taxFreeAmt	= CommonUtil.Decode(request.getParameter("taxFreeAmt"));
-		    	String taxatAmt		= CommonUtil.Decode(request.getParameter("taxatAmt"));
-		    	String remainTaxAmt	= CommonUtil.Decode(request.getParameter("remainTaxAmt"));
-		    	String deposit		= CommonUtil.Decode(request.getParameter("deposit"));
-
-
-		    	/****************************************************************************************
-		    	*  모빌리언스와  결제 통신   *
-		    	****************************************************************************************/
-		    	McashManager mm = new McashManager();
-
-		    	//System.out.println(mode ,recordKey , svcId , tradeId , mobilId ,prdtPrice , partCancelYn , deposit )
-		    	
-		    	/****************************************************************************************
-		    	사용자 지정 환경변수 설정시 아래의 함수를 이용하세요
-		    	****************************************************************************************/
-				mm.setConfigFileDir("C:\\Users\\hyong\\git\\yeosin_prod\\yeosin\\src\\main\\java\\com\\mobilians\\cnnew_v0004\\Mcash.properties");
-
-
-		    	/****************************************************************************************
-		    	사용자 설정시  아래의 함수를 이용하세요
-		    	mm.setServerInfo(
-		     		String serverIp,	// 서버아이피
-		    		String switchIp,	// 스위치 아이피
-		    		int serverPort,		// 서버포트
-		    		int recvTimeOut,	// 타임아웃 설정 ( milliseconds 단위로 셋팅, 0일 경우 타임아웃 미설정 처리 )
-		    		String logDir,		// 로그경로, 로그디렉토리경로
-		    		String KeySeq,		// 가맹점 KEY 순번 ( 0 : default , 1 : 가맹점입력key1 , 2 : 가맹점입력key2 ), 암호화 키 순번으로 가맹점 관리자 페이지상에 서 세팅
-		    		String Key,			// KEY value ( 0 번의 경우 미 세팅 )
-		    		String UserEncode,	// 캐릭터셋, "" or null 인경우 EUC-KR
-		    		String logLevel		// 로그레벨, "" or null 가능
-		    	);
-		    	****************************************************************************************/
-		    	//mm.setServerInfo("218.38.71.164", "218.38.71.164", 9110, 30000, "c:\\test2\\", "0", "", "EUC-KR", "");
-
-		    	AckParam ap = mm.McashApprv(
-		    		mode,			/* 거래모드 */
-		    		taxVer,			/* 복합과세취소전문요청 */
-		    		recordKey,		/* 사이트URL */
-		    		svcId,			/* 서비스아이디 */
-		    		mobilId,		/* 모빌리언스거래번호 */
-		    		tradeId,		/* 가맹점거래번호 */
-		    		prdtPrice,		/* 상품금액 */
-		    		partCancelYn,	/* 부분취소여부 */
-		    		rmk, 			/* 취소요청사유 */
-		    		crcCd,			/* 통화코드(KRW,USD) */
-		    		taxatDiv,		/* 과세구분 */
-		    		taxAmt,			/* 부가세 */
-		    		taxFreeAmt,		/* 비과세 */
-		    		taxatAmt,		/* 과세 */
-		    		remainTaxAmt,	/* 잔액부가세 */
-		    		deposit			/* 1회용컵보증금 */
-		    	);
-		    	
-		    	System.out.println("mode : " + ap.getMode());
-		    	System.out.println("resultCd : " + ap.getResultCd());
-		    	System.out.println("resultMsg : " + ap.getResultMsg());
-		    	System.out.println("tradeId : " + ap.getTradeId());
-		    	System.out.println("mobilId : " + ap.getMobilId());
-		    	System.out.println("prdtPrice : " + ap.getPrdtPrice());
-		    	System.out.println("signDate : " + ap.getSignDate());
-		    	System.out.println("cnclSeq : " + ap.getCnclSeq());
-		    	System.out.println("couponPrice : " + ap.getCouponPrice());
-		    	System.out.println("payMethod : " + ap.getPayMethod());
-		      	
+		      	Map<String,String> dataMap = new HashMap<>();
+		      	dataMap.put("tradeId", applyInfo.getPaymentId());
+		      	dataMap.put("mobilId", applyInfo.getPaymentMoid());
+		      	dataMap.put("prdtPrice", applyInfo.getExamFee());
+		  
+		      	dataMap = this.payCancelResultForPg(session, request, response, dataMap);
+		      	    	
 		      	// 환불성공
-		      	if ("0000".equals(ap.getResultCd())) 
+		      	if ("0000".equals(dataMap.get("resultCd"))) 
 		      	{
 		      		Map<String,String> resultMap = new HashMap<>();
 			      	resultMap.put("receiptId", receiptId);
@@ -1817,6 +1736,100 @@ public class ApplyController {
 		return resultMap;
 	}
 	
+	public Map<String,String> payCancelResultForPg(HttpSession session, HttpServletRequest request, HttpServletResponse response, Map<String,String> resultMap) throws Exception {
+		request.setCharacterEncoding("utf-8"); 
+
+		String mode			= "CN47";
+    	String taxVer		= "CPLX";
+    	String recordKey	= "localhost";
+    	String svcId		= "231204141219";
+    	String tradeId		= resultMap.get("tradeId");
+    	String mobilId		= resultMap.get("mobilId");
+    	String prdtPrice	= resultMap.get("prdtPrice");
+    	String partCancelYn	= "N";
+    	String rmk		 	= "환불";
+    	String crcCd		= "KRW";
+    	String taxatDiv		= CommonUtil.Decode(request.getParameter("taxatDiv"));
+    	String taxAmt		= CommonUtil.Decode(request.getParameter("taxAmt"));
+    	String taxFreeAmt	= CommonUtil.Decode(request.getParameter("taxFreeAmt"));
+    	String taxatAmt		= CommonUtil.Decode(request.getParameter("taxatAmt"));
+    	String remainTaxAmt	= CommonUtil.Decode(request.getParameter("remainTaxAmt"));
+    	String deposit		= CommonUtil.Decode(request.getParameter("deposit"));
+
+
+    	/****************************************************************************************
+    	*  모빌리언스와  결제 통신   *
+    	****************************************************************************************/
+    	McashManager mm = new McashManager();
+
+    	//System.out.println(mode ,recordKey , svcId , tradeId , mobilId ,prdtPrice , partCancelYn , deposit )
+    	
+    	/****************************************************************************************
+    	사용자 지정 환경변수 설정시 아래의 함수를 이용하세요
+    	****************************************************************************************/
+		mm.setConfigFileDir("C:\\Users\\hyong\\git\\yeosin_prod\\yeosin\\src\\main\\java\\com\\mobilians\\cnnew_v0004\\Mcash.properties");
+
+
+    	/****************************************************************************************
+    	사용자 설정시  아래의 함수를 이용하세요
+    	mm.setServerInfo(
+     		String serverIp,	// 서버아이피
+    		String switchIp,	// 스위치 아이피
+    		int serverPort,		// 서버포트
+    		int recvTimeOut,	// 타임아웃 설정 ( milliseconds 단위로 셋팅, 0일 경우 타임아웃 미설정 처리 )
+    		String logDir,		// 로그경로, 로그디렉토리경로
+    		String KeySeq,		// 가맹점 KEY 순번 ( 0 : default , 1 : 가맹점입력key1 , 2 : 가맹점입력key2 ), 암호화 키 순번으로 가맹점 관리자 페이지상에 서 세팅
+    		String Key,			// KEY value ( 0 번의 경우 미 세팅 )
+    		String UserEncode,	// 캐릭터셋, "" or null 인경우 EUC-KR
+    		String logLevel		// 로그레벨, "" or null 가능
+    	);
+    	****************************************************************************************/
+    	//mm.setServerInfo("218.38.71.164", "218.38.71.164", 9110, 30000, "c:\\test2\\", "0", "", "EUC-KR", "");
+
+    	AckParam ap = mm.McashApprv(
+    		mode,			/* 거래모드 */
+    		taxVer,			/* 복합과세취소전문요청 */
+    		recordKey,		/* 사이트URL */
+    		svcId,			/* 서비스아이디 */
+    		mobilId,		/* 모빌리언스거래번호 */
+    		tradeId,		/* 가맹점거래번호 */
+    		prdtPrice,		/* 상품금액 */
+    		partCancelYn,	/* 부분취소여부 */
+    		rmk, 			/* 취소요청사유 */
+    		crcCd,			/* 통화코드(KRW,USD) */
+    		taxatDiv,		/* 과세구분 */
+    		taxAmt,			/* 부가세 */
+    		taxFreeAmt,		/* 비과세 */
+    		taxatAmt,		/* 과세 */
+    		remainTaxAmt,	/* 잔액부가세 */
+    		deposit			/* 1회용컵보증금 */
+    	);
+    	
+    	System.out.println("mode : " + ap.getMode());
+    	System.out.println("resultCd : " + ap.getResultCd());
+    	System.out.println("resultMsg : " + ap.getResultMsg());
+    	System.out.println("tradeId : " + ap.getTradeId());
+    	System.out.println("mobilId : " + ap.getMobilId());
+    	System.out.println("prdtPrice : " + ap.getPrdtPrice());
+    	System.out.println("signDate : " + ap.getSignDate());
+    	System.out.println("cnclSeq : " + ap.getCnclSeq());
+    	System.out.println("couponPrice : " + ap.getCouponPrice());
+    	System.out.println("payMethod : " + ap.getPayMethod());
+		
+		resultMap.put("mode", ap.getMode());
+		resultMap.put("resultCd", ap.getResultCd());
+		resultMap.put("resultMsg", ap.getResultMsg());
+		resultMap.put("tradeId", ap.getTradeId());
+		resultMap.put("mobilId", ap.getMobilId());
+		resultMap.put("prdtPrice", ap.getPrdtPrice());
+		resultMap.put("signDate", ap.getSignDate());
+		resultMap.put("cnclSeq", ap.getCnclSeq());
+		resultMap.put("couponPrice", ap.getCouponPrice());
+		resultMap.put("payMethod", ap.getPayMethod());
+		
+		return resultMap;
+	}
+	
 	@RequestMapping(value="/moRecipt", method=RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView moRecipt(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
@@ -2141,14 +2154,14 @@ public class ApplyController {
 		String Resultcd		= request.getParameter("Resultcd");		//[   4byte 고정] 결과코드
 		String Resultmsg	= request.getParameter("Resultmsg");	//[ 100byte 이하] 결과메세지
 
-		String CASH_GB		= request.getParameter("CASH_GB");		//[   2byte 고정] 결제수단(RA)
+		String CASH_GB		= request.getParameter("RA_CASH_GB");		//[   2byte 고정] 결제수단(RA)
 		String Mobilid		= request.getParameter("Mobilid");		//[  15byte 이하] 모빌리언스 거래번호
 		String Mrchid		= request.getParameter("Mrchid");		//[   8byte 고정] 상점ID
-		String MSTR			= request.getParameter("MSTR");			//[2000byte 이하] 가맹점 전달 콜백변수
-		String Payeremail	= request.getParameter("Payeremail");	//[  30byte 이하] 결제자 이메일
+		String MSTR			= request.getParameter("RA_MSTR");			//[2000byte 이하] 가맹점 전달 콜백변수
+		String Payeremail	= request.getParameter("RA_Payeremail");	//[  30byte 이하] 결제자 이메일
 		String Prdtnm		= request.getParameter("Prdtnm");		//[  30byte 이하] 상품명
 		String Prdtprice	= request.getParameter("Prdtprice");	//[  10byte 이하] 상품가격
-		String Signdate		= request.getParameter("Signdate");		//[  14byte 이하] 결제일자
+		String Signdate		= request.getParameter("RA_Signdate");		//[  14byte 이하] 결제일자
 		String Svcid		= request.getParameter("Svcid");		//[  12byte 고정] 서비스ID
 		String Tradeid		= request.getParameter("Tradeid");		//[  40byte 이하] 상점거래번호
 		String Userid		= request.getParameter("Userid");		//[  20byte 이하] 사용자ID
@@ -2178,7 +2191,6 @@ public class ApplyController {
 //				+ applyInfo.getExamZoneId() + "&subjectId=" + applyInfo.getSubjectId();
 		
 		System.out.println("############# ReceiptAndPayment Start ###############");
-		response.setCharacterEncoding("UTF-8");
 		ModelAndView mav = new ModelAndView();
 
 		UserDto userInfo = (UserDto) session.getAttribute("loginUserInfo");
@@ -2243,10 +2255,12 @@ public class ApplyController {
 				insertApplyDto.setCicode(userInfo.getCiCode());
 				
 
-				insertApplyDto.setPaymentMethod("");
+				insertApplyDto.setPaymentMethod("계좌이체");
 				insertApplyDto.setExamFee(Prdtprice);
 				insertApplyDto.setPaymentId(Tradeid);
 				insertApplyDto.setPaymentMoid(Mobilid);
+				insertApplyDto.setPaymentDate(Signdate);
+				insertApplyDto.setCardName(Prdtnm);
 				
 				System.out.println(">>> apply6 ReceiptAndPaymentView CertId : " + request.getParameter("eduNum"));
 				System.out.println(">>> apply6 ReceiptAndPaymentView subjectId : " + request.getParameter("subjectId"));
@@ -2266,6 +2280,7 @@ public class ApplyController {
 				mav.addObject("userInfo", userInfo);
 				mav.setViewName("apply/apply6");
 			}else {
+				mav.addObject("resultCode", Resultcd);
 				mav.addObject("isSuccess", "N");
 				mav.setViewName("apply/apply6");
 			}

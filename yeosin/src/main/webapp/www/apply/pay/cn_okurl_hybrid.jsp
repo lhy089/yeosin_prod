@@ -1,54 +1,19 @@
 <%
 /****************************************************************************************
-* ÆÄÀÏ¸í : cn_okurl_hybrid.jsp
-* ÀÛ¼ºÀÚ : PGÀ¥°³¹ß
-* ÀÛ¼ºÀÏ : 2022.12
-* ¿ë  µµ : ½Å¿ëÄ«µå hybrid ¹æ½Ä °áÁ¦ Ã³¸® ¿¬µ¿ ÆäÀÌÁö
-* ¹ö  Àü : 0004
+* íŒŒì¼ëª… : cn_okurl_hybrid.jsp
+* ìž‘ì„±ìž : PGì›¹ê°œë°œ
+* ìž‘ì„±ì¼ : 2022.12
+* ìš©  ë„ : ì‹ ìš©ì¹´ë“œ hybrid ë°©ì‹ ê²°ì œ ì²˜ë¦¬ ì—°ë™ íŽ˜ì´ì§€
+* ë²„  ì „ : 0004
 * ---------------------------------------------------------------------------------------
-* ¸ðºô¸®¾ð½º ½Å¿ëÄ«µå °áÁ¦Ã¢¿¡¼­ ÀÎÁõ ´Ü°è ¿Ï·á ÈÄ È£ÃâµÇ´Â °¡¸ÍÁ¡Ãø ÆäÀÌÁöÀÌ¸ç ÃÖÁ¾ °áÁ¦ ¿äÃ» ¹× Ã³¸® ¿¹Á¦ ÆäÀÌÁö
-* 1) Mode = "CN46" (°áÁ¦ ½ÂÀÎ)
-* 2) CommonUtil.Decode(String str) ¸Þ¼Òµå·Î ÇÑ±ÛÀÏ ±úÁú°æ¿ì
-*    CommonUtil.Decode_1(String str)À» »ç¿ë
+* ëª¨ë¹Œë¦¬ì–¸ìŠ¤ ì‹ ìš©ì¹´ë“œ ê²°ì œì°½ì—ì„œ ì¸ì¦ ë‹¨ê³„ ì™„ë£Œ í›„ í˜¸ì¶œë˜ëŠ” ê°€ë§¹ì ì¸¡ íŽ˜ì´ì§€ì´ë©° ìµœì¢… ê²°ì œ ìš”ì²­ ë° ì²˜ë¦¬ ì˜ˆì œ íŽ˜ì´ì§€
+* 1) Mode = "CN46" (ê²°ì œ ìŠ¹ì¸)
+* 2) CommonUtil.Decode(String str) ë©”ì†Œë“œë¡œ í•œê¸€ì¼ ê¹¨ì§ˆê²½ìš°
+*    CommonUtil.Decode_1(String str)ì„ ì‚¬ìš©
 ****************************************************************************************/
 %>
 
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
-<%@ page import="com.mobilians.cnnew_v0004.*" %>
-<%@ page import="java.util.Date" %>
-<%
-
-	request.setCharacterEncoding("utf-8"); 
-
- 	String mode	= "CN46";
-	String recordKey	= "localhost";	
-	String svcId	= CommonUtil.Decode(request.getParameter("Svcid"));
-	String tradeId	= CommonUtil.Decode(request.getParameter("Tradeid"));
-	String prdtPrice	= CommonUtil.Decode(request.getParameter("Prdtprice"));
-	String mobilId	= CommonUtil.Decode(request.getParameter("Mobilid")); 
-	
-	String userId			= request.getParameter("userId");
-	String examId			= request.getParameter("examId");
-	String certId			= request.getParameter("certId");
-	String examZoneId 		= request.getParameter("examZoneId");
-	String subjectId 		= request.getParameter("subjectId");
-	
-	System.out.println("mode : " + mode);
-	System.out.println("recordKey : " + recordKey);
-	System.out.println("svcId : " + svcId);
-	System.out.println("tradeId : " + tradeId);
-	System.out.println("prdtPrice : " + prdtPrice);
-	System.out.println("mobilId : " + mobilId);
-	
-	System.out.println("userId : " + userId);
-	System.out.println("examId : " + examId);
-	System.out.println("certId : " + certId);
-	System.out.println("examZoneId : " + examZoneId);
-	System.out.println("subjectId : " + subjectId);
-
-%>
-
-<!-- Á¤»óÀûÀÏ ¶§ Ã³¸® -->
+<!-- ì •ìƒì ì¼ ë•Œ ì²˜ë¦¬ -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,25 +22,19 @@
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-$(document).ready(function(){
-	document.kgPayForm.submit();
-});
+
+window.onload = function() { debugger;
+var childData = {
+		payMode : "CN",
+		mobilId : "<%=request.getParameter("Mobilid")%>"
+	}
+window.opener.postMessage(childData, '*');
+this.close();
+
+};
+
 </script>
 </head>
 <body>
-<form action="/apply6_pg" method="POST" name="kgPayForm">
-		<input type="hidden" id="userId" name="userId" value="<%=request.getParameter("userId")%>"/>
-		<input type="hidden" id="examId" name="examId" value="<%=request.getParameter("examId")%>"/>
-		<input type="hidden" id="certId" name="certId" value="<%=request.getParameter("certId")%>"/>
-		<input type="hidden" id="examZoneId" name="examZoneId" value="<%=request.getParameter("examZoneId")%>"/>
-		<input type="hidden" id="subjectId" name="subjectId" value="<%=request.getParameter("subjectId")%>"/>
-		
-		<input type="hidden" id="mode" name="mode" value="CN46"/>
-		<input type="hidden" id="recordKey" name="recordKey" value="http://127.0.0.1/"/>
-		<input type="hidden" id="svcId" name="svcId" value="<%=request.getParameter("Svcid")%>"/>
-		<input type="hidden" id="tradeId" name="tradeId" value="<%=request.getParameter("Tradeid")%>"/>
-		<input type="hidden" id="prdtPrice" name="prdtPrice" value="<%=request.getParameter("Prdtprice")%>"/>
-		<input type="hidden" id="mobilId" name="mobilId" value="<%=request.getParameter("Mobilid")%>"/>
-</form>
 </body>
 </html>

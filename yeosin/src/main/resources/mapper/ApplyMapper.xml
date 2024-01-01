@@ -305,7 +305,7 @@
 			EXAMFEE			=	#{examFee},
 			PAYMENTID		=	#{paymentId},
 			PAYMENTMOID		=	#{paymentMoid},
-			PAYMENTDATE		= 	now()
+			PAYMENTDATE		= 	STR_TO_DATE(#{paymentDate}, '%Y%m%d%H%i%s')
 		WHERE 	1 = 1
 		AND 	USERID = #{userId}
 		AND		RECEIPTID = #{receiptId}
