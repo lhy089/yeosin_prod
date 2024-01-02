@@ -33,33 +33,22 @@
 </style>
 <script src="https://mup.mobilians.co.kr/js/ext/ext_inc_comm.js"></script>
 <script language="javascript">
-	
-	
 	window.addEventListener('message', function(e) {
-		debugger;
 		var data = e.data;
-		if(data.payMode == "CN") {
-			$("#mobilId").val(data.mobilId);
-			document.kgPayForm.submit();
-		} else if(data.payMode == "RA") {
-			$("#Mobilid").val(data.Mobilid);
-			$("#Resultcd").val(data.Resultcd);
-			$("#Resultmsg").val(data.Resultmsg);
-			$("#RA_CASH_GB").val(data.CASH_GB);
-			$("#Mrchid").val(data.Mrchid);
-			$("#RA_MSTR").val(data.MSTR);
-			$("#RA_Payeremail").val(data.Payeremail);
-			$("#RA_Signdate").val(data.Signdate);
-			document.kgPayForm_ra.submit();
-		}
+		$("#cash_code").val(data.cash_code);
+		$("#sid").val(data.sid);
+		$("#tid").val(data.tid);
+		$("#pay_token").val(data.pay_token);
+		$("#amount").val(data.amount);
+		$("#mc_user_key").val(data.mc_user_key);
+		$("#reference_key").val(data.reference_key);
+		document.kgPayForm_restapi.submit();
+
 	});
 </script>
-
 </head>
-
 <body>
 
-<!--?php include_once "../common/header.php";?-->
 <%@ include file="/www/common/header.jsp"%>
 <div class="apply fifth">
   <div class="contentBox">
@@ -68,8 +57,7 @@
       인터넷접수 첫날의 접수 시작 시간은 10:00 부터입니다.
     </div>
     <h2>3단계 접수확인 및 결제선택</h2>
-<!--     <form action="/apply6" method="post" onsubmit="return doPayment();"> -->
-    <form action="/apply6" method="post" name="payForm" id="payForm">
+    <form name="payForm" id="payForm">
 	    <section>
 	      <table>
 	        <colgroup>
@@ -115,7 +103,6 @@
 	        <tr>
 	          <th>결제방법선택</th>
 	          <td>
-<!-- 	            <label class="pay"><input type="radio" name="paymentMethod" value="VBANK"><span>가상계좌</span></label> -->
 	            <label class="pay"><input type="radio" name="CASH_GB" value="RA"><span>실시간 계좌이체</span></label>
 	            <label class="pay"><input type="radio" name="CASH_GB" value="CN" checked><span>신용카드</span></label>
 	          </td>
@@ -126,103 +113,26 @@
 			<input type="hidden" value="<%=request.getParameter("exmaZoneRadio")%>" id="exmaZoneId" name="exmaZoneId"/>
 			<input type="hidden" value="<%=request.getParameter("subjectRadio")%>" id="subjectId" name="subjectId"/>
 		
-		<input type="hidden" name="VER" id="VER" value="${VER}"/>
-		<input type="hidden" name="CN_TAX_VER" id="CN_TAX_VER" value="${CN_TAX_VER}"/>
-		<input type="hidden" name="CN_SVCID" id="CN_SVCID" value="${CN_SVCID}"/>
-		<input type="hidden" name="RA_SVCID" id="RA_SVCID" value="${RA_SVCID}"/>
-		<input type="hidden" name="PAY_MODE" id="PAY_MODE" value="${PAY_MODE}"/>
-		<input type="hidden" name="Prdtprice" id="Prdtprice" value="${Prdtprice}"/>
-		<input type="hidden" name="Prdtnm" id="Prdtnm" value="${Prdtnm}"/>
-		<input type="hidden" name="Siteurl" id="Siteurl" value="${Siteurl}"/>
-		<input type="hidden" name="Okurl" id="Okurl" value="${Okurl}"/>
-		<input type="hidden" name="RA_Okurl" id="RA_Okurl" value="${RA_Okurl}"/>
-		<input type="hidden" name="Tradeid" id="Tradeid" value="${Tradeid}"/>
-		
-		<input type="hidden" name="Notiurl" id="Notiurl" value="${Notiurl}"/>
-		<input type="hidden" name="IFRAME_NAME" id="IFRAME_NAME" value="${IFRAME_NAME}"/>
-		<input type="hidden" name="CALL_TYPE" id="CALL_TYPE" value="${CALL_TYPE}"/>
-		<input type="hidden" name="RA_CALL_TYPE" id="RA_CALL_TYPE" value="P"/>
-		<input type="hidden" name="Failurl" id="Failurl" value="${Failurl}"/>
-		<input type="hidden" name="Closeurl" id="Closeurl" value="${Closeurl}"/>
-		<input type="hidden" name="MSTR" id="MSTR" value="${MSTR}"/>
-		<input type="hidden" name="Payeremail" id="Payeremail" value="${Payeremail}"/>
-		<input type="hidden" name="Userid" id="Userid" value="${Userid}"/>
-		<input type="hidden" name="CN_BILLTYPE" id="CN_BILLTYPE" value="${CN_BILLTYPE}"/>
-		<input type="hidden" name="CN_TAXFREE" id="CN_TAXFREE" value="${CN_TAXFREE}"/>
-		<input type="hidden" name="CN_TAX" id="CN_TAX" value="${CN_TAX}"/>
-		
-		<input type="hidden" name="CN_TAXAMT" id="CN_TAXAMT" value="${CN_TAXAMT}"/>
-		<input type="hidden" name="CN_FREEINTEREST" id="CN_FREEINTEREST" value="${CN_FREEINTEREST}"/>
-		<input type="hidden" name="CN_POINT" id="CN_POINT" value="${CN_POINT}"/>
-		<input type="hidden" name="Termregno" id="Termregno" value="${Termregno}"/>
-		<input type="hidden" name="APP_SCHEME" id="APP_SCHEME" value="${APP_SCHEME}"/>
-		<input type="hidden" name="CN_AUTHPAY" id="CN_AUTHPAY" value="${CN_AUTHPAY}"/>
-		<input type="hidden" name="prdtCd" id="prdtCd" value="${prdtCd}"/>
-		<input type="hidden" name="Username" id="Username" value="${Username}"/>
-		<input type="hidden" name="CN_INSTALL" id="CN_INSTALL" value="${CN_INSTALL}"/>
-		<input type="hidden" name="CN_FIXCARDCD" id=CN_FIXCARDCD value="${CN_FIXCARDCD}"/>
-		<input type="hidden" name="CN_DIRECT" id="CN_DIRECT" value="${CN_DIRECT}"/>
-		<input type="hidden" name="Deposit" id="Deposit" value="${Deposit}"/>
-		<input type="hidden" name="CN_PAY_APP_USE_YN" id="CN_PAY_APP_USE_YN" value="${CN_PAY_APP_USE_YN}"/>
-		<input type="hidden" name="CN_PAY_APP_USE_CD" id="CN_PAY_APP_USE_CD" value="${CN_PAY_APP_USE_CD}"/>
-		
-		<input type="hidden" name="LOGO_YN" id="LOGO_YN" value="N"/>
-		<input type="hidden" name="Item" id="Item" value=""/>
-		<input type="hidden" name="INFOAREA_YN" id="INFOAREA_YN" value="Y"/>
-		<input type="hidden" name="FOOTER_YN" id="FOOTER_YN" value="Y"/>
-		<input type="hidden" name="HEIGHT" id="HEIGHT" value=""/>
-		<input type="hidden" name="PRDT_HIDDEN" id="PRDT_HIDDEN" value=""/>
-		<input type="hidden" name="EMAIL_HIDDEN" id="EMAIL_HIDDEN" value="N"/>
-		<input type="hidden" name="CONTRACT_HIDDEN" id="CONTRACT_HIDDEN" value="Y"/>
-		<input type="hidden" name="Cryptyn" id="Cryptyn" value="N"/>
-		<input type="hidden" name="Cryptstring" id="Cryptstring" value=""/>
-		<input type="hidden" name="Deposit" id="Deposit" value=""/>
-		
-		
-			<input style="border:none;" class="btn_apply" onclick="doPayment()" value="결제하기"/>
-<!-- 			<input style="border:none;" class="btn_apply" id="btnReq" value="결제하기"/> -->
+			<input class="btn_apply" style="border:none;" onclick="doPayment()" value="결제하기"/>
 	    </section>
     </form>
-    
-    <form action="/apply6_pg" method="POST" name="kgPayForm">
+
+	<form action="/apply6_pg" method="POST" name="kgPayForm_restapi">
 		<input type="hidden" id="userId" name="userId" value="${Userid}"/>
 		<input type="hidden" value="<%=request.getParameter("examId")%>" name="examId"/>
 		<input type="hidden" value="<%=request.getParameter("eduNum")%>" name="certId"/>
 		<input type="hidden" value="<%=request.getParameter("exmaZoneRadio")%>" name="examZoneId"/>
 		<input type="hidden" value="<%=request.getParameter("subjectRadio")%>" name="subjectId"/>
 		
-		<input type="hidden" id="mode" name="mode" value="CN46"/>
-		<input type="hidden" id="recordKey" name="recordKey" value="https://www.lpcrefia.or.kr/"/>
-		<input type="hidden" id="svcId" name="svcId" value="${CN_SVCID}"/>
-		<input type="hidden" id="tradeId" name="tradeId" value="${Tradeid}"/>
-		<input type="hidden" id="prdtPrice" name="prdtPrice" value="${Prdtprice}"/>
-		<input type="hidden" id="mobilId" name="mobilId" value=""/>
-</form>
-
- <form action="/ra_okurl" method="POST" name="kgPayForm_ra">
-		<input type="hidden" id="userId" name="userId" value="${Userid}"/>
-		<input type="hidden" value="<%=request.getParameter("examId")%>" name="examId"/>
-		<input type="hidden" value="<%=request.getParameter("eduNum")%>" name="certId"/>
-		<input type="hidden" value="<%=request.getParameter("exmaZoneRadio")%>" name="examZoneId"/>
-		<input type="hidden" value="<%=request.getParameter("subjectRadio")%>" name="subjectId"/>
-		
-		<input type="hidden" name="Svcid" value="${RA_SVCID}"/>
-		<input type="hidden" name="Tradeid" value="${Tradeid}"/>
-		<input type="hidden" name="Prdtprice" value="${Prdtprice}"/>
-		<input type="hidden" name="Prdtnm" value="${Prdtnm}"/>
-		<input type="hidden" id="Mobilid" name="Mobilid" value=""/>
-		<input type="hidden" id="Resultcd" name="Resultcd" value=""/>
-		<input type="hidden" id="Resultmsg" name="Resultmsg" value=""/>
-		<input type="hidden" id="RA_CASH_GB" name="RA_CASH_GB" value=""/>
-		<input type="hidden" id="Mrchid" name="Mrchid" value=""/>
-		<input type="hidden" id="RA_MSTR" name="RA_MSTR" value=""/>
-		<input type="hidden" id="RA_Payeremail" name="RA_Payeremail" value=""/>
-		<input type="hidden" id="RA_Signdate" name="RA_Signdate" value=""/>
-</form>
-
-			<!--   	<form name="payForm" method="post" action="/payResult"> -->
-		
-<!-- 	</form> -->
+		<input type="hidden" id="sid" name="sid" value=""/>
+		<input type="hidden" id="tid" name="tid" value=""/>
+		<input type="hidden" id="cash_code" name="cash_code" value=""/>
+		<input type="hidden" id="pay_token" name="pay_token" value=""/>
+		<input type="hidden" id="amount" name="amount" value=""/>
+		<input type="hidden" id="mc_user_key" name="mc_user_key" value=""/>
+		<input type="hidden" id="reference_key" name="reference_key" value=""/>
+		<input type="hidden" id="type" name="type" value="approval"/>
+	</form>
 	
   </div>
 </div>

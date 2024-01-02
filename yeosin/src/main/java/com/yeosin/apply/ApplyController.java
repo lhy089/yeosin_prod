@@ -1,8 +1,11 @@
 package com.yeosin.apply;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -23,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.binary.Hex;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -244,6 +248,207 @@ public class ApplyController {
       
       	return resultMap;
 	}
+	
+	
+		
+		public Map<String, String> payResultForKg_restapi(HttpSession session, HttpServletRequest request, HttpServletResponse response, Map<String, String> resultMap) throws Exception 
+		{
+			URL url = null;
+		    String readLine = null;
+		    StringBuilder buffer = null;
+		    OutputStream outputStream = null;
+		    BufferedReader bufferedReader = null;
+		    BufferedWriter bufferedWriter = null;
+		    HttpURLConnection urlConnection = null;
+		    
+		    JSONObject jsonObject = this.makePaymentDataForApproval(request);
+	       
+		    int connTimeout = 30000;
+		    int readTimeout = 30000;
+		    
+		    String sendData = jsonObject.toString();   
+		    /* sendData
+		    {"amount":{"total":"100"},"trade_id":"231204141225_202401022011360853","logo_yn":"N","site_url":"localhost","ok_url":"localhost","divide_payment":"N","product_name":"응시료","sid":"231204141225","cash_code":"RA"}
+		    */
+		    String apiUrl = "https://mup.mobilians.co.kr/MUP/api/approval";  
+		    
+		    try 
+		    {
+		        url = new URL(apiUrl);
+		        
+		        urlConnection = (HttpURLConnection)url.openConnection();
+		        urlConnection.setRequestMethod("POST");
+		        urlConnection.setConnectTimeout(connTimeout);
+		        urlConnection.setReadTimeout(readTimeout);
+		        urlConnection.setRequestProperty("Content-Type", "application/json;");
+		        urlConnection.setDoOutput(true);
+		        urlConnection.setInstanceFollowRedirects(true);
+		        
+		        outputStream = urlConnection.getOutputStream();
+		        
+		        bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
+		        bufferedWriter.write(sendData);
+		        bufferedWriter.flush();
+		        
+		        buffer = new StringBuilder();
+		        if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) 
+		        {
+		            bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(),"UTF-8"));
+		            while((readLine = bufferedReader.readLine()) != null) 
+		            {
+		                buffer.append(readLine).append("\n");
+		            }
+		        }
+		        else 
+		        {
+		            buffer.append("\"code\" : \""+urlConnection.getResponseCode()+"\"");
+		            buffer.append(", \"message\" : \""+urlConnection.getResponseMessage()+"\"");
+		        }
+		    }
+		    catch(Exception ex) 
+		    {
+		        ex.printStackTrace();
+		    }
+		    finally 
+		    {
+		        try 
+		        {
+		            if (bufferedWriter != null) { bufferedWriter.close(); }
+		            if (outputStream != null) { outputStream.close(); }
+		            if (bufferedReader != null) { bufferedReader.close(); }
+		        }
+		        catch(Exception ex) 
+		        { 
+		            ex.printStackTrace();
+		        }
+		    }
+		    
+		    JSONParser jsonParser = new JSONParser();
+	        
+	        //3. To Object
+	        Object obj = jsonParser.parse(buffer.toString());
+	        
+	        //4. To JsonObject
+	        JSONObject jsonObj = (JSONObject) obj;
+		    System.out.println("결과 : " + buffer.toString());
+		    
+		    resultMap.put("code", (String) jsonObj.get("code"));
+		    resultMap.put("message", (String) jsonObj.get("message"));
+		    resultMap.put("sid", (String) jsonObj.get("sid"));
+		    resultMap.put("sign_date", (String) jsonObj.get("sign_date"));
+		    resultMap.put("tid", (String) jsonObj.get("tid"));
+		    resultMap.put("trade_id", (String) jsonObj.get("trade_id"));
+		    resultMap.put("pay_token", (String) jsonObj.get("pay_token"));
+		    resultMap.put("amount", (String) jsonObj.get("amount"));
+		    resultMap.put("hmac", (String) jsonObj.get("hmac"));
+		    resultMap.put("transaction_id", (String) jsonObj.get("transaction_id"));
+		    resultMap.put("hmac", (String) jsonObj.get("hmac"));
+		    
+	        return resultMap;
+		}
+		
+		public Map<String, String> payCancelResultForPg_restapi(HttpSession session, HttpServletRequest request, HttpServletResponse response, Map<String, String> dataMap) throws Exception 
+		{
+			URL url = null;
+		    String readLine = null;
+		    StringBuilder buffer = null;
+		    OutputStream outputStream = null;
+		    BufferedReader bufferedReader = null;
+		    BufferedWriter bufferedWriter = null;
+		    HttpURLConnection urlConnection = null;
+		    
+		    JSONObject jsonObject = new JSONObject();
+		    
+	        jsonObject.put("sid", dataMap.get("sid"));
+	        jsonObject.put("trade_id", dataMap.get("trade_id"));
+	        jsonObject.put("cash_code", dataMap.get("cash_code"));
+	        jsonObject.put("pay_token", dataMap.get("pay_token"));
+	        jsonObject.put("amount", dataMap.get("amount"));
+	        jsonObject.put("cancel_type", dataMap.get("cancel_type"));
+	        jsonObject.put("hmac", dataMap.get("hmac"));
+	        jsonObject.put("cn_tax_ver", dataMap.get("cn_tax_ver"));
+	        jsonObject.put("part_cancel", dataMap.get("part_cancel"));
+	       
+	        
+		    int connTimeout = 30000;
+		    int readTimeout = 30000;
+		    
+		    String sendData = jsonObject.toString();   
+		    /* sendData
+		    {"amount":{"total":"100"},"trade_id":"231204141225_202401022011360853","logo_yn":"N","site_url":"localhost","ok_url":"localhost","divide_payment":"N","product_name":"응시료","sid":"231204141225","cash_code":"RA"}
+		    */
+		    String apiUrl = "https://mup.mobilians.co.kr/MUP/api/cancel";  
+		    
+		    try 
+		    {
+		        url = new URL(apiUrl);
+		        
+		        urlConnection = (HttpURLConnection)url.openConnection();
+		        urlConnection.setRequestMethod("POST");
+		        urlConnection.setConnectTimeout(connTimeout);
+		        urlConnection.setReadTimeout(readTimeout);
+		        urlConnection.setRequestProperty("Content-Type", "application/json;");
+		        urlConnection.setDoOutput(true);
+		        urlConnection.setInstanceFollowRedirects(true);
+		        
+		        outputStream = urlConnection.getOutputStream();
+		        
+		        bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
+		        bufferedWriter.write(sendData);
+		        bufferedWriter.flush();
+		        
+		        buffer = new StringBuilder();
+		        if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) 
+		        {
+		            bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(),"UTF-8"));
+		            while((readLine = bufferedReader.readLine()) != null) 
+		            {
+		                buffer.append(readLine).append("\n");
+		            }
+		        }
+		        else 
+		        {
+		            buffer.append("\"code\" : \""+urlConnection.getResponseCode()+"\"");
+		            buffer.append(", \"message\" : \""+urlConnection.getResponseMessage()+"\"");
+		        }
+		    }
+		    catch(Exception ex) 
+		    {
+		        ex.printStackTrace();
+		    }
+		    finally 
+		    {
+		        try 
+		        {
+		            if (bufferedWriter != null) { bufferedWriter.close(); }
+		            if (outputStream != null) { outputStream.close(); }
+		            if (bufferedReader != null) { bufferedReader.close(); }
+		        }
+		        catch(Exception ex) 
+		        { 
+		            ex.printStackTrace();
+		        }
+		    }
+		    
+		    JSONParser jsonParser = new JSONParser();
+	        
+	        //3. To Object
+	        Object obj = jsonParser.parse(buffer.toString());
+	        
+	        //4. To JsonObject
+	        JSONObject jsonObj = (JSONObject) obj;
+		    System.out.println("결과 : " + buffer.toString());
+		    
+		    dataMap.put("code", (String) jsonObj.get("code"));
+		    dataMap.put("message", (String) jsonObj.get("message"));
+		    dataMap.put("sid", (String) jsonObj.get("sid"));
+		    dataMap.put("cash_code", (String) jsonObj.get("cash_code"));
+		    dataMap.put("pay_token", (String) jsonObj.get("pay_token"));
+		    dataMap.put("amount", (String) jsonObj.get("amount"));
+		    dataMap.put("transaction_id", (String) jsonObj.get("transaction_id"));
+		    
+	        return dataMap;
+		}
 	
 	// 원서접수4(고사장 및 시험영역 선택 View)
 	@RequestMapping(value="/apply4", method=RequestMethod.POST)
@@ -712,20 +917,21 @@ public class ApplyController {
 			session.setAttribute("loginUserInfo", userInfo);
 		}
 
-
-		System.out.println("mode : " + request.getParameter("mode"));
-		System.out.println("recordKey : " + request.getParameter("recordKey"));
-		System.out.println("svcId : " + request.getParameter("svcId"));
-		System.out.println("tradeId : " + request.getParameter("tradeId"));
-		System.out.println("prdtPrice : " + request.getParameter("prdtPrice"));
-		System.out.println("mobilId : " + request.getParameter("mobilId"));
-
 		System.out.println("userId : " + request.getParameter("userId"));
 		System.out.println("examId : " + request.getParameter("examId"));
 		System.out.println("certId : " + request.getParameter("certId"));
 		System.out.println("examZoneId : " + request.getParameter("examZoneId"));
 		System.out.println("subjectId : " + request.getParameter("subjectId"));
-
+		
+		System.out.println("type : " + request.getParameter("type"));
+		System.out.println("cash_code : " + request.getParameter("cash_code"));
+		System.out.println("tid : " + request.getParameter("tid"));
+		System.out.println("sid : " + request.getParameter("sid"));
+		System.out.println("pay_token : " + request.getParameter("pay_token"));
+		System.out.println("amount : " + request.getParameter("amount"));
+		System.out.println("mc_user_key : " + request.getParameter("mc_user_key"));
+		System.out.println("reference_key : " + request.getParameter("reference_key"));
+		
 		if (userInfo != null) {
 			// 1. 결제하기 전 해당 시험에 결제한 이력이 있으면 저장을 막는다.
 			Map<String, Object> parameterMap = new HashMap<String, Object>();
@@ -746,7 +952,7 @@ public class ApplyController {
 			} else {
 				ExamDto examDto = new ExamDto();
 				examDto.setExamId(request.getParameter("examId"));
-				examDto.setExamCost(request.getParameter("prdtPrice"));
+				examDto.setExamCost(request.getParameter("amount"));
 				if ("N".equals(this.applyService.getAmtValidCheck(examDto))) {
 					mav.addObject("resultCode", (Object) null);
 					mav.addObject("isSuccess", (Object) "N");
@@ -759,8 +965,7 @@ public class ApplyController {
 				String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);
 				String newStudentCode = String.valueOf(newMaxReceiptNumber);
 				String nineLenthStudentCode = newStudentCode.substring(4);
-				System.out
-				.println(">>> apply6 ReceiptAndPaymentView newMaxReceiptNumberStr : " + newMaxReceiptNumberStr);
+				System.out.println(">>> apply6 ReceiptAndPaymentView newMaxReceiptNumberStr : " + newMaxReceiptNumberStr);
 				System.out.println(">>> apply6 ReceiptAndPaymentView nineLenthStudentCode : " + nineLenthStudentCode);
 
 				// 3. 접수테이블에 저장될 값을 ApplyDto에 넣는다.(TODO : 결제정보 추가 Insert 필요)
@@ -782,36 +987,26 @@ public class ApplyController {
 				if (result > 0) {
 					try {
 						// 결제 시작 (트랜잭션 처리 후 순서 변경 예정)
-						resultMap = this.payResultForKg(session, request, response, resultMap);
-						System.out.println(
-								">>> apply6 ReceiptAndPaymentView ResultCode : " + resultMap.get("resultCd"));
-
-						/*
-						 * 필수저장데이터
-						 */
-						System.out.println("Mobilid : " + resultMap.get("mobilId"));
-						System.out.println("Prdtnm : " + resultMap.get("prdtNm"));
-						System.out.println("Prdtprice : " + resultMap.get("prdtPrice"));
-						System.out.println("Signdate : " + resultMap.get("signDate"));
-						System.out.println("Svcid : " + resultMap.get("svcId"));
-						System.out.println("Tradeid : " + resultMap.get("tradeId"));
-
-						if (!("0000".equals(resultMap.get("resultCd")))) {
+						resultMap = this.payResultForKg_restapi(session, request, response, resultMap);
+//						resultMap = this.doPaymentKg(session, request, response, resultMap);
+						
+						if (!("0000".equals(resultMap.get("code")))) {
 							// 결제실패시 해당 접수번호로 등록된 데이터 삭제
 							int delCnt = applyService.setDeleteReceiptInfo(newMaxReceiptNumberStr);
 							System.out.println(">>> setDeleteReceiptInfo delCnt : " + delCnt);
-							mav.addObject("resultCode", resultMap.get("ResultCode"));
+							mav.addObject("resultCode", resultMap.get("code"));
 							mav.addObject("isSuccess", "N");
 							mav.setViewName("apply/apply6");
 							return mav;
 						}
-
-						insertApplyDto.setPaymentMethod("신용카드");
-						insertApplyDto.setExamFee(resultMap.get("prdtPrice"));
-						insertApplyDto.setPaymentId(resultMap.get("tradeId"));
-						insertApplyDto.setPaymentMoid(resultMap.get("mobilId"));
-						insertApplyDto.setPaymentDate(resultMap.get("signDate"));
-						insertApplyDto.setCardName(resultMap.get("prdtNm"));
+						
+						String paymentMethod = "CN".equals(request.getParameter("cash_code")) ? "신용카드" : "계좌이체";
+						insertApplyDto.setPaymentMethod(paymentMethod);
+						insertApplyDto.setExamFee(resultMap.get("amount"));
+						insertApplyDto.setPaymentId(resultMap.get("trade_id"));
+						insertApplyDto.setPaymentMoid(resultMap.get("pay_token"));
+						insertApplyDto.setPaymentDate(resultMap.get("sign_date"));
+						insertApplyDto.setCardName(resultMap.get("tid"));
 
 						int payResult = applyService.setPaymentInfo(insertApplyDto);
 						System.out.println(">>> apply6 ReceiptAndPaymentView payResult : " + payResult);
@@ -829,7 +1024,7 @@ public class ApplyController {
 					} catch (Exception e) {
 						System.out.println("## 결제 승인 후 취소 : " + e.getMessage());
 						Map<String,String> cancelResultMap = new HashMap<>();
-						if ("0000".equals(resultMap.get("resultCd"))) {
+						if ("0000".equals(resultMap.get("code"))) {
 							cancelResultMap.put("tradeId", request.getParameter("tradeId"));
 					      	cancelResultMap.put("mobilId", request.getParameter("mobilId"));
 					      	cancelResultMap.put("prdtPrice", request.getParameter("prdtPrice"));
@@ -1123,6 +1318,77 @@ public class ApplyController {
 		      	    	
 		      	// 환불성공
 		      	if ("0000".equals(dataMap.get("resultCd"))) 
+		      	{
+		      		Map<String,String> resultMap = new HashMap<>();
+			      	resultMap.put("receiptId", receiptId);
+			      	resultMap.put("userId", userInfo.getUserId());
+					
+		      		int result = applyService.setCancelReceipt(resultMap);
+		      		
+		      		// 업데이트 성공
+		      		if (result > 0)
+		      		{
+		      			mav.addObject("isSuccess", "Y");
+			    	  	mav.setViewName("apply/cancel");        			
+		      		}
+		      		// 업데이트 실패
+		      		else 
+		      		{
+		      			mav.addObject("isSuccess", "N");
+			    	  	mav.setViewName("apply/cancel");  	      			
+		      		}		    		   
+		      	}
+		      	// 환불실패
+		      	else 
+		      	{
+		      		mav.addObject("isSuccess", "N");
+		    	  	mav.setViewName("apply/cancel");   		    	  
+		      	}		
+				 	  
+			}
+			// 로그인 유저 세션 없음
+			else 
+			{
+				mav.addObject("isAlert", true);
+				mav.setViewName("member/login");  	    	  
+			}
+
+			return mav;
+		}
+		
+		@RequestMapping(value="/cancel_restapi", method=RequestMethod.POST)
+		@ResponseBody
+		public ModelAndView cancel_restapi(@RequestParam("receiptId") String receiptId, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+		{
+			response.setCharacterEncoding("UTF-8");
+			ModelAndView mav = new ModelAndView();
+			UserDto userInfo = (UserDto)session.getAttribute("loginUserInfo");
+	      
+			if (userInfo != null)
+			{
+				Map<String,Object> map = new HashMap<>();
+				map.put("receiptId", receiptId);
+				map.put("userId", userInfo.getUserId());
+		      	ApplyDto applyInfo = applyService.getDetailApplyInfo(map);
+		      	
+		      	String sid = "신용카드".equals(applyInfo.getPaymentMethod()) ? "231204141219" : "231204141225";
+		      	String cash_code = "신용카드".equals(applyInfo.getPaymentMethod()) ? "CN" : "RA";
+		      	
+		      	Map<String,String> dataMap = new HashMap<>();
+		      	dataMap.put("sid", sid);
+		      	dataMap.put("trade_id", applyInfo.getPaymentId());
+		      	dataMap.put("cash_code", cash_code);
+		      	dataMap.put("pay_token", applyInfo.getPaymentMoid());
+		      	dataMap.put("amount", applyInfo.getExamFee());
+		      	dataMap.put("cancel_type", "C");
+		      	dataMap.put("hmac", "");
+		      	dataMap.put("cn_tax_ver", "CPLX ");
+		      	dataMap.put("part_cancel", "N");
+		  
+		      	dataMap = this.payCancelResultForPg_restapi(session, request, response, dataMap);
+		      	    	
+		      	// 환불성공
+		      	if ("0000".equals(dataMap.get("code"))) 
 		      	{
 		      		Map<String,String> resultMap = new HashMap<>();
 			      	resultMap.put("receiptId", receiptId);
@@ -2298,4 +2564,326 @@ public class ApplyController {
 		System.out.println("############# ReceiptAndPayment End ###############");
 		return mav;
 	}
+	
+
+			@RequestMapping(value="/paymentKg", method=RequestMethod.POST)
+			@ResponseBody
+			public JSONObject paymentKg(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+			{
+				URL url = null;
+			    String readLine = null;
+			    StringBuilder buffer = null;
+			    OutputStream outputStream = null;
+			    BufferedReader bufferedReader = null;
+			    BufferedWriter bufferedWriter = null;
+			    HttpURLConnection urlConnection = null;
+
+			    String cash_code = request.getParameter("cash_code");
+			    String type = request.getParameter("type");
+			    
+			    JSONObject jsonObject = this.makePaymentDataForRegistration(cash_code);
+			    
+			    int connTimeout = 30000;
+			    int readTimeout = 30000;
+			    
+			    String sendData = jsonObject.toString();
+			    String apiUrl = "https://mup.mobilians.co.kr/MUP/api/" + type;  
+			    
+			    try 
+			    {
+			        url = new URL(apiUrl);
+			        
+			        urlConnection = (HttpURLConnection)url.openConnection();
+			        urlConnection.setRequestMethod("POST");
+			        urlConnection.setConnectTimeout(connTimeout);
+			        urlConnection.setReadTimeout(readTimeout);
+			        urlConnection.setRequestProperty("Content-Type", "application/json;");
+			        urlConnection.setDoOutput(true);
+			        urlConnection.setInstanceFollowRedirects(true);
+			        
+			        outputStream = urlConnection.getOutputStream();
+			        
+			        bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
+			        bufferedWriter.write(sendData);
+			        bufferedWriter.flush();
+			        
+			        buffer = new StringBuilder();
+			        if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) 
+			        {
+			            bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(),"UTF-8"));
+			            while((readLine = bufferedReader.readLine()) != null) 
+			            {
+			                buffer.append(readLine).append("\n");
+			            }
+			        }
+			        else 
+			        {
+			            buffer.append("\"code\" : \""+urlConnection.getResponseCode()+"\"");
+			            buffer.append(", \"message\" : \""+urlConnection.getResponseMessage()+"\"");
+			        }
+			    }
+			    catch(Exception ex) 
+			    {
+			        ex.printStackTrace();
+			    }
+			    finally 
+			    {
+			        try 
+			        {
+			            if (bufferedWriter != null) { bufferedWriter.close(); }
+			            if (outputStream != null) { outputStream.close(); }
+			            if (bufferedReader != null) { bufferedReader.close(); }
+			        }
+			        catch(Exception ex) 
+			        { 
+			            ex.printStackTrace();
+			        }
+			    }
+			    
+			    JSONParser jsonParser = new JSONParser();
+		        Object obj = jsonParser.parse(buffer.toString());
+		        JSONObject jsonObj = (JSONObject) obj;
+		        
+			    System.out.println("결과 : " + buffer.toString());
+			    
+		        return jsonObj;
+			}
+			
+			public Map<String, String> doPaymentKg(HttpSession session, HttpServletRequest request, HttpServletResponse response, Map<String, String> dataMap) throws Exception 
+			{
+				URL url = null;
+			    String readLine = null;
+			    StringBuilder buffer = null;
+			    OutputStream outputStream = null;
+			    BufferedReader bufferedReader = null;
+			    BufferedWriter bufferedWriter = null;
+			    HttpURLConnection urlConnection = null;
+
+			    String cash_code = request.getParameter("cash_code");
+			    String type = request.getParameter("type");
+			    
+			    JSONObject jsonObject = new JSONObject();
+			    
+			    if("approval".equals(type)) {
+			    	jsonObject = this.makePaymentDataForApproval(request);
+			    }
+			    
+			    int connTimeout = 30000;
+			    int readTimeout = 30000;
+			    
+			    String sendData = jsonObject.toString();
+			    String apiUrl = "https://mup.mobilians.co.kr/MUP/api/" + type;  
+			    
+			    try 
+			    {
+			        url = new URL(apiUrl);
+			        
+			        urlConnection = (HttpURLConnection)url.openConnection();
+			        urlConnection.setRequestMethod("POST");
+			        urlConnection.setConnectTimeout(connTimeout);
+			        urlConnection.setReadTimeout(readTimeout);
+			        urlConnection.setRequestProperty("Content-Type", "application/json;");
+			        urlConnection.setDoOutput(true);
+			        urlConnection.setInstanceFollowRedirects(true);
+			        
+			        outputStream = urlConnection.getOutputStream();
+			        
+			        bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
+			        bufferedWriter.write(sendData);
+			        bufferedWriter.flush();
+			        
+			        buffer = new StringBuilder();
+			        if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) 
+			        {
+			            bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(),"UTF-8"));
+			            while((readLine = bufferedReader.readLine()) != null) 
+			            {
+			                buffer.append(readLine).append("\n");
+			            }
+			        }
+			        else 
+			        {
+			            buffer.append("\"code\" : \""+urlConnection.getResponseCode()+"\"");
+			            buffer.append(", \"message\" : \""+urlConnection.getResponseMessage()+"\"");
+			        }
+			    }
+			    catch(Exception ex) 
+			    {
+			        ex.printStackTrace();
+			    }
+			    finally 
+			    {
+			        try 
+			        {
+			            if (bufferedWriter != null) { bufferedWriter.close(); }
+			            if (outputStream != null) { outputStream.close(); }
+			            if (bufferedReader != null) { bufferedReader.close(); }
+			        }
+			        catch(Exception ex) 
+			        { 
+			            ex.printStackTrace();
+			        }
+			    }
+			    
+			    JSONParser jsonParser = new JSONParser();
+		        Object obj = jsonParser.parse(buffer.toString());
+		        JSONObject jsonObj = (JSONObject) obj;
+		        
+			    System.out.println("결과 : " + buffer.toString());
+			    
+			    dataMap.put("code", (String) jsonObj.get("code"));
+			    dataMap.put("message", (String) jsonObj.get("message"));
+			    dataMap.put("sid", (String) jsonObj.get("sid"));
+			    dataMap.put("sign_date", (String) jsonObj.get("sign_date"));
+			    dataMap.put("tid", (String) jsonObj.get("tid"));
+			    dataMap.put("trade_id", (String) jsonObj.get("trade_id"));
+			    dataMap.put("pay_token", (String) jsonObj.get("pay_token"));
+			    dataMap.put("amount", (String) jsonObj.get("amount"));
+			    dataMap.put("hmac", (String) jsonObj.get("hmac"));
+			    dataMap.put("transaction_id", (String) jsonObj.get("transaction_id"));
+			    dataMap.put("hmac", (String) jsonObj.get("hmac"));
+			    
+		        return dataMap;
+			}
+
+			public JSONObject makePaymentDataForRegistration(String cash_code) throws Exception 
+			{
+				JSONObject jsonObject = new JSONObject();
+
+				String sid = "CN".equals(cash_code) ? "231204141219" : "231204141225";
+
+				// Unique한 거래번호를 위한 값 추출 (밀리세컨드까지 조회)
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSSS");
+				String appr_dtm = dateFormat.format(new Date());
+
+				String trade_id = sid + "_" + appr_dtm;
+				jsonObject.put("sid", sid);							// 가맹점 코드
+				jsonObject.put("cash_code", cash_code);				// 대표 결제 수단 (신용카드 : CN, 계좌이체 : RA) 
+				jsonObject.put("product_name", "응시료");				// 상품명
+				
+				JSONObject data = new JSONObject();
+				data.put("total", "100");							
+				jsonObject.put("amount", data);						// 총 결제 금액
+				
+				jsonObject.put("trade_id", trade_id);				// 가맹점 거래번호
+				jsonObject.put("site_url", "https://www.lpcrefia.or.kr");		// 가맹점 사이트 url
+				jsonObject.put("hybrid_pay", "Y");					// 하이브리드 결제 사용 여부
+				jsonObject.put("divide_payment", "N");
+				jsonObject.put("logo_yn", "N");
+				jsonObject.put("ra_direct", "N");
+				
+
+				jsonObject.put("ok_url", "https://www.lpcrefia.or.kr/www/apply/pay/cn_okurl_hybrid.jsp");
+				jsonObject.put("fail_url", "https://www.lpcrefia.or.kr/www/apply/pay/cn_okurl_hybrid.jsp");
+
+				return jsonObject;
+			}
+			
+			public JSONObject makePaymentDataForApproval( HttpServletRequest request) throws Exception 
+			{
+				JSONObject jsonObject = new JSONObject();
+
+				jsonObject.put("sid", request.getParameter("sid"));
+		        jsonObject.put("tid", request.getParameter("tid"));
+		        jsonObject.put("cash_code", request.getParameter("cash_code"));
+		        jsonObject.put("pay_token", request.getParameter("pay_token"));
+		        jsonObject.put("amount", request.getParameter("amount"));
+		        jsonObject.put("mc_user_key", request.getParameter("mc_user_key"));
+		        jsonObject.put("reference_key", request.getParameter("reference_key"));
+
+				return jsonObject;
+			}
+			
+			
+			@RequestMapping(value="/receiptPrint", method=RequestMethod.POST)
+			@ResponseBody
+			public JSONObject receiptPrint(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
+			{
+				URL url = null;
+			    String readLine = null;
+			    StringBuilder buffer = null;
+			    OutputStream outputStream = null;
+			    BufferedReader bufferedReader = null;
+			    BufferedWriter bufferedWriter = null;
+			    HttpURLConnection urlConnection = null;
+
+			    String cash_code = request.getParameter("cash_code");
+			    String type = request.getParameter("type");
+			    
+			    JSONObject jsonObject = new JSONObject();
+			    jsonObject.put("type","01");
+			    jsonObject.put("cntrPrdtCd","CN");
+			    jsonObject.put("svcId","231204141219");
+			    jsonObject.put("trdDt","20240103");
+			    jsonObject.put("mrctTrdNo","231204141219_202401030320200400");
+			    jsonObject.put("trdNo","240103178711367");
+			    jsonObject.put("rcptDiv","00");
+			    jsonObject.put("pmtType","01");
+			  
+			    
+			    int connTimeout = 30000;
+			    int readTimeout = 30000;
+			    
+			    String sendData = jsonObject.toString();
+			    String apiUrl = "https://cp.mcash.co.kr/mcht/api/apiqIntgReceiptInq/index.do";
+			    
+			    try 
+			    {
+			        url = new URL(apiUrl);
+			        
+			        urlConnection = (HttpURLConnection)url.openConnection();
+			        urlConnection.setRequestMethod("POST");
+			        urlConnection.setConnectTimeout(connTimeout);
+			        urlConnection.setReadTimeout(readTimeout);
+			        urlConnection.setRequestProperty("Content-Type", "application/json;");
+			        urlConnection.setDoOutput(true);
+			        urlConnection.setInstanceFollowRedirects(true);
+			        
+			        outputStream = urlConnection.getOutputStream();
+			        
+			        bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
+			        bufferedWriter.write(sendData);
+			        bufferedWriter.flush();
+			        
+			        buffer = new StringBuilder();
+			        if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) 
+			        {
+			            bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(),"UTF-8"));
+			            while((readLine = bufferedReader.readLine()) != null) 
+			            {
+			                buffer.append(readLine).append("\n");
+			            }
+			        }
+			        else 
+			        {
+			            buffer.append("\"code\" : \""+urlConnection.getResponseCode()+"\"");
+			            buffer.append(", \"message\" : \""+urlConnection.getResponseMessage()+"\"");
+			        }
+			    }
+			    catch(Exception ex) 
+			    {
+			        ex.printStackTrace();
+			    }
+			    finally 
+			    {
+			        try 
+			        {
+			            if (bufferedWriter != null) { bufferedWriter.close(); }
+			            if (outputStream != null) { outputStream.close(); }
+			            if (bufferedReader != null) { bufferedReader.close(); }
+			        }
+			        catch(Exception ex) 
+			        { 
+			            ex.printStackTrace();
+			        }
+			    }
+			    
+			    JSONParser jsonParser = new JSONParser();
+		        Object obj = jsonParser.parse(buffer.toString());
+		        JSONObject jsonObj = (JSONObject) obj;
+		        
+			    System.out.println("결과 : " + buffer.toString());
+			    
+		        return jsonObj;
+			}
 }

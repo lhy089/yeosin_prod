@@ -14,6 +14,23 @@ $(document).ready(function(){
 		var url = "https://npg.nicepay.co.kr/issue/IssueLoader.do?TID=" + $("#TID").val() + "&type=0";
 		var options = 'top=10, left=10, width=250, height=400, status=no, menubar=no, toolbar=no, resizable=no';
 		window.open(url, "영수증 출력", options);
+		
+		$.ajax({
+			url: "/receiptPrint",
+		    type: "POST",
+		    async: false,
+		    success: function(data) 
+			{
+		    	if (data.code == "0000") {
+		    		window.open(data.pay_url, + "_blank", "kgPayment");
+
+				}	
+		    },
+		    error: function() 
+			{
+		       console.log("AJAX Request 실패");
+		    }
+		}); 
 	})
 
 });
@@ -355,8 +372,23 @@ function doPayment()
 		var result = confirm('위 내용으로 결제를 진행하시겠습니까?'); 
 		if (result) 
 		{
-//			nicepayStart();
-			payRequest();
+			$.ajax({
+				url: "/paymentKg",
+			    type: "POST",
+			    async: false,
+			    data: {cash_code : $("input[name='CASH_GB']:checked").val(), type : "registration"},
+			    success: function(data) 
+				{
+			    	if (data.code == "0000") {
+			    		window.open(data.pay_url, + "_blank", "kgPayment");
+
+					}	
+			    },
+			    error: function() 
+				{
+			       console.log("AJAX Request 실패");
+			    }
+			}); 
 		}
 		else return false;
 	}

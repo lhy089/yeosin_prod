@@ -25,8 +25,21 @@
 
 window.onload = function() { debugger;
 var childData = {
-		payMode : "CN",
-		mobilId : "<%=request.getParameter("Mobilid")%>"
+		code : "<%=request.getParameter("code")%>",
+		message : "<%=request.getParameter("message")%>",
+		sid : "<%=request.getParameter("sid")%>",
+		tid : "<%=request.getParameter("tid")%>",
+		sign_date : "<%=request.getParameter("sign_date")%>",
+		trade_id : "<%=request.getParameter("trade_id")%>",
+		cash_code : "<%=request.getParameter("cash_code")%>",
+		pay_token : "<%=request.getParameter("pay_token")%>",
+		product_name : "<%=request.getParameter("product_name")%>",
+		amount : "<%=request.getParameter("amount")%>",
+		deposit : "<%=request.getParameter("deposit")%>",
+		mstr : "<%=request.getParameter("mstr")%>",
+		hmac : "<%=request.getParameter("hmac")%>",
+		mc_user_key : "<%=request.getParameter("mc_user_key")%>",
+		reference_key : "<%=request.getParameter("ra_reference_key")%>"
 	}
 window.opener.postMessage(childData, '*');
 this.close();

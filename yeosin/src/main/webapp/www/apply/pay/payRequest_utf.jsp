@@ -20,7 +20,7 @@ String buyerName 		= "나이스"; 						// 구매자명
 String buyerTel 		= "01000000000"; 				// 구매자연락처
 String buyerEmail 		= "happy@day.co.kr"; 			// 구매자메일주소
 String moid 			= "mnoid1234567890"; 			// 상품주문번호	
-String returnURL 		= "http://localhost:8080/nicepay3.0_utf-8/payResult_utf.jsp"; // 결과페이지(절대경로) - 모바일 결제창 전용
+String returnURL 		= "https://www.lpcrefia.or.kr:8080/nicepay3.0_utf-8/payResult_utf.jsp"; // 결과페이지(절대경로) - 모바일 결제창 전용
 
 /*
 *******************************************************
