@@ -58,6 +58,7 @@
 				<c:choose>
 				<c:when test="${not empty resultCode}">
 					<p>결제 오류 코드 : ${resultCode}</p>
+					<p>결제 오류 내용 : ${resultMessage}</p>
 				</c:when>
 				<c:when test="${isRefund eq 'Y'}">
 					<p>결제가 자동으로 환불 처리 됐습니다.</p>

@@ -995,6 +995,7 @@ public class ApplyController {
 							int delCnt = applyService.setDeleteReceiptInfo(newMaxReceiptNumberStr);
 							System.out.println(">>> setDeleteReceiptInfo delCnt : " + delCnt);
 							mav.addObject("resultCode", resultMap.get("code"));
+							mav.addObject("resultMessage", resultMap.get("message"));
 							mav.addObject("isSuccess", "N");
 							mav.setViewName("apply/apply6");
 							return mav;
@@ -1015,6 +1016,11 @@ public class ApplyController {
 							mav.setViewName("apply/apply6");
 							return mav;
 						}
+						// 결제 후 취소 테스트
+//						ApplyDto insertApplyDto1 = null;
+//						insertApplyDto1.getBankName();
+						// 결제 후 취소 테스트
+						
 						mav.addObject("isSuccess", "Y");
 						mav.addObject("examId", request.getParameter("examId"));
 						mav.addObject("receiptId", newMaxReceiptNumberStr);
@@ -1025,11 +1031,18 @@ public class ApplyController {
 						System.out.println("## 결제 승인 후 취소 : " + e.getMessage());
 						Map<String,String> cancelResultMap = new HashMap<>();
 						if ("0000".equals(resultMap.get("code"))) {
-							cancelResultMap.put("tradeId", request.getParameter("tradeId"));
-					      	cancelResultMap.put("mobilId", request.getParameter("mobilId"));
-					      	cancelResultMap.put("prdtPrice", request.getParameter("prdtPrice"));
-							Thread.sleep(2000);
-							cancelResultMap = this.payCancelResultForPg(session, request, response, cancelResultMap);
+							cancelResultMap.put("sid", request.getParameter("sid"));
+							cancelResultMap.put("trade_id", resultMap.get("trade_id"));
+							cancelResultMap.put("cash_code", request.getParameter("cash_code"));
+							cancelResultMap.put("pay_token", resultMap.get("pay_token"));
+							cancelResultMap.put("amount", resultMap.get("amount"));
+							cancelResultMap.put("cancel_type", "C");
+							cancelResultMap.put("hmac", "");
+							cancelResultMap.put("cn_tax_ver", "CPLX ");
+							cancelResultMap.put("part_cancel", "N");
+					  
+							cancelResultMap = this.payCancelResultForPg_restapi(session, request, response, cancelResultMap);
+					      	
 							System.out.println(">>> payCancelResult isRollback error : " + e.getMessage());
 							System.out.println(
 									">>> receiptId : " + newMaxReceiptNumberStr + ", userId : " + userInfo.getUserId());
