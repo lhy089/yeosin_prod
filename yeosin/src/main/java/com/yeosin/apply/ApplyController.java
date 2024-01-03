@@ -632,7 +632,7 @@ public class ApplyController {
 			String PAY_MODE = "10"; // 10 : 실거래결제 고정
 			String Prdtprice = examInfo.getExamCost(); // 결제요청금액.
 			String Prdtnm = "응시료"; // 상품명 ( 50byte 이내 )
-			String Siteurl = "https://www.lpcrefia.or.kr/"; // 가맹점도메인
+			String Siteurl = "https://lpcrefia"; // 가맹점도메인
 			String Tradeid = CN_SVCID + "_" + appr_dtm; // 가맹점거래번호 , 결제 요청 시 마다 unique한 값을 세팅해야 함.
 			
 			
@@ -1115,7 +1115,42 @@ public class ApplyController {
 		
 		ApplyDto applyInfo = applyService.getDetailApplyInfo(map);
 		
+		Map<String, String> receiptData = new HashMap<>();
+		
+		String svcId 	= "신용카드".equals(applyInfo.getPaymentMethod()) ? "231204141219" : "231204141225";
+		String acsKey 	= "20240102";
+		String mrctTrdNo = applyInfo.getPaymentId();
+		String acsTm 	= String.valueOf(System.currentTimeMillis()); //요청시각
+		
+		String acsTkn	= svcId + acsKey + mrctTrdNo + acsTm;
+		
+		MessageDigest md = MessageDigest.getInstance("SHA-256");
+		md.update(acsTkn.getBytes("utf-8"));
+		byte[] digest = md.digest();
+		StringBuffer buf = new StringBuffer();
+		for( int i = 0; i < digest.length; i++ ) {
+			if((0xff & digest[i]) < 0x10){
+				buf.append("0" + Integer.toHexString(0xff & digest[i]));
+			} else { 
+				buf.append(Integer.toHexString(0xff & digest[i]));
+			}
+		}
+		acsTkn = buf.toString();
+		
+		receiptData.put("type", "01");
+		receiptData.put("cntrPrdtCd", "CN");
+		receiptData.put("svcId", svcId);
+		receiptData.put("trdDt", applyInfo.getPaymentDate());
+		receiptData.put("mrctTrdNo", mrctTrdNo);
+		receiptData.put("trdNo", applyInfo.getPaymentMoid());
+		receiptData.put("rcptDiv", "01");
+		receiptData.put("pmtType", "01");
+		receiptData.put("mrctId", "676269");
+		receiptData.put("acsTm", acsTm);
+		receiptData.put("acsTkn", acsTkn);
+		
 		mav.addObject("applyInfo", applyInfo);
+		mav.addObject("receiptData", receiptData);
 		mav.setViewName("apply/accept_view");
 		return mav;
 	}
@@ -2779,7 +2814,7 @@ public class ApplyController {
 				jsonObject.put("amount", data);						// 총 결제 금액
 				
 				jsonObject.put("trade_id", trade_id);				// 가맹점 거래번호
-				jsonObject.put("site_url", "https://www.lpcrefia.or.kr");		// 가맹점 사이트 url
+				jsonObject.put("site_url", "https://lpcrefia");		// 가맹점 사이트 url
 				jsonObject.put("hybrid_pay", "Y");					// 하이브리드 결제 사용 여부
 				jsonObject.put("divide_payment", "N");
 				jsonObject.put("logo_yn", "N");
@@ -2805,98 +2840,5 @@ public class ApplyController {
 		        jsonObject.put("reference_key", request.getParameter("reference_key"));
 
 				return jsonObject;
-			}
-			
-			
-			@RequestMapping(value="/receiptPrint", method=RequestMethod.POST)
-			@ResponseBody
-			public JSONObject receiptPrint(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception 
-			{
-				URL url = null;
-			    String readLine = null;
-			    StringBuilder buffer = null;
-			    OutputStream outputStream = null;
-			    BufferedReader bufferedReader = null;
-			    BufferedWriter bufferedWriter = null;
-			    HttpURLConnection urlConnection = null;
-
-			    String cash_code = request.getParameter("cash_code");
-			    String type = request.getParameter("type");
-			    
-			    JSONObject jsonObject = new JSONObject();
-			    jsonObject.put("type","01");
-			    jsonObject.put("cntrPrdtCd","CN");
-			    jsonObject.put("svcId","231204141219");
-			    jsonObject.put("trdDt","20240103");
-			    jsonObject.put("mrctTrdNo","231204141219_202401030320200400");
-			    jsonObject.put("trdNo","240103178711367");
-			    jsonObject.put("rcptDiv","00");
-			    jsonObject.put("pmtType","01");
-			  
-			    
-			    int connTimeout = 30000;
-			    int readTimeout = 30000;
-			    
-			    String sendData = jsonObject.toString();
-			    String apiUrl = "https://cp.mcash.co.kr/mcht/api/apiqIntgReceiptInq/index.do";
-			    
-			    try 
-			    {
-			        url = new URL(apiUrl);
-			        
-			        urlConnection = (HttpURLConnection)url.openConnection();
-			        urlConnection.setRequestMethod("POST");
-			        urlConnection.setConnectTimeout(connTimeout);
-			        urlConnection.setReadTimeout(readTimeout);
-			        urlConnection.setRequestProperty("Content-Type", "application/json;");
-			        urlConnection.setDoOutput(true);
-			        urlConnection.setInstanceFollowRedirects(true);
-			        
-			        outputStream = urlConnection.getOutputStream();
-			        
-			        bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-			        bufferedWriter.write(sendData);
-			        bufferedWriter.flush();
-			        
-			        buffer = new StringBuilder();
-			        if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) 
-			        {
-			            bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(),"UTF-8"));
-			            while((readLine = bufferedReader.readLine()) != null) 
-			            {
-			                buffer.append(readLine).append("\n");
-			            }
-			        }
-			        else 
-			        {
-			            buffer.append("\"code\" : \""+urlConnection.getResponseCode()+"\"");
-			            buffer.append(", \"message\" : \""+urlConnection.getResponseMessage()+"\"");
-			        }
-			    }
-			    catch(Exception ex) 
-			    {
-			        ex.printStackTrace();
-			    }
-			    finally 
-			    {
-			        try 
-			        {
-			            if (bufferedWriter != null) { bufferedWriter.close(); }
-			            if (outputStream != null) { outputStream.close(); }
-			            if (bufferedReader != null) { bufferedReader.close(); }
-			        }
-			        catch(Exception ex) 
-			        { 
-			            ex.printStackTrace();
-			        }
-			    }
-			    
-			    JSONParser jsonParser = new JSONParser();
-		        Object obj = jsonParser.parse(buffer.toString());
-		        JSONObject jsonObj = (JSONObject) obj;
-		        
-			    System.out.println("결과 : " + buffer.toString());
-			    
-		        return jsonObj;
 			}
 }

@@ -83,10 +83,10 @@
 	        <th>시험일</th>
 	        <td>${applyInfo.examDto.examDate}</td>
 	      </tr>
-<!-- 	      <tr> -->
-<!-- 	        <th>결제정보</th> -->
-<!-- 	       <td> <a onclick="return false;" id="btn_receiptPrint" class="btn_apply">영수증 출력</a></td> -->
-<!-- 	      </tr> -->
+	      <tr>
+	        <th>결제정보</th>
+	       <td> <a onclick="return false;" id="btn_receiptPrint" class="btn_apply">영수증 출력</a></td>
+	      </tr>
 	    </table>
 	    </div>
 	    </c:when>
@@ -106,6 +106,24 @@
 	      <input style="border:none;" class="btn_apply" type="submit" value="접수취소"/>
 	    </div>
 	</form>
+	
+	<form name="receiptPrintForm" method="post" action="https://cp.mcash.co.kr/mcht/api/apiqIntgReceiptInq/index.do">
+
+<input type="hidden" name="type"       id="type"       value="${receiptData.type}"/>
+<input type="hidden" name="cntrPrdtCd" id="cntrPrdtCd" value="${receiptData.cntrPrdtCd}"/>
+<input type="hidden" name="svcId"      id="svcId"      value="${receiptData.svcId}"/>
+<input type="hidden" name="trdDt"      id="trdDt"      value="${receiptData.trdDt}"/>
+<input type="hidden" name="mrctTrdNo"  id="mrctTrdNo"  value="${receiptData.mrctTrdNo}"/>
+<input type="hidden" name="trdNo"      id="trdNo"      value="${receiptData.trdNo}">
+<input type="hidden" name="rcptDiv"    id="rcptDiv"    value="${receiptData.rcptDiv}"/>
+<input type="hidden" name="pmtType"    id="pmtType"    value="${receiptData.pmtType}"/>
+
+<input type="hidden" name="mrctId"     id="mrctId"     value="${receiptData.mrctId}"/>
+<input type="hidden" name="acsTm"      id="acsTm"      value="${receiptData.acsTm}">
+<input type="hidden" name="acsTkn"     id="acsTkn"     value="${receiptData.acsTkn}">
+
+
+</form>
   </div>
 </div>
 <%@ include file="/www/common/footer.jsp"%>

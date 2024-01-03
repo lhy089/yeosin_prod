@@ -10,27 +10,11 @@ $(document).ready(function(){
 	
 	// 영수증 출력
 	$('#btn_receiptPrint').click(function () {
-//		alert("준비중입니다.\n영수증 필요시 카드사 출력 가능하며\n불가능 시 별도 문의 바랍니다.");
-		var url = "https://npg.nicepay.co.kr/issue/IssueLoader.do?TID=" + $("#TID").val() + "&type=0";
-		var options = 'top=10, left=10, width=250, height=400, status=no, menubar=no, toolbar=no, resizable=no';
-		window.open(url, "영수증 출력", options);
-		
-		$.ajax({
-			url: "/receiptPrint",
-		    type: "POST",
-		    async: false,
-		    success: function(data) 
-			{
-		    	if (data.code == "0000") {
-		    		window.open(data.pay_url, + "_blank", "kgPayment");
-
-				}	
-		    },
-		    error: function() 
-			{
-		       console.log("AJAX Request 실패");
-		    }
-		}); 
+		var pop_title = "intgReceipt";
+		window.open("", pop_title, "width=500, height=860, resizble=yes, scrollbars=yes");
+		var formData = document.receiptPrintForm;
+		formData.target = pop_title;
+		formData.submit();
 	})
 
 });
@@ -382,7 +366,9 @@ function doPayment()
 			    	if (data.code == "0000") {
 			    		window.open(data.pay_url, + "_blank", "kgPayment");
 
-					}	
+					}	else {
+						alert("응답코드  : " + data.code + ", 응답 메세지  : " + data.message);
+					}
 			    },
 			    error: function() 
 				{
