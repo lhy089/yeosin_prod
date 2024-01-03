@@ -112,6 +112,7 @@
 			<input type="hidden" value="<%=request.getParameter("eduNum")%>" id="eduNum" name="eduNum"/>
 			<input type="hidden" value="<%=request.getParameter("exmaZoneRadio")%>" id="exmaZoneId" name="exmaZoneId"/>
 			<input type="hidden" value="<%=request.getParameter("subjectRadio")%>" id="subjectId" name="subjectId"/>
+			<input type="hidden" value="${examInfo.examCost}" id="cost" name="cost"/>
 		
 			<input class="btn_apply" style="border:none;" onclick="doPayment()" value="결제하기"/>
 	    </section>

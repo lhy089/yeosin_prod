@@ -1118,6 +1118,7 @@ public class ApplyController {
 		Map<String, String> receiptData = new HashMap<>();
 		
 		String svcId 	= "신용카드".equals(applyInfo.getPaymentMethod()) ? "231204141219" : "231204141225";
+		String cntrPrdtCd 	= "신용카드".equals(applyInfo.getPaymentMethod()) ? "CN" : "RA";
 		String acsKey 	= "20240102";
 		String mrctTrdNo = applyInfo.getPaymentId();
 		String acsTm 	= String.valueOf(System.currentTimeMillis()); //요청시각
@@ -1138,7 +1139,7 @@ public class ApplyController {
 		acsTkn = buf.toString();
 		
 		receiptData.put("type", "01");
-		receiptData.put("cntrPrdtCd", "CN");
+		receiptData.put("cntrPrdtCd", cntrPrdtCd);
 		receiptData.put("svcId", svcId);
 		receiptData.put("trdDt", applyInfo.getPaymentDate());
 		receiptData.put("mrctTrdNo", mrctTrdNo);
@@ -2625,17 +2626,14 @@ public class ApplyController {
 			    BufferedReader bufferedReader = null;
 			    BufferedWriter bufferedWriter = null;
 			    HttpURLConnection urlConnection = null;
-
-			    String cash_code = request.getParameter("cash_code");
-			    String type = request.getParameter("type");
 			    
-			    JSONObject jsonObject = this.makePaymentDataForRegistration(cash_code);
+			    JSONObject jsonObject = this.makePaymentDataForRegistration(request);
 			    
 			    int connTimeout = 30000;
 			    int readTimeout = 30000;
 			    
 			    String sendData = jsonObject.toString();
-			    String apiUrl = "https://mup.mobilians.co.kr/MUP/api/" + type;  
+			    String apiUrl = "https://mup.mobilians.co.kr/MUP/api/registration";  
 			    
 			    try 
 			    {
@@ -2794,9 +2792,12 @@ public class ApplyController {
 		        return dataMap;
 			}
 
-			public JSONObject makePaymentDataForRegistration(String cash_code) throws Exception 
+			public JSONObject makePaymentDataForRegistration(HttpServletRequest request) throws Exception 
 			{
 				JSONObject jsonObject = new JSONObject();
+				
+			    String cash_code = request.getParameter("cash_code");
+			    String amount = request.getParameter("amount");
 
 				String sid = "CN".equals(cash_code) ? "231204141219" : "231204141225";
 
@@ -2810,7 +2811,7 @@ public class ApplyController {
 				jsonObject.put("product_name", "응시료");				// 상품명
 				
 				JSONObject data = new JSONObject();
-				data.put("total", "100");							
+				data.put("total", amount);							
 				jsonObject.put("amount", data);						// 총 결제 금액
 				
 				jsonObject.put("trade_id", trade_id);				// 가맹점 거래번호

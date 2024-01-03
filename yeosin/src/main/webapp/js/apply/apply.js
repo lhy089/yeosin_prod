@@ -360,7 +360,7 @@ function doPayment()
 				url: "/paymentKg",
 			    type: "POST",
 			    async: false,
-			    data: {cash_code : $("input[name='CASH_GB']:checked").val(), type : "registration"},
+			    data: {cash_code : $("input[name='CASH_GB']:checked").val(), amount : $("#cost").val()},
 			    success: function(data) 
 				{
 			    	if (data.code == "0000") {
