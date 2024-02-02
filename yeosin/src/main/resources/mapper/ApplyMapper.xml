@@ -79,7 +79,8 @@
 		WHERE 	1 = 1
 		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
 		AND 	R.ISCANCEL = 'N'
-		AND  	NOW() between E.CERTPRINTSTARTDATE AND E.CERTPRINTENDDATE
+		AND 	DATE_FORMAT(E.CERTPRINTSTARTDATE, '%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(NOW(), '%Y-%m-%d')
+ 		AND 	DATE_FORMAT(E.CERTPRINTENDDATE, '%Y-%m-%d') <![CDATA[>=]]> DATE_FORMAT(NOW(), '%Y-%m-%d')
 		ORDER BY E.EXAMDATE DESC
 		LIMIT #{pageStart}, #{perPageNum};
    </select>
@@ -93,7 +94,8 @@
  		WHERE	1 = 1
  		AND 	R.USERID = #{userId, jdbcType=VARCHAR}
  		AND 	R.ISCANCEL = 'N'
-		AND  	NOW() between E.CERTPRINTSTARTDATE AND E.CERTPRINTENDDATE
+ 		AND 	DATE_FORMAT(E.CERTPRINTSTARTDATE, '%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(NOW(), '%Y-%m-%d')
+ 		AND 	DATE_FORMAT(E.CERTPRINTENDDATE, '%Y-%m-%d') <![CDATA[>=]]> DATE_FORMAT(NOW(), '%Y-%m-%d')
 	</select>
    
    	<!-- 로그인 유저의 접수별 상세현황 조회 -->
