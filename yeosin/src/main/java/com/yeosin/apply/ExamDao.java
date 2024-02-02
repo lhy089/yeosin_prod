@@ -36,5 +36,13 @@ public class ExamDao {
 	public String getAmtValidCheck(ExamDto examDto) {
         return (String)this.sqlSession.selectOne(nameSpace + "getAmtValidCheck", (Object)examDto);
     }
+	
+	public ExamDto getExamInfoByGradeDate() {
+		return this.sqlSession.selectOne(nameSpace + "getExamInfoByGradeDate");
+	}
+    
+    public ExamDto getExamInfoByReceiptDate() {
+		return this.sqlSession.selectOne(nameSpace + "getExamInfoByReceiptDate");
+	}
 
 }

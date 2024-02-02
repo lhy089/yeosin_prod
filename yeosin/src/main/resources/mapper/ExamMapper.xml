@@ -145,4 +145,48 @@
 				) 
 					then 'Y' ELSE 'N' end
 	</select>
+	
+	<select id="getExamInfoByGradeDate" resultType="com.yeosin.apply.ExamDto">
+		SELECT 
+					E.EXAMID as examId
+				,	E.EXAMNAME as examName
+				,  	E.EXAMYEAR as examYear
+				, 	E.EXAMDEGREE as examDegree
+				,	DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y/%m/%d') AS receiptstartDate
+				, 	DATE_FORMAT(E.RECEIPTENDDATE, '%Y/%m/%d') AS receiptEndDate
+				,	DATE_FORMAT(E.CERTPRINTSTARTDATE, '%Y/%m/%d') AS certPrintStartDate
+				,	DATE_FORMAT(E.CERTPRINTENDDATE, '%Y/%m/%d') AS certPrintEndDate
+				, 	DATE_FORMAT(E.EXAMDATE, '%Y/%m/%d') AS examDate
+				,	DATE_FORMAT(E.GRADESTARTDATE, '%Y/%m/%d') AS gradeStartDate
+				,	DATE_FORMAT(E.GRADEENDDATE, '%Y/%m/%d') AS gradeEndDate
+			FROM 	YS_EXAM				E
+			WHERE 	1 = 1
+			AND 	E.ISAPPROVAL = 'Y'
+			AND		DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(NOW(), '%Y-%m-%d')
+ 			AND 	DATE_FORMAT(E.GRADEENDDATE, '%Y-%m-%d') <![CDATA[>=]]> DATE_FORMAT(NOW(), '%Y-%m-%d')
+		LIMIT 	1;
+	</select>
+	
+	<select id="getExamInfoByReceiptDate" resultType="com.yeosin.apply.ExamDto">
+		SELECT 
+					E.EXAMID as examId
+				,	E.EXAMNAME as examName
+				,  	E.EXAMYEAR as examYear
+				, 	E.EXAMDEGREE as examDegree
+				,	DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y/%m/%d') AS receiptstartDate
+				, 	DATE_FORMAT(E.RECEIPTENDDATE, '%Y/%m/%d') AS receiptEndDate
+				,	DATE_FORMAT(E.CERTPRINTSTARTDATE, '%Y/%m/%d') AS certPrintStartDate
+				,	DATE_FORMAT(E.CERTPRINTENDDATE, '%Y/%m/%d') AS certPrintEndDate
+				, 	DATE_FORMAT(E.EXAMDATE, '%Y/%m/%d') AS examDate
+				,	DATE_FORMAT(E.GRADESTARTDATE, '%Y/%m/%d') AS gradeStartDate
+				,	DATE_FORMAT(E.GRADEENDDATE, '%Y/%m/%d') AS gradeEndDate
+			FROM 	YS_EXAM				E
+			WHERE 	1 = 1
+			AND 	E.ISAPPROVAL = 'Y'
+			AND 	DATE_ADD(DATE_FORMAT(E.RECEIPTSTARTDATE, '%Y-%m-%d'), INTERVAL -14 day) <![CDATA[<=]]> DATE_FORMAT(NOW(), '%Y-%m-%d')
+ 			AND 	DATE_ADD(DATE_FORMAT(E.RECEIPTENDDATE, '%Y-%m-%d'), INTERVAL 14 day) <![CDATA[>=]]> DATE_FORMAT(NOW(), '%Y-%m-%d')
+ 			AND  	DATE_FORMAT(E.GRADESTARTDATE, '%Y-%m-%d') <![CDATA[>=]]> DATE_FORMAT(NOW(), '%Y-%m-%d')
+ 		ORDER BY E.GRADESTARTDATE DESC
+ 		LIMIT 1
+	</select>
 </mapper>

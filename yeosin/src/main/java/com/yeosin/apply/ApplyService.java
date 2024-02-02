@@ -54,7 +54,12 @@ public class ApplyService {
 	}
 	
 	public ExamDto getExamInfoForMain() throws Exception {
-		return examDao.getExamInfoForMain();
+		ExamDto examInfoForMain = examDao.getExamInfoByGradeDate();
+		
+		if(examInfoForMain == null) {
+			examInfoForMain = examDao.getExamInfoByReceiptDate();
+		}
+		return examInfoForMain;
 	}
 	
 	public List<ExamDto> getExamList() throws Exception {
