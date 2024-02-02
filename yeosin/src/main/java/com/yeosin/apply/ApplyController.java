@@ -962,8 +962,12 @@ public class ApplyController {
 
 				// 2. 접수번호를 생성하기 위해 MAX값을 가져온다.
 				long newMaxReceiptNumber = Long.parseLong(applyService.getMaxReceiptNumber()) + 1;
-				String newMaxReceiptNumberStr = "LPBQ" + String.valueOf(newMaxReceiptNumber);
-				String newStudentCode = String.valueOf(newMaxReceiptNumber);
+				// 2024010200005 > 2024010240005
+				String newMaxReceiptStr = String.valueOf(newMaxReceiptNumber);
+				newMaxReceiptStr = newMaxReceiptStr.substring(0,8) + newMaxReceiptStr.charAt(3) + newMaxReceiptStr.substring(9); 
+				//20240102 + 4 + 0005
+				String newMaxReceiptNumberStr = "LPBQ" + newMaxReceiptStr;
+				String newStudentCode = newMaxReceiptStr;
 				String nineLenthStudentCode = newStudentCode.substring(4);
 				System.out.println(">>> apply6 ReceiptAndPaymentView newMaxReceiptNumberStr : " + newMaxReceiptNumberStr);
 				System.out.println(">>> apply6 ReceiptAndPaymentView nineLenthStudentCode : " + nineLenthStudentCode);
