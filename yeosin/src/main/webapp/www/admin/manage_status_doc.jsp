@@ -192,10 +192,10 @@
         <th>아이디</th>
         <th>생년월일</th>
         <th>전화번호</th>
-        <th>결제방식</th>
+        <th>카드사</th>
         <th>수험지역</th>
         <th>고사장</th>
-        <th>좌석배치</th>
+        <th>승인번호</th>
         <th>과목</th>
         <th>성별</th>
         <th>접수일</th>
@@ -212,10 +212,10 @@
 	        <td class="flow flowNo">${applyList.userId}</td>
 	        <td class="flow flowNo">${applyList.userDto.birthDate}</td>
 	        <td class="flow flowNo">${applyList.userDto.phoneNumber}</td>
-	        <td class="flow flowNo">${applyList.paymentMethod}</td>
+	        <td class="flow flowNo">${applyList.cardName}</td>
 	        <td class="flow flowNo">${applyList.examZoneDto.local}</td>
 	        <td class="flow flowNo">${applyList.examZoneDto.examZoneName}</td>
-	        <td class="flow flowNo">${applyList.seatNumber}</td>
+	        <td class="flow flowNo">${applyList.saleRate}</td>
 	        <td class="flow flowNo">${applyList.subjectDto.subjectName}</td>
 	        <td class="flow flowNo">${applyList.userDto.gender}</td>
 	        <td class="flow flowNo">${applyList.receiptDate}</td>

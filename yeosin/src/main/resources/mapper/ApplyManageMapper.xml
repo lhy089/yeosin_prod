@@ -70,6 +70,8 @@
 		<result column="RECEIPTDATE" property="receiptDate" />
 		<result column="ISCANCEL" property="isCancel" />
 		<result column="PAYMENTMETHOD" property="paymentMethod" />
+		<result column="CARDNAME" property="cardName" />
+		<result column="SALERATE" property="saleRate" />
 		<result column="RECEIPTDATE" property="receiptDate" />
 		<result column="PAYMENTDATE" property="paymentDate" />
 		<result column="PAYMENTCANCELDATE" property="paymentCancelDate" />
@@ -111,6 +113,8 @@
 			,	R.ISCANCEL 																			-- 취소여부
 			, 	U.PHONENUMBER																		-- 전화번호
 			,	R.PAYMENTMETHOD																		-- 결제방식
+			,	R.CARDNAME																			-- 카드사
+			,	R.SALERATE																			-- 승인번호
 			, 	R.RECEIPTDATE																		-- 접수시간
 			, 	R.PAYMENTDATE																		-- 결제시간
 			, 	R.PAYMENTCANCELDATE																	-- 취소시간

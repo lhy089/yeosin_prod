@@ -331,7 +331,7 @@ public class ApplyController {
 	        //4. To JsonObject
 	        JSONObject jsonObj = (JSONObject) obj;
 		    System.out.println("결과 : " + buffer.toString());
-		    
+		   // 결과 : {"code":"0000","message":"정상처리 되었습니다.","sid":"231204141219","tid":"20355cad10cd7b4e5","sign_date":"20240321154620","trade_id":"231204141219_202403211543470316","mobil_id":"","cash_code":"CN","pay_token":"240321184156406","product_name":"응시료","amount":"100","cn_installment":"00","cn_card_no":"941010******9560","cn_card_code":"SSC","cn_card_name":"삼성카드","cn_appr_no":"11079684","cn_bill_key":"","cn_coupon_price":"","cn_pay_method":"","cn_bill_yn":"","hmac":"s2YlFuUqkGdQtL7VkJutGxv/z4UnKfpECocE8CCP9BI=","deposit":"","transaction_id":""}
 		    resultMap.put("code", (String) jsonObj.get("code"));
 		    resultMap.put("message", (String) jsonObj.get("message"));
 		    resultMap.put("sid", (String) jsonObj.get("sid"));
@@ -343,6 +343,9 @@ public class ApplyController {
 		    resultMap.put("hmac", (String) jsonObj.get("hmac"));
 		    resultMap.put("transaction_id", (String) jsonObj.get("transaction_id"));
 		    resultMap.put("hmac", (String) jsonObj.get("hmac"));
+		    resultMap.put("cn_appr_no", (String) jsonObj.get("cn_appr_no")); // (신용카드) 승인번호 추가 (ys_receipt > salerate)
+		    resultMap.put("cn_card_name", (String) jsonObj.get("cn_card_name")); // 카드사 추가 (ys_receipt > cardName)
+		    resultMap.put("ra_bank_name", (String) jsonObj.get("ra_bank_name")); // 은행명 추가 (ys_receipt > bankName)
 		    
 	        return resultMap;
 		}
@@ -1005,13 +1008,20 @@ public class ApplyController {
 							return mav;
 						}
 						
-						String paymentMethod = "CN".equals(request.getParameter("cash_code")) ? "신용카드" : "계좌이체";
+						String paymentMethod = "";
+						if("CN".equals(request.getParameter("cash_code"))) {
+							paymentMethod = "신용카드";
+							insertApplyDto.setSaleRate(resultMap.get("cn_appr_no"));
+							insertApplyDto.setCardName(resultMap.get("cn_card_name"));
+						}else {
+							paymentMethod = "계좌이체";
+							insertApplyDto.setCardName(paymentMethod);
+						}
 						insertApplyDto.setPaymentMethod(paymentMethod);
 						insertApplyDto.setExamFee(resultMap.get("amount"));
 						insertApplyDto.setPaymentId(resultMap.get("trade_id"));
 						insertApplyDto.setPaymentMoid(resultMap.get("pay_token"));
 						insertApplyDto.setPaymentDate(resultMap.get("sign_date"));
-						insertApplyDto.setCardName(resultMap.get("tid"));
 
 						int payResult = applyService.setPaymentInfo(insertApplyDto);
 						System.out.println(">>> apply6 ReceiptAndPaymentView payResult : " + payResult);
@@ -2631,6 +2641,7 @@ public class ApplyController {
 			    BufferedWriter bufferedWriter = null;
 			    HttpURLConnection urlConnection = null;
 			    
+			    request.setAttribute("userName", ((UserDto)session.getAttribute("loginUserInfo")).getUserName());
 			    JSONObject jsonObject = this.makePaymentDataForRegistration(request);
 			    
 			    int connTimeout = 30000;
@@ -2824,6 +2835,7 @@ public class ApplyController {
 				jsonObject.put("divide_payment", "N");
 				jsonObject.put("logo_yn", "N");
 				jsonObject.put("ra_direct", "N");
+				jsonObject.put("user_name", request.getAttribute("userName"));
 				
 
 				jsonObject.put("ok_url", "https://www.lpcrefia.or.kr/www/apply/pay/cn_okurl_hybrid.jsp");
